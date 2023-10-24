@@ -1,0 +1,14 @@
+[
+  {
+    "value": "Generate Bill",
+    "src": "/"
+  },
+  {
+    "value": "About",
+    "src": "/about"
+  },
+  {
+    "value": "Contact",
+    "src": "/contact"
+  }
+]

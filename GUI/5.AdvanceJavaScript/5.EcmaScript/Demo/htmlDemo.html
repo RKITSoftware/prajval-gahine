@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="prajval">
+    <title>HTML Demo</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="outer-box">
+        <h1>Sign Up</h1>
+        <div id="formDescriptor" class="descriptor"></div>
+        <form name="form" action="#" method="post" onsubmit="return validate()" onreset="return resetForm()">
+            <fieldset>
+                <legend>Credential Details</legend>
+                <div>
+                    <label for="fullName">Full Name</label>
+                </div>
+                <div class="field">
+                    <input class="input" id="fullName" name="fullName" type="text" placeholder="Enter your Full Name">
+                    <div id="fullNameDescriptor" class="descriptor"></div>
+                </div>
+        
+                <div>
+                    <label for="email">Email</label>
+                </div>
+                <div class="field">
+                    <input class="input" id="email" name="email" type="text" placeholder="Enter your Email">
+                    <div id="emailDescriptor" class="descriptor"></div>
+                </div>
+        
+                <div>
+                    <label for="passwordInput">Password</label>
+                </div>
+                <div class="field">
+                    <div class="passwordWrapper">
+                        <input class="input" id="passwordInput" name="password" type="password" placeholder="Enter Password">
+                        <button type="button" class="showAndHide" id="password">show</button>
+                    </div>
+                    <div id="passwordDescriptor" class="descriptor"></div>
+                </div>
+            </fieldset>
+
+            <div>
+                <label for="gender">Gender</label>
+            </div>
+            <div class="field">
+                <input id="male" name="gender" value="male" type="radio">
+                <label for="male">Male</label>
+                <input id="female" name="gender" value="female" type="radio">
+                <label for="female">Female</label>
+                <div id="genderDescriptor" class="descriptor"></div>
+            </div>
+
+            <div>
+                <label for="language">Language</label>
+            </div>
+            <div class="field">
+                <input id="hindi" name="language" value="hindi" type="checkbox">
+                <label for="hindi">Hindi</label>
+                <input id="marathi" name="language" value="marathi" type="checkbox">
+                <label for="marathi">Marathi</label>
+                <input id="gujarati" name="language" value="gujarati" type="checkbox">
+                <label for="gujarati">Gujarati</label>
+                <input id="english" name="language" value="english" type="checkbox">
+                <label for="english">English</label>
+                <div id="languageDescriptor" class="descriptor"></div>
+            </div>
+
+            <div>
+                <label for="description">Description</label>
+            </div>
+            <div class="field">
+                <textarea name="description" id="description"></textarea>
+            </div>
+
+            <div>
+                <label for="dateOfBirth">Date of Birth</label>
+            </div>
+            <div class="field">
+                <input type="date" id="dateOfBirth" name="dateOfBirth">
+                <div id="dateOfBirthDescriptor" class="descriptor"></div>
+            </div>
+
+            <div>
+                <label for="photo">Photo</label>
+            </div>
+            <div class="field">
+                <input id="photo" name="photo" type="file" accept="image/png, image/jpeg, image/jpg">
+                <div id="photoDescriptor" class="descriptor"></div>
+            </div>
+
+            <div>
+                <label for="qualification">Highest Qualification</label>
+            </div>
+            <div class="field">
+                <select name="qualification" id="qualification">
+                    <option value="notSelected" disabled selected>Select Qualification</option>
+                    <option value="be">B.E</option>
+                    <option value="hsc">HSC</option>
+                    <option value="ssc">SSC</option>
+                </select>
+                <div id="highestQualificationDescriptor" class="descriptor"></div>
+            </div>
+
+            <div class="formControl">
+                <input class="primary-btn" type="submit">
+                <input class="primary-btn reset-btn" type="reset">
+            </div>
+        </form>
+
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

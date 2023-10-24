@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bills</title>
+    <link rel="stylesheet" href="../utils/style/bootstrap.css">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="header fixed-top header-bg-color d-flex align-items-center">
+        <div class="container-fluid d-flex align-items-center justify-content-between">
+            <a href="/" class="logo d-flex align-items-center text-white font-weight-bold">
+                <div class="logo">
+                    <img src="../utils/images/logo.png" alt="">
+                </div>
+            </a>
+            <div class="navbar navbar-expand-lg w-25">
+                <ul class="navbar-nav w-100 d-flex justify-content-around align-items-center" id="navBarList">
+
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="main-wrapper">
+            <h2>Generated Bills</h2>
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>Sr No.</th>
+                            <th>Bill Id</th>
+                            <th>Compnay Name</th>
+                            <th>Bill Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody id="billsTBody">
+
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="table-responsive hide" id="billViewWindow">
+                <h3>Bill Records</h3>
+                <div class="field">
+                    <span>Bill Id:</span>
+                    <span id="billId"></span>
+                </div>
+                <div class="field">
+                    <span>Company Name:</span>
+                    <span id="companyName"></span>
+                </div>
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>Sr No.</th>
+                            <th>Item Code</th>
+                            <th>Product Name</th>
+                            <th>Rate</th>
+                            <th>Quantity</th>
+                            <th>Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody id="billRecordsTBody">
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <script src="../utils/script/jQuery.js"></script>
+    <script src="../utils//script/bootstrap4.js"></script>
+    <script src="../utils/script/validate.js"></script>
+    <script src="../script.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

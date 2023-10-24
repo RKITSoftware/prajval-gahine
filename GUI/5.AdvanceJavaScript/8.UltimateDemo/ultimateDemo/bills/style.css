@@ -1,0 +1,19 @@
+.cursor-pointer{
+    cursor: pointer;
+}
+
+.hide {
+    display: none;
+}
+
+#billViewWindow h3{
+    margin-top: 16px;
+}
+
+.field {
+    margin-bottom: 10px;
+}
+
+.field span:first-child{
+    font-weight: 700;
+}

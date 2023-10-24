@@ -1,0 +1,11 @@
+{
+  "profiles": {
+    "ConsoleToWebAPIProject": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:14695;http://localhost:14696"
+    }
+  }
+}

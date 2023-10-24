@@ -1,0 +1,1 @@
+WebApplicationProject require "VS 2010 ultimate" to run the application. (.NET framework 4)

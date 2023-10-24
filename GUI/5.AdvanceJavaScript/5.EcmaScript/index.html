@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scope Let V/S Const</title>
+</head>
+<body>
+    <p id="p">WORLD</p>
+    <script src="script.js"></script>
+    <script>
+        // attempting to access b (let variable who has scope as script)
+        console.log("From another global attempting to access a ", a);
+        console.log("From another script attempting to access b ", b);
+    </script>
+</body>
+</html>

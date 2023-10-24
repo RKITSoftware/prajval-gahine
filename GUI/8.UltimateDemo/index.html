@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Billing Engine</title>
+    <link rel="stylesheet" href="utils/style/bootstrap.css">
+    <!-- <link rel="stylesheet" href="utils/style/popper.css"> -->
+    <link rel="stylesheet" href="style.css">
+    <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+
+</head>
+<body>
+    <header class="header fixed-top header-bg-color d-flex align-items-center">
+        <div class="container-fluid d-flex align-items-center justify-content-between">
+            <a href="" class="logo d-flex align-items-center text-white font-weight-bold">
+                <div class="logo">
+                    <img src="utils/images/logo.png" alt="">
+                </div>
+            </a>
+            <div class="navbar navbar-expand-lg w-25 align-items-center">
+                <ul class="navbar-nav w-100 d-flex justify-content-around align-items-center" id="navBarList">
+
+                </ul>
+            </div>
+        </div>
+    </header>
+    <main>
+        <div class="main-wrapper d-flex align-items-stretch">
+
+            <div>
+                <i id="hamburger" class="fa-solid fa-bars"></i>
+            </div>
+
+            <div class="customer-detail w-25">
+                <div id="cross-wrapper">
+                    <i  id="cross" class="fa-solid fa-circle-xmark"></i>
+                </div>
+                <h3>Customer Detail</h3>
+                <form action="/" method="post" id="billForm">
+                    <div class="form-group">
+                        <label for="billId" class="font-weight-bold">Bill Id</label>
+                        <input type="text" class="form-control" id="billId" name="billId" readonly tabindex="-1" >
+                    </div>
+                    <div class="form-group">
+                        <label for="gstNo" class="font-weight-bold">Gst No.</label>
+                        <input type="text" class="form-control" id="gstNo" name="gstNo">
+                    </div>
+                    <div class="form-group">
+                        <label for="companyName" class="font-weight-bold">Company name</label>
+                        <input type="text" class="form-control" id="companyName" name="companyName">
+                    </div>
+                    <div class="form-group">
+                        <label for="billDate" class="font-weight-bold">Bill Date</label>
+                        <input type="date" class="form-control" id="billDate" name="billDate">
+                    </div>
+                    <div class="form-group">
+                        <label for="billAddress" class="font-weight-bold">Bill Address</label>
+                        <textarea name="billAddress" class="form-control" id="billAddress"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="font-weight-bold" for="billSubTotal">Sub Total</label>
+                        <input class="form-control" type="text" id="billSubTotal" name="billSubTotal" value="" readonly tabindex="-1" >
+                    </div>
+                    <div class="form-group">
+                        <label class="font-weight-bold" for="gstPercentage">gst%</label>
+                        <input class="form-control" type="text" id="gstPercentage" name="gstPercentage" value="0">
+                    </div>
+                    <div class="form-group">
+                        <label class="font-weight-bold" for="billTotalAmount">Total</label>
+                        <input class="form-control" type="text" id="billTotalAmount" name="billTotalAmount" value="" readonly tabindex="-1" >
+                    </div>
+                    <button id="saveButton" type="submit" class="btn btn-success mt-4">Save</button>
+                    <button id="resetBillForm" type="reset" class="btn btn-danger mt-4">Reset</button>
+                </form>
+            </div>
+
+            <div class="bill-detail w-75">
+                <h3>Bill Detail</h3>
+                <form action="" method="post" id="addItemsForm">
+                    <div class="row px-2 w-100 bill-detail-input-section d-flex justify-content-around align-items-start">
+                        <div class="form-group col-2">
+                            <label for="itemCode">Item Code</label>
+                            <input type="text" class="form-control addItemInput" id="itemCode" name="itemCode">
+                        </div>
+    
+                        <div class="form-group col-4">
+                            <label for="productName">Product Name</label>
+                            <input type="text" class="form-control addItemInput" id="productName" name="productName">
+                        </div>
+    
+                        <div class="form-group col-2">
+                            <label for="rate">Rate</label>
+                            <input type="text" class="form-control addItemInput" id="rate" name="rate">
+                        </div>
+    
+                        <div class="form-group col-1">
+                            <label for="quantity">Quantity</label>
+                            <input type="text" class="form-control addItemInput" id="quantity" name="quantity">
+                        </div>
+    
+                        <div class="form-group col-2">
+                            <label for="amount">Amount</label>
+                            <input type="text" class="form-control" id="amount" name="amount" value="" readonly tabindex="-1" >
+                        </div>
+    
+                        <div class="d-flex flex-column col-1">
+                            <button id="addButton" class="btn btn-success mb-1">Add</button>
+                            <button id="resetButton" type="reset" class="reset btn btn-danger">Reset</button>
+                        </div>
+                    </div>
+                </form>
+                <div class="bill-records-section">
+                    <div class="table-wrapper table-responsive">
+                        <table class="table table-hover table-bordered">
+                            <thead class="bill-table-head">
+                                <tr>
+                                    <th scope="col">Sr. No.</th>
+                                    <th>Item Code</th>
+                                    <th scope="col">Product Name</th>
+                                    <th scope="col">Rate</th>
+                                    <th scope="col">Quantity</th>
+                                    <th scope="col">Amount</th>
+                                    <th scope="col">Delete</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="bill-control py-2 d-flex justify-content-around align-items-start">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script src="utils/script/jQuery.js"></script>
+    <script
+    src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"
+    integrity="sha256-lSjKY0/srUM9BE3dPm+c4fBo1dky2v27Gdjm2uoZaL0="
+    crossorigin="anonymous"
+  ></script>
+    <script src="utils/script/validate.js"></script> -->
+    <script src="utils/script/popper.js"></script>
+    <script src="utils/script/bootstrap4.js"></script>
+    <script src="script.js"></script>
+    <!-- <script src="test.js"></script> -->
+</body>
+</html>
