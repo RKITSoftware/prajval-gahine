@@ -1,0 +1,122 @@
+CREATE DATABASE DB1;
+
+USE DB1;
+
+-- CREATING EMPLOYEE TABLE(EMP01)
+-- P01F01 - employee id
+-- P01F02 - employee name
+-- P01F03 - employee salary
+-- P01F04 - employee department id
+CREATE TABLE
+	EMP01(
+		P01F01 INT,
+        P01F02 VARCHAR(50),
+        P01F03 int,
+        P01F04 INT
+    );
+    
+INSERT INTO
+	EMP01
+VALUES
+	(101, "Prajval", 1200, 1002),
+	(102, "Rahul", 1600, 1002),
+	(103, "Deep", 1500, 1001),
+	(104, "Deep", 1400, 1001),
+	(104, "Krinsi", 1800, 1001),
+	(105, "Gaurav", 1200, 1005);
+
+-- TRUNCATE EMP01;  
+
+-- CREATING DEPARTMENT TABLE(DPT01)
+-- T01F01 - department id
+-- T01F02 - department name
+CREATE TABLE
+	DPT01(
+		T01F01 INT,
+        T01F02 VARCHAR(50)
+    );
+    
+INSERT INTO
+	DPT01
+VALUES
+	(1001, "Development"),
+    (1002, "Testing"),
+    (1003, "Marketing");
+
+-- projecting EMP01 table
+SELECT
+	P01F01, P01F02, P01F03, P01F04
+FROM
+	EMP01;
+    
+-- projecting DPT01 table
+SELECT
+	T01F01, T01F02
+FROM
+	DPT01;
+
+-- INNER JOIN
+SELECT
+	EMP01.P01F02 Name,
+    DPT01.T01F02 Department
+FROM
+	EMP01 
+INNER JOIN DPT01 ON EMP01.P01F04 = DPT01.T01F01;
+
+-- Outer joins
+-- left outer join
+SELECT
+	EMP01.P01F02 Name,
+    DPT01.T01F02 Department
+FROM
+	EMP01 LEFT OUTER JOIN DPT01
+ON
+	EMP01.P01F04 = DPT01.T01F01;
+
+-- Right outer join
+SELECT
+	EMP01.P01F02 Name,
+    DPT01.T01F02 Department
+FROM
+	EMP01 RIGHT OUTER JOIN DPT01
+ON
+	EMP01.P01F04 = DPT01.T01F01;
+    
+-- full join in MYSQL
+SELECT
+	EMP01.P01F02 Name,
+    DPT01.T01F02 Department
+FROM
+	EMP01 LEFT OUTER JOIN DPT01
+ON
+	EMP01.P01F04 = DPT01.T01F01
+UNION
+SELECT
+	EMP01.P01F02 Name,
+    DPT01.T01F02 Department
+FROM
+	EMP01 RIGHT OUTER JOIN DPT01
+ON
+	EMP01.P01F04 = DPT01.T01F01;
+
+
+-- equi join
+SELECT
+	EMP01.P01F02 Name,
+    DPT01.T01F02 Department
+FROM
+	EMP01, DPT01
+WHERE
+	EMP01.P01F04 = DPT01.T01F01;
+    
+-- self join
+-- get employee list whose salary is equal to prajval
+SELECT
+	E1.P01F01 Id,
+	E1.P01F02 Name
+FROM
+	EMP01 E1,
+    EMP01 E2
+WHERE 
+	E1.P01F03 = E2.P01F03 AND E2.P01F02 = 'Prajval';
+    

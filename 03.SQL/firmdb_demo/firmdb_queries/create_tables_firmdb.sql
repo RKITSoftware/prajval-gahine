@@ -1,0 +1,137 @@
+
+-- create - firm database (firmdb)
+CREATE DATABASE IF NOT EXISTS firmdb;
+
+-- use - firmdb database
+USE firmdb;
+
+-- create - role table (RLE01)
+CREATE TABLE
+	RLE01(
+		E01F01 INT UNSIGNED PRIMARY KEY AUTO_INCREMENT COMMENT 'Role Id',
+        E01F02 VARCHAR(15) NOT NULL COMMENT 'Role Name'
+    ) COMMENT 'Role Table';
+    
+DROP TABLE RLE01;
+
+
+-- create - department table (DPT01)
+CREATE TABLE
+	DPT01(
+		T01F01 INT UNSIGNED PRIMARY KEY AUTO_INCREMENT COMMENT 'Department Id',
+        T01F02 VARCHAR(30) NOT NULL COMMENT 'Department Name'
+    ) COMMENT 'Department Table';
+    
+DROP TABLE DPT01;
+    
+    
+-- create - user tablle (USR01)
+CREATE TABLE
+	USR01(
+		R01F01 INT UNSIGNED PRIMARY KEY AUTO_INCREMENT COMMENT 'USER Id',
+        R01F02 VARCHAR(45) UNIQUE NOT NULL COMMENT 'Username',
+        R01F03 BINARY(20) NOT NULL COMMENT 'Hashed Password',
+        R01F04 VARCHAR(254) NOT NULL COMMENT 'Email Id',
+        R01F05 VARCHAR(10) NOT NULL COMMENT 'Phone Number',
+        R01F06 DATE NOT NULL COMMENT 'Date Created'
+    ) COMMENT 'USER Table';
+CREATE INDEX
+	IDX_R01F02
+ON
+	USR01(R01F02);
+    
+DROP TABLE USR01;
+
+-- create - user-role association or junction table
+CREATE TABLE
+	RLEUSR01(
+		R01F01 INT UNSIGNED COMMENT 'User Id',
+        R02F02 INT UNSIGNED COMMENT 'Role Id',
+        FOREIGN KEY (R01F01) REFERENCES USR01(R01F01),
+        FOREIGN KEY (R02F02) REFERENCES RLE01(E01F01)
+    ) COMMENT 'user-role association-table';
+
+
+-- create - employee table (EMP01)
+CREATE TABLE
+	EMP01(
+		P01F01 INT UNSIGNED PRIMARY KEY AUTO_INCREMENT COMMENT 'Employee Id',
+        P01F02 VARCHAR(50) NOT NULL COMMENT 'Employee First Name',
+        P01F03 VARCHAR(50) NOT NULL COMMENT 'Employee Last Name',
+        P01F04 ENUM('M', 'F', 'O') NOT NULL COMMENT 'GENDER',
+        P01F05 DATE NOT NULL COMMENT 'Date of Birth',
+        P01F06 INT UNSIGNED COMMENT 'Position Id',
+        FOREIGN KEY (P01F06) REFERENCES PSN01(N01F01)
+    ) COMMENT 'Employee Table';
+    
+DROP TABLE EMP01;
+
+    
+-- create - user-employee association or junction table
+CREATE TABLE
+	USREMP01(
+		P01F01 INT UNSIGNED UNIQUE COMMENT 'User Id',
+        P01F02 INT UNSIGNED UNIQUE COMMENT 'Employee Id',
+        FOREIGN KEY (P01F01) REFERENCES USR01(R01F01),
+        FOREIGN KEY (P01F02) REFERENCES EMP01(P01F01)
+    ) COMMENT 'user-employee association-table';
+
+DROP TABLE USREMP01;
+
+    
+-- create - attendance table (ATD01)
+CREATE TABLE
+	ATD01(
+		D01F01 INT UNSIGNED PRIMARY KEY AUTO_INCREMENT COMMENT 'Attendance Id',
+        D01F02 INT UNSIGNED COMMENT 'Employee Id',
+        D01F03 DATE NOT NULL COMMENT 'Date of Attendance',
+        D01F04 DECIMAL(4,2) CHECK (D01F04>=0) COMMENT 'Hours Worked a Day',
+        FOREIGN KEY (D01F02) REFERENCES EMP01(P01F01)
+    );
+
+DROP TABLE ATD01;
+
+    
+-- create - leave table (LVE01)
+CREATE TABLE
+	LVE01(
+		E01F01 INT UNSIGNED PRIMARY KEY AUTO_INCREMENT COMMENT 'Leave Id',
+        E01F02 INT UNSIGNED COMMENT 'Employee Id',
+        E01F03 DATE NOT NULL COMMENT 'Date of Request for Leave',
+        E01F04 DATE NOT NULL COMMENT 'Leave Date',
+        E01F05 INT UNSIGNED COMMENT 'No. of days for leave',
+		E01F06 VARCHAR(100) NOT NULL COMMENT 'Reason for Leave',
+		FOREIGN KEY (E01F02) REFERENCES EMP01(P01F01)
+    ) COMMENT 'Leave Table';
+
+DROP TABLE LVE01;
+
+    
+-- create - position (or salary type) table (PSN01)
+CREATE TABLE
+	PSN01(
+		N01F01 INT UNSIGNED PRIMARY KEY AUTO_INCREMENT COMMENT 'Position Id',
+		N01F02 VARCHAR(45) UNIQUE NOT NULL COMMENT 'Position Name',
+        N01F03 DECIMAL(5,2) NOT NULL CHECK (N01F03>=0) COMMENT 'Annual Package (LPA)',
+        N01F04 FLOAT NOT NULL CHECK (N01F04>=0) COMMENT 'Monthly Salary',
+        N01F05 DECIMAL(8,2) CHECK (N01F05>=0) COMMENT 'Yearly Bonus',
+        N01F06 INT UNSIGNED COMMENT 'Department Id',
+        FOREIGN KEY (N01F06) REFERENCES DPT01(T01F01)
+    ) COMMENT 'Position Table';
+
+DROP TABLE PSN01;
+
+    
+-- create - salary table (SLY01)
+CREATE TABLE
+	SLY01(
+		Y01F01 INT UNSIGNED PRIMARY KEY AUTO_INCREMENT COMMENT 'Salary Id',
+        Y01F02 INT UNSIGNED COMMENT 'Employee Id',
+        Y01F03 DATE NOT NULL COMMENT 'Date-Year month of salary credit',
+        Y01F04 FLOAT CHECK (Y01F04>=0) COMMENT 'Salary Amounnt',
+        Y01F05 INT UNSIGNED COMMENT 'Position Id',
+        FOREIGN KEY (Y01F02) REFERENCES EMP01(P01F01),
+        FOREIGN KEY (Y01F05) REFERENCES PSN01(N01F01)
+    ) COMMENT 'Salary Table';
+
+DROP TABLE SLY01;

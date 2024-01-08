@@ -1,0 +1,117 @@
+CREATE DATABASE
+	DB2;
+    
+USE DB2;
+
+CREATE TABLE
+	STD01(
+		D01F01 INT COMMENT 'Student id',
+        D01F02 VARCHAR(50) COMMENT 'Student name',
+        D01F03 INT COMMENT 'Student year'
+    );
+INSERT INTO
+	STD01
+VALUES
+	(123, 'S. Dent', 5),
+	(124, 'P. Smith', 4),
+	(125, 'V. Jones', 6);
+    
+CREATE TABLE
+	GRD01(
+		D01F01 INT COMMENT 'Student id',
+        D01F02 VARCHAR(6) COMMENT 'Student class',
+        D01F03 FLOAT COMMENT 'Student score',
+        D01F04 INT COMMENT 'Student year'
+    );
+INSERT INTO
+	GRD01
+VALUES
+	(123, 'CS310', 3.2, 2007),
+	(123, 'CS503', 3.3, 2006),
+	(123, 'CS696', 4.0, 2008),
+	(124, 'CS310', 3.8, 2005),
+	(124, 'CS503', 3.7, 2007),
+	(124, 'CS696', 3.9, 2008);
+
+    
+CREATE TABLE
+	INT01(
+		T01F01 INT COMMENT 'Instructor id',
+        T01F02 VARCHAR(50) COMMENT 'Instructor name',
+        T01F03 VARCHAR(6) COMMENT 'Instructor class',
+        T01F04 INT COMMENT 'Instructor year'
+    );
+INSERT INTO
+	INT01
+VALUES
+	(1, 'Edwards', 'CS310', 2007),
+	(2, 'Edwards', 'CS503', 2006),
+	(3, 'Riggins', 'CS310', 2006),
+	(4, 'Brights', 'CS503', 2007),
+	(5, 'Edwards', 'CS696', 2008);
+    
+
+EXPLAIN SELECT
+	T01F02 'Instr. Name', T01F03 'Class', AVG(D01F03) 'Avg score'
+FROM
+	INT01 INNER JOIN GRD01
+ON
+	D01F02 = T01F03 AND D01F04 = T01F04
+WHERE
+	T01F02 = 'Edwards'
+GROUP BY (T01F03);
+
+ALTER TABLE
+	INT01
+ADD INDEX
+	(T01F02),
+ADD INDEX
+	(T01F03, T01F04);
+    
+ALTER TABLE
+	GRD01
+ADD INDEX
+	(D01F02, D01F04);
+    
+
+SHOW INDEX FROM
+	GRD01;
+    
+ALTER TABLE
+	GRD01
+DROP INDEX
+	D01F02;
+
+SHOW INDEX FROM
+	INT01;
+
+ALTER TABLE
+	INT01
+DROP INDEX
+	T01F02,
+DROP INDEX
+	T01F03;
+    
+    
+    
+EXPLAIN SELECT
+	*
+FROM
+	GRD01
+WHERE
+	D01F04 < (
+		SELECT
+			MAX(T01F04)
+		FROM
+			INT01
+    );
+    
+ALTER TABLE
+	INT01
+ADD INDEX
+	(T01F04);
+
+ALTER TABLE
+	INT01
+DROP INDEX
+	T01F04;
