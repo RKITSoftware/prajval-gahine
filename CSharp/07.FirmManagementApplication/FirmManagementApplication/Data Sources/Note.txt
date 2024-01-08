@@ -1,0 +1,7 @@
+﻿In Metadata.csv file the order of records are as follow:
+1. Adminstrator
+2. Employee
+3. Customer
+4. Attendance
+5. Leave
+6. Salary

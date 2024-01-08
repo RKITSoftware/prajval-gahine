@@ -1,0 +1,47 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v6.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v6.0": {
+      "FirmManagementApplication/1.0.0": {
+        "dependencies": {
+          "AttendanceManagement": "1.0.0",
+          "SalaryManagement": "1.0.0"
+        },
+        "runtime": {
+          "FirmManagementApplication.dll": {}
+        }
+      },
+      "AttendanceManagement/1.0.0": {
+        "runtime": {
+          "AttendanceManagement.dll": {}
+        }
+      },
+      "SalaryManagement/1.0.0": {
+        "runtime": {
+          "SalaryManagement.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "FirmManagementApplication/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "AttendanceManagement/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "SalaryManagement/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

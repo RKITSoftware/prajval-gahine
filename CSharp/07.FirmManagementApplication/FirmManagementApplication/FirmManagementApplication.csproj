@@ -1,0 +1,51 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <StartupObject>FirmManagementApplication.Program</StartupObject>
+  </PropertyGroup>
+	
+    <Target Name="AfterBuild">
+	    <Copy SourceFiles="D:\Materials\dot net kudvenkat\1. C# tutorials\FirmManagementApplication\FirmManagementApplication\FirmManagementApplication\Data Sources\Adminstrator.csv" DestinationFolder="Data Sources" ContinueOnError="true" />
+    </Target>
+	
+    <ItemGroup>
+      <None Remove="Data Sources\Adminstrator.csv" />
+      <None Remove="Data Sources\Attendance.csv" />
+      <None Remove="Data Sources\Employee.csv" />
+      <None Remove="Data Sources\Leave.csv" />
+      <None Remove="Data Sources\Metadata.csv" />
+      <None Remove="Data Sources\Salary.csv" />
+    </ItemGroup>
+	
+    <ItemGroup>
+      <Content Include="Data Sources\Adminstrator.csv">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Data Sources\Attendance.csv">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Data Sources\Employee.csv">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Data Sources\Leave.csv">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Data Sources\Metadata.csv">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Data Sources\Salary.csv">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+    </ItemGroup>
+	
+    <ItemGroup>
+      <ProjectReference Include="..\AttendenceManagement\AttendanceManagement.csproj" />
+      <ProjectReference Include="..\SalaryManagement\SalaryManagement.csproj" />
+    </ItemGroup>
+
+
+</Project>

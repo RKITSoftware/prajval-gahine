@@ -1,0 +1,11 @@
+D:\Materials\dot net kudvenkat\1. C# tutorials\FirmManagementApplication\FirmManagementApplication\AttendenceManagement\bin\Debug\net6.0\AttendenceManagement.deps.json
+D:\Materials\dot net kudvenkat\1. C# tutorials\FirmManagementApplication\FirmManagementApplication\AttendenceManagement\bin\Debug\net6.0\AttendenceManagement.dll
+D:\Materials\dot net kudvenkat\1. C# tutorials\FirmManagementApplication\FirmManagementApplication\AttendenceManagement\bin\Debug\net6.0\AttendenceManagement.pdb
+D:\Materials\dot net kudvenkat\1. C# tutorials\FirmManagementApplication\FirmManagementApplication\AttendenceManagement\obj\Debug\net6.0\AttendenceManagement.GeneratedMSBuildEditorConfig.editorconfig
+D:\Materials\dot net kudvenkat\1. C# tutorials\FirmManagementApplication\FirmManagementApplication\AttendenceManagement\obj\Debug\net6.0\AttendenceManagement.AssemblyInfoInputs.cache
+D:\Materials\dot net kudvenkat\1. C# tutorials\FirmManagementApplication\FirmManagementApplication\AttendenceManagement\obj\Debug\net6.0\AttendenceManagement.AssemblyInfo.cs
+D:\Materials\dot net kudvenkat\1. C# tutorials\FirmManagementApplication\FirmManagementApplication\AttendenceManagement\obj\Debug\net6.0\AttendenceManagement.csproj.CoreCompileInputs.cache
+D:\Materials\dot net kudvenkat\1. C# tutorials\FirmManagementApplication\FirmManagementApplication\AttendenceManagement\obj\Debug\net6.0\AttendenceManagement.dll
+D:\Materials\dot net kudvenkat\1. C# tutorials\FirmManagementApplication\FirmManagementApplication\AttendenceManagement\obj\Debug\net6.0\refint\AttendenceManagement.dll
+D:\Materials\dot net kudvenkat\1. C# tutorials\FirmManagementApplication\FirmManagementApplication\AttendenceManagement\obj\Debug\net6.0\AttendenceManagement.pdb
+D:\Materials\dot net kudvenkat\1. C# tutorials\FirmManagementApplication\FirmManagementApplication\AttendenceManagement\obj\Debug\net6.0\ref\AttendenceManagement.dll

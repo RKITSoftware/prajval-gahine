@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "CSharpBasicApp": {
+      "commandName": "Project",
+      "commandLineArgs": "100 200 300"
+    }
+  }
+}

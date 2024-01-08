@@ -1,0 +1,52 @@
+D:\Materials\dot net kudvenkat\1. C# tutorials\FirmManagementApplication\FirmManagementApplication\FirmManagementApplication\bin\Debug\net6.0\Data Sources\Adminstrator.csv
+D:\Materials\dot net kudvenkat\1. C# tutorials\FirmManagementApplication\FirmManagementApplication\FirmManagementApplication\bin\Debug\net6.0\Data Sources\Attendance.csv
+D:\Materials\dot net kudvenkat\1. C# tutorials\FirmManagementApplication\FirmManagementApplication\FirmManagementApplication\bin\Debug\net6.0\Data Sources\Employee.csv
+D:\Materials\dot net kudvenkat\1. C# tutorials\FirmManagementApplication\FirmManagementApplication\FirmManagementApplication\bin\Debug\net6.0\Data Sources\Leave.csv
+D:\Materials\dot net kudvenkat\1. C# tutorials\FirmManagementApplication\FirmManagementApplication\FirmManagementApplication\bin\Debug\net6.0\Data Sources\Metadata.csv
+D:\Materials\dot net kudvenkat\1. C# tutorials\FirmManagementApplication\FirmManagementApplication\FirmManagementApplication\bin\Debug\net6.0\Data Sources\Salary.csv
+D:\Materials\dot net kudvenkat\1. C# tutorials\FirmManagementApplication\FirmManagementApplication\FirmManagementApplication\bin\Debug\net6.0\FirmManagementApplication.exe
+D:\Materials\dot net kudvenkat\1. C# tutorials\FirmManagementApplication\FirmManagementApplication\FirmManagementApplication\bin\Debug\net6.0\FirmManagementApplication.deps.json
+D:\Materials\dot net kudvenkat\1. C# tutorials\FirmManagementApplication\FirmManagementApplication\FirmManagementApplication\bin\Debug\net6.0\FirmManagementApplication.runtimeconfig.json
+D:\Materials\dot net kudvenkat\1. C# tutorials\FirmManagementApplication\FirmManagementApplication\FirmManagementApplication\bin\Debug\net6.0\FirmManagementApplication.dll
+D:\Materials\dot net kudvenkat\1. C# tutorials\FirmManagementApplication\FirmManagementApplication\FirmManagementApplication\bin\Debug\net6.0\FirmManagementApplication.pdb
+D:\Materials\dot net kudvenkat\1. C# tutorials\FirmManagementApplication\FirmManagementApplication\FirmManagementApplication\bin\Debug\net6.0\AttendanceManagement.dll
+D:\Materials\dot net kudvenkat\1. C# tutorials\FirmManagementApplication\FirmManagementApplication\FirmManagementApplication\bin\Debug\net6.0\SalaryManagement.dll
+D:\Materials\dot net kudvenkat\1. C# tutorials\FirmManagementApplication\FirmManagementApplication\FirmManagementApplication\bin\Debug\net6.0\AttendanceManagement.pdb
+D:\Materials\dot net kudvenkat\1. C# tutorials\FirmManagementApplication\FirmManagementApplication\FirmManagementApplication\bin\Debug\net6.0\SalaryManagement.pdb
+D:\Materials\dot net kudvenkat\1. C# tutorials\FirmManagementApplication\FirmManagementApplication\FirmManagementApplication\obj\Debug\net6.0\FirmManagementApplication.csproj.AssemblyReference.cache
+D:\Materials\dot net kudvenkat\1. C# tutorials\FirmManagementApplication\FirmManagementApplication\FirmManagementApplication\obj\Debug\net6.0\FirmManagementApplication.GeneratedMSBuildEditorConfig.editorconfig
+D:\Materials\dot net kudvenkat\1. C# tutorials\FirmManagementApplication\FirmManagementApplication\FirmManagementApplication\obj\Debug\net6.0\FirmManagementApplication.AssemblyInfoInputs.cache
+D:\Materials\dot net kudvenkat\1. C# tutorials\FirmManagementApplication\FirmManagementApplication\FirmManagementApplication\obj\Debug\net6.0\FirmManagementApplication.AssemblyInfo.cs
+D:\Materials\dot net kudvenkat\1. C# tutorials\FirmManagementApplication\FirmManagementApplication\FirmManagementApplication\obj\Debug\net6.0\FirmManagementApplication.csproj.CoreCompileInputs.cache
+D:\Materials\dot net kudvenkat\1. C# tutorials\FirmManagementApplication\FirmManagementApplication\FirmManagementApplication\obj\Debug\net6.0\FirmManagementApplication.csproj.CopyComplete
+D:\Materials\dot net kudvenkat\1. C# tutorials\FirmManagementApplication\FirmManagementApplication\FirmManagementApplication\obj\Debug\net6.0\FirmManagementApplication.dll
+D:\Materials\dot net kudvenkat\1. C# tutorials\FirmManagementApplication\FirmManagementApplication\FirmManagementApplication\obj\Debug\net6.0\refint\FirmManagementApplication.dll
+D:\Materials\dot net kudvenkat\1. C# tutorials\FirmManagementApplication\FirmManagementApplication\FirmManagementApplication\obj\Debug\net6.0\FirmManagementApplication.pdb
+D:\Materials\dot net kudvenkat\1. C# tutorials\FirmManagementApplication\FirmManagementApplication\FirmManagementApplication\obj\Debug\net6.0\FirmManagementApplication.genruntimeconfig.cache
+D:\Materials\dot net kudvenkat\1. C# tutorials\FirmManagementApplication\FirmManagementApplication\FirmManagementApplication\obj\Debug\net6.0\ref\FirmManagementApplication.dll
+D:\rkit\CSharpDemo\FirmManagementApplication\FirmManagementApplication\bin\Debug\net6.0\FirmManagementApplication.exe
+D:\rkit\CSharpDemo\FirmManagementApplication\FirmManagementApplication\bin\Debug\net6.0\FirmManagementApplication.dll
+D:\rkit\CSharpDemo\FirmManagementApplication\FirmManagementApplication\bin\Debug\net6.0\SalaryManagement.dll
+D:\rkit\CSharpDemo\FirmManagementApplication\FirmManagementApplication\obj\Debug\net6.0\FirmManagementApplication.csproj.AssemblyReference.cache
+D:\rkit\CSharpDemo\FirmManagementApplication\FirmManagementApplication\obj\Debug\net6.0\FirmManagementApplication.GeneratedMSBuildEditorConfig.editorconfig
+D:\rkit\CSharpDemo\FirmManagementApplication\FirmManagementApplication\obj\Debug\net6.0\FirmManagementApplication.AssemblyInfoInputs.cache
+D:\rkit\CSharpDemo\FirmManagementApplication\FirmManagementApplication\obj\Debug\net6.0\FirmManagementApplication.AssemblyInfo.cs
+D:\rkit\CSharpDemo\FirmManagementApplication\FirmManagementApplication\obj\Debug\net6.0\FirmManagementApplication.csproj.CoreCompileInputs.cache
+D:\rkit\CSharpDemo\FirmManagementApplication\FirmManagementApplication\bin\Debug\net6.0\Data Sources\Adminstrator.csv
+D:\rkit\CSharpDemo\FirmManagementApplication\FirmManagementApplication\bin\Debug\net6.0\Data Sources\Attendance.csv
+D:\rkit\CSharpDemo\FirmManagementApplication\FirmManagementApplication\bin\Debug\net6.0\Data Sources\Employee.csv
+D:\rkit\CSharpDemo\FirmManagementApplication\FirmManagementApplication\bin\Debug\net6.0\Data Sources\Leave.csv
+D:\rkit\CSharpDemo\FirmManagementApplication\FirmManagementApplication\bin\Debug\net6.0\Data Sources\Metadata.csv
+D:\rkit\CSharpDemo\FirmManagementApplication\FirmManagementApplication\bin\Debug\net6.0\Data Sources\Salary.csv
+D:\rkit\CSharpDemo\FirmManagementApplication\FirmManagementApplication\bin\Debug\net6.0\FirmManagementApplication.deps.json
+D:\rkit\CSharpDemo\FirmManagementApplication\FirmManagementApplication\bin\Debug\net6.0\FirmManagementApplication.runtimeconfig.json
+D:\rkit\CSharpDemo\FirmManagementApplication\FirmManagementApplication\bin\Debug\net6.0\FirmManagementApplication.pdb
+D:\rkit\CSharpDemo\FirmManagementApplication\FirmManagementApplication\bin\Debug\net6.0\AttendanceManagement.dll
+D:\rkit\CSharpDemo\FirmManagementApplication\FirmManagementApplication\bin\Debug\net6.0\AttendanceManagement.pdb
+D:\rkit\CSharpDemo\FirmManagementApplication\FirmManagementApplication\bin\Debug\net6.0\SalaryManagement.pdb
+D:\rkit\CSharpDemo\FirmManagementApplication\FirmManagementApplication\obj\Debug\net6.0\FirmManagementApplication.csproj.CopyComplete
+D:\rkit\CSharpDemo\FirmManagementApplication\FirmManagementApplication\obj\Debug\net6.0\FirmManagementApplication.dll
+D:\rkit\CSharpDemo\FirmManagementApplication\FirmManagementApplication\obj\Debug\net6.0\refint\FirmManagementApplication.dll
+D:\rkit\CSharpDemo\FirmManagementApplication\FirmManagementApplication\obj\Debug\net6.0\FirmManagementApplication.pdb
+D:\rkit\CSharpDemo\FirmManagementApplication\FirmManagementApplication\obj\Debug\net6.0\FirmManagementApplication.genruntimeconfig.cache
+D:\rkit\CSharpDemo\FirmManagementApplication\FirmManagementApplication\obj\Debug\net6.0\ref\FirmManagementApplication.dll

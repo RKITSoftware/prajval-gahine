@@ -1,0 +1,14 @@
+C:\Users\prajv\source\repos\CSharpBasicApp\bin\Debug\net6.0\CSharpBasicApp.exe
+C:\Users\prajv\source\repos\CSharpBasicApp\bin\Debug\net6.0\CSharpBasicApp.deps.json
+C:\Users\prajv\source\repos\CSharpBasicApp\bin\Debug\net6.0\CSharpBasicApp.runtimeconfig.json
+C:\Users\prajv\source\repos\CSharpBasicApp\bin\Debug\net6.0\CSharpBasicApp.dll
+C:\Users\prajv\source\repos\CSharpBasicApp\bin\Debug\net6.0\CSharpBasicApp.pdb
+C:\Users\prajv\source\repos\CSharpBasicApp\obj\Debug\net6.0\CSharpBasicApp.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\prajv\source\repos\CSharpBasicApp\obj\Debug\net6.0\CSharpBasicApp.AssemblyInfoInputs.cache
+C:\Users\prajv\source\repos\CSharpBasicApp\obj\Debug\net6.0\CSharpBasicApp.AssemblyInfo.cs
+C:\Users\prajv\source\repos\CSharpBasicApp\obj\Debug\net6.0\CSharpBasicApp.csproj.CoreCompileInputs.cache
+C:\Users\prajv\source\repos\CSharpBasicApp\obj\Debug\net6.0\CSharpBasicApp.dll
+C:\Users\prajv\source\repos\CSharpBasicApp\obj\Debug\net6.0\refint\CSharpBasicApp.dll
+C:\Users\prajv\source\repos\CSharpBasicApp\obj\Debug\net6.0\CSharpBasicApp.pdb
+C:\Users\prajv\source\repos\CSharpBasicApp\obj\Debug\net6.0\CSharpBasicApp.genruntimeconfig.cache
+C:\Users\prajv\source\repos\CSharpBasicApp\obj\Debug\net6.0\ref\CSharpBasicApp.dll

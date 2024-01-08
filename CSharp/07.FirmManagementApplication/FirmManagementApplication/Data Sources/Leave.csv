@@ -1,0 +1,2 @@
+﻿Id(0),EmployeeId(1),RequestDate(2),LeaveDate(3),LeaveType(4),Description(5)
+101,102,30-10-2023 17:27:30,04-11-2023,Emergency,Emergency leave

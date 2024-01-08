@@ -1,0 +1,36 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v6.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v6.0": {
+      "AssemblyDemoApp/1.0.0": {
+        "dependencies": {
+          "MyDll": "1.0.0"
+        },
+        "runtime": {
+          "AssemblyDemoApp.dll": {}
+        }
+      },
+      "MyDll/1.0.0": {
+        "runtime": {
+          "MyDll.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "AssemblyDemoApp/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "MyDll/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

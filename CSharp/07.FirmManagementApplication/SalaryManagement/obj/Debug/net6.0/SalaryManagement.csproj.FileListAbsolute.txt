@@ -1,0 +1,22 @@
+D:\Materials\dot net kudvenkat\1. C# tutorials\FirmManagementApplication\FirmManagementApplication\SalaryManagement\bin\Debug\net6.0\SalaryManagement.deps.json
+D:\Materials\dot net kudvenkat\1. C# tutorials\FirmManagementApplication\FirmManagementApplication\SalaryManagement\bin\Debug\net6.0\SalaryManagement.dll
+D:\Materials\dot net kudvenkat\1. C# tutorials\FirmManagementApplication\FirmManagementApplication\SalaryManagement\bin\Debug\net6.0\SalaryManagement.pdb
+D:\Materials\dot net kudvenkat\1. C# tutorials\FirmManagementApplication\FirmManagementApplication\SalaryManagement\obj\Debug\net6.0\SalaryManagement.GeneratedMSBuildEditorConfig.editorconfig
+D:\Materials\dot net kudvenkat\1. C# tutorials\FirmManagementApplication\FirmManagementApplication\SalaryManagement\obj\Debug\net6.0\SalaryManagement.AssemblyInfoInputs.cache
+D:\Materials\dot net kudvenkat\1. C# tutorials\FirmManagementApplication\FirmManagementApplication\SalaryManagement\obj\Debug\net6.0\SalaryManagement.AssemblyInfo.cs
+D:\Materials\dot net kudvenkat\1. C# tutorials\FirmManagementApplication\FirmManagementApplication\SalaryManagement\obj\Debug\net6.0\SalaryManagement.csproj.CoreCompileInputs.cache
+D:\Materials\dot net kudvenkat\1. C# tutorials\FirmManagementApplication\FirmManagementApplication\SalaryManagement\obj\Debug\net6.0\SalaryManagement.dll
+D:\Materials\dot net kudvenkat\1. C# tutorials\FirmManagementApplication\FirmManagementApplication\SalaryManagement\obj\Debug\net6.0\refint\SalaryManagement.dll
+D:\Materials\dot net kudvenkat\1. C# tutorials\FirmManagementApplication\FirmManagementApplication\SalaryManagement\obj\Debug\net6.0\SalaryManagement.pdb
+D:\Materials\dot net kudvenkat\1. C# tutorials\FirmManagementApplication\FirmManagementApplication\SalaryManagement\obj\Debug\net6.0\ref\SalaryManagement.dll
+D:\rkit\CSharpDemo\FirmManagementApplication\SalaryManagement\bin\Debug\net6.0\SalaryManagement.deps.json
+D:\rkit\CSharpDemo\FirmManagementApplication\SalaryManagement\bin\Debug\net6.0\SalaryManagement.dll
+D:\rkit\CSharpDemo\FirmManagementApplication\SalaryManagement\bin\Debug\net6.0\SalaryManagement.pdb
+D:\rkit\CSharpDemo\FirmManagementApplication\SalaryManagement\obj\Debug\net6.0\SalaryManagement.GeneratedMSBuildEditorConfig.editorconfig
+D:\rkit\CSharpDemo\FirmManagementApplication\SalaryManagement\obj\Debug\net6.0\SalaryManagement.AssemblyInfoInputs.cache
+D:\rkit\CSharpDemo\FirmManagementApplication\SalaryManagement\obj\Debug\net6.0\SalaryManagement.AssemblyInfo.cs
+D:\rkit\CSharpDemo\FirmManagementApplication\SalaryManagement\obj\Debug\net6.0\SalaryManagement.csproj.CoreCompileInputs.cache
+D:\rkit\CSharpDemo\FirmManagementApplication\SalaryManagement\obj\Debug\net6.0\SalaryManagement.dll
+D:\rkit\CSharpDemo\FirmManagementApplication\SalaryManagement\obj\Debug\net6.0\refint\SalaryManagement.dll
+D:\rkit\CSharpDemo\FirmManagementApplication\SalaryManagement\obj\Debug\net6.0\SalaryManagement.pdb
+D:\rkit\CSharpDemo\FirmManagementApplication\SalaryManagement\obj\Debug\net6.0\ref\SalaryManagement.dll

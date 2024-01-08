@@ -1,0 +1,11 @@
+C:\Users\prajv\source\repos\MyDll\bin\Debug\net6.0\MyDll.deps.json
+C:\Users\prajv\source\repos\MyDll\bin\Debug\net6.0\MyDll.dll
+C:\Users\prajv\source\repos\MyDll\bin\Debug\net6.0\MyDll.pdb
+C:\Users\prajv\source\repos\MyDll\obj\Debug\net6.0\MyDll.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\prajv\source\repos\MyDll\obj\Debug\net6.0\MyDll.AssemblyInfoInputs.cache
+C:\Users\prajv\source\repos\MyDll\obj\Debug\net6.0\MyDll.AssemblyInfo.cs
+C:\Users\prajv\source\repos\MyDll\obj\Debug\net6.0\MyDll.csproj.CoreCompileInputs.cache
+C:\Users\prajv\source\repos\MyDll\obj\Debug\net6.0\MyDll.dll
+C:\Users\prajv\source\repos\MyDll\obj\Debug\net6.0\refint\MyDll.dll
+C:\Users\prajv\source\repos\MyDll\obj\Debug\net6.0\MyDll.pdb
+C:\Users\prajv\source\repos\MyDll\obj\Debug\net6.0\ref\MyDll.dll

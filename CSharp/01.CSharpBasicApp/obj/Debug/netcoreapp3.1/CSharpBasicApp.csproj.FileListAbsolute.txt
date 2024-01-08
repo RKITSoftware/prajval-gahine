@@ -1,0 +1,4 @@
+C:\Users\prajv\source\repos\CSharpBasicApp\obj\Debug\netcoreapp3.1\CSharpBasicApp.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\prajv\source\repos\CSharpBasicApp\obj\Debug\netcoreapp3.1\CSharpBasicApp.AssemblyInfoInputs.cache
+C:\Users\prajv\source\repos\CSharpBasicApp\obj\Debug\netcoreapp3.1\CSharpBasicApp.AssemblyInfo.cs
+C:\Users\prajv\source\repos\CSharpBasicApp\obj\Debug\netcoreapp3.1\CSharpBasicApp.csproj.CoreCompileInputs.cache
