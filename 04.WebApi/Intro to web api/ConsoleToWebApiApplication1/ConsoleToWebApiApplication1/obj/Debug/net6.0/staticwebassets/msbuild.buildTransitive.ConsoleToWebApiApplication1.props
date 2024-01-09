@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\buildMultiTargeting\ConsoleToWebApiApplication1.props" />
+</Project>
