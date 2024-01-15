@@ -8,10 +8,14 @@ using WebApplication2.Models;
 
 namespace WebApplication2.Controllers
 {
+    /// <summary>
+    /// Controller to handle attendance related apis/endpoints
+    /// </summary>
+    [Route("api/attendance")]
     public class AttendanceController : ApiController
     {
         [HttpGet]
-        [Route("api/attendance")]
+        [Route("get-attedances")]
         public IHttpActionResult GetAttendances()
         {
             List<Attendance> attendances = Attendance.GetAttendances();

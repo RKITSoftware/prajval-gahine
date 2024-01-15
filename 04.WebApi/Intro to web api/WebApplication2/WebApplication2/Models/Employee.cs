@@ -17,6 +17,7 @@ namespace WebApplication2.Models
         /// </summary>
         public string p01f02 { get; set; }
 
+
         public Employee(int id, string name)
         {
             this.p01f01 = id;
