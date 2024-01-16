@@ -19,27 +19,30 @@ namespace VersioningDemo
             config.MapHttpAttributeRoutes();
 
 
-           // config.Routes.MapHttpRoute(
-           //     name: "EmployeeVersion1",
-           //     routeTemplate: "api/v1/employee/{id}",
-           //     defaults: new { controller = "EmployeeV1", id = RouteParameter.Optional }
-           // );
+            // config.Routes.MapHttpRoute(
+            //     name: "EmployeeVersion1",
+            //     routeTemplate: "api/v1/employee/{id}",
+            //     defaults: new { controller = "EmployeeV1", id = RouteParameter.Optional }
+            // );
 
-           // config.Routes.MapHttpRoute(
-           //     name: "EmployeeVersion2",
-           //     routeTemplate: "api/v2/employee/{id}",
-           //     defaults: new { controller = "EmployeeV2", id = RouteParameter.Optional }
-           //);
+            // config.Routes.MapHttpRoute(
+            //     name: "EmployeeVersion2",
+            //     routeTemplate: "api/v2/employee/{id}",
+            //     defaults: new { controller = "EmployeeV2", id = RouteParameter.Optional }
+            //);
 
+
+
+            //config.Services.Replace(typeof(IHttpControllerSelector), new CustomControllerSelector(config));
+            //config.Services.Replace(typeof(IHttpControllerSelector), new ControllerSelectorFromCustomHeader(config));
+            config.Services.Replace(typeof(IHttpControllerSelector), new ControllerSelectorFromAcceptHeader(config));
 
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{id}",
-                defaults: new { id = RouteParameter.Optional}
+                defaults: new { id = RouteParameter.Optional }
             );
 
-            //config.Services.Replace(typeof(IHttpControllerSelector), new CustomControllerSelector(config));
-            config.Services.Replace(typeof(IHttpControllerSelector), new ControllerSelectorFromCustomHeader(config));
         }
     }
 }

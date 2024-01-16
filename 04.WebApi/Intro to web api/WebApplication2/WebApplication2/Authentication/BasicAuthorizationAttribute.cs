@@ -13,15 +13,15 @@ namespace WebApplication2.Authentication
     {
         protected override void HandleUnauthorizedRequest(HttpActionContext actionContext)
         {
-            if (HttpContext.Current.User.Identity.IsAuthenticated)
-            {
+            //if (HttpContext.Current.User.Identity.IsAuthenticated)
+            //{
                 base.HandleUnauthorizedRequest(actionContext);
-            }
-            else
-            {
-                // user role was forbidden
-                actionContext.Response = new HttpResponseMessage(HttpStatusCode.Forbidden);
-            }
+            //}
+            //else
+            //{
+            //    // user role was forbidden
+            //    actionContext.Response = new HttpResponseMessage(HttpStatusCode.Forbidden);
+            //}
         }
     }
 }

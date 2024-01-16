@@ -11,14 +11,31 @@ using System.Web.Http.Routing;
 
 namespace VersioningDemo.Versioning
 {
+    /// <summary>
+    /// Class for selecting controller based on query paramter
+    /// </summary>
     public class CustomControllerSelector : DefaultHttpControllerSelector
     {
+        /// <summary>
+        /// configuration of http app
+        /// </summary>
         HttpConfiguration _config;
+
+
+        /// <summary>
+        /// Constructor to create an instance of CustomControllerSelector
+        /// </summary>
+        /// <param name="config">Http configuration object</param>
         public CustomControllerSelector(HttpConfiguration config) : base(config)
         {
             this._config = config;
         }
 
+        /// <summary>
+        /// Method to select controller based on version specified in query paramter
+        /// </summary>
+        /// <param name="request">Http request info</param>
+        /// <returns>Description of the controller</returns>
         public override HttpControllerDescriptor SelectController(HttpRequestMessage request)
         {
             //get all possible api controllers

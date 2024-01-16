@@ -50,14 +50,14 @@ namespace WebApplication2.Authentication
                     identity.AddClaim(new Claim("r01f01", Convert.ToString(userDetails.r01f01)));
 
                     // create a principal that represent a user => it has an (identity object + roles)
-                    IPrincipal principlal = new GenericPrincipal(identity, userDetails.r01f04.Split(','));
+                    IPrincipal principal = new GenericPrincipal(identity, userDetails.r01f04.Split(','));
 
                     // now associate the user/principal with the thread
-                    Thread.CurrentPrincipal = principlal;
+                    Thread.CurrentPrincipal = principal;
                     if(HttpContext.Current != null)
                     {
                         // HttpContext is responsible for rq and res.
-                        HttpContext.Current.User = principlal;
+                        HttpContext.Current.User = principal;
                     }
                     else
                     {
