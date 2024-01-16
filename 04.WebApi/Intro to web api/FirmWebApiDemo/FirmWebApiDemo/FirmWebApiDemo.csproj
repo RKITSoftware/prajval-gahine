@@ -97,6 +97,7 @@
     <Compile Include="Models\ATD01.cs" />
     <Compile Include="Models\EMP01.cs" />
     <Compile Include="Models\USR01.cs" />
+    <Compile Include="Models\USR01_EMP01.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utility\ResponseWrapper.cs" />
   </ItemGroup>
@@ -105,6 +106,8 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Data\Employee.json" />
+    <Content Include="Data\UserEmployee.json" />
+    <Content Include="Data\Attendance.json" />
     <None Include="packages.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

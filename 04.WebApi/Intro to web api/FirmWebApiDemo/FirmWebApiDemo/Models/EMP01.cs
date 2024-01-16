@@ -76,5 +76,17 @@ namespace FirmWebApiDemo.Models
             }
         }
 
+        /// <summary>
+        /// Method to add employees in Employee.json file array
+        /// </summary>
+        /// <param name="employee">An Employee List of EMP01 type</param>
+        public static void SetEmployees(List<EMP01> lstEmployee)
+        {
+            using (StreamWriter sw = new StreamWriter(EmployeeFilePath))
+            {
+                sw.Write(JsonConvert.SerializeObject(lstEmployee, Formatting.Indented));
+            }
+        }
+
     }
 }

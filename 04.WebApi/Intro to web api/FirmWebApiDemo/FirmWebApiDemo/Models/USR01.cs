@@ -75,11 +75,11 @@ namespace FirmWebApiDemo.Models
         /// Method to add users in User.json file array
         /// </summary>
         /// <param name="user">An user List of USR01 type</param>
-        public static void SetUsers(List<USR01> users)
+        public static void SetUsers(List<USR01> lstUser)
         {
             using (StreamWriter sw = new StreamWriter(UserFilePath))
             {
-                sw.Write(JsonConvert.SerializeObject(users, Formatting.Indented));
+                sw.Write(JsonConvert.SerializeObject(lstUser, Formatting.Indented));
             }
         }
     }

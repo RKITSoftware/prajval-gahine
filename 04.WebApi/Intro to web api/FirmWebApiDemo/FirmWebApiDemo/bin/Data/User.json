@@ -3,24 +3,18 @@
     "r01f01": 101,
     "r01f02": "prajvalgahine",
     "r01f03": "prajval@123",
-    "r01f04": "admin,employee"
+    "r01f04": "admin"
   },
   {
     "r01f01": 102,
-    "r01f02": "krinsikayda",
-    "r01f03": "krinsi@123",
-    "r01f04": "employee"
+    "r01f02": "deeppatel",
+    "r01f03": "deep@123",
+    "r01f04": "admin,employee"
   },
   {
     "r01f01": 103,
-    "r01f02": "deeppatel",
-    "r01f03": "deep@123",
+    "r01f02": "yashlathiya",
+    "r01f03": "yash@123",
     "r01f04": "employee"
-  },
-  {
-    "r01f01": 104,
-    "r01f02": "priteshgahine",
-    "r01f03": "pritesh@123",
-    "r01f04": "admin,employee"
   }
 ]
