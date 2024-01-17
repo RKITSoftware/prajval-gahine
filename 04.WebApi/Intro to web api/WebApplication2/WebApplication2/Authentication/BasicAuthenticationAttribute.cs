@@ -16,6 +16,10 @@ namespace WebApplication2.Authentication
 {
     public class BasicAuthenticationAttribute : AuthorizationFilterAttribute
     {
+        /// <summary>
+        /// calls when a process requests authorization
+        /// </summary>
+        /// <param name="actionContext">HttpActionContext</param>
         public override void OnAuthorization(HttpActionContext actionContext)
         {
             // check if the request has an authorization header
@@ -42,7 +46,7 @@ namespace WebApplication2.Authentication
                     // Thread.CurrentPrincipal = new GenericPrincipal(new GenericIdentity(username), null);
 
                     // get the user details
-                    User userDetails = ValidateUser.GetUserDetails(username, password);
+                    USR01 userDetails = ValidateUser.GetUserDetails(username, password);
 
                     // create an identity => i.e., attach username which is used to identify the user
                     GenericIdentity identity = new GenericIdentity(username);

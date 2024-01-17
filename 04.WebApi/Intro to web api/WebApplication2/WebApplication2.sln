@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33516.290
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApplication2", "WebApplication2\WebApplication2.csproj", "{FAF6B0B7-1EA4-47DE-A18A-81D8E25C983D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasicAuthDemo", "WebApplication2\BasicAuthDemo.csproj", "{FAF6B0B7-1EA4-47DE-A18A-81D8E25C983D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExceptionInWebAPIProject", "ExceptionInWebAPIProject\ExceptionInWebAPIProject.csproj", "{214C2AA1-78F7-4BA9-BE9F-24AD0AECFFFB}"
 EndProject

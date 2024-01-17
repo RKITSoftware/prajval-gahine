@@ -29,8 +29,6 @@ namespace VersioningDemo.Versioning
         {
             _config = config;
         }
-
-
         /// <summary>
         /// Method to select controller based on version specified in accept header
         /// </summary>

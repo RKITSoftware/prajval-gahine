@@ -101,13 +101,20 @@ namespace FirmWebApiDemo.Controllers
         [BasicAuthorization(Roles = "admin")]
         public IHttpActionResult GetAttendance(int id)
         {
+            // check if employee exists
+            if (!EMP01.Exists(id))
+            {
+                return ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.NotFound, $"No Employee exists with employee id: {id}"));
+
+            }
+
             List<ATD01> lstAttendance = ATD01.GetAttendances();
 
             List<DateTime> lstEmployeeAttendance = lstAttendance.Where(attendance => attendance.d01f02 == id)
                 .Select(attendance => attendance.d01f03)
                 .ToList();
 
-            return Ok(ResponseWrapper.Wrap($"Attendance List of Employee with Employee id: {id}", lstEmployeeAttendance));
+            return Ok(ResponseWrapper.Wrap($"Attendance List of Employee with Employee id: {id}", new {attendances = lstEmployeeAttendance}));
         }
 
         // get my attendance
@@ -141,9 +148,7 @@ namespace FirmWebApiDemo.Controllers
                 .Select(attendance => attendance.d01f03)
                 .ToList();
 
-            return Ok(ResponseWrapper.Wrap($"Your attendance list", lstEmployeeAttendance));
-
-
+            return Ok(ResponseWrapper.Wrap($"Your attendance list", new { attendances = lstEmployeeAttendance }));
         }
     }
 }

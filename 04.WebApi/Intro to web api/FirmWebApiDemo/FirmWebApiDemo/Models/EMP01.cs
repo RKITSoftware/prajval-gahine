@@ -41,6 +41,19 @@ namespace FirmWebApiDemo.Models
         /// </summary>
         public DateTime p01f05 { get; set; }
 
+        /// <summary>
+        /// Checks whether any employee exists with supplied employee id
+        /// </summary>
+        /// <param name="id">Employee id</param>
+        /// <returns>Returns true if Employee exists else false</returns>
+
+        public static bool Exists(int id)
+        {
+            List<EMP01> lstEmployee = EMP01.GetEmployees();
+
+            return lstEmployee.Any(employee => employee.p01f01 == id);
+        }
+
         // get all employees
         /// <summary>
         /// Gets all employees list

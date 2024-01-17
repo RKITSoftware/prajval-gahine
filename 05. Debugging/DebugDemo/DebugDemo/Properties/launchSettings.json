@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "DebugDemo": {
+      "commandName": "Project",
+      "remoteDebugEnabled": false
+    }
+  }
+}

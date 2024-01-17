@@ -1,0 +1,17 @@
+F:\prajval-gahine\prajval-gahine\05. Debugging\DebugDemo\DebugDemo\bin\Debug\net6.0\DebugDemo.exe
+F:\prajval-gahine\prajval-gahine\05. Debugging\DebugDemo\DebugDemo\bin\Debug\net6.0\DebugDemo.deps.json
+F:\prajval-gahine\prajval-gahine\05. Debugging\DebugDemo\DebugDemo\bin\Debug\net6.0\DebugDemo.runtimeconfig.json
+F:\prajval-gahine\prajval-gahine\05. Debugging\DebugDemo\DebugDemo\bin\Debug\net6.0\DebugDemo.dll
+F:\prajval-gahine\prajval-gahine\05. Debugging\DebugDemo\DebugDemo\bin\Debug\net6.0\DebugDemo.pdb
+F:\prajval-gahine\prajval-gahine\05. Debugging\DebugDemo\DebugDemo\obj\Debug\net6.0\DebugDemo.csproj.AssemblyReference.cache
+F:\prajval-gahine\prajval-gahine\05. Debugging\DebugDemo\DebugDemo\obj\Debug\net6.0\DebugDemo.GeneratedMSBuildEditorConfig.editorconfig
+F:\prajval-gahine\prajval-gahine\05. Debugging\DebugDemo\DebugDemo\obj\Debug\net6.0\DebugDemo.AssemblyInfoInputs.cache
+F:\prajval-gahine\prajval-gahine\05. Debugging\DebugDemo\DebugDemo\obj\Debug\net6.0\DebugDemo.AssemblyInfo.cs
+F:\prajval-gahine\prajval-gahine\05. Debugging\DebugDemo\DebugDemo\obj\Debug\net6.0\DebugDemo.csproj.CoreCompileInputs.cache
+F:\prajval-gahine\prajval-gahine\05. Debugging\DebugDemo\DebugDemo\obj\Debug\net6.0\DebugDemo.dll
+F:\prajval-gahine\prajval-gahine\05. Debugging\DebugDemo\DebugDemo\obj\Debug\net6.0\refint\DebugDemo.dll
+F:\prajval-gahine\prajval-gahine\05. Debugging\DebugDemo\DebugDemo\obj\Debug\net6.0\DebugDemo.pdb
+F:\prajval-gahine\prajval-gahine\05. Debugging\DebugDemo\DebugDemo\obj\Debug\net6.0\DebugDemo.genruntimeconfig.cache
+F:\prajval-gahine\prajval-gahine\05. Debugging\DebugDemo\DebugDemo\obj\Debug\net6.0\ref\DebugDemo.dll
+F:\prajval-gahine\prajval-gahine\05. Debugging\DebugDemo\DebugDemo\obj\Debug\net6.0\DebugDemo.Properties.Resources.resources
+F:\prajval-gahine\prajval-gahine\05. Debugging\DebugDemo\DebugDemo\obj\Debug\net6.0\DebugDemo.csproj.GenerateResource.cache

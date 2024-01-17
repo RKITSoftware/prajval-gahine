@@ -8,8 +8,17 @@ using System.Web.Http;
 
 namespace ExceptionInWebAPIProject.Controllers
 {
+    /// <summary>
+    /// Class to handle request for controller = employee
+    /// </summary>
     public class EmployeeController : ApiController
     {
+        /// <summary>
+        /// Method to Get employee info with specified employee id
+        /// </summary>
+        /// <param name="id">Employee id</param>
+        /// <returns>Employe info</returns>
+        /// <exception cref="HttpResponseException"></exception>
         [HttpGet]
         [Route("api/employee/{id}")]
         public IHttpActionResult GetEmployee(int id)
@@ -42,6 +51,12 @@ namespace ExceptionInWebAPIProject.Controllers
             return Ok(employee);
         }
 
+        /// <summary>
+        /// Method to Get EmployeeSalary with specified employee id
+        /// </summary>
+        /// <param name="id">Employee id</param>
+        /// <exception cref="NotImplementedException">By default method is designed to throw NoImplementedException object</exception>
+
         [HttpGet]
         [Route("api/employee/salary/{id}")]
         [NotImplExceptionAttribute]
@@ -51,6 +66,11 @@ namespace ExceptionInWebAPIProject.Controllers
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Method to get employee attendances of employee with specified employee id
+        /// </summary>
+        /// <param name="id">Employee id</param>
+        /// <returns> Action result containing list of attendance-date or null </returns>
         [HttpGet]
         [Route("api/employee/attendance/{id}")]
         public HttpResponseMessage GetEmployeeAttendance(int id)

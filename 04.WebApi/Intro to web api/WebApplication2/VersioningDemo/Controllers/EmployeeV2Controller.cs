@@ -8,8 +8,6 @@ using VersioningDemo.Models;
 
 namespace VersioningDemo.Controllers
 {
-
-
     /// <summary>
     /// Employee controller of version v2
     /// </summary>
@@ -36,6 +34,5 @@ namespace VersioningDemo.Controllers
         {
             return EmployeeV2.GetEmployees().FirstOrDefault(employee => employee.p01f01 == id);
         }
-
     }
 }
