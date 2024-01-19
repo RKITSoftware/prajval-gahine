@@ -15,7 +15,7 @@ using Newtonsoft.Json.Serialization;
 
 namespace WebApplication2.Controllers
 {
-    //[BasicAuthenticationAttribute]
+    [BasicAuthenticationAttribute]
     public class CLEmployeeController : ApiController
     {
         /// <summary>
@@ -45,14 +45,33 @@ namespace WebApplication2.Controllers
         /// used to get all employee list
         /// </summary>
         /// <returns></returns>
-        [EnableCors(origins: "https://www.flipkart.com", headers: "*", methods: "*")]
+        //[DisableCors()]
+        //[EnableCors(origins: "https://www.google.com", headers: "name", methods: "*", exposedHeaders: "surname: gahine")]
+        //[EnableCors(origins: "https://www.google.com", headers: "authorization,surname", methods: "*", exposedHeaders: "surname: gahine")]
+        [EnableCors(origins: "https://www.google.com", headers: "authorization,accept,content-type,origin,x-my-header,deep", methods: "*", exposedHeaders: "name")]
         [HttpGet]
         [Route("api/employees")]
-        //[BasicAuthorizationAttribute(Roles = "Admin")]
-        public IHttpActionResult GetEmployee()
+        [BasicAuthorizationAttribute(Roles = "Admin")]
+        public HttpResponseMessage GetEmployee()
         {
-            return Ok(lstEmployee);
+            var resp = new HttpResponseMessage()
+            {
+                Content = new StringContent("list of employees")
+            };
+            resp.Headers.Add("name", "prajval");
+            return resp;
         }
+        //fetch("http://localhost:51414/api/employees",{
+        //headers:
+        //    {
+        //    Authorization: "Basic cHJpdGVzaGdhaGluZTpwcml0ZXNoQDEyMw==",
+        //      accept: "application/json",
+        //      "content-type": "application/json",
+        //      origin: "https://www.google.com",
+        //}
+        //}).then(resp => {
+        //    console.log("name: " + resp.headers.get("name"));
+        //});
 
         /// <summary>
         /// 

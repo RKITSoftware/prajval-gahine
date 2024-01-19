@@ -20,7 +20,6 @@ namespace FirmWebApiDemo.Models
         /// <summary>
         /// User Id
         /// </summary>
-        [Key]
         public int r01f01 { get; set; }
 
         /// <summary>
