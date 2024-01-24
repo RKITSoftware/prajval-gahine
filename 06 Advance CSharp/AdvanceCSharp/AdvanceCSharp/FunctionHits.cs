@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AdvanceC_
+namespace AdvanceCSharp
 {
     public static class Constants
     {
@@ -34,7 +34,7 @@ namespace AdvanceC_
         public ChildClass4()
         {
             int x = 4;
-            this.TimesCalled(ref x);
+            TimesCalled(ref x);
             Console.WriteLine(x);
         }
     }
@@ -44,7 +44,7 @@ namespace AdvanceC_
         public ChildClass5()
         {
             int x = 5;
-            this.TimesCalled(ref x);
+            TimesCalled(ref x);
             Console.WriteLine(x);
         }
     }

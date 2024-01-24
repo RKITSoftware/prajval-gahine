@@ -21,21 +21,6 @@ SET
 	R01F03=0xc64bd616e354661872cf4f84d48b87b46fcbd001
 WHERE
 	R01F02='prajvalgahine' AND R01F03=0x70c5263eb726ab1b9afba4e7a56c036ec48aac06;
-
-
--- trigger for attendance table insertion
-CREATE TRIGGER
-	TRG_ATD01_INSERT
-BEFORE INSERT ON
-	ATD01
-FOR EACH ROW
-	
-
--- attendance filling
-INSERT INTO
-	ATD01
-VALUES
-	();
     
     
 -- get current month attendance

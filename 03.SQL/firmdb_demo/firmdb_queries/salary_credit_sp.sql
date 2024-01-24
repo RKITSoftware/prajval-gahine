@@ -5,12 +5,12 @@ CREATE PROCEDURE
 	SALARY_CREDIT()
 BEGIN
 	-- stores the last salary credit date
-	DECLARE last_salary_credit_date VARCHAR(10);
+	DECLARE v_last_salary_credit_date VARCHAR(10);
     
-    SET last_salary_credit_date = (SELECT G01F01 FROM STG01);
+    SET v_last_salary_credit_date = (SELECT G01F01 FROM STG01);
     
     -- check if current month salary is already credited
-    IF (MONTH(last_salary_credit_date) = MONTH(CURDATE()) AND YEAR(last_salary_credit_date) = YEAR(CURDATE())) THEN
+    IF (MONTH(v_last_salary_credit_date) = MONTH(CURDATE()) AND YEAR(v_last_salary_credit_date) = YEAR(CURDATE())) THEN
 		SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'Salary already credited for current month';
     END IF;
@@ -18,8 +18,8 @@ BEGIN
 	-- creating a temporary table - EMP_MONTH_WH (employee month work hour) this stores employees current month employeeId and work hour
 	CREATE TEMPORARY TABLE
 		EMP_MONTH_WH(
-			H01F01 INT,
-            H01F02 FLOAT
+			H01F01 INT COMMENT 'Employee Id',
+            H01F02 FLOAT COMMENT 'Total work hours'
 		);
         
 	-- inserting employeeId and his/her current month workhour
@@ -32,12 +32,10 @@ BEGIN
 		ATD01
 	WHERE
 		-- D01F03 BETWEEN last_salary_credit_date AND CURDATE()
-		(last_salary_credit_date IS NULL) OR (last_salary_credit_date <= D01F03 AND D01F03 < CURDATE())
+		(v_last_salary_credit_date IS NULL) OR (v_last_salary_credit_date <= D01F03 AND D01F03 < CURDATE())
         -- MONTH(D01F03) = 1 AND YEAR(D01F03) = 2024
 	GROUP BY 
 		D01F02;
-        
-	SELECT * FROM EMP_MONTH_WH; 
     
 	-- inserting / crediting salary of all employees for current month
     INSERT INTO

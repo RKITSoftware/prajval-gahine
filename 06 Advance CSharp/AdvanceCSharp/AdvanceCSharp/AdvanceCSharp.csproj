@@ -6,7 +6,7 @@
     <RootNamespace>AdvanceCSharp</RootNamespace>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <StartupObject>AdvanceCSharp.FunctionHits</StartupObject>
+    <StartupObject>AdvanceCSharp.Program</StartupObject>
   </PropertyGroup>
 
 </Project>
