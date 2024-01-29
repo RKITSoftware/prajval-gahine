@@ -1,7 +1,5 @@
 ﻿using ExceptionInWebAPIProject.Filter;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
@@ -27,14 +25,14 @@ namespace ExceptionInWebAPIProject.Controllers
             string employee;
             if (id == 101)
             {
-                employee= null;
+                employee = null;
             }
             else
             {
                 employee = "prajval";
             }
 
-            if(employee == null)
+            if (employee == null)
             {
                 // constructor overload that takes HttpStatusCode
                 // throw new HttpResponseException(HttpStatusCode.NotFound);
@@ -75,7 +73,7 @@ namespace ExceptionInWebAPIProject.Controllers
         [Route("api/employee/attendance/{id}")]
         public HttpResponseMessage GetEmployeeAttendance(int id)
         {
-            if(id == 101)
+            if (id == 101)
             {
                 return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Employee with id 101 does not have attendance data");
             }

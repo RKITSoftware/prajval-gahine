@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using JwtAuthProject.BL;
+using JwtAuthProject.Models;
+using Newtonsoft.Json.Linq;
+using System;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Runtime.Remoting.Contexts;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Security.Principal;
@@ -13,11 +13,12 @@ using System.Threading;
 using System.Web;
 using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
-using JwtAuthProject.Models;
-using Newtonsoft.Json.Linq;
 
 namespace JwtAuthProject.Authentication
 {
+    /// <summary>
+    /// Custome Jwt class to manage jwt token for authentication
+    /// </summary>
     public class MyJwt
     {
         /// <summary>
@@ -115,7 +116,7 @@ namespace JwtAuthProject.Authentication
 
                 JObject json = JObject.Parse(decodedPayload);
 
-                USR01 user = USR01.GetUser(int.Parse(json["r01f01"].ToString()));
+                USR01 user = BLUser.GetUser(int.Parse(json["r01f01"].ToString()));
 
 
                 // create an identity => i.e., attach username which is used to identify the user

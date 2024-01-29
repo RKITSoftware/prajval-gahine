@@ -1,13 +1,8 @@
 using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Net;
-using System.Text;
 using System.Web;
 using System.Web.Http;
-using System.Web.Http.Controllers;
-using System.Web.Routing;
 
 namespace JwtAuthProject
 {
@@ -20,11 +15,11 @@ namespace JwtAuthProject
             string tokenType = string.Empty;
             string tokenValue = string.Empty;
 
-            HttpApplication context = (HttpApplication) sender;
+            HttpApplication context = (HttpApplication)sender;
             //System.Diagnostics.Debug.WriteLine(context.Request.Headers.ToString().Split('&').FirstOrDefault(header => header.Split('=')[0].Equals("Authorization")));
             string[] headers = context.Request.Headers.ToString().Split('&');
 
-            for (int i = 0; i< headers.Length; i++)
+            for (int i = 0; i < headers.Length; i++)
             {
                 string[] header = headers[i].Split('=');
                 string headerKey = header[0];
@@ -44,7 +39,7 @@ namespace JwtAuthProject
             System.Diagnostics.Debug.WriteLine("gahine");
 
             // if jwt not exists
-            if(tokenType == "")
+            if (tokenType == "")
             {
                 context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
                 context.Response.End();

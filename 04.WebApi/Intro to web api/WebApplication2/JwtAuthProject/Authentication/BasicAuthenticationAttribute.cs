@@ -1,6 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using JwtAuthProject.Models;
+using System;
 using System.Net;
 using System.Net.Http;
 using System.Security.Claims;
@@ -10,7 +9,6 @@ using System.Threading;
 using System.Web;
 using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
-using JwtAuthProject.Models;
 
 namespace JwtAuthProject.Authentication
 {
@@ -40,7 +38,7 @@ namespace JwtAuthProject.Authentication
                 string username = username_password[0];
                 string password = username_password[1];
 
-                if(ValidateUser.Login(username, password))
+                if (ValidateUser.Login(username, password))
                 {
                     // create new generic principal
                     // Thread.CurrentPrincipal = new GenericPrincipal(new GenericIdentity(username), null);
@@ -58,7 +56,7 @@ namespace JwtAuthProject.Authentication
 
                     // now associate the user/principal with the thread
                     Thread.CurrentPrincipal = principal;
-                    if(HttpContext.Current != null)
+                    if (HttpContext.Current != null)
                     {
                         // HttpContext is responsible for rq and res.
                         HttpContext.Current.User = principal;

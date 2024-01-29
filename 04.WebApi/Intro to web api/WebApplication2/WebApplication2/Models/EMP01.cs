@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace WebApplication2.Models
+﻿namespace WebApplication2.Models
 {
+    /// <summary>
+    /// Employee class to store employee specific data
+    /// </summary>
     public class EMP01
     {
         /// <summary>
@@ -16,7 +14,6 @@ namespace WebApplication2.Models
         /// Employee name
         /// </summary>
         public string p01f02 { get; set; }
-
 
         /// <summary>
         /// Constructor to create EMP01 instance with employee id and name

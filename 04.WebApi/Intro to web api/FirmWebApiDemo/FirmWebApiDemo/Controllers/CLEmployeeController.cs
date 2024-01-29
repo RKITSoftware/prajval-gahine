@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Security.Claims;
-using System.Web;
-using System.Web.Http;
-using FirmWebApiDemo.Authentication;
+﻿using FirmWebApiDemo.Authentication;
+using FirmWebApiDemo.BL;
 using FirmWebApiDemo.Models;
 using FirmWebApiDemo.Utility;
-using Newtonsoft.Json.Linq;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net.Http;
+using System.Security.Claims;
+using System.Web.Http;
 
 namespace FirmWebApiDemo.Controllers
 {
@@ -27,7 +24,7 @@ namespace FirmWebApiDemo.Controllers
         [BasicAuthorization(Roles = "admin")]
         public IHttpActionResult GetEmployees()
         {
-            List<EMP01> lstEmployee = EMP01.GetEmployees();
+            List<EMP01> lstEmployee = BLEmployee.GetEmployees();
 
             return Ok(ResponseWrapper.Wrap("List of employees", lstEmployee));
         }
@@ -41,12 +38,6 @@ namespace FirmWebApiDemo.Controllers
         [BasicAuthorization(Roles = "employee")]
         public IHttpActionResult PostAttendance()
         {
-            // access Attendance.json file and if current employee's attendance is not already filled for todays date
-            // then add the attendance to Attendance.json file
-            // else don't
-
-            List<ATD01> lstAttendance = ATD01.GetAttendances();
-
             // get claims from identity attached to User or Thread.CurrentPrincipal
             IEnumerable<Claim> claims = ((ClaimsIdentity)User.Identity).Claims;
 
@@ -54,67 +45,35 @@ namespace FirmWebApiDemo.Controllers
             int userId = int.Parse(claims.Where(c => c.Type == "r01f01")
                    .Select(c => c.Value).SingleOrDefault());
 
-            // now get employee id for given userid from User-Employee junction
-            List<USR01_EMP01> lstUserEmployee = USR01_EMP01.GetUserEmployees();
+            // invoke AddAtendance method of BLAttendance class and get the response status info
+            ResponseStatusInfo responseStatusInfo = BLEmployee.AddAttendance(userId);
 
-            USR01_EMP01 UserEmployee = lstUserEmployee.FirstOrDefault(ue => ue.p01f01 == userId);
-
-            if(UserEmployee == null)    // no employee is associated with given userid
+            if (responseStatusInfo.IsRequestSuccessful == false)
             {
-                return ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.BadRequest, "You are not an employee"));
+                // attendance filling failed
+                return ResponseMessage(Request.CreateErrorResponse(responseStatusInfo.StatusCode, responseStatusInfo.Message));
+
             }
-
-            int EmployeeId = UserEmployee.p01f02;
-
-
-            if(lstAttendance.Any(attendance => attendance.d01f02 == EmployeeId && attendance.d01f03.Date == DateTime.Now.Date))
-            {
-                return ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Your attendance for today was already filled"));
-            }
-            else
-            {
-                // get nextAttendanceId
-                int NextAttendanceId = -1;
-                if(lstAttendance.Count == 0)
-                {
-                    NextAttendanceId = 1;
-                }
-                else
-                {
-                    NextAttendanceId = lstAttendance[lstAttendance.Count - 1].d01f01 + 1;
-                }
-
-                // create an attendance .net object and save it to Attendance.json file
-                ATD01 attendance = new ATD01(NextAttendanceId, EmployeeId, DateTime.Now);
-                ATD01.SetAttendance(attendance);
-            }
-            return Ok(ResponseWrapper.Wrap("Today's attendance was filled successfully", null));
+            return Ok(ResponseWrapper.Wrap(responseStatusInfo.Message, null));
         }
 
         // get another employee attendance - admin
         /// <summary>
         /// Employee controller action to get an employee attendances
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">Employee id</param>
         /// <returns></returns>
         [Route("attendance/{id}")]
         [BasicAuthorization(Roles = "admin")]
         public IHttpActionResult GetAttendance(int id)
         {
-            // check if employee exists
-            if (!EMP01.Exists(id))
+            ResponseStatusInfo responseStatusInfo = BLEmployee.FetchAttendances(id);
+
+            if (responseStatusInfo.IsRequestSuccessful == false)
             {
-                return ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.NotFound, $"No Employee exists with employee id: {id}"));
-
+                return ResponseMessage(Request.CreateErrorResponse(responseStatusInfo.StatusCode, responseStatusInfo.Message));
             }
-
-            List<ATD01> lstAttendance = ATD01.GetAttendances();
-
-            List<DateTime> lstEmployeeAttendance = lstAttendance.Where(attendance => attendance.d01f02 == id)
-                .Select(attendance => attendance.d01f03)
-                .ToList();
-
-            return Ok(ResponseWrapper.Wrap($"Attendance List of Employee with Employee id: {id}", new {attendances = lstEmployeeAttendance}));
+            return Ok(ResponseWrapper.Wrap(responseStatusInfo.Message, responseStatusInfo.Data));
         }
 
         // get my attendance
@@ -123,7 +82,6 @@ namespace FirmWebApiDemo.Controllers
         [BasicAuthorization(Roles = "employee")]
         public IHttpActionResult GetAttendance()
         {
-            List<ATD01> lstAttendance = ATD01.GetAttendances();
 
             // get claims from identity attached to User or Thread.CurrentPrincipal
             IEnumerable<Claim> claims = ((ClaimsIdentity)User.Identity).Claims;
@@ -132,23 +90,14 @@ namespace FirmWebApiDemo.Controllers
             int userId = int.Parse(claims.Where(c => c.Type == "r01f01")
                    .Select(c => c.Value).SingleOrDefault());
 
-            // now get employee id for given userid from User-Employee junction
-            List<USR01_EMP01> lstUserEmployee = USR01_EMP01.GetUserEmployees();
+            ResponseStatusInfo responseStatusInfo = BLEmployee.FetchAttendance(userId);
 
-            USR01_EMP01 UserEmployee = lstUserEmployee.FirstOrDefault(ue => ue.p01f01 == userId);
-
-            if (UserEmployee == null)    // no employee is associated with given userid
+            if (responseStatusInfo.IsRequestSuccessful == false)
             {
-                return ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.BadRequest, "You are not an employee"));
+                return ResponseMessage(Request.CreateErrorResponse(responseStatusInfo.StatusCode, responseStatusInfo.Message));
+
             }
-
-            int EmployeeId = UserEmployee.p01f02;
-
-            List<DateTime> lstEmployeeAttendance = lstAttendance.Where(attendance => attendance.d01f02 == EmployeeId)
-                .Select(attendance => attendance.d01f03)
-                .ToList();
-
-            return Ok(ResponseWrapper.Wrap($"Your attendance list", new { attendances = lstEmployeeAttendance }));
+            return Ok(ResponseWrapper.Wrap(responseStatusInfo.Message, responseStatusInfo.Data));
         }
     }
 }

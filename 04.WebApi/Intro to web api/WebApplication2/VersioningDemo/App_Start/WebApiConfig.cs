@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Web.Http;
-using System.Web.Http.Controllers;
+﻿using System.Web.Http;
 using System.Web.Http.Dispatcher;
 using VersioningDemo.Versioning;
 

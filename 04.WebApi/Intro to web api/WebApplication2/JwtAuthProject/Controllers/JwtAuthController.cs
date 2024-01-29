@@ -1,15 +1,12 @@
-﻿using Microsoft.IdentityModel.JsonWebTokens;
+﻿using JwtAuthProject.Authentication;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Security.Claims;
 using System.Text;
 using System.Web.Http;
-using JwtAuthProject.Authentication;
 
 namespace JwtAuthProject.Controllers
 {
@@ -48,9 +45,9 @@ namespace JwtAuthProject.Controllers
 
             // token object
             var token = new JwtSecurityToken(
-                issuer, 
-                issuer, 
-                jwtClaims, 
+                issuer,
+                issuer,
+                jwtClaims,
                 expires: DateTime.Now.AddMinutes(1),
                 signingCredentials: Credentials);
 

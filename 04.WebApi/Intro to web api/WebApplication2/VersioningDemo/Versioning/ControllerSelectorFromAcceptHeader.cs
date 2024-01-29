@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
-using System.Web;
 using System.Web.Http;
 using System.Web.Http.Controllers;
 using System.Web.Http.Dispatcher;
@@ -25,7 +23,7 @@ namespace VersioningDemo.Versioning
         /// Constructor to create an instance of ControllerSelectorFromAcceptHeader
         /// </summary>
         /// <param name="config">Http configuration object</param>
-        public ControllerSelectorFromAcceptHeader(HttpConfiguration config): base(config)
+        public ControllerSelectorFromAcceptHeader(HttpConfiguration config) : base(config)
         {
             _config = config;
         }
@@ -47,14 +45,14 @@ namespace VersioningDemo.Versioning
             string apiVersion = null;
 
             // get version info from accept header
-            var acceptHeader  = request.Headers.Accept.Where(header => header.Parameters.Count(value => value.Name == "Employee-Version") > 0);
+            var acceptHeader = request.Headers.Accept.Where(header => header.Parameters.Count(value => value.Name == "Employee-Version") > 0);
 
-            if(acceptHeader.Any())
+            if (acceptHeader.Any())
             {
                 apiVersion = acceptHeader.First().Parameters.First(x => x.Name == "Employee-Version").Value;
             }
 
-            if(apiVersion == "1" || apiVersion == "2")
+            if (apiVersion == "1" || apiVersion == "2")
             {
                 controllerName += $"v{apiVersion}";
             }
@@ -65,7 +63,7 @@ namespace VersioningDemo.Versioning
 
             // search for the controller in controllers variable
             HttpControllerDescriptor controllerDescriptor;
-            if(controllers.TryGetValue(controllerName, out controllerDescriptor))
+            if (controllers.TryGetValue(controllerName, out controllerDescriptor))
             {
                 return controllerDescriptor;
             }

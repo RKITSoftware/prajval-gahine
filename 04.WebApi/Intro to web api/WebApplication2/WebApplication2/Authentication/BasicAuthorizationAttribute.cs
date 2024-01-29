@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
+﻿using System.Net;
 using System.Net.Http;
 using System.Web;
 using System.Web.Http;
@@ -9,6 +6,9 @@ using System.Web.Http.Controllers;
 
 namespace WebApplication2.Authentication
 {
+    /// <summary>
+    /// Attribute to handle user authorization
+    /// </summary>
     public class BasicAuthorizationAttribute : AuthorizeAttribute 
     {
         protected override void HandleUnauthorizedRequest(HttpActionContext actionContext)

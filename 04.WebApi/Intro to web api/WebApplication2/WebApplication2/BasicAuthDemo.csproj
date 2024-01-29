@@ -123,6 +123,8 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Authentication\BasicAuthenticationAttribute.cs" />
     <Compile Include="Authentication\BasicAuthorizationAttribute.cs" />
+    <Compile Include="BL\BLAttendance.cs" />
+    <Compile Include="BL\BLUser.cs" />
     <Compile Include="Controllers\CLAttendanceController.cs" />
     <Compile Include="Controllers\CLDefaultController.cs" />
     <Compile Include="Controllers\CLEmployeeController.cs" />

@@ -1,20 +1,18 @@
 ﻿using Newtonsoft.Json.Linq;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Reflection;
-using System.Security.Cryptography;
 using System.Web.Http;
 using System.Web.Http.Cors;
-using System.Web.ModelBinding;
 using WebApplication2.Models;
 using WebApplication2.Authentication;
-using Newtonsoft.Json.Serialization;
 
 namespace WebApplication2.Controllers
 {
+    /// <summary>
+    /// Employee Controller to handle employee related apis/endpoints
+    /// </summary>
     [BasicAuthenticationAttribute]
     public class CLEmployeeController : ApiController
     {

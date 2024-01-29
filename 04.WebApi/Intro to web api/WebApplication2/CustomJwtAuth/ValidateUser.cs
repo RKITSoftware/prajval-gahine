@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using CustomJwtAuth.Models;
 using System.Linq;
-using System.Web;
-using CustomJwtAuth.Models;
 
 namespace CustomJwtAuth
 {
@@ -19,7 +16,7 @@ namespace CustomJwtAuth
 
 
             // role based authentication
-            if(User.GetUsers().Any<User>(user => username == user.r01f02 && password == user.r01f03))
+            if (User.GetUsers().Any<User>(user => username == user.r01f02 && password == user.r01f03))
             {
                 return true;
             }

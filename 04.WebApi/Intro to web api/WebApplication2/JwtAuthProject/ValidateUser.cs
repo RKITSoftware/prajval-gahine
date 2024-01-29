@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿
+using JwtAuthProject.BL;
 using JwtAuthProject.Models;
+using System.Linq;
 
 namespace JwtAuthProject
 {
@@ -17,7 +16,7 @@ namespace JwtAuthProject
         public static bool Login(string username, string password)
         {
             // role based authentication
-            if(USR01.GetUsers().Any<USR01>(user => username == user.r01f02 && password == user.r01f03))
+            if (BLUser.GetUsers().Any<USR01>(user => username == user.r01f02 && password == user.r01f03))
             {
                 return true;
             }
@@ -34,7 +33,7 @@ namespace JwtAuthProject
         /// <returns>returns instance of USR01 if credentials are valid else null</returns>
         public static USR01 GetUserDetails(string username, string password)
         {
-            return USR01.GetUsers().FirstOrDefault<USR01>(user => username == user.r01f02 && password == user.r01f03);
+            return BLUser.GetUsers().FirstOrDefault<USR01>(user => username == user.r01f02 && password == user.r01f03);
         }
     }
 }

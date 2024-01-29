@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.Linq;
 using System.Net.Http;
 using System.Web;
 using System.Web.Http;
@@ -58,7 +56,7 @@ namespace VersioningDemo.Versioning
             }
 
             // if vesion is 1 then select the EmployeeV1 api
-            if(apiVersion == "1" || apiVersion == "2")
+            if (apiVersion == "1" || apiVersion == "2")
             {
                 // update the controller name
                 controllerName += "v" + apiVersion;

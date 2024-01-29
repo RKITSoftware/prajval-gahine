@@ -24,7 +24,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LINQDemo", "LINQDemo\LINQDe
 		{4A34CFD2-FC71-47DE-97F0-D26531F1218D} = {4A34CFD2-FC71-47DE-97F0-D26531F1218D}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ORMLiteDemo", "ORMLiteDemo\ORMLiteDemo.csproj", "{08DFB3B6-CE79-450A-A292-08B016785B01}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ORMLiteDemo", "ORMLiteDemo\ORMLiteDemo.csproj", "{08DFB3B6-CE79-450A-A292-08B016785B01}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SecurityAndCryptographyDemo", "SecurityAndCryptographyDemo\SecurityAndCryptographyDemo.csproj", "{C69CBC5B-7701-49AF-85B9-0BB5D4CA2BB7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DynamicTypeDemo", "DynamicTypeDemo\DynamicTypeDemo.csproj", "{EB35E55B-3EA4-4219-8A12-1A8D1F04384D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -72,6 +76,14 @@ Global
 		{08DFB3B6-CE79-450A-A292-08B016785B01}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{08DFB3B6-CE79-450A-A292-08B016785B01}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{08DFB3B6-CE79-450A-A292-08B016785B01}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C69CBC5B-7701-49AF-85B9-0BB5D4CA2BB7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C69CBC5B-7701-49AF-85B9-0BB5D4CA2BB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C69CBC5B-7701-49AF-85B9-0BB5D4CA2BB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C69CBC5B-7701-49AF-85B9-0BB5D4CA2BB7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB35E55B-3EA4-4219-8A12-1A8D1F04384D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB35E55B-3EA4-4219-8A12-1A8D1F04384D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB35E55B-3EA4-4219-8A12-1A8D1F04384D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB35E55B-3EA4-4219-8A12-1A8D1F04384D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

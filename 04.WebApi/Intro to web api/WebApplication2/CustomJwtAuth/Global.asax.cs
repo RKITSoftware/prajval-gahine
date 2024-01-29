@@ -1,13 +1,10 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Web;
-using System.Web.Http;
-using System.Web.Routing;
 using System.IdentityModel.Tokens.Jwt;
+using System.Net;
 using System.Security.Cryptography;
 using System.Text;
+using System.Web;
+using System.Web.Http;
 
 namespace CustomJwtAuth
 {
@@ -60,7 +57,7 @@ namespace CustomJwtAuth
                 long exp = (long)expiryTotalSecond;
 
                 // compare expiry and curr time
-                if(exp >= currTotalSecond)
+                if (exp >= currTotalSecond)
                 {
                     return true;
                 }
@@ -73,7 +70,7 @@ namespace CustomJwtAuth
         protected void Application_BeginRequest(Object sender, EventArgs e) //Not triggered with PUT
         {
 
-            if(Context.Request.Url.AbsoluteUri != "http://localhost:6372/api/gettoken")
+            if (Context.Request.Url.AbsoluteUri != "http://localhost:6372/api/gettoken")
             {
                 // E.g., tokenType = Bearer and tokenValue = jwt
                 string tokenType = string.Empty;

@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using System.Web.Http;
-using System.Web.Http.Dispatcher;
-using System.Web.Http.Controllers;
 using System.Net.Http;
+using System.Web.Http;
+using System.Web.Http.Controllers;
+using System.Web.Http.Dispatcher;
 using System.Web.Http.Routing;
 
 namespace VersioningDemo.Versioning
@@ -55,7 +53,7 @@ namespace VersioningDemo.Versioning
                 apiVersion = (string)request.Headers.GetValues(versionCustomHeader).FirstOrDefault().Split(',')[0];
             }
 
-            if(apiVersion == "1" || apiVersion == "2")
+            if (apiVersion == "1" || apiVersion == "2")
             {
                 // change the controller name based on the version value
                 controllerName += "v" + apiVersion;
@@ -69,7 +67,7 @@ namespace VersioningDemo.Versioning
             // create http controller object
             HttpControllerDescriptor controllerDescriptor;
 
-            if(controllers.TryGetValue(controllerName, out controllerDescriptor))
+            if (controllers.TryGetValue(controllerName, out controllerDescriptor))
             {
                 return controllerDescriptor;
             }

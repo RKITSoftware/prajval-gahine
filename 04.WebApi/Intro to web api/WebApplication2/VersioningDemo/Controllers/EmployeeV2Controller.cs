@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
+using VersioningDemo.BL;
 using VersioningDemo.Models;
 
 namespace VersioningDemo.Controllers
@@ -19,9 +17,9 @@ namespace VersioningDemo.Controllers
         /// <returns>list of employee</returns>
         [HttpGet]
         //[Route("getemployees")]
-        public List<EmployeeV2> GetEmployees()
+        public List<EMP01V2> GetEmployees()
         {
-            return EmployeeV2.GetEmployees();
+            return BLEmployeeV2.GetEmployees();
         }
 
         /// <summary>
@@ -30,9 +28,9 @@ namespace VersioningDemo.Controllers
         /// <param name="id">Employee id</param>
         /// <returns>Employee data</returns>
         [HttpGet]
-        public EmployeeV2 GetEmployee(int id)
+        public EMP01V2 GetEmployee(int id)
         {
-            return EmployeeV2.GetEmployees().FirstOrDefault(employee => employee.p01f01 == id);
+            return BLEmployeeV2.GetEmployees().FirstOrDefault(employee => employee.p01f01 == id);
         }
     }
 }

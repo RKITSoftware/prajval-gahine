@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Security.Claims;
@@ -14,6 +12,9 @@ using WebApplication2.Models;
 
 namespace WebApplication2.Authentication
 {
+    /// <summary>
+    /// Attribute to perform user authentication based on cerdentials
+    /// </summary>
     public class BasicAuthenticationAttribute : AuthorizationFilterAttribute
     {
         /// <summary>

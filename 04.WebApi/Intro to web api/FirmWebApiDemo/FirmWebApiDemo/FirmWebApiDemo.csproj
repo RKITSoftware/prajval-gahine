@@ -88,6 +88,10 @@
     <Compile Include="Authentication\BasicAuthentication.cs" />
     <Compile Include="Authentication\BasicAuthorization.cs" />
     <Compile Include="Authentication\ValidateUser.cs" />
+    <Compile Include="BL\BLAttendance.cs" />
+    <Compile Include="BL\BLEmployee.cs" />
+    <Compile Include="BL\BLUser.cs" />
+    <Compile Include="BL\BLUser_Employee.cs" />
     <Compile Include="Controllers\CLEmployeeController.cs" />
     <Compile Include="Controllers\CLMockController.cs" />
     <Compile Include="Controllers\CLUserController.cs" />
@@ -99,6 +103,7 @@
     <Compile Include="Models\USR01.cs" />
     <Compile Include="Models\USR01_EMP01.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utility\ResponseStatusInfo.cs" />
     <Compile Include="Utility\ResponseWrapper.cs" />
   </ItemGroup>
   <ItemGroup>

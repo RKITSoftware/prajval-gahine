@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Web.Http;
+﻿using System.Web.Http;
 using WebApplication2.Authentication;
 
 namespace WebApplication2.Controllers
 {
+    /// <summary>
+    /// Default controller to check server is setup properly
+    /// </summary>
     public class CLDefaultController : ApiController
     {
         [HttpGet]

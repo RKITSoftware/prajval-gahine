@@ -1,11 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Linq;
 using WebApplication2.Models;
+using WebApplication2.BL;
 
 namespace WebApplication2
 {
+    /// <summary>
+    /// Class to perform credential verification realted operations
+    /// </summary>
     public class ValidateUser
     {
         /// <summary>
@@ -17,7 +18,7 @@ namespace WebApplication2
         public static bool Login(string username, string password)
         {
             // role based authentication
-            if (USR01.GetUsers().Any<USR01>(user => username == user.r01f02 && password == user.r01f03))
+            if (BLUser.GetUsers().Any<USR01>(user => username == user.r01f02 && password == user.r01f03))
             {
                 return true;
             }
@@ -34,7 +35,7 @@ namespace WebApplication2
         /// <returns>returns instance of USR01 if credentials are valid else null</returns>
         public static USR01 GetUserDetails(string username, string password)
         {
-            return USR01.GetUsers().FirstOrDefault<USR01>(user => username == user.r01f02 && password == user.r01f03);
+            return BLUser.GetUsers().FirstOrDefault<USR01>(user => username == user.r01f02 && password == user.r01f03);
         }
     }
 }

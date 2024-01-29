@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Web.Http;
-using JwtAuthProject.Authentication;
+﻿using JwtAuthProject.Authentication;
+using JwtAuthProject.BL;
 using JwtAuthProject.Models;
+using System.Web.Http;
 
 namespace JwtAuthProject.Controllers
 {
@@ -24,8 +20,8 @@ namespace JwtAuthProject.Controllers
         [BearerAuthentication]
         public IHttpActionResult GetEmployee(int id)
         {
-            EMP01 employee = EMP01.GetEmployee(id);
-            if(employee != null)
+            EMP01 employee = BLEmployee.GetEmployee(id);
+            if (employee != null)
             {
                 return Ok(employee);
             }

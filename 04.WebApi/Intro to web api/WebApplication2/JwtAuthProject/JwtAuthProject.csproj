@@ -130,6 +130,8 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Authentication\BasicAuthenticationAttribute.cs" />
     <Compile Include="Authentication\BearerAuthentication.cs" />
+    <Compile Include="BL\BLEmployee.cs" />
+    <Compile Include="BL\BLUser.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\JwtAuthController.cs" />
     <Compile Include="Global.asax.cs">

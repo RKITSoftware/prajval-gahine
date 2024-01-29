@@ -1,16 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Http.Filters;
-using System.Web.Http.Controllers;
-using System.Net.Http;
-using System.Net;
-using System.Text;
+﻿using FirmWebApiDemo.BL;
 using FirmWebApiDemo.Models;
-using System.Security.Principal;
+using System;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Security.Claims;
+using System.Security.Principal;
+using System.Text;
 using System.Threading;
+using System.Web;
+using System.Web.Http.Controllers;
+using System.Web.Http.Filters;
 
 namespace FirmWebApiDemo.Authentication
 {
@@ -19,7 +19,7 @@ namespace FirmWebApiDemo.Authentication
         public override void OnAuthorization(HttpActionContext actionContext)
         {
             // check if Authorization header is present
-            if(actionContext.Request.Headers.Authorization == null)
+            if (actionContext.Request.Headers.Authorization == null)
             {
                 actionContext.Response = actionContext.Request.CreateErrorResponse(HttpStatusCode.Unauthorized, "No Authorized token was found");
             }
@@ -38,10 +38,10 @@ namespace FirmWebApiDemo.Authentication
                 string username = username_password[0];
                 string password = username_password[1];
 
-                if(ValidateUser.Login(username, password))
+                if (ValidateUser.Login(username, password))
                 {
                     // get user details
-                    USR01 existingUser = USR01.GetUsers().FirstOrDefault(user => user.r01f02 == username);
+                    USR01 existingUser = BLUser.GetUsers().FirstOrDefault(user => user.r01f02 == username);
 
                     // create identity
                     GenericIdentity identity = new GenericIdentity(username);
@@ -51,10 +51,10 @@ namespace FirmWebApiDemo.Authentication
 
                     // create principal
                     IPrincipal principal = new GenericPrincipal(identity, existingUser.r01f04.Split(','));
-                
+
                     // associate Thread with the principal and also with HttpContext
                     Thread.CurrentPrincipal = principal;
-                    if(HttpContext.Current != null)
+                    if (HttpContext.Current != null)
                     {
                         HttpContext.Current.User = principal;
                     }
