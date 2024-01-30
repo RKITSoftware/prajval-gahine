@@ -7,14 +7,15 @@ using System.Web;
 
 namespace FirmAdvanceDemo.Models
 {
-    public class PSN01
+    public class PSN01 : IModel
     {
         /// <summary>
         /// Position Id
         /// </summary>
         [AutoIncrement]
         [PrimaryKey]
-        public int n01f01 { get; set; }
+        [Alias("n01f01")]
+        public int Id { get; set; }
 
         /// <summary>
         /// Position Name

@@ -20,10 +20,14 @@ namespace FirmAdvanceDemo
             //    routeTemplate: "api/{controller}/{id}",
             //    defaults: new { id = RouteParameter.Optional }
             //);
+
             string ConnString = ConfigurationManager.ConnectionStrings["MyDB"].ConnectionString;
             System.Diagnostics.Debug.WriteLine(ConnString);
 
-            CreateTables.CreateTablesMethod();
+            //CreateTables.CreateTablesMethod();
+
+            GlobalConfiguration.Configuration.Formatters
+                .Remove(GlobalConfiguration.Configuration.Formatters.XmlFormatter);
         }
     }
 }

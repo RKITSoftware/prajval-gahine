@@ -11,7 +11,8 @@ namespace FirmAdvanceDemo.Models
     {
         [AutoIncrement]
         [PrimaryKey]
-        public int p01f01 { get; set; }
+        [Alias("p01f01")]
+        public int Id { get; set; }
 
         [ValidateNotNull]
         public string p01f02 { get; set; }

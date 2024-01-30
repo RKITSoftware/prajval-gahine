@@ -152,10 +152,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="BL\BLRole.cs" />
+    <Compile Include="BL\.BLDepartment.cs" />
+    <Compile Include="BL\BLResource.cs" />
+    <Compile Include="BL\.BLRole.cs" />
+    <Compile Include="BL\BLUser.cs" />
     <Compile Include="Connection\Connection.cs" />
     <Compile Include="ControllerResponseReturner.cs" />
+    <Compile Include="Controllers\CLDepartmentController.cs" />
+    <Compile Include="Controllers\CLPositionController.cs" />
     <Compile Include="Controllers\CLRoleController.cs" />
+    <Compile Include="Controllers\CLUserController.cs" />
     <Compile Include="Controllers\DefaultController.cs" />
     <Compile Include="CreateTables.cs" />
     <Compile Include="Global.asax.cs">
@@ -164,14 +170,16 @@
     <Compile Include="Models\ATD01.cs" />
     <Compile Include="Models\DPT01.cs" />
     <Compile Include="Models\EMP01.cs" />
+    <Compile Include="Models\IModel.cs" />
     <Compile Include="Models\LVE01.cs" />
     <Compile Include="Models\PSN01.cs" />
     <Compile Include="Models\RLE01.cs" />
-    <Compile Include="Models\RLE01USR01.cs" />
+    <Compile Include="Models\USR01RLE01.cs" />
     <Compile Include="Models\SLY01.cs" />
     <Compile Include="Models\USR01.cs" />
     <Compile Include="Models\USR01EMP01.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utitlity\GeneralUtility.cs" />
     <Compile Include="Utitlity\ResponseStatusInfo.cs" />
     <Compile Include="Utitlity\ResponseWrapper.cs" />
   </ItemGroup>
@@ -202,7 +210,9 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>53809</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:53809/</IISUrl>
+          <IISUrl>http://localhost:53812</IISUrl>
+          <OverrideIISAppRootUrl>True</OverrideIISAppRootUrl>
+          <IISAppRootUrl>http://localhost:53812</IISAppRootUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

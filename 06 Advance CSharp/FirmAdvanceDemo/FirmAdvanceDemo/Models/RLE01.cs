@@ -10,14 +10,23 @@ namespace FirmAdvanceDemo.Models
     /// <summary>
     /// Role class
     /// </summary>
-    public class RLE01
+    public class RLE01 : IModel
     {
+
+        public static string TableName;
+        static RLE01()
+        {
+            TableName = "Role";
+        }
+
+
         /// <summary>
         /// Role Id
         /// </summary>
         [AutoIncrement]
         [PrimaryKey]
-        public int e01f01 { get; set; }
+        [Alias("e01f01")]
+        public int Id { get; set; }
 
         /// <summary>
         /// Role name

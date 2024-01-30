@@ -7,14 +7,15 @@ using System.Web;
 
 namespace FirmAdvanceDemo.Models
 {
-    public class ATD01
+    public class ATD01 : IModel
     {
         /// <summary>
         /// Attendance Id
         /// </summary>
         [AutoIncrement]
         [PrimaryKey]
-        public int d01f01 { get; set; }
+        [Alias("d01f01")]
+        public int Id { get; set; }
 
         /// <summary>
         /// Employee Id

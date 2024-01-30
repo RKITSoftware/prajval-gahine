@@ -29,7 +29,7 @@ namespace FirmAdvanceDemo
                 db.CreateTableIfNotExists<DPT01>();
                 db.CreateTableIfNotExists<PSN01>();
                 db.CreateTableIfNotExists<USR01>();
-                db.CreateTableIfNotExists<RLE01USR01>();
+                db.CreateTableIfNotExists<USR01RLE01>();
                 db.CreateTableIfNotExists<EMP01>();
                 db.CreateTableIfNotExists<USR01EMP01>();
                 db.CreateTableIfNotExists<ATD01>();

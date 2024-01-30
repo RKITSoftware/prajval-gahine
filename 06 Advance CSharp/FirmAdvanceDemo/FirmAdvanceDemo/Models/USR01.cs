@@ -7,14 +7,15 @@ using System.Web;
 
 namespace FirmAdvanceDemo.Models
 {
-    public class USR01
+    public class USR01 : IModel
     {
         /// <summary>
         /// user id
         /// </summary>
         [AutoIncrement]
         [PrimaryKey]
-        public int r01f01 { get; set; }
+        [Alias("r01f01")]
+        public int Id { get; set; }
 
         /// <summary>
         /// username
