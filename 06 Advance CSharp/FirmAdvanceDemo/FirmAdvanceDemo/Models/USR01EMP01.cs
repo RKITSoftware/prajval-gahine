@@ -1,8 +1,4 @@
 ﻿using ServiceStack.DataAnnotations;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace FirmAdvanceDemo.Models
 {
@@ -17,15 +13,15 @@ namespace FirmAdvanceDemo.Models
         public int Id { get; set; }
 
         /// <summary>
-        /// User Id
+        /// User Id (Foreign key)
         /// </summary>
-        [ForeignKey(typeof(USR01))]
+        [ForeignKey(typeof(USR01), OnDelete = "CASCADE")]
         public int p01f01 { get; set; }
 
         /// <summary>
-        /// Employee Id
+        /// Employee Id (Foreign key)
         /// </summary>
-        [ForeignKey(typeof(EMP01))]
+        [ForeignKey(typeof(EMP01), OnDelete = "CASCADE")]
         public int p01f02 { get; set; }
     }
 }

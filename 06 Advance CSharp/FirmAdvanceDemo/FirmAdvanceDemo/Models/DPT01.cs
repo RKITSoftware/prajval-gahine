@@ -6,12 +6,6 @@ namespace FirmAdvanceDemo.Models
     public class DPT01 : IModel
     {
 
-        public static string TableName;
-        static DPT01()
-        {
-            TableName = "Department";
-        }
-
         /// <summary>
         /// Department Id
         /// </summary>

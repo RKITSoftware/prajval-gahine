@@ -1,13 +1,10 @@
-﻿using ServiceStack.DataAnnotations;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace FirmAdvanceDemo.Models
+﻿namespace FirmAdvanceDemo.Models
 {
     public interface IModel
     {
+        /// <summary>
+        /// A particular Resource Id
+        /// </summary>
         int Id { get; set; }
     }
 }

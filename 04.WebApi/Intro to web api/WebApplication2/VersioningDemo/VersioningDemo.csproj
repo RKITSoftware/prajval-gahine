@@ -95,6 +95,7 @@
     <Compile Include="Models\EMP01V1.cs" />
     <Compile Include="Models\EMP01V2.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Versioning\ActionSelection\CustomActionSelector.cs" />
     <Compile Include="Versioning\ControllerSelectorFromAcceptHeader.cs" />
     <Compile Include="Versioning\ControllerSelectorFromCustomHeader.cs" />
     <Compile Include="Versioning\CustomControllerSelector.cs" />

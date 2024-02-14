@@ -43,7 +43,7 @@ namespace JwtAuthProject.Authentication
             string digestBase64 = Convert.ToBase64String(digest)
                 .Replace('+', '-')
                 .Replace('/', '_')
-                .Replace("=", ""); ;
+                .Replace("=", "");
 
 
             System.Diagnostics.Debug.WriteLine(jwtHash);
@@ -60,7 +60,10 @@ namespace JwtAuthProject.Authentication
                 long currTotalSecond = (long)span.TotalSeconds;
 
                 // decode jwtPayload from Base64
-                string paddedJwtPayload = jwtPayload + new string('=', (4 - (jwtPayload.Length % 4)));
+                int mod = jwtPayload.Length % 4;
+                int padBits = mod > 0 ? 4 - mod : 0;
+                string paddedJwtPayload = jwtPayload + new string('=', padBits);
+
                 byte[] encodedData = Convert.FromBase64String(paddedJwtPayload);
                 string decodedData = Encoding.UTF8.GetString(encodedData);
 
@@ -107,7 +110,9 @@ namespace JwtAuthProject.Authentication
                 string jwtEncodedPayload = tokenValue.Split('.')[1];
 
                 // pad jwtEncodedPayload
-                jwtEncodedPayload = jwtEncodedPayload + new string('=', (4 - (jwtEncodedPayload.Length % 4)));
+                int mod = jwtEncodedPayload.Length % 4;
+                int padBits = mod > 0 ? 4 - mod : 0;
+                jwtEncodedPayload = jwtEncodedPayload + new string('=', padBits);
 
                 // decode the jwt payload
                 byte[] decodedPayloadBytes = Convert.FromBase64String(jwtEncodedPayload);

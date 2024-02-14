@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
+﻿using System.Configuration;
 using System.Web.Http;
 
 namespace FirmAdvanceDemo
@@ -24,7 +21,7 @@ namespace FirmAdvanceDemo
             string ConnString = ConfigurationManager.ConnectionStrings["MyDB"].ConnectionString;
             System.Diagnostics.Debug.WriteLine(ConnString);
 
-            //CreateTables.CreateTablesMethod();
+            CreateTables.CreateTablesMethod();
 
             GlobalConfiguration.Configuration.Formatters
                 .Remove(GlobalConfiguration.Configuration.Formatters.XmlFormatter);

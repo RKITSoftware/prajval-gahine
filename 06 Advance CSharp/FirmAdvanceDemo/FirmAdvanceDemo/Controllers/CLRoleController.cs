@@ -1,14 +1,9 @@
-﻿using FirmAdvanceDemo.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
+﻿using FirmAdvanceDemo.BL;
+using FirmAdvanceDemo.Models;
+using FirmAdvanceDemo.Utitlity;
+using Newtonsoft.Json.Linq;
 using System.Net.Http;
 using System.Web.Http;
-using FirmAdvanceDemo.BL;
-using FirmAdvanceDemo.Utitlity;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace FirmAdvanceDemo.Controllers
 {

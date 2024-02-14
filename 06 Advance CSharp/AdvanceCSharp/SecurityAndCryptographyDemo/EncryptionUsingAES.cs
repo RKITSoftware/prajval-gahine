@@ -26,8 +26,6 @@ namespace SecurityAndCryptographyDemo
                 
                 string plainText = Decrypt(encryptedData, aes);
                 Console.WriteLine($"Your decrypted text is: {plainText}");
-            
-            
             }
         }
 

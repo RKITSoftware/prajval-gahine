@@ -1,31 +1,33 @@
 ﻿using ServiceStack;
 using ServiceStack.DataAnnotations;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace FirmAdvanceDemo.Models
 {
-    public class LVE01
+    [CompositeIndex(true, "e01f02", "e01f04")]
+    public class LVE01 : IModel
     {
         /// <summary>
         /// Leave Id
         /// </summary>
         [AutoIncrement]
         [PrimaryKey]
-        public int e01f01 { get; set; }
+        [Alias("e01f01")]
+        public int Id { get; set; }
 
         /// <summary>
         /// Employee Id
         /// </summary>
-        [ForeignKey(typeof(EMP01))]
+        [ForeignKey(typeof(EMP01), OnDelete = "CASCADE")]
         public int e01f02 { get; set; }
 
         /// <summary>
         ///  Date of Request for Leave
         /// </summary>
         [ValidateNotNull]
+        [TypeConverter("Date")]
         public DateTime e01f03 { get; set; }
 
         /// <summary>
@@ -45,5 +47,25 @@ namespace FirmAdvanceDemo.Models
         /// </summary>
         [ValidateNotNull]
         public string e01f06 { get; set; }
+
+        /// <summary>
+        /// Leave status
+        /// </summary>
+        [ValidateNotNull]
+        [DataType("int")]
+        public LeaveStatus e01f07 { get; set; }
+    }
+
+    /// <summary>
+    /// Represnt current status of leave. None value is used to get all types of leaves
+    /// </summary>
+    [EnumAsInt]
+    public enum LeaveStatus
+    {
+        None = 0,
+        Pending,
+        Approved,
+        Rejected,
+        Expired
     }
 }

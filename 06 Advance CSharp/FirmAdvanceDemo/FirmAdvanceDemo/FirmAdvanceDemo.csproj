@@ -16,10 +16,10 @@
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
-    <IISExpressSSLPort />
-    <IISExpressAnonymousAuthentication />
-    <IISExpressWindowsAuthentication />
-    <IISExpressUseClassicPipelineMode />
+    <IISExpressSSLPort>44397</IISExpressSSLPort>
+    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
+    <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -152,17 +152,32 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Auth\BasicAuthenticationAttribute.cs" />
+    <Compile Include="Auth\BasicAuthorizationAttribute.cs" />
+    <Compile Include="Auth\AccessTokenAuthenticationAttribute.cs" />
+    <Compile Include="Auth\BearerAuthenticationAttribute.cs" />
+    <Compile Include="Auth\RefreshTokenAuthenticationAttribute.cs" />
+    <Compile Include="Auth\ValidateUser.cs" />
     <Compile Include="BL\.BLDepartment.cs" />
+    <Compile Include="BL\BLAttendance.cs" />
+    <Compile Include="BL\BLDownload.cs" />
+    <Compile Include="BL\BLEmployee.cs" />
+    <Compile Include="BL\BLLeave.cs" />
     <Compile Include="BL\BLResource.cs" />
     <Compile Include="BL\.BLRole.cs" />
+    <Compile Include="BL\BLSalary.cs" />
     <Compile Include="BL\BLUser.cs" />
     <Compile Include="Connection\Connection.cs" />
-    <Compile Include="ControllerResponseReturner.cs" />
+    <Compile Include="Controllers\CLAttendanceController.cs" />
     <Compile Include="Controllers\CLDepartmentController.cs" />
+    <Compile Include="Controllers\CLDownloadController.cs" />
+    <Compile Include="Controllers\CLLeaveController.cs" />
     <Compile Include="Controllers\CLPositionController.cs" />
     <Compile Include="Controllers\CLRoleController.cs" />
+    <Compile Include="Controllers\CLSalaryController.cs" />
     <Compile Include="Controllers\CLUserController.cs" />
     <Compile Include="Controllers\DefaultController.cs" />
+    <Compile Include="Controllers\CLAuthController.cs" />
     <Compile Include="CreateTables.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -174,11 +189,13 @@
     <Compile Include="Models\LVE01.cs" />
     <Compile Include="Models\PSN01.cs" />
     <Compile Include="Models\RLE01.cs" />
+    <Compile Include="Models\STG01.cs" />
     <Compile Include="Models\USR01RLE01.cs" />
     <Compile Include="Models\SLY01.cs" />
     <Compile Include="Models\USR01.cs" />
     <Compile Include="Models\USR01EMP01.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utitlity\CSVConvert.cs" />
     <Compile Include="Utitlity\GeneralUtility.cs" />
     <Compile Include="Utitlity\ResponseStatusInfo.cs" />
     <Compile Include="Utitlity\ResponseWrapper.cs" />
@@ -210,9 +227,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>53809</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:53812</IISUrl>
-          <OverrideIISAppRootUrl>True</OverrideIISAppRootUrl>
-          <IISAppRootUrl>http://localhost:53812</IISAppRootUrl>
+          <IISUrl>https://localhost:44397/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

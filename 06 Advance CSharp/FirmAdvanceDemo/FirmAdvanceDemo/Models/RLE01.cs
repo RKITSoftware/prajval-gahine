@@ -1,9 +1,5 @@
 ﻿using ServiceStack;
 using ServiceStack.DataAnnotations;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace FirmAdvanceDemo.Models
 {
@@ -12,14 +8,6 @@ namespace FirmAdvanceDemo.Models
     /// </summary>
     public class RLE01 : IModel
     {
-
-        public static string TableName;
-        static RLE01()
-        {
-            TableName = "Role";
-        }
-
-
         /// <summary>
         /// Role Id
         /// </summary>

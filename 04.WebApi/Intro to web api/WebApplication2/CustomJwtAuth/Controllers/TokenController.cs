@@ -13,7 +13,7 @@ namespace CustomJwtAuth.Controllers
     {
         [HttpGet]
         [Route("api/gettoken")]
-        [BasicAuthenticationAttribute]
+        [BasicAuthentication]
         public Object GetToken()
         {
             string SecretKey = "mykeyisthisbecausemykeyisthisbecause";

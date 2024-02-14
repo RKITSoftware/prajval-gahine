@@ -1,9 +1,5 @@
 ﻿using ServiceStack;
 using ServiceStack.DataAnnotations;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace FirmAdvanceDemo.Models
 {
@@ -42,7 +38,10 @@ namespace FirmAdvanceDemo.Models
         [ValidateNotNull]
         public double n01f05 { get; set; }
 
-        [ForeignKey(typeof(DPT01))]
+        /// <summary>
+        /// Department Id
+        /// </summary>
+        [ForeignKey(typeof(DPT01), OnDelete = "CASCADE")]
         public int n01f06 { get; set; }
     }
 }

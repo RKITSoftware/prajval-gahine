@@ -129,6 +129,7 @@
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Authentication\BasicAuthenticationAttribute.cs" />
+    <Compile Include="Authentication\BasicAuthorizationAttribute.cs" />
     <Compile Include="Controllers\DataController.cs" />
     <Compile Include="Controllers\TokenController.cs" />
     <Compile Include="Global.asax.cs">

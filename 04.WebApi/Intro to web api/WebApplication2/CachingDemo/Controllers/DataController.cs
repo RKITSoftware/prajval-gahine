@@ -16,7 +16,7 @@ namespace CachingDemo.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("getdata")]
-        [CachingAttribute]
+        [Caching]
         public Object GetData()
         {
             return new { name = "prajval", age = 22 };

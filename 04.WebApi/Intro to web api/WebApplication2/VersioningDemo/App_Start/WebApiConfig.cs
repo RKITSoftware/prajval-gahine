@@ -30,14 +30,14 @@ namespace VersioningDemo
 
             //config.Services.Replace(typeof(IHttpControllerSelector), new CustomControllerSelector(config));
             //config.Services.Replace(typeof(IHttpControllerSelector), new ControllerSelectorFromCustomHeader(config));
-            config.Services.Replace(typeof(IHttpControllerSelector), new ControllerSelectorFromAcceptHeader(config));
+            //config.Services.Replace(typeof(IHttpControllerSelector), new ControllerSelectorFromAcceptHeader(config));
+            //config.Services.Replace(typeof(IHttpActionSelector), new CustomActionSelector());
 
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
-                routeTemplate: "api/{controller}/{id}",
+                routeTemplate: "api/{controller}/{action}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
-
         }
     }
 }

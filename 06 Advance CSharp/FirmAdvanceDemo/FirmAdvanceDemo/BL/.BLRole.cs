@@ -1,16 +1,13 @@
-﻿using System;
+﻿using FirmAdvanceDemo.Models;
+using FirmAdvanceDemo.Utitlity;
+using ServiceStack.OrmLite;
+using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Web;
-using FirmAdvanceDemo.Models;
-using ServiceStack.OrmLite;
-using FirmAdvanceDemo.Utitlity;
-using System.Web.Security;
 
 namespace FirmAdvanceDemo.BL
 {
-    
+
     public class BLRole
     {
         private static readonly OrmLiteConnectionFactory _dbFactory;
@@ -85,7 +82,7 @@ namespace FirmAdvanceDemo.BL
                         Data = new { RoleId = roleId }
                     };
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     return new ResponseStatusInfo()
                     {

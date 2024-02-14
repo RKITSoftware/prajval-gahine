@@ -20,7 +20,7 @@ namespace VersioningDemo.Controllers
         /// <returns>list of employee</returns>
         [HttpGet]
         //[Route("getemployees")]
-        public List<EMP01V1> GetEmployees()
+        public List<EMP01V1> GetEmployee()
         {
             return BLEmployeeV1.GetEmployees();
         }
@@ -37,12 +37,19 @@ namespace VersioningDemo.Controllers
             return BLEmployeeV1.GetEmployees().FirstOrDefault(employee => employee.p01f01 == id);
         }
 
-        // doubt
-        //[HttpGet]
-        //[Route("{id}")]
-        //public string GetAddress(int id)
-        //{
-        //    return "get address";
-        //}
+        //doubt
+        [HttpGet]
+        //[Route("address/{id}")]
+        public string GetAddress(int id, string name, int age = 25)
+        {
+            return "get address";
+        }
+
+        [HttpPost]
+        //[Route("address/{id}")]
+        public string PostAddress(int id)
+        {
+            return "post address";
+        }
     }
 }

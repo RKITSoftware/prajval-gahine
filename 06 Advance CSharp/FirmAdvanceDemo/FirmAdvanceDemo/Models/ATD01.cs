@@ -1,12 +1,10 @@
 ﻿using ServiceStack;
 using ServiceStack.DataAnnotations;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace FirmAdvanceDemo.Models
 {
+    [CompositeIndex(unique: true, "d01f02", "d01f03")]
     public class ATD01 : IModel
     {
         /// <summary>
@@ -20,7 +18,7 @@ namespace FirmAdvanceDemo.Models
         /// <summary>
         /// Employee Id
         /// </summary>
-        [ForeignKey(typeof(EMP01))]
+        [ForeignKey(typeof(EMP01), OnDelete = "CASCADE")]
         public int d01f02 { get; set; }
 
         /// <summary>

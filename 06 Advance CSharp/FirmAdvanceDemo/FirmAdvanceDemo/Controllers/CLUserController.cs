@@ -1,17 +1,14 @@
-﻿using FirmAdvanceDemo.BL;
-using FirmAdvanceDemo.Models;
+﻿using FirmAdvanceDemo.Auth;
+using FirmAdvanceDemo.BL;
 using FirmAdvanceDemo.Utitlity;
 using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 
 namespace FirmAdvanceDemo.Controllers
 {
     [RoutePrefix("api/user")]
+    [AccessTokenAuthentication]
     public class CLUserController : ApiController
     {
         [NonAction]
@@ -27,9 +24,10 @@ namespace FirmAdvanceDemo.Controllers
 
         [HttpGet]
         [Route("")]
+        [BasicAuthorization(Roles = "admin")]
         public IHttpActionResult GetUsers()
         {
-            ResponseStatusInfo responseStatusInfo = BLResource<USR01>.FetchResource();
+            ResponseStatusInfo responseStatusInfo = BLUser.FetchResource();
             return this.Returner(responseStatusInfo);
         }
 
@@ -37,7 +35,7 @@ namespace FirmAdvanceDemo.Controllers
         [Route("{id}")]
         public IHttpActionResult GetUser(int id)
         {
-            ResponseStatusInfo responseStatusInfo = BLResource<USR01>.FetchResource(id);
+            ResponseStatusInfo responseStatusInfo = BLUser.FetchResource(id);
             return this.Returner(responseStatusInfo);
         }
 
@@ -53,7 +51,7 @@ namespace FirmAdvanceDemo.Controllers
         [Route("{id}")]
         public IHttpActionResult PatchUser(int id, JObject toUpdateJson)
         {
-            ResponseStatusInfo responseStatusInfo = BLResource<USR01>.UpdateResource(id, toUpdateJson);
+            ResponseStatusInfo responseStatusInfo = BLUser.UpdateResource(id, toUpdateJson);
             return this.Returner(responseStatusInfo);
         }
 
@@ -61,7 +59,7 @@ namespace FirmAdvanceDemo.Controllers
         [Route("{id}")]
         public IHttpActionResult DeleteUser(int id)
         {
-            ResponseStatusInfo responseStatusInfo = BLResource<USR01>.RemoveResource(id);
+            ResponseStatusInfo responseStatusInfo = BLUser.RemoveResource(id);
             return this.Returner(responseStatusInfo);
         }
     }

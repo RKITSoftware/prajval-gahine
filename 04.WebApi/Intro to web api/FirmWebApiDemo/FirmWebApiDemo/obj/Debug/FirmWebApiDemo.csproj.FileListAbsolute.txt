@@ -202,3 +202,6 @@ F:\prajval-gahine\prajval-gahine\04.WebApi\Intro to web api\FirmWebApiDemo\FirmW
 F:\prajval-gahine\prajval-gahine\04.WebApi\Intro to web api\FirmWebApiDemo\FirmWebApiDemo\obj\Debug\FirmWebApiDemo.csproj.CopyComplete
 F:\prajval-gahine\prajval-gahine\04.WebApi\Intro to web api\FirmWebApiDemo\FirmWebApiDemo\obj\Debug\FirmWebApiDemo.dll
 F:\prajval-gahine\prajval-gahine\04.WebApi\Intro to web api\FirmWebApiDemo\FirmWebApiDemo\obj\Debug\FirmWebApiDemo.pdb
+F:\prajval-gahine\prajval-gahine\04.WebApi\Intro to web api\FirmWebApiDemo\FirmWebApiDemo\bin\Microsoft.Web.Infrastructure.dll
+F:\prajval-gahine\prajval-gahine\04.WebApi\Intro to web api\FirmWebApiDemo\FirmWebApiDemo\bin\Swashbuckle.Core.dll
+F:\prajval-gahine\prajval-gahine\04.WebApi\Intro to web api\FirmWebApiDemo\FirmWebApiDemo\bin\WebActivatorEx.dll

@@ -15,6 +15,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CachingDemo", "CachingDemo\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VersioningDemo", "VersioningDemo\VersioningDemo.csproj", "{DB03D23A-0996-480A-93BF-D819A90290DA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerSideCachingDemo", "ServerSideCachingDemo\ServerSideCachingDemo.csproj", "{4A679784-7021-4E12-97A7-454CC31FCA8F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SwaggerDemo", "SwaggerDemo\SwaggerDemo.csproj", "{98DDD7E3-BCEC-4FE9-B244-707852387C83}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +49,14 @@ Global
 		{DB03D23A-0996-480A-93BF-D819A90290DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DB03D23A-0996-480A-93BF-D819A90290DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DB03D23A-0996-480A-93BF-D819A90290DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4A679784-7021-4E12-97A7-454CC31FCA8F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A679784-7021-4E12-97A7-454CC31FCA8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A679784-7021-4E12-97A7-454CC31FCA8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A679784-7021-4E12-97A7-454CC31FCA8F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{98DDD7E3-BCEC-4FE9-B244-707852387C83}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{98DDD7E3-BCEC-4FE9-B244-707852387C83}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{98DDD7E3-BCEC-4FE9-B244-707852387C83}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{98DDD7E3-BCEC-4FE9-B244-707852387C83}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

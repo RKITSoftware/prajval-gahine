@@ -129,6 +129,7 @@
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Authentication\BasicAuthenticationAttribute.cs" />
+    <Compile Include="Authentication\BasicAuthorizationAttribute.cs" />
     <Compile Include="Authentication\BearerAuthentication.cs" />
     <Compile Include="BL\BLEmployee.cs" />
     <Compile Include="BL\BLUser.cs" />

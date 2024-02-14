@@ -48,7 +48,7 @@ namespace JwtAuthProject.Controllers
                 issuer,
                 issuer,
                 jwtClaims,
-                expires: DateTime.Now.AddMinutes(1),
+                expires: DateTime.Now.AddHours(1),
                 signingCredentials: Credentials);
 
             // create jwt token

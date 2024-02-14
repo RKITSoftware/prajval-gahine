@@ -1,16 +1,22 @@
 ﻿using ServiceStack.OrmLite;
-using System;
-using System.Collections.Generic;
 using System.Configuration;
-using System.Linq;
-using System.Web;
 
 namespace FirmAdvanceDemo
 {
+    /// <summary>
+    /// Connection class to provide dbFactory instance
+    /// </summary>
     public class Connection
     {
+        /// <summary>
+        ///  Connection String which is used to connect to intended database
+        /// </summary>
         public static string ConnString;
 
+
+        /// <summary>
+        /// Ormlite Connection Factory - that represent a connection with a particular database
+        /// </summary>
         public static OrmLiteConnectionFactory dbFactory;
 
         static Connection()
