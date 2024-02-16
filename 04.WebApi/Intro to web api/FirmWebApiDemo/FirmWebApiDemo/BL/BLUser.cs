@@ -16,7 +16,7 @@ namespace FirmWebApiDemo.BL
         /// <summary>
         /// File location to User.json file
         /// </summary>
-        private static string UserFilePath = HttpContext.Current.Server.MapPath(@"~/data/User.json");
+        private static readonly string UserFilePath = HttpContext.Current.Server.MapPath(@"~/data/User.json");
 
 
         /// <summary>
@@ -24,10 +24,10 @@ namespace FirmWebApiDemo.BL
         /// </summary>
         /// <param name="newUserData">JObject that contains new user data that is to be created</param>
         /// <returns>ResponseStatusInfo object that encapsulates info to create response accordingly</returns>
-        public static ResponseStatusInfo AddUser(JObject newUserData)
+        public ResponseStatusInfo AddUser(JObject newUserData)
         {
             // check if user already exists
-            List<USR01> users = BLUser.GetUsers();
+            List<USR01> users = GetUsers();
             USR01 existingUser = users.FirstOrDefault(u => u.r01f02 == ((JObject)newUserData["user"])["r01f02"].ToString());
 
             USR01 newUser = null;
@@ -60,13 +60,15 @@ namespace FirmWebApiDemo.BL
                 }
 
                 // update USR01.json file
-                BLUser.SetUser(newUser);
+                SetUser(newUser);
 
                 // check if role is employee
                 if (IsEmployee && newUserData["employee"] != null)
                 {
                     int nextEmployeeId = -1;
-                    List<EMP01> employees = BLEmployee.GetEmployees();
+
+                    BLEmployee blEmployee = new BLEmployee();
+                    List<EMP01> employees = blEmployee.GetEmployees();
 
                     // set next employee id
                     if (employees.Count == 0)
@@ -85,10 +87,11 @@ namespace FirmWebApiDemo.BL
 
                     // save this employee to Employee.json
                     EMP01 newEmployee = employeeJson.ToObject<EMP01>();
-                    BLEmployee.SetEmployee(newEmployee);
+                    blEmployee.SetEmployee(newEmployee);
 
                     // update UserEmployee.json junction file
-                    BLUser_Employee.SetUserEmployee(newUser.r01f01, newEmployee.p01f01);
+                    BLUser_Employee bLUser_Employee = new BLUser_Employee();
+                    bLUser_Employee.SetUserEmployee(newUser.r01f01, newEmployee.p01f01);
                     return new ResponseStatusInfo()
                     {
                         IsRequestSuccessful = true,
@@ -125,11 +128,11 @@ namespace FirmWebApiDemo.BL
         /// </summary>
         /// <param name="id">User Id</param>
         /// <returns>ResponseStatusInfo object that encapsulates info to create response accordingly</returns>
-        public static ResponseStatusInfo RemoveUser(int id)
+        public ResponseStatusInfo RemoveUser(int id)
         {
 
             // get user list
-            List<USR01> lstUser = BLUser.GetUsers();
+            List<USR01> lstUser = GetUsers();
             // check if the such user exists with r01f01 = id
 
             if (lstUser.Count == 1)
@@ -153,10 +156,12 @@ namespace FirmWebApiDemo.BL
                 int userId = lstUser[userIndex].r01f01;
 
                 // get employee id
-                List<USR01_EMP01> lstUserEmployee = BLUser_Employee.GetUserEmployees();
+                BLUser_Employee bLUser_Employee = new BLUser_Employee();
+                List<USR01_EMP01> lstUserEmployee = bLUser_Employee.GetUserEmployees();
                 int EmployeeId = lstUserEmployee.FirstOrDefault(ue => ue.p01f01 == userId).p01f02;
 
-                List<EMP01> lstEmployee = BLEmployee.GetEmployees();
+                BLEmployee blEmployee = new BLEmployee();
+                List<EMP01> lstEmployee = blEmployee.GetEmployees();
                 int EmployeeIndex = lstEmployee.FindIndex(employee => employee.p01f01 == EmployeeId);
                 if (EmployeeIndex != -1)
                 {
@@ -164,22 +169,24 @@ namespace FirmWebApiDemo.BL
                     lstEmployee.RemoveAt(EmployeeIndex);
 
                     // update the same in Employee.json file
-                    BLEmployee.SetEmployees(lstEmployee);
+                    blEmployee.SetEmployees(lstEmployee);
+
+                    BLAttendance bLAttendance = new BLAttendance();
 
                     // remove all employee trace from attendance too
-                    List<ATD01> lstAttendance = BLAttendance.GetAttendances();
+                    List<ATD01> lstAttendance = bLAttendance.GetAttendances();
 
                     lstAttendance.RemoveAll(attendance => attendance.d01f02 == EmployeeId);
 
                     // update the same in Attendance.json file
-                    BLAttendance.SetAttendances(lstAttendance);
+                    bLAttendance.SetAttendances(lstAttendance);
                 }
 
                 // remove user from lstEmployee
                 lstUser.RemoveAt(userIndex);
 
                 // update the new users list in USER.json file
-                BLUser.SetUsers(lstUser);
+                SetUsers(lstUser);
 
                 // response user deleted successfully
                 return new ResponseStatusInfo()
@@ -207,7 +214,7 @@ namespace FirmWebApiDemo.BL
         /// Method to fetch all users list from USR01.json file
         /// </summary>
         /// <returns>List of user of USR01 class</returns>
-        public static List<USR01> GetUsers()
+        public List<USR01> GetUsers()
         {
             List<USR01> users = null;
             // get employee array from data.User.json file
@@ -223,9 +230,9 @@ namespace FirmWebApiDemo.BL
         /// Method to add user in User.json file array
         /// </summary>
         /// <param name="user">An user object of USR01 type</param>
-        public static void SetUser(USR01 user)
+        public void SetUser(USR01 user)
         {
-            List<USR01> users = users = GetUsers();
+            List<USR01> users = GetUsers();
 
             // add the user to list
             users.Add(user);
@@ -240,7 +247,7 @@ namespace FirmWebApiDemo.BL
         /// Method to add users in User.json file array
         /// </summary>
         /// <param name="user">An user List of USR01 type</param>
-        public static void SetUsers(List<USR01> lstUser)
+        public void SetUsers(List<USR01> lstUser)
         {
             using (StreamWriter sw = new StreamWriter(UserFilePath))
             {

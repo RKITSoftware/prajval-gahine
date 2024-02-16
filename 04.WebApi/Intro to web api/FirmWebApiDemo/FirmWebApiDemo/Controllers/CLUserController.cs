@@ -20,7 +20,8 @@ namespace FirmWebApiDemo.Controllers
         [BasicAuthorization(Roles = "admin")]
         public IHttpActionResult GetUsers()
         {
-            List<USR01> users = BLUser.GetUsers();
+            BLUser bLUser = new BLUser();
+            List<USR01> users = bLUser.GetUsers();
             return Ok(ResponseWrapper.Wrap("List of users", users));
         }
 
@@ -33,9 +34,8 @@ namespace FirmWebApiDemo.Controllers
         [BasicAuthorization(Roles = "admin")]
         public IHttpActionResult PostUser(JObject newUserData)
         {
-
-
-            ResponseStatusInfo responseStatusInfo = BLUser.AddUser(newUserData);
+            BLUser bLUser = new BLUser();
+            ResponseStatusInfo responseStatusInfo = bLUser.AddUser(newUserData);
 
             if (responseStatusInfo.IsRequestSuccessful == false)
             {
@@ -54,7 +54,8 @@ namespace FirmWebApiDemo.Controllers
         [BasicAuthorization(Roles = "admin")]
         public IHttpActionResult DeleteUser(int id)
         {
-            ResponseStatusInfo responseStatusInfo = BLUser.RemoveUser(id);
+            BLUser bLUser = new BLUser();
+            ResponseStatusInfo responseStatusInfo = bLUser.RemoveUser(id);
 
             if (responseStatusInfo.IsRequestSuccessful == false)
             {

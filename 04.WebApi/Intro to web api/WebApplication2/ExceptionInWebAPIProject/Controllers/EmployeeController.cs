@@ -1,4 +1,5 @@
-﻿using ExceptionInWebAPIProject.Filter;
+﻿using ExceptionInWebAPIProject.BL;
+using ExceptionInWebAPIProject.Filter;
 using System;
 using System.Net;
 using System.Net.Http;
@@ -61,7 +62,8 @@ namespace ExceptionInWebAPIProject.Controllers
         public void GetEmployeeSalary(int id)
         {
             // throwing NotImplementedException b/c currently no implementation is defined for this api/endpoint
-            throw new NotImplementedException();
+            BLEmployee.GetEmployeeSalary();
+            //throw new NotImplementedException();
         }
 
         /// <summary>

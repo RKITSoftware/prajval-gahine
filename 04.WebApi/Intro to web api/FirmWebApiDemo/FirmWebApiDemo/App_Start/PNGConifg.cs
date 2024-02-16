@@ -10,8 +10,6 @@ using System.Web.Http;
 [assembly: PreApplicationStartMethod(typeof(PNGConifg), "Register")]
 namespace FirmWebApiDemo.App_Start
 {
-
-    [Obsolete]
     public class PNGConifg
     {
         public static void Register()

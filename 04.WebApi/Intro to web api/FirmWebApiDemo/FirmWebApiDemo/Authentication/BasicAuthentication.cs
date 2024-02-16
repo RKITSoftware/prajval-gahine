@@ -41,7 +41,8 @@ namespace FirmWebApiDemo.Authentication
                 if (ValidateUser.Login(username, password))
                 {
                     // get user details
-                    USR01 existingUser = BLUser.GetUsers().FirstOrDefault(user => user.r01f02 == username);
+                    BLUser bLUser = new BLUser();
+                    USR01 existingUser = bLUser.GetUsers().FirstOrDefault(user => user.r01f02 == username);
 
                     // create identity
                     GenericIdentity identity = new GenericIdentity(username);

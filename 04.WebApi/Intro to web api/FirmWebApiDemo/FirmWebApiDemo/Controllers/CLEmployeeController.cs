@@ -24,7 +24,8 @@ namespace FirmWebApiDemo.Controllers
         [BasicAuthorization(Roles = "admin")]
         public IHttpActionResult GetEmployees()
         {
-            List<EMP01> lstEmployee = BLEmployee.GetEmployees();
+            BLEmployee bLEmployee = new BLEmployee();
+            List<EMP01> lstEmployee = bLEmployee.GetEmployees();
 
             return Ok(ResponseWrapper.Wrap("List of employees", lstEmployee));
         }
@@ -46,7 +47,8 @@ namespace FirmWebApiDemo.Controllers
                    .Select(c => c.Value).SingleOrDefault());
 
             // invoke AddAtendance method of BLAttendance class and get the response status info
-            ResponseStatusInfo responseStatusInfo = BLEmployee.AddAttendance(userId);
+            BLEmployee bLEmployee = new BLEmployee();
+            ResponseStatusInfo responseStatusInfo = bLEmployee.AddAttendance(userId);
 
             if (responseStatusInfo.IsRequestSuccessful == false)
             {
@@ -67,7 +69,8 @@ namespace FirmWebApiDemo.Controllers
         [BasicAuthorization(Roles = "admin")]
         public IHttpActionResult GetAttendance(int id)
         {
-            ResponseStatusInfo responseStatusInfo = BLEmployee.FetchAttendances(id);
+            BLEmployee bLEmployee = new BLEmployee();
+            ResponseStatusInfo responseStatusInfo = bLEmployee.FetchAttendances(id);
 
             if (responseStatusInfo.IsRequestSuccessful == false)
             {
@@ -90,7 +93,8 @@ namespace FirmWebApiDemo.Controllers
             int userId = int.Parse(claims.Where(c => c.Type == "r01f01")
                    .Select(c => c.Value).SingleOrDefault());
 
-            ResponseStatusInfo responseStatusInfo = BLEmployee.FetchAttendance(userId);
+            BLEmployee bLEmployee = new BLEmployee();
+            ResponseStatusInfo responseStatusInfo = bLEmployee.FetchAttendance(userId);
 
             if (responseStatusInfo.IsRequestSuccessful == false)
             {

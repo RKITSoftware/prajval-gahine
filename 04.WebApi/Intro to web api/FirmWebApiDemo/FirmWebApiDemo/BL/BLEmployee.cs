@@ -15,7 +15,7 @@ namespace FirmWebApiDemo.BL
         /// <summary>
         /// File location to Employee.json file
         /// </summary>
-        private static string EmployeeFilePath = HttpContext.Current.Server.MapPath(@"~/data/Employee.json");
+        private static readonly string EmployeeFilePath = HttpContext.Current.Server.MapPath(@"~/data/Employee.json");
 
 
         /// <summary>
@@ -23,16 +23,19 @@ namespace FirmWebApiDemo.BL
         /// </summary>
         /// <param name="userId">User id</param>
         /// <returns>ResponseStatusInfo object that encapsulates info to create response accordingly</returns>
-        public static ResponseStatusInfo AddAttendance(int userId)
+        public ResponseStatusInfo AddAttendance(int userId)
         {
             // access Attendance.json file and if current employee's attendance is not already filled for todays date
             // then add the attendance to Attendance.json file
             // else don't
 
-            List<ATD01> lstAttendance = BLAttendance.GetAttendances();
+            BLAttendance bLAttendance = new BLAttendance();
+
+            List<ATD01> lstAttendance = bLAttendance.GetAttendances();
 
             // now get employee id for given userid from User-Employee junction
-            List<USR01_EMP01> lstUserEmployee = BLUser_Employee.GetUserEmployees();
+            BLUser_Employee bLUser_Employee = new BLUser_Employee();
+            List<USR01_EMP01> lstUserEmployee = bLUser_Employee.GetUserEmployees();
 
             USR01_EMP01 UserEmployee = lstUserEmployee.FirstOrDefault(ue => ue.p01f01 == userId);
 
@@ -74,7 +77,7 @@ namespace FirmWebApiDemo.BL
 
             // create an attendance .net object and save it to Attendance.json file
             ATD01 newAttendance = new ATD01(NextAttendanceId, EmployeeId, DateTime.Now);
-            BLAttendance.SetAttendance(newAttendance);
+            bLAttendance.SetAttendance(newAttendance);
 
             return new ResponseStatusInfo()
             {
@@ -90,11 +93,11 @@ namespace FirmWebApiDemo.BL
         /// </summary>
         /// <param name="EmployeeId">Employee Id</param>
         /// <returns>ResponseStatusInfo object that encapsulates info to create response accordingly</returns>
-        public static ResponseStatusInfo FetchAttendances(int EmployeeId)
+        public ResponseStatusInfo FetchAttendances(int EmployeeId)
         {
-
+            BLEmployee blEmployee = new BLEmployee();
             // check if employee exists
-            if (!BLEmployee.Exists(EmployeeId))
+            if (!blEmployee.Exists(EmployeeId))
             {
                 return new ResponseStatusInfo()
                 {
@@ -106,7 +109,9 @@ namespace FirmWebApiDemo.BL
                 //return ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.NotFound, $"No Employee exists with employee id: {EmployeeId}"));
             }
 
-            List<ATD01> lstAttendance = BLAttendance.GetAttendances();
+            BLAttendance bLAttendance = new BLAttendance();
+
+            List<ATD01> lstAttendance = bLAttendance.GetAttendances();
 
             List<DateTime> lstEmployeeAttendance = lstAttendance.Where(attendance => attendance.d01f02 == EmployeeId)
                 .Select(attendance => attendance.d01f03)
@@ -128,12 +133,15 @@ namespace FirmWebApiDemo.BL
         /// </summary>
         /// <param name="EmployeeId">Employee Id</param>
         /// <returns>ResponseStatusInfo object that encapsulates info to create response accordingly</returns>
-        public static ResponseStatusInfo FetchAttendance(int UserId)
+        public ResponseStatusInfo FetchAttendance(int UserId)
         {
-            List<ATD01> lstAttendance = BLAttendance.GetAttendances();
+
+            BLAttendance bLAttendance = new BLAttendance();
+            List<ATD01> lstAttendance = bLAttendance.GetAttendances();
 
             // now get employee id for given userid from User-Employee junction
-            List<USR01_EMP01> lstUserEmployee = BLUser_Employee.GetUserEmployees();
+            BLUser_Employee bLUser_Employee = new BLUser_Employee();
+            List<USR01_EMP01> lstUserEmployee = bLUser_Employee.GetUserEmployees();
 
             USR01_EMP01 UserEmployee = lstUserEmployee.FirstOrDefault(ue => ue.p01f01 == UserId);
 
@@ -169,9 +177,9 @@ namespace FirmWebApiDemo.BL
         /// </summary>
         /// <param name="id">Employee id</param>
         /// <returns>Returns true if Employee exists else false</returns>
-        public static bool Exists(int id)
+        public bool Exists(int id)
         {
-            List<EMP01> lstEmployee = BLEmployee.GetEmployees();
+            List<EMP01> lstEmployee = GetEmployees();
 
             return lstEmployee.Any(employee => employee.p01f01 == id);
         }
@@ -181,7 +189,7 @@ namespace FirmWebApiDemo.BL
         /// Gets all employees list
         /// </summary>
         /// <returns>list of employees</returns>
-        public static List<EMP01> GetEmployees()
+        public List<EMP01> GetEmployees()
         {
             List<EMP01> employees = null;
 
@@ -198,7 +206,7 @@ namespace FirmWebApiDemo.BL
         /// Method to add employee in Employee.json file array
         /// </summary>
         /// <param name="user">An employee object of EMP01 type</param>
-        public static void SetEmployee(EMP01 employee)
+        public void SetEmployee(EMP01 employee)
         {
             List<EMP01> employees = GetEmployees();
 
@@ -215,7 +223,7 @@ namespace FirmWebApiDemo.BL
         /// Method to add employees in Employee.json file array
         /// </summary>
         /// <param name="employee">An Employee List of EMP01 type</param>
-        public static void SetEmployees(List<EMP01> lstEmployee)
+        public void SetEmployees(List<EMP01> lstEmployee)
         {
             using (StreamWriter sw = new StreamWriter(EmployeeFilePath))
             {

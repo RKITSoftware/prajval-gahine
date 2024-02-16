@@ -18,7 +18,7 @@ namespace FirmWebApiDemo.BL
         /// Fetches List of USR01_EMP01 objects from UserEmployee.json file
         /// </summary>
         /// <returns></returns>
-        public static List<USR01_EMP01> GetUserEmployees()
+        public List<USR01_EMP01> GetUserEmployees()
         {
             List<USR01_EMP01> UserEmployees = null;
             using (StreamReader sr = new StreamReader(UserEmployeeFilePath))
@@ -34,7 +34,7 @@ namespace FirmWebApiDemo.BL
         /// </summary>
         /// <param name="UserId">User Id</param>
         /// <param name="EmployeeId">Employee Id</param>
-        public static void SetUserEmployee(int UserId, int EmployeeId)
+        public void SetUserEmployee(int UserId, int EmployeeId)
         {
             List<USR01_EMP01> UserEmployees = GetUserEmployees();
 

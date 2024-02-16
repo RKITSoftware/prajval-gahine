@@ -1,4 +1,6 @@
 ﻿using System.Web.Http;
+using System.Web.Http.Dispatcher;
+using FirmWebApiDemo.Versioning;
 
 namespace FirmWebApiDemo
 {
@@ -16,6 +18,8 @@ namespace FirmWebApiDemo
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
+
+            config.Services.Replace(typeof(IHttpControllerSelector), new CustomControllerSelector(config));
         }
     }
 }

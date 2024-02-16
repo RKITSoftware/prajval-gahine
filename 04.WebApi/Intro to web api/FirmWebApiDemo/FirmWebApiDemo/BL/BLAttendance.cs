@@ -11,14 +11,14 @@ namespace FirmWebApiDemo.BL
         /// <summary>
         /// File location to Attendance.json file
         /// </summary>
-        private static string AttendacneFilePath = HttpContext.Current.Server.MapPath(@"~/data/Attendance.json");
+        private static readonly string AttendacneFilePath = HttpContext.Current.Server.MapPath(@"~/data/Attendance.json");
 
 
         /// <summary>
         /// Gets all Employee Attedance list
         /// </summary>
         /// <returns>list of attendances</returns>
-        public static List<ATD01> GetAttendances()
+        public List<ATD01> GetAttendances()
         {
             List<ATD01> lstAttendance = null;
 
@@ -35,7 +35,7 @@ namespace FirmWebApiDemo.BL
         /// Method to add attendance in Attendance.json file array
         /// </summary>
         /// <param name="attendance">An Attendance object of ATD01 type</param>
-        public static void SetAttendance(ATD01 attendance)
+        public void SetAttendance(ATD01 attendance)
         {
             List<ATD01> lstAttendance = GetAttendances();
 
@@ -52,7 +52,7 @@ namespace FirmWebApiDemo.BL
         /// Method to add list of attendance in Attendance.json file array
         /// </summary>
         /// <param name="employee">An Attendance List of ATD01 type</param>
-        public static void SetAttendances(List<ATD01> lstAttendance)
+        public void SetAttendances(List<ATD01> lstAttendance)
         {
             using (StreamWriter sw = new StreamWriter(AttendacneFilePath))
             {
