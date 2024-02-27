@@ -1,54 +1,96 @@
-﻿using FirmWebApiDemo.Models;
+﻿using FirmWebApiDemo.Exceptions.CustomException;
+using FirmWebApiDemo.Models;
 using FirmWebApiDemo.Utility;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
+using System.Web.Caching;
 
 namespace FirmWebApiDemo.BL
 {
     public class BLUser
     {
-
         /// <summary>
         /// File location to User.json file
         /// </summary>
-        private static readonly string UserFilePath = HttpContext.Current.Server.MapPath(@"~/data/User.json");
+        public static readonly string UserFilePath = HttpContext.Current.Server.MapPath(@"~/App_Data/User.json");
 
+        /// <summary>
+        /// Get User based on userId
+        /// </summary>
+        /// <param name="userId">User Id</param>
+        /// <returns>USR01 instance if user is found else null</returns>
+        public USR01 GetUser(int userId)
+        {
+            List<USR01> lstUser = GetUsers();
+
+            USR01 user = lstUser.Where(u => u.r01f01 == userId).SingleOrDefault();
+
+            return user;
+        }
+
+        /// <summary>
+        /// Mehtod to get username from user ID
+        /// </summary>
+        /// <param name="userId">User id</param>
+        /// <returns>ResponseStatusInfo object that encapsulates info to create response accordingly</returns>
+        public ResponseStatusInfo GetUsername(int userId)
+        {
+            List<USR01> lstUser = GetUsers();
+            string username = lstUser.Where(user => user.r01f01 == userId)
+                .Select(user => user.r01f02).SingleOrDefault();
+            if (username != null && username != string.Empty)
+            {
+                return new ResponseStatusInfo()
+                {
+                    IsRequestSuccessful = true,
+                    StatusCode = HttpStatusCode.OK,
+                    Message = $"Username for User ID: {userId}",
+                    Data = username
+                };
+            }
+            throw new UsernameNotFoundException("Username not found");
+            //return new ResponseStatusInfo()
+            //{
+            //    IsRequestSuccessful = false,
+            //    StatusCode = HttpStatusCode.NotFound,
+            //    Message = "Username not found",
+            //    Data = null
+            //};
+        }
 
         /// <summary>
         /// BL method to add a user
         /// </summary>
-        /// <param name="newUserData">JObject that contains new user data that is to be created</param>
+        /// <param name="UserEmployee">USREMP instance that contains info to create new user and/or new employee</param>
         /// <returns>ResponseStatusInfo object that encapsulates info to create response accordingly</returns>
-        public ResponseStatusInfo AddUser(JObject newUserData)
+        public ResponseStatusInfo AddUser(USREMP UserEmployee)
         {
             // check if user already exists
-            List<USR01> users = GetUsers();
-            USR01 existingUser = users.FirstOrDefault(u => u.r01f02 == ((JObject)newUserData["user"])["r01f02"].ToString());
-
-            USR01 newUser = null;
+            List<USR01> lstUser = GetUsers();
+            USR01 user = lstUser.FirstOrDefault(u => u.r01f02 == UserEmployee.user.r01f02);
 
             // if not then get next user id
-            if (existingUser == null)
+            if (user == null)
             {
-                // create a new user object and appen it to User.json array
-                int nextUserId = users[users.Count - 1].r01f01 + 1;
+                user = UserEmployee.user;
 
-                // create JObject of similar structure like USR01
+                // create a new user object and append it to User.json array
+                int nextUserId = lstUser[lstUser.Count - 1].r01f01 + 1;
 
-                ((JObject)newUserData["user"]).Add(new JProperty("r01f01", nextUserId.ToString()));
+                // set nextUser
+                user.r01f01 = nextUserId;
 
-                // create .net USR01 object
-                newUser = ((JObject)newUserData["user"]).ToObject<USR01>();
+                bool IsEmployee = user.r01f04.Split(',').Any(role => role == "employee");
+                EMP01 employee = UserEmployee.employee;
 
-                bool IsEmployee = newUser.r01f04.Split(',').Any(role => role == "employee");
-
-                if (IsEmployee && newUserData["employee"] == null)
+                if (IsEmployee && employee == null)
                 {
+                    // user want's to be employee, but haven't provided employee data
                     return new ResponseStatusInfo()
                     {
                         IsRequestSuccessful = false,
@@ -60,10 +102,10 @@ namespace FirmWebApiDemo.BL
                 }
 
                 // update USR01.json file
-                SetUser(newUser);
+                SetUser(user);
 
                 // check if role is employee
-                if (IsEmployee && newUserData["employee"] != null)
+                if (IsEmployee && employee != null)
                 {
                     int nextEmployeeId = -1;
 
@@ -80,24 +122,21 @@ namespace FirmWebApiDemo.BL
                         nextEmployeeId = employees[employees.Count - 1].p01f01 + 1;
                     }
 
-                    JObject employeeJson = ((JObject)newUserData["employee"]);
-
-                    // add employee id to Employee json
-                    employeeJson.Add(new JProperty("p01f01", nextEmployeeId.ToString()));
+                    // add employee id to Employee object
+                    employee.p01f01 = nextEmployeeId;
 
                     // save this employee to Employee.json
-                    EMP01 newEmployee = employeeJson.ToObject<EMP01>();
-                    blEmployee.SetEmployee(newEmployee);
+                    blEmployee.SetEmployee(employee);
 
                     // update UserEmployee.json junction file
-                    BLUser_Employee bLUser_Employee = new BLUser_Employee();
-                    bLUser_Employee.SetUserEmployee(newUser.r01f01, newEmployee.p01f01);
+                    BLUserEmployee bLUser_Employee = new BLUserEmployee();
+                    bLUser_Employee.SetUserEmployee(new UIDEID01() { d01f01 = user.r01f01, d01f02 = employee.p01f01 });
                     return new ResponseStatusInfo()
                     {
                         IsRequestSuccessful = true,
                         StatusCode = HttpStatusCode.OK,
                         Message = $"User and Employee has been successfully created. Your user-id is: {nextUserId} and employee-id is {nextEmployeeId}",
-                        Data = newUser
+                        Data = user
                     };
                     //return Ok(ResponseWrapper.Wrap($"User and Employee has been successfully created. Your user-id is: {nextUserId} and employee-id is {nextEmployeeId}", newUser));
                 }
@@ -117,8 +156,8 @@ namespace FirmWebApiDemo.BL
             {
                 IsRequestSuccessful = true,
                 StatusCode = HttpStatusCode.OK,
-                Message = $"User (you are not an employee) has been successfully created. Your user id is: {newUser.r01f01}",
-                Data = newUser
+                Message = $"User (not an employee) has been successfully created. Your user id is: {user.r01f01}",
+                Data = user
             };
         }
 
@@ -156,9 +195,9 @@ namespace FirmWebApiDemo.BL
                 int userId = lstUser[userIndex].r01f01;
 
                 // get employee id
-                BLUser_Employee bLUser_Employee = new BLUser_Employee();
-                List<USR01_EMP01> lstUserEmployee = bLUser_Employee.GetUserEmployees();
-                int EmployeeId = lstUserEmployee.FirstOrDefault(ue => ue.p01f01 == userId).p01f02;
+                BLUserEmployee bLUser_Employee = new BLUserEmployee();
+                List<UIDEID01> lstUserEmployee = bLUser_Employee.GetUserEmployees();
+                int EmployeeId = lstUserEmployee.FirstOrDefault(ue => ue.d01f01 == userId).d01f02;
 
                 BLEmployee blEmployee = new BLEmployee();
                 List<EMP01> lstEmployee = blEmployee.GetEmployees();
@@ -168,18 +207,24 @@ namespace FirmWebApiDemo.BL
                     // remove employee from lstEmployee
                     lstEmployee.RemoveAt(EmployeeIndex);
 
-                    // update the same in Employee.json file
-                    blEmployee.SetEmployees(lstEmployee);
-
-                    BLAttendance bLAttendance = new BLAttendance();
-
                     // remove all employee trace from attendance too
+                    BLAttendance bLAttendance = new BLAttendance();
                     List<ATD01> lstAttendance = bLAttendance.GetAttendances();
-
                     lstAttendance.RemoveAll(attendance => attendance.d01f02 == EmployeeId);
 
                     // update the same in Attendance.json file
                     bLAttendance.SetAttendances(lstAttendance);
+
+                    // remove the user, employee trace from junction file (UIDEID.json)
+                    BLUserEmployee blUserEmployee = new BLUserEmployee();
+                    List<UIDEID01> lstUidEid = blUserEmployee.GetUserEmployees();
+                    lstUidEid.RemoveAt(lstUidEid.FindIndex(UidEid => UidEid.d01f01 == id));
+
+                    // update the same in UserEmployee.json file
+                    blUserEmployee.SetUserEmployees(lstUidEid);
+
+                    // update the same in Employee.json file
+                    blEmployee.SetEmployees(lstEmployee);
                 }
 
                 // remove user from lstEmployee
@@ -208,22 +253,37 @@ namespace FirmWebApiDemo.BL
             //return ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.NotFound, "User Not Found"));
         }
 
-
-
         /// <summary>
-        /// Method to fetch all users list from USR01.json file
+        /// Method to fetch all users list from USR01.
+        /// file
         /// </summary>
         /// <returns>List of user of USR01 class</returns>
         public List<USR01> GetUsers()
         {
-            List<USR01> users = null;
-            // get employee array from data.User.json file
-            using (StreamReader sr = new StreamReader(UserFilePath))
+            List<USR01> lstUser = (List<USR01>)CacheManager.AppCache.Get("lstUser");
+            if (lstUser == null)
             {
-                string usersJson = sr.ReadToEnd();
-                users = JsonConvert.DeserializeObject<List<USR01>>(usersJson);
+                // get employee array from data.User.json file
+                using (StreamReader sr = new StreamReader(UserFilePath))
+                {
+                    string usersJson = sr.ReadToEnd();
+                    lstUser = JsonConvert.DeserializeObject<List<USR01>>(usersJson);
+                }
+
+                CacheDependency cacheDependency = new CacheDependency(
+                    UserFilePath,
+                    DateTime.Now.AddSeconds(20)
+                );
+
+                CacheManager.AppCache.Insert(
+                    "lstUser",
+                    lstUser,
+                    cacheDependency,
+                    DateTime.MaxValue,
+                    new TimeSpan(0, 0, 20)
+                );
             }
-            return users;
+            return lstUser;
         }
 
         /// <summary>

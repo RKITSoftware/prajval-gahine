@@ -128,6 +128,7 @@
     <Compile Include="BL\BLEmployee.cs" />
     <Compile Include="Controllers\DefaultController.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
+    <Compile Include="Exception\UnhandledExceptionFilterAttribute.cs" />
     <Compile Include="Filter\NotImplExceptionAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
+using System.Web.Caching;
 
 namespace FirmWebApiDemo.BL
 {
@@ -15,8 +16,35 @@ namespace FirmWebApiDemo.BL
         /// <summary>
         /// File location to Employee.json file
         /// </summary>
-        private static readonly string EmployeeFilePath = HttpContext.Current.Server.MapPath(@"~/data/Employee.json");
+        public static readonly string EmployeeFilePath = HttpContext.Current.Server.MapPath(@"~/App_Data/Employee.json");
 
+        public ResponseStatusInfo FetchEmployeeId(int userId)
+        {
+            BLUserEmployee bLUserEmployee = new BLUserEmployee();
+            List<UIDEID01> lstUidEid = bLUserEmployee.GetUserEmployees();
+
+            int employeeId = lstUidEid.Where(ue => ue.d01f01 == userId)
+                .Select(ue => ue.d01f02)
+                .SingleOrDefault();
+
+            if (employeeId == 0)
+            {
+                return new ResponseStatusInfo()
+                {
+                    IsRequestSuccessful = false,
+                    StatusCode = HttpStatusCode.NotFound,
+                    Message = $"Corresponding user with UserID: {userId} is not an employee",
+                    Data = null
+                };
+            }
+            return new ResponseStatusInfo()
+            {
+                IsRequestSuccessful = true,
+                StatusCode = HttpStatusCode.OK,
+                Message = null,
+                Data = employeeId
+            };
+        }
 
         /// <summary>
         /// BL method to add todays attendance of an employee
@@ -34,10 +62,10 @@ namespace FirmWebApiDemo.BL
             List<ATD01> lstAttendance = bLAttendance.GetAttendances();
 
             // now get employee id for given userid from User-Employee junction
-            BLUser_Employee bLUser_Employee = new BLUser_Employee();
-            List<USR01_EMP01> lstUserEmployee = bLUser_Employee.GetUserEmployees();
+            BLUserEmployee bLUser_Employee = new BLUserEmployee();
+            List<UIDEID01> lstUserEmployee = bLUser_Employee.GetUserEmployees();
 
-            USR01_EMP01 UserEmployee = lstUserEmployee.FirstOrDefault(ue => ue.p01f01 == userId);
+            UIDEID01 UserEmployee = lstUserEmployee.FirstOrDefault(ue => ue.d01f01 == userId);
 
             if (UserEmployee == null)    // no employee is associated with given userid
             {
@@ -50,7 +78,7 @@ namespace FirmWebApiDemo.BL
                 };
             }
 
-            int EmployeeId = UserEmployee.p01f02;
+            int EmployeeId = UserEmployee.d01f02;
 
 
             if (lstAttendance.Any(attendance => attendance.d01f02 == EmployeeId && attendance.d01f03.Date == DateTime.Now.Date))
@@ -87,78 +115,18 @@ namespace FirmWebApiDemo.BL
                 Data = null
             };
         }
-
-        /// <summary>
-        /// BL method to fetch an employee attendances (by admin)
-        /// </summary>
-        /// <param name="EmployeeId">Employee Id</param>
-        /// <returns>ResponseStatusInfo object that encapsulates info to create response accordingly</returns>
-        public ResponseStatusInfo FetchAttendances(int EmployeeId)
-        {
-            BLEmployee blEmployee = new BLEmployee();
-            // check if employee exists
-            if (!blEmployee.Exists(EmployeeId))
-            {
-                return new ResponseStatusInfo()
-                {
-                    IsRequestSuccessful = false,
-                    StatusCode = HttpStatusCode.NotFound,
-                    Message = $"No Employee exists with employee id: {EmployeeId}",
-                    Data = null
-                };
-                //return ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.NotFound, $"No Employee exists with employee id: {EmployeeId}"));
-            }
-
-            BLAttendance bLAttendance = new BLAttendance();
-
-            List<ATD01> lstAttendance = bLAttendance.GetAttendances();
-
-            List<DateTime> lstEmployeeAttendance = lstAttendance.Where(attendance => attendance.d01f02 == EmployeeId)
-                .Select(attendance => attendance.d01f03)
-                .ToList();
-
-            return new ResponseStatusInfo()
-            {
-                IsRequestSuccessful = true,
-                StatusCode = HttpStatusCode.OK,
-                Message = $"Attendance List of Employee with Employee id: {EmployeeId}",
-                Data = new { attendances = lstEmployeeAttendance }
-            };
-            //return Ok(ResponseWrapper.Wrap($"Attendance List of Employee with Employee id: {EmployeeId}", new { attendances = lstEmployeeAttendance }));
-
-        }
-
         /// <summary>
         /// BL method to fetch an employee attendances (employee himself)
         /// </summary>
         /// <param name="EmployeeId">Employee Id</param>
         /// <returns>ResponseStatusInfo object that encapsulates info to create response accordingly</returns>
-        public ResponseStatusInfo FetchAttendance(int UserId)
+        public ResponseStatusInfo FetchAttendance(int employeeId)
         {
 
             BLAttendance bLAttendance = new BLAttendance();
             List<ATD01> lstAttendance = bLAttendance.GetAttendances();
 
-            // now get employee id for given userid from User-Employee junction
-            BLUser_Employee bLUser_Employee = new BLUser_Employee();
-            List<USR01_EMP01> lstUserEmployee = bLUser_Employee.GetUserEmployees();
-
-            USR01_EMP01 UserEmployee = lstUserEmployee.FirstOrDefault(ue => ue.p01f01 == UserId);
-
-            if (UserEmployee == null)    // no employee is associated with given userid
-            {
-                return new ResponseStatusInfo()
-                {
-                    IsRequestSuccessful = false,
-                    StatusCode = HttpStatusCode.BadRequest,
-                    Message = "You are not an employee",
-                    Data = null
-                };
-            }
-
-            int EmployeeId = UserEmployee.p01f02;
-
-            List<DateTime> lstEmployeeAttendance = lstAttendance.Where(attendance => attendance.d01f02 == EmployeeId)
+            List<DateTime> lstEmployeeAttendance = lstAttendance.Where(attendance => attendance.d01f02 == employeeId)
                 .Select(attendance => attendance.d01f03)
                 .ToList();
 
@@ -191,15 +159,28 @@ namespace FirmWebApiDemo.BL
         /// <returns>list of employees</returns>
         public List<EMP01> GetEmployees()
         {
-            List<EMP01> employees = null;
-
-            using (StreamReader sr = new StreamReader(EmployeeFilePath))
+            List<EMP01> lstEmployee = (List<EMP01>)CacheManager.AppCache.Get("lstEmployee");
+            if (lstEmployee == null)
             {
-                string employeeJson = sr.ReadToEnd();
-                employees = JsonConvert.DeserializeObject<List<EMP01>>(employeeJson);
-            }
+                using (StreamReader sr = new StreamReader(EmployeeFilePath))
+                {
+                    string employeeJson = sr.ReadToEnd();
+                    lstEmployee = JsonConvert.DeserializeObject<List<EMP01>>(employeeJson);
+                }
 
-            return employees;
+                CacheDependency cacheDependency = new CacheDependency(
+                    BLEmployee.EmployeeFilePath,
+                    DateTime.Now.AddSeconds(20)
+                );
+                CacheManager.AppCache.Insert(
+                    "lstEmployee",
+                    lstEmployee,
+                    cacheDependency,
+                    DateTime.MaxValue,
+                    new TimeSpan(0, 0, 20)
+                );
+            }
+            return lstEmployee;
         }
 
         /// <summary>

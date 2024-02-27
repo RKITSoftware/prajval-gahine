@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FirmAdvanceDemo.Utitlity;
+using System;
 using System.Net;
 using System.Net.Http;
 using System.Security.Claims;
@@ -17,29 +18,7 @@ namespace FirmAdvanceDemo.Auth
     /// </summary>
     public class BasicAuthenticationAttribute : AuthorizationFilterAttribute
     {
-        /// <summary>
-        /// Method to create and attach principal to current thread and http context
-        /// </summary>
-        /// <param name="userId">user id</param>
-        /// <param name="username">username</param>
-        /// <param name="roles">user roles</param>
-        /// <returns></returns>
-        public bool AttachPrinicpal(string userId, string username, string[] roles)
-        {
-            GenericIdentity identity = new GenericIdentity(username);
-            identity.AddClaim(new Claim("Id", userId));
-            identity.AddClaim(new Claim("Username", username));
 
-            GenericPrincipal principal = new GenericPrincipal(identity, roles);
-
-            Thread.CurrentPrincipal = principal;
-            if (HttpContext.Current != null)
-            {
-                HttpContext.Current.User = principal;
-                return true;
-            }
-            return false;
-        }
 
         public override void OnAuthorization(HttpActionContext actionContext)
         {
@@ -65,7 +44,7 @@ namespace FirmAdvanceDemo.Auth
 
                     if (IsUserValid)
                     {
-                        bool IsPrincipalAttached = this.AttachPrinicpal(userId.ToString(), username, roles);
+                        bool IsPrincipalAttached = GeneralUtility.AttachPrinicpal(userId.ToString(), username, roles);
 
                         if(!IsPrincipalAttached)
                         {

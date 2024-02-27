@@ -2,14 +2,14 @@
 using FirmWebApiDemo.BL;
 using FirmWebApiDemo.Models;
 using FirmWebApiDemo.Utility;
-using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Web.Http;
 
 namespace FirmWebApiDemo.Controllers
 {
-    [BasicAuthentication]
+    [RoutePrefix("api")]
     public class CLUserController : ApiController
     {
         /// <summary>
@@ -17,25 +17,51 @@ namespace FirmWebApiDemo.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
+        [BearerAuthentication]
         [BasicAuthorization(Roles = "admin")]
-        public IHttpActionResult GetUsers()
+        [Route("v1/user")]
+        public IHttpActionResult GetUsersV1()
         {
             BLUser bLUser = new BLUser();
-            List<USR01> users = bLUser.GetUsers();
-            return Ok(ResponseWrapper.Wrap("List of users", users));
+            List<USR01> lstUser = bLUser.GetUsers();
+            return Ok(ResponseWrapper.Wrap("List of users", lstUser));
+        }
+
+        /// <summary>
+        /// Http Get action to get all users without their password
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [BearerAuthentication]
+        [BasicAuthorization(Roles = "admin")]
+        [Route("v2/user")]
+        public IHttpActionResult GetUsersV2()
+        {
+            BLUser bLUser = new BLUser();
+            List<USR01> lstUser = bLUser.GetUsers();
+            object lstUserV2 = lstUser.Select(u => new
+            {
+                r01f01 = u.r01f01,
+                r01f02 = u.r01f02,
+                r01f04 = u.r01f04
+            }
+            );
+            return Ok(ResponseWrapper.Wrap("List of users", lstUserV2)); ;
         }
 
         /// <summary>
         /// Http Post action method to create a user
         /// </summary>
-        /// <param name="newUserData"></param>
+        /// <param name="UserEmployee"></param>
         /// <returns>Object that can be referred by IHttpActionResult</returns>
         [HttpPost]
+        [BearerAuthentication]
         [BasicAuthorization(Roles = "admin")]
-        public IHttpActionResult PostUser(JObject newUserData)
+        [Route("")]
+        public IHttpActionResult PostUser(USREMP UserEmployee)
         {
             BLUser bLUser = new BLUser();
-            ResponseStatusInfo responseStatusInfo = bLUser.AddUser(newUserData);
+            ResponseStatusInfo responseStatusInfo = bLUser.AddUser(UserEmployee);
 
             if (responseStatusInfo.IsRequestSuccessful == false)
             {
@@ -51,7 +77,9 @@ namespace FirmWebApiDemo.Controllers
         /// <param name="id">UserId</param>
         /// <returns>Object that can be referred by IHttpActionResult</returns>
         [HttpDelete]
+        [BearerAuthentication]
         [BasicAuthorization(Roles = "admin")]
+        [Route("")]
         public IHttpActionResult DeleteUser(int id)
         {
             BLUser bLUser = new BLUser();

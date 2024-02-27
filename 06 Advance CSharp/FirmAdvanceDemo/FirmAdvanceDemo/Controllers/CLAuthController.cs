@@ -16,7 +16,7 @@ namespace FirmAdvanceDemo.Controllers
     {
         /// <summary>
         /// Non action method to generate a jwt based on header and payload
-        /// </summary>
+            /// </summary>
         /// <param name="header">Jwt Header</param>
         /// <param name="payload">Jwt Payload</param>
         /// <returns></returns>

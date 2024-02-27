@@ -1,8 +1,11 @@
 ﻿using FirmWebApiDemo.Models;
+using FirmWebApiDemo.Utility;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Web;
+using System.Web.Caching;
 
 namespace FirmWebApiDemo.BL
 {
@@ -11,8 +14,7 @@ namespace FirmWebApiDemo.BL
         /// <summary>
         /// File location to Attendance.json file
         /// </summary>
-        private static readonly string AttendacneFilePath = HttpContext.Current.Server.MapPath(@"~/data/Attendance.json");
-
+        private static readonly string AttendacneFilePath = HttpContext.Current.Server.MapPath(@"~/App_Data/Attendance.json");
 
         /// <summary>
         /// Gets all Employee Attedance list
@@ -20,14 +22,29 @@ namespace FirmWebApiDemo.BL
         /// <returns>list of attendances</returns>
         public List<ATD01> GetAttendances()
         {
-            List<ATD01> lstAttendance = null;
+            List<ATD01> lstAttendance = (List<ATD01>)CacheManager.AppCache.Get("lstAttendance");
 
-            using (StreamReader sr = new StreamReader(AttendacneFilePath))
+            if (lstAttendance == null)
             {
-                string attendanceJson = sr.ReadToEnd();
-                lstAttendance = JsonConvert.DeserializeObject<List<ATD01>>(attendanceJson);
-            }
+                using (StreamReader sr = new StreamReader(AttendacneFilePath))
+                {
+                    string attendanceJson = sr.ReadToEnd();
+                    lstAttendance = JsonConvert.DeserializeObject<List<ATD01>>(attendanceJson);
+                }
 
+                CacheDependency cacheDependency = new CacheDependency(
+                    AttendacneFilePath,
+                    DateTime.Now.AddSeconds(20)
+                );
+
+                CacheManager.AppCache.Insert(
+                    "lstAttendance",
+                    lstAttendance,
+                    cacheDependency,
+                    DateTime.MaxValue,
+                    new TimeSpan(0, 0, 20)
+                );
+            }
             return lstAttendance;
         }
 

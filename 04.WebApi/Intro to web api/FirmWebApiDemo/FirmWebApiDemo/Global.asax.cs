@@ -1,5 +1,4 @@
 using System.Web.Http;
-using FirmWebApiDemo.App_Start;
 
 namespace FirmWebApiDemo
 {

@@ -8,13 +8,17 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Web;
+using System.Web.Http.Filters;
+using System.Net.Http.Headers;
+using System.Web.Http.Controllers;
+using System.Net.Http;
 
 namespace FirmAdvanceDemo.Auth
 {
     /// <summary>
     /// Attribute to authenticate user based on bearer token
     /// </summary>
-    public abstract class BearerAuthenticationAttribute : BasicAuthenticationAttribute
+    public abstract class BearerAuthenticationAttribute : AuthorizationFilterAttribute
     {
         /// <summary>
         /// Method to Authenticate a jwt (hash and expiry)
@@ -67,7 +71,7 @@ namespace FirmAdvanceDemo.Auth
                             string username = (string)rsiGetUsername.Data;
                             string[] roles = (string[])rsiGetUserRoles.Data;
 
-                            bool IsPrincipalAttached = this.AttachPrinicpal(userId.ToString(), username, roles);
+                            bool IsPrincipalAttached = GeneralUtility.AttachPrinicpal(userId.ToString(), username, roles);
 
                             if (!IsPrincipalAttached)
                             {
@@ -95,6 +99,6 @@ namespace FirmAdvanceDemo.Auth
             }
             return ErrorMessage;
         }
-
+        
     }
 }

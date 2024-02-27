@@ -2,8 +2,11 @@
 using Org.BouncyCastle.Asn1.Pkcs;
 using System;
 using System.IO;
+using System.Security.Claims;
 using System.Security.Cryptography;
+using System.Security.Principal;
 using System.Text;
+using System.Threading;
 using System.Web;
 
 namespace FirmAdvanceDemo.Utitlity
@@ -13,6 +16,31 @@ namespace FirmAdvanceDemo.Utitlity
     /// </summary>
     public class GeneralUtility
     {
+        /// <summary>
+        /// Method to create and attach principal to current thread and http context
+        /// </summary>
+        /// <param name="userId">user id</param>
+        /// <param name="username">username</param>
+        /// <param name="roles">user roles</param>
+        /// <returns></returns>
+        public static bool AttachPrinicpal(string userId, string username, string[] roles)
+        {
+            GenericIdentity identity = new GenericIdentity(username);
+            identity.AddClaim(new Claim("Id", userId));
+            identity.AddClaim(new Claim("Username", username));
+
+            GenericPrincipal principal = new GenericPrincipal(identity, roles);
+
+            Thread.CurrentPrincipal = principal;
+            if (HttpContext.Current != null)
+            {
+                HttpContext.Current.User = principal;
+                return true;
+            }
+            return false;
+        }
+
+
         /// <summary>
         /// Get HMAC (Hash-based Message Authentication Code) hash of given string(text) using given string(key)
         /// </summary>

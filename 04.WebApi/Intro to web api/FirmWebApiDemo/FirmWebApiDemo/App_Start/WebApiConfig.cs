@@ -1,6 +1,9 @@
-﻿using System.Web.Http;
-using System.Web.Http.Dispatcher;
-using FirmWebApiDemo.Versioning;
+﻿using FirmWebApiDemo.Exceptions;
+using FirmWebApiDemo.Exceptions.CustomException;
+using System;
+using System.Net;
+using System.Web;
+using System.Web.Http;
 
 namespace FirmWebApiDemo
 {
@@ -19,7 +22,11 @@ namespace FirmWebApiDemo
                 defaults: new { id = RouteParameter.Optional }
             );
 
-            config.Services.Replace(typeof(IHttpControllerSelector), new CustomControllerSelector(config));
+            config.Filters.Add(
+                new UnhandledExceptionFilterAttribute()
+                .Register<UsernameNotFoundException>(HttpStatusCode.NotFound)
+                .Register<Exception>(HttpStatusCode.InternalServerError)
+            );
         }
     }
 }

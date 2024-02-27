@@ -89,7 +89,6 @@ namespace ServerSideCachingDemo.Controllers
                 DateTime.Now.AddSeconds(5)
             );
 
-
             _myCache.Insert(
                 "lstUserFromFile",
                 lstUser,

@@ -19,6 +19,12 @@ namespace FirmWebApiDemo.Models
         /// </summary>
         public DateTime d01f03;
 
+        /// <summary>
+        /// Attendance model
+        /// </summary>
+        /// <param name="AttendanceId">Attendance Id</param>
+        /// <param name="EmployeeId">Employee Id</param>
+        /// <param name="AttendanceDate">Attendance Date</param>
         public ATD01(int AttendanceId, int EmployeeId, DateTime AttendanceDate)
         {
             this.d01f01 = AttendanceId;

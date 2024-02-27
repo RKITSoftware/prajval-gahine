@@ -14,7 +14,6 @@ namespace FirmWebApiDemo.Controllers
     [RoutePrefix("api/clemployee")]
     public class CLEmployeeController : ApiController
     {
-
         //get all employees admin
         /// <summary>
         /// Employee controller action to get all employees
@@ -25,7 +24,7 @@ namespace FirmWebApiDemo.Controllers
         public IHttpActionResult GetEmployees()
         {
             BLEmployee bLEmployee = new BLEmployee();
-            List<EMP01> lstEmployee = bLEmployee.GetEmployees();
+            List<EMP01> lstEmployee = bLEmployee.GetEmployees(); ;
 
             return Ok(ResponseWrapper.Wrap("List of employees", lstEmployee));
         }
@@ -59,33 +58,42 @@ namespace FirmWebApiDemo.Controllers
             return Ok(ResponseWrapper.Wrap(responseStatusInfo.Message, null));
         }
 
-        // get another employee attendance - admin
+        // get employee attendance
         /// <summary>
         /// Employee controller action to get an employee attendances
         /// </summary>
-        /// <param name="id">Employee id</param>
+        /// <param name="id">User ID</param>
         /// <returns></returns>
-        [Route("attendance/{id}")]
+        [HttpGet]
+        [Route("attendance/{userId}")]
         [BasicAuthorization(Roles = "admin")]
-        public IHttpActionResult GetAttendance(int id)
+        public IHttpActionResult GetAttendance(int userId)
         {
-            BLEmployee bLEmployee = new BLEmployee();
-            ResponseStatusInfo responseStatusInfo = bLEmployee.FetchAttendances(id);
+            BLEmployee blEmployee = new BLEmployee();
+            ResponseStatusInfo rsi = blEmployee.FetchEmployeeId(userId);
 
-            if (responseStatusInfo.IsRequestSuccessful == false)
+            if (!rsi.IsRequestSuccessful)
             {
-                return ResponseMessage(Request.CreateErrorResponse(responseStatusInfo.StatusCode, responseStatusInfo.Message));
+                return ResponseMessage(Request.CreateErrorResponse(rsi.StatusCode, rsi.Message));
             }
-            return Ok(ResponseWrapper.Wrap(responseStatusInfo.Message, responseStatusInfo.Data));
+            int employeeId = (int)rsi.Data;
+
+            rsi = blEmployee.FetchAttendance(employeeId);
+
+            return Ok(ResponseWrapper.Wrap(rsi.Message, rsi.Data));
         }
 
-        // get my attendance
+        // get employee attendance
+        /// <summary>
+        /// Employee controller action to get an employee attendances
+        /// </summary>
+        /// <param name="id">User ID</param>
+        /// <returns></returns>
         [HttpGet]
-        [Route("attendance")]
+        [Route("attendance/{id}")]
         [BasicAuthorization(Roles = "employee")]
         public IHttpActionResult GetAttendance()
         {
-
             // get claims from identity attached to User or Thread.CurrentPrincipal
             IEnumerable<Claim> claims = ((ClaimsIdentity)User.Identity).Claims;
 
@@ -93,15 +101,19 @@ namespace FirmWebApiDemo.Controllers
             int userId = int.Parse(claims.Where(c => c.Type == "r01f01")
                    .Select(c => c.Value).SingleOrDefault());
 
-            BLEmployee bLEmployee = new BLEmployee();
-            ResponseStatusInfo responseStatusInfo = bLEmployee.FetchAttendance(userId);
 
-            if (responseStatusInfo.IsRequestSuccessful == false)
+            BLEmployee blEmployee = new BLEmployee();
+            ResponseStatusInfo rsi = blEmployee.FetchEmployeeId(userId);
+
+            if (!rsi.IsRequestSuccessful)
             {
-                return ResponseMessage(Request.CreateErrorResponse(responseStatusInfo.StatusCode, responseStatusInfo.Message));
-
+                return ResponseMessage(Request.CreateErrorResponse(rsi.StatusCode, rsi.Message));
             }
-            return Ok(ResponseWrapper.Wrap(responseStatusInfo.Message, responseStatusInfo.Data));
+            int employeeId = (int)rsi.Data;
+
+            rsi = blEmployee.FetchAttendance(employeeId);
+
+            return Ok(ResponseWrapper.Wrap(rsi.Message, rsi.Data));
         }
     }
 }

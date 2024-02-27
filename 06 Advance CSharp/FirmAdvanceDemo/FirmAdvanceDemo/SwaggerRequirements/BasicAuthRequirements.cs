@@ -1,22 +1,24 @@
-﻿using FirmWebApiDemo.Authentication;
+﻿using FirmAdvanceDemo.Auth;
 using Swashbuckle.Swagger;
+using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.Web.Http;
+using System.Web;
 using System.Web.Http.Description;
 using System.Web.Http.Filters;
+using System.Web.Http;
+using System.Collections.ObjectModel;
 
-namespace FirmWebApiDemo.Swagger
+namespace FirmAdvanceDemo.SwaggerRequirements
 {
-    public class CheckBasicAuthenticationSwagger : IOperationFilter
+    public class BasicAuthRequirements : IOperationFilter
     {
         public void Apply(Operation operation, SchemaRegistry schemaRegistry, ApiDescription apiDescription)
         {
             Collection<FilterInfo> filterPipeline = apiDescription.ActionDescriptor.GetFilterPipeline();
             bool isAuthorized = filterPipeline
                 .Select(filterInfo => filterInfo.Instance)
-                .Any(filter => filter is BasicAuthentication);
+                .Any(filter => filter is BasicAuthenticationAttribute);
 
             bool isAnonymous = apiDescription.ActionDescriptor.GetCustomAttributes<AllowAnonymousAttribute>().Any();
 
@@ -29,15 +31,14 @@ namespace FirmWebApiDemo.Swagger
                 operation.parameters.Add(
                         new Parameter
                         {
-                            name = "Authorization",
+                            name = "Basic Authorization",
                             @in = "header",
                             type = "string",
                             required = true,
-                            description = "Basic Authentication [username:Password]"
+                            description = "Basic Authentication base64Encoded({username}:{password})"
                         }
                     );
             }
         }
-
     }
 }

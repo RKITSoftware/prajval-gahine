@@ -1,6 +1,5 @@
 F:\prajval-gahine\prajval-gahine\04.WebApi\Intro to web api\FirmWebApiDemo\FirmWebApiDemo\obj\Debug\FirmWebApiDemo.csproj.AssemblyReference.cache
 F:\prajval-gahine\prajval-gahine\04.WebApi\Intro to web api\FirmWebApiDemo\FirmWebApiDemo\obj\Debug\FirmWebApiDemo.csproj.CoreCompileInputs.cache
-F:\prajval-gahine\prajval-gahine\04.WebApi\Intro to web api\FirmWebApiDemo\FirmWebApiDemo\bin\Data\User.json
 F:\prajval-gahine\prajval-gahine\04.WebApi\Intro to web api\FirmWebApiDemo\FirmWebApiDemo\bin\FirmWebApiDemo.dll.config
 F:\prajval-gahine\prajval-gahine\04.WebApi\Intro to web api\FirmWebApiDemo\FirmWebApiDemo\bin\FirmWebApiDemo.dll
 F:\prajval-gahine\prajval-gahine\04.WebApi\Intro to web api\FirmWebApiDemo\FirmWebApiDemo\bin\FirmWebApiDemo.pdb
@@ -69,3 +68,4 @@ F:\prajval-gahine\prajval-gahine\04.WebApi\Intro to web api\FirmWebApiDemo\FirmW
 F:\prajval-gahine\prajval-gahine\04.WebApi\Intro to web api\FirmWebApiDemo\FirmWebApiDemo\obj\Debug\FirmWebApiDemo.dll
 F:\prajval-gahine\prajval-gahine\04.WebApi\Intro to web api\FirmWebApiDemo\FirmWebApiDemo\obj\Debug\FirmWebApiDemo.pdb
 F:\prajval-gahine\prajval-gahine\04.WebApi\Intro to web api\FirmWebApiDemo\FirmWebApiDemo\bin\Swashbuckle.Core.dll
+F:\prajval-gahine\prajval-gahine\04.WebApi\Intro to web api\FirmWebApiDemo\FirmWebApiDemo\bin\App_Data\User.json
