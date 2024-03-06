@@ -14,8 +14,15 @@ using System.Web.Http.Filters;
 
 namespace FirmWebApiDemo.Authentication
 {
+    /// <summary>
+    /// Attribute to perform bearer authentication
+    /// </summary>
     public class BearerAuthenticationAttribute : AuthorizationFilterAttribute
     {
+        /// <summary>
+        /// Method to perform bearer authentication
+        /// </summary>
+        /// <param name="actionContext">Action Context</param>
         public override void OnAuthorization(HttpActionContext actionContext)
         {
             // get the jwt

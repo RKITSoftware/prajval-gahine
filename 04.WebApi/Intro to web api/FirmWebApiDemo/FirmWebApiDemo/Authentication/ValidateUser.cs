@@ -11,6 +11,9 @@ using System.Web.Configuration;
 
 namespace FirmWebApiDemo.Authentication
 {
+    /// <summary>
+    /// Class to perform validation of a user
+    /// </summary>
     public class ValidateUser
     {
         /// <summary>
@@ -18,6 +21,13 @@ namespace FirmWebApiDemo.Authentication
         /// </summary>
         private static readonly string EncodedHeader = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9";
 
+        /// <summary>
+        /// Method to validate user based on basic credentials
+        /// </summary>
+        /// <param name="username">Username</param>
+        /// <param name="password">Password</param>
+        /// <returns>True if valid else false</returns>
+        /// <exception cref="UsernameNotFoundException"></exception>
         public static bool Login(string username, string password)
         {
             // get username and password of intended user from User.json file
@@ -35,6 +45,11 @@ namespace FirmWebApiDemo.Authentication
             throw new UsernameNotFoundException();
         }
 
+        /// <summary>
+        /// Method to generate hash of given text
+        /// </summary>
+        /// <param name="text">A string that is to be hashed</param>
+        /// <returns>A hashed string</returns>
         public static string GenerateHash(string text)
         {
             string key = WebConfigurationManager.AppSettings["jwtSecretKey"];
@@ -46,9 +61,15 @@ namespace FirmWebApiDemo.Authentication
             return Convert.ToBase64String(hash);
         }
 
+        /// <summary>
+        /// Method to generate a Jwt token based on given claims
+        /// </summary>
+        /// <param name="userId">User id</param>
+        /// <param name="username">Username</param>
+        /// <returns></returns>
         public static string GenerateJwt(int userId, string username)
         {
-            long expires = ((DateTimeOffset)DateTime.UtcNow.AddMinutes(3)).ToUnixTimeSeconds();
+            long expires = ((DateTimeOffset)DateTime.UtcNow.AddHours(3)).ToUnixTimeSeconds();
 
             string payload = $"{{\"userId\":\"{userId}\",\"username\":\"{username}\",\"expires\":\"{expires}\"}}";
             string EncodedPayload = Convert.ToBase64String(Encoding.UTF8.GetBytes(payload));
@@ -61,7 +82,11 @@ namespace FirmWebApiDemo.Authentication
             return $"{EncodedHP}.{hash}";
         }
 
-
+        /// <summary>
+        /// Method to validate user based on jwt provided
+        /// </summary>
+        /// <param name="Jwt">A jwt string</param>
+        /// <returns>True if jwt is valid else false</returns>
         public static bool ValidateJwt(string Jwt)
         {
             string[] JwtParts = Jwt.Split('.');

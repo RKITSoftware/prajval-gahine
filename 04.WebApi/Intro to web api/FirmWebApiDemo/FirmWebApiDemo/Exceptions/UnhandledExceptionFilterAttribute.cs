@@ -1,24 +1,40 @@
 ﻿
+using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Net;
 using System.Net.Http;
+using System.Text;
 using System.Web;
 using System.Web.Http.Filters;
-using System;
-using System.Net;
-using System.Text;
-using System.IO;
 
 namespace FirmWebApiDemo.Exceptions
 {
+    /// <summary>
+    /// Exception Filter attribute that helps to handle any exception globally
+    /// </summary>
     public class UnhandledExceptionFilterAttribute : ExceptionFilterAttribute
     {
+        /// <summary>
+        /// Folder path to exception log folder
+        /// </summary>
         private static readonly string LogFolderPath = HttpContext.Current.Server.MapPath(@"App_Data/logs/");
 
+        /// <summary>
+        /// Dash delimiter for seperating exception in log files
+        /// </summary>
         private static readonly string DashLine = new string('-', 100);
+
+        /// <summary>
+        /// UnhandledExceptionFilterAttribute default constructor
+        /// </summary>
         public UnhandledExceptionFilterAttribute() : base()
         {
         }
 
+        /// <summary>
+        /// Default handler to execute when an exception is throw which is not binded to any other handler (except default handler)
+        /// </summary>
         private static Func<Exception, HttpRequestMessage, HttpResponseMessage> DefaultHandler = (exception, request) =>
         {
 
@@ -40,12 +56,15 @@ namespace FirmWebApiDemo.Exceptions
 
             HttpResponseMessage response = request.CreateResponse<string>(
                 HttpStatusCode.InternalServerError,
-                message
+                exception.Message
             );
             response.ReasonPhrase = exception.Message.Replace(Environment.NewLine, String.Empty);
             return response;
         };
 
+        /// <summary>
+        /// GetContentOf method to return whole content of exception (including it's nested inner exceptions)
+        /// </summary>
         private static Func<Exception, string> GetContentOf = (exception) =>
         {
             if (exception == null)
@@ -72,6 +91,9 @@ namespace FirmWebApiDemo.Exceptions
             return result.ToString();
         };
 
+        /// <summary>
+        /// Handlers property contains mapping of exception type and handler to execute when that exception is thrown
+        /// </summary>
         protected Dictionary<Type, Tuple<HttpStatusCode?, Func<Exception, HttpRequestMessage, HttpResponseMessage>>> Handlers
         {
             get
@@ -80,11 +102,18 @@ namespace FirmWebApiDemo.Exceptions
             }
         }
 
+        /// <summary>
+        /// _filterHandlers field contains mapping of exception type and handler to execute when that exception is thrown
+        /// </summary>
         private readonly Dictionary<Type, Tuple<HttpStatusCode?, Func<Exception, HttpRequestMessage, HttpResponseMessage>>> _filterHandlers = new Dictionary<Type, Tuple<HttpStatusCode?, Func<Exception, HttpRequestMessage, HttpResponseMessage>>>();
-        
+
+        /// <summary>
+        /// Mehtod to be executed when an exception is thrown and it executes appropriate handler based on thrown exception
+        /// </summary>
+        /// <param name="actionExecutedContext"></param>
         public override void OnException(HttpActionExecutedContext actionExecutedContext)
         {
-            if(actionExecutedContext == null || actionExecutedContext.Exception == null)
+            if (actionExecutedContext == null || actionExecutedContext.Exception == null)
             {
                 return;
             }
@@ -100,10 +129,10 @@ namespace FirmWebApiDemo.Exceptions
                 HttpStatusCode? statusCode = registration.Item1;
                 Func<Exception, HttpRequestMessage, HttpResponseMessage> handler = registration.Item2;
 
-                 response = handler(
-                    actionExecutedContext.Exception.GetBaseException(),
-                    actionExecutedContext.Request
-                );
+                response = handler(
+                   actionExecutedContext.Exception.GetBaseException(),
+                   actionExecutedContext.Request
+               );
 
                 if (statusCode.HasValue)
                 {
@@ -120,6 +149,12 @@ namespace FirmWebApiDemo.Exceptions
             actionExecutedContext.Response = response;
         }
 
+        /// <summary>
+        /// Method to register an exception and it's corresponding status code and handler
+        /// </summary>
+        /// <typeparam name="TException">Exception</typeparam>
+        /// <param name="statusCode">HttpStatusCode</param>
+        /// <returns>Instance of UnhandledExceptionFilterAttribute class</returns>
 
         public UnhandledExceptionFilterAttribute Register<TException>(HttpStatusCode? statusCode)
         {
@@ -131,10 +166,17 @@ namespace FirmWebApiDemo.Exceptions
             return this;
         }
 
+        /// <summary>
+        /// Method to register an exception and it's corresponding handler
+        /// </summary>
+        /// <typeparam name="TException">Exception</typeparam>
+        /// <param name="handler">Handler to be executed when this Exception is thrown</param>
+        /// <returns>Instance of UnhandledExceptionFilterAttribute</returns>
+        /// <exception cref="ArgumentNullException">ArgumentNullException</exception>
         public UnhandledExceptionFilterAttribute Register<TException>(Func<Exception, HttpRequestMessage, HttpResponseMessage> handler)
             where TException : Exception
         {
-            if(handler == null)
+            if (handler == null)
             {
                 throw new ArgumentNullException("handler");
             }
@@ -145,9 +187,14 @@ namespace FirmWebApiDemo.Exceptions
             return this;
         }
 
+        /// <summary>
+        /// Method to unregister a specific Exception
+        /// </summary>
+        /// <typeparam name="TException">Exception</typeparam>
+        /// <returns>Instance of UnhandledExceptionFilterAttribute</returns>
         public UnhandledExceptionFilterAttribute Unregister<TException>()
         {
-            Type exceptionType = typeof(TException);    
+            Type exceptionType = typeof(TException);
             this.Handlers.Remove(exceptionType);
 
             return this;

@@ -1,5 +1,8 @@
 ﻿namespace FirmWebApiDemo.Models
 {
+    /// <summary>
+    /// User model
+    /// </summary>
     public class USR01
     {
         /// <summary>

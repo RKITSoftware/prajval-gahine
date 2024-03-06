@@ -8,9 +8,16 @@ using System.Web.Http;
 
 namespace FirmWebApiDemo.Controllers
 {
+    /// <summary>
+    /// Authentication Controller
+    /// </summary>
     [RoutePrefix("api/token")]
     public class CLAuthenticationController : ApiController
     {
+        /// <summary>
+        /// Action method to generate an accesss token
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         [Route("generate")]
         [BasicAuthentication]
@@ -34,6 +41,10 @@ namespace FirmWebApiDemo.Controllers
             return Ok(ResponseWrapper.Wrap("access-token", jwt));
         }
 
+        /// <summary>
+        /// Action method to validate an access token
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         [Route("validate")]
         [BearerAuthentication]

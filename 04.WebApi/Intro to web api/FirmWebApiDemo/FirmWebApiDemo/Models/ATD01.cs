@@ -2,6 +2,9 @@
 
 namespace FirmWebApiDemo.Models
 {
+    /// <summary>
+    /// Attendance class model
+    /// </summary>
     public class ATD01
     {
         /// <summary>

@@ -2,6 +2,9 @@
 
 namespace FirmWebApiDemo.Models
 {
+    /// <summary>
+    /// Employee class model
+    /// </summary>
     public class EMP01
     {
         /// <summary>

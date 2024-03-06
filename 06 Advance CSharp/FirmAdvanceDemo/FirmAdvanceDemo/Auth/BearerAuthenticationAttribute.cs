@@ -71,7 +71,9 @@ namespace FirmAdvanceDemo.Auth
                             string username = (string)rsiGetUsername.Data;
                             string[] roles = (string[])rsiGetUserRoles.Data;
 
-                            bool IsPrincipalAttached = GeneralUtility.AttachPrinicpal(userId.ToString(), username, roles);
+
+                            int EmlpoyeeId = BLEmployee.FetchEmployeeIdByUserId(userId);
+                            bool IsPrincipalAttached = GeneralUtility.AttachPrinicpal(userId.ToString(), username, EmlpoyeeId.ToString(), roles);
 
                             if (!IsPrincipalAttached)
                             {

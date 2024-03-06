@@ -1,5 +1,8 @@
 ﻿namespace FirmWebApiDemo.Models
 {
+    /// <summary>
+    /// User Employee combiner model
+    /// </summary>
     public class USREMP
     {
         public USR01 user { get; set; }

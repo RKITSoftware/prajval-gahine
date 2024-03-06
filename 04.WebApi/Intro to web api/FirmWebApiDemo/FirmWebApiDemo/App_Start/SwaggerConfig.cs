@@ -50,6 +50,18 @@ namespace FirmWebApiDemo
                     //
                     c.SingleApiVersion("v1", "FirmWebApiDemo");
 
+                    c.ApiKey("api_token")
+                        .Description("API Authentication token")
+                        .Name("api_token_name")
+                        .In("header");
+
+                    c.ApiKey("Authorization")
+                       .Description("API Authentication token2")
+                       .Name("api_token_name2")
+                       .In("header");
+
+
+
                     // If you want the output Swagger docs to be indented properly, enable the "PrettyPrint" option.
                     //
                     //c.PrettyPrint();
@@ -78,6 +90,9 @@ namespace FirmWebApiDemo
                     //    .Description("Basic HTTP Authentication");
 
                     c.OperationFilter<CheckBasicAuthenticationSwagger>();
+                    //c.OperationFilter<CheckBearerAuthenticationSwagger>();
+
+
                     //
                     // NOTE: You must also configure 'EnableApiKeySupport' below in the SwaggerUI section
                     //c.ApiKey("7121")
@@ -260,13 +275,14 @@ namespace FirmWebApiDemo
                     //    clientSecret: null,
                     //    realm: "test-realm",
                     //    appName: "Swagger UI"
-                    //    //additionalQueryStringParams: new Dictionary<string, string>() { { "foo", "bar" } }
+                    //    //additionalQueryStringP  arams: new Dictionary<string, string>() { { "foo", "bar" } }
                     //);
 
                     // If your API supports ApiKey, you can override the default values.
                     // "apiKeyIn" can either be "query" or "header"
                     //
-                    //c.EnableApiKeySupport("apiKey", "header");
+                    c.EnableApiKeySupport("api_token", "header");
+                    c.EnableApiKeySupport("Authorization", "header");
                 });
         }
     }

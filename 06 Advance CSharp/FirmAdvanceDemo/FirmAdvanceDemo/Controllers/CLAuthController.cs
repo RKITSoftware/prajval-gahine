@@ -60,6 +60,7 @@ namespace FirmAdvanceDemo.Controllers
 
             response.Headers.AddCookies(new CookieHeaderValue[] { cookie });
             response.StatusCode = HttpStatusCode.OK;
+
             return response;
         }
 
@@ -76,7 +77,7 @@ namespace FirmAdvanceDemo.Controllers
                    .Select(c => c.Value).SingleOrDefault());
 
             string header = "{\"alg\":\"HS256\",\"typ\":\"JWT\"}";
-            string payload = $"{{\"id\":\"{userId}\",\"expires\":\"{DateTimeOffset.UtcNow.ToUnixTimeSeconds() + 3600}\"}}";
+            string payload = $"{{\"id\":\"{userId}\",\"expires\":\"{DateTimeOffset.UtcNow.ToUnixTimeSeconds() + 7890000}\"}}";
 
             string accessToken = this.GenerateJWT(header, payload);
 

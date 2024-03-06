@@ -11,6 +11,9 @@ using System.Web.Caching;
 
 namespace FirmWebApiDemo.BL
 {
+    /// <summary>
+    /// Buisness Logic class for Employee
+    /// </summary>
     public class BLEmployee
     {
         /// <summary>
@@ -18,6 +21,11 @@ namespace FirmWebApiDemo.BL
         /// </summary>
         public static readonly string EmployeeFilePath = HttpContext.Current.Server.MapPath(@"~/App_Data/Employee.json");
 
+        /// <summary>
+        /// BL method to get employee id based of user id
+        /// </summary>
+        /// <param name="userId">User ID</param>
+        /// <returns>Instance of ResponseStatusInfo</returns>
         public ResponseStatusInfo FetchEmployeeId(int userId)
         {
             BLUserEmployee bLUserEmployee = new BLUserEmployee();
@@ -115,6 +123,7 @@ namespace FirmWebApiDemo.BL
                 Data = null
             };
         }
+
         /// <summary>
         /// BL method to fetch an employee attendances (employee himself)
         /// </summary>

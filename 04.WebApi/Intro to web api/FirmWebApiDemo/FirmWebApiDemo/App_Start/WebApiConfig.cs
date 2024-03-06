@@ -2,8 +2,8 @@
 using FirmWebApiDemo.Exceptions.CustomException;
 using System;
 using System.Net;
-using System.Web;
 using System.Web.Http;
+using System.Web.Http.Cors;
 
 namespace FirmWebApiDemo
 {
@@ -24,9 +24,11 @@ namespace FirmWebApiDemo
 
             config.Filters.Add(
                 new UnhandledExceptionFilterAttribute()
-                .Register<UsernameNotFoundException>(HttpStatusCode.NotFound)
-                .Register<Exception>(HttpStatusCode.InternalServerError)
+                    .Register<UsernameNotFoundException>(HttpStatusCode.NotFound)
+                    .Register<Exception>(HttpStatusCode.InternalServerError)
             );
+
+            config.EnableCors(new EnableCorsAttribute(origins: "http://127.0.0.1:5504", headers: "*", methods: "*"));
         }
     }
 }

@@ -33,8 +33,8 @@ namespace FirmAdvanceDemo
                 //db.CreateTableIfNotExists<ATD01>();
                 //db.CreateTableIfNotExists<LVE01>();
                 //db.CreateTableIfNotExists<SLY01>();
+                //db.CreateTable<PCH01>();
             }
-
         }
     }
 }

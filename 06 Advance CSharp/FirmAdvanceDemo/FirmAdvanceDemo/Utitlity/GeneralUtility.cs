@@ -23,11 +23,12 @@ namespace FirmAdvanceDemo.Utitlity
         /// <param name="username">username</param>
         /// <param name="roles">user roles</param>
         /// <returns></returns>
-        public static bool AttachPrinicpal(string userId, string username, string[] roles)
+        public static bool AttachPrinicpal(string userId, string username, string employeeId, string[] roles)
         {
             GenericIdentity identity = new GenericIdentity(username);
             identity.AddClaim(new Claim("Id", userId));
             identity.AddClaim(new Claim("Username", username));
+            identity.AddClaim(new Claim("EmployeeId", employeeId));
 
             GenericPrincipal principal = new GenericPrincipal(identity, roles);
 

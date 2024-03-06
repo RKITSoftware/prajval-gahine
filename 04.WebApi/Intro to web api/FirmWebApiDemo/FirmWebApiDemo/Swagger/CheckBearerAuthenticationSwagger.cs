@@ -1,24 +1,31 @@
-﻿using FirmAdvanceDemo.Auth;
+﻿using FirmWebApiDemo.Authentication;
 using Swashbuckle.Swagger;
-using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
-using System.Web;
+using System.Web.Http;
 using System.Web.Http.Description;
 using System.Web.Http.Filters;
-using System.Web.Http;
-using System.Collections.ObjectModel;
 
-namespace FirmAdvanceDemo.SwaggerRequirements
+namespace FirmWebApiDemo.Swagger
 {
-    public class BasicAuthRequirements : IOperationFilter
+    /// <summary>
+    /// Class to filter out http action with BearerAuthenticationAttribute attribute
+    /// </summary>
+    public class CheckBearerAuthenticationSwagger : IOperationFilter
     {
+        /// <summary>
+        /// Applies parameter on BearerAuthenticationAttribute attributed actions
+        /// </summary>
+        /// <param name="operation">Options</param>
+        /// <param name="schemaRegistry">Schema Registry</param>
+        /// <param name="apiDescription">Api Description</param>
         public void Apply(Operation operation, SchemaRegistry schemaRegistry, ApiDescription apiDescription)
         {
             Collection<FilterInfo> filterPipeline = apiDescription.ActionDescriptor.GetFilterPipeline();
             bool isAuthorized = filterPipeline
                 .Select(filterInfo => filterInfo.Instance)
-                .Any(filter => filter is BasicAuthenticationAttribute);
+                .Any(filter => filter is BearerAuthenticationAttribute);
 
             bool isAnonymous = apiDescription.ActionDescriptor.GetCustomAttributes<AllowAnonymousAttribute>().Any();
 
@@ -35,7 +42,7 @@ namespace FirmAdvanceDemo.SwaggerRequirements
                             @in = "header",
                             type = "string",
                             required = true,
-                            description = "Basic Authentication base64Encoded({username}:{password})"
+                            description = "Bearer Authentication jwt"
                         }
                     );
             }

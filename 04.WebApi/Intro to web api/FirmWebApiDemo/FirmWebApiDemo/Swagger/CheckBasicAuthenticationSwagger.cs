@@ -9,8 +9,17 @@ using System.Web.Http.Filters;
 
 namespace FirmWebApiDemo.Swagger
 {
+    /// <summary>
+    /// Class to filter out http action with BasicAuthentication attribute
+    /// </summary>
     public class CheckBasicAuthenticationSwagger : IOperationFilter
     {
+        /// <summary>
+        /// Applies parameter on BasicAuthentication attributed actions
+        /// </summary>
+        /// <param name="operation">Options</param>
+        /// <param name="schemaRegistry">Schema Registry</param>
+        /// <param name="apiDescription">Api Description</param>
         public void Apply(Operation operation, SchemaRegistry schemaRegistry, ApiDescription apiDescription)
         {
             Collection<FilterInfo> filterPipeline = apiDescription.ActionDescriptor.GetFilterPipeline();
@@ -38,6 +47,5 @@ namespace FirmWebApiDemo.Swagger
                     );
             }
         }
-
     }
 }

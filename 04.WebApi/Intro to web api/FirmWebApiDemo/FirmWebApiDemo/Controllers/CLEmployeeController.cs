@@ -10,6 +10,9 @@ using System.Web.Http;
 
 namespace FirmWebApiDemo.Controllers
 {
+    /// <summary>
+    /// Employee Controller class
+    /// </summary>
     [BasicAuthentication]
     [RoutePrefix("api/clemployee")]
     public class CLEmployeeController : ApiController

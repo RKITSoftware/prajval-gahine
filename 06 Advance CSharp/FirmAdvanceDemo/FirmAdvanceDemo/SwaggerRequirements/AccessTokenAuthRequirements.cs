@@ -31,7 +31,7 @@ namespace FirmAdvanceDemo.SwaggerRequirements
                 operation.parameters.Add(
                         new Parameter
                         {
-                            name = "Bearer Authorization",
+                            name = "Authorization",
                             @in = "header",
                             type = "string",
                             required = true,

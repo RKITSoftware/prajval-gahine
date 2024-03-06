@@ -9,17 +9,20 @@ using System.Web.Http;
 
 namespace FirmWebApiDemo.Controllers
 {
-    [RoutePrefix("api")]
+    /// <summary>
+    /// User controller class
+    /// </summary>
+    [RoutePrefix("api/user")]
     public class CLUserController : ApiController
     {
         /// <summary>
         /// Http Get action to get all users
         /// </summary>
-        /// <returns></returns>
+        /// <returns>IHttpActionResult instance</returns>
         [HttpGet]
         [BearerAuthentication]
         [BasicAuthorization(Roles = "admin")]
-        [Route("v1/user")]
+        [Route("v1")]
         public IHttpActionResult GetUsersV1()
         {
             BLUser bLUser = new BLUser();
@@ -30,11 +33,11 @@ namespace FirmWebApiDemo.Controllers
         /// <summary>
         /// Http Get action to get all users without their password
         /// </summary>
-        /// <returns></returns>
+        /// <returns>IHttpActionResult instance</returns>
         [HttpGet]
         [BearerAuthentication]
         [BasicAuthorization(Roles = "admin")]
-        [Route("v2/user")]
+        [Route("v2")]
         public IHttpActionResult GetUsersV2()
         {
             BLUser bLUser = new BLUser();

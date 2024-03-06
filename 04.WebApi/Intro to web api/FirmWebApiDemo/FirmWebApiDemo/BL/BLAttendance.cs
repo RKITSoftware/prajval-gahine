@@ -9,6 +9,9 @@ using System.Web.Caching;
 
 namespace FirmWebApiDemo.BL
 {
+    /// <summary>
+    /// Business Class to handle attendance logic
+    /// </summary>
     public class BLAttendance
     {
         /// <summary>

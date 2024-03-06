@@ -1,4 +1,5 @@
-﻿using FirmAdvanceDemo.Utitlity;
+﻿using FirmAdvanceDemo.BL;
+using FirmAdvanceDemo.Utitlity;
 using System;
 using System.Net;
 using System.Net.Http;
@@ -44,7 +45,8 @@ namespace FirmAdvanceDemo.Auth
 
                     if (IsUserValid)
                     {
-                        bool IsPrincipalAttached = GeneralUtility.AttachPrinicpal(userId.ToString(), username, roles);
+                        int EmlpoyeeId = BLEmployee.FetchEmployeeIdByUserId(userId);
+                        bool IsPrincipalAttached = GeneralUtility.AttachPrinicpal(userId.ToString(), username, EmlpoyeeId.ToString(), roles);
 
                         if(!IsPrincipalAttached)
                         {

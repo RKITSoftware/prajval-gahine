@@ -9,6 +9,9 @@ using System.Web.Caching;
 
 namespace FirmWebApiDemo.BL
 {
+    /// <summary>
+    /// Buisness Logic class to handle user employee mapping
+    /// </summary>
     public class BLUserEmployee
     {
         /// <summary>
@@ -66,6 +69,10 @@ namespace FirmWebApiDemo.BL
             }
         }
 
+        /// <summary>
+        /// Mehtod to set a list of UIDEID01 to file
+        /// </summary>
+        /// <param name="lstUidEid">List of UIDEID01</param>
         public void SetUserEmployees(List<UIDEID01> lstUidEid)
         {
             string UserEmployeejson = JsonConvert.SerializeObject(lstUidEid, Formatting.Indented);

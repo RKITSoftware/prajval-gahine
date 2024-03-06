@@ -22,5 +22,23 @@
     "r01f02": "krinsikayada",
     "r01f03": "krinsi@123",
     "r01f04": "employee"
+  },
+  {
+    "r01f01": 105,
+    "r01f02": "string",
+    "r01f03": "string",
+    "r01f04": "string"
+  },
+  {
+    "r01f01": 106,
+    "r01f02": "gauravwagh",
+    "r01f03": "gaurav@123",
+    "r01f04": "employee"
+  },
+  {
+    "r01f01": 107,
+    "r01f02": "gauravwagh2",
+    "r01f03": "gaurav@123",
+    "r01f04": "admin"
   }
 ]

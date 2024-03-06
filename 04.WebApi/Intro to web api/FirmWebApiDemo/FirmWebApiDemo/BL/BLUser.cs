@@ -9,9 +9,13 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Caching;
+using FirmWebApiDemo.Authentication;
 
 namespace FirmWebApiDemo.BL
 {
+    /// <summary>
+    /// Buisness Logic class to handle user logic
+    /// </summary>
     public class BLUser
     {
         /// <summary>
@@ -63,102 +67,134 @@ namespace FirmWebApiDemo.BL
             //};
         }
 
+        public bool ValidateUserEmployee(USREMP userEmployee, out string ErrorMessage)
+        {
+            if(userEmployee == null)
+            {   // userEmployee structure not provided
+                ErrorMessage = "Provide data to create an account";
+                return false;
+            }
+
+            USR01 user = userEmployee.user;
+            EMP01 employee = userEmployee.employee;
+
+            if(user == null)
+            {   // user data not provided
+                ErrorMessage = "Provide user data to create an account";
+                return false;
+            }
+
+            bool doesUsernameExists = GetUsers().Any(u => u.r01f02 == user.r01f02);
+
+            if (doesUsernameExists)
+            {   // user already exists with provided username
+                ErrorMessage = "Username already exists";
+                return false;
+            }
+
+            // check if user want to be an employee and employee data is provided
+            bool wantsToBeEmployee = user.r01f04.Split(',').Any(role => role.Equals("employee"));
+
+            if(wantsToBeEmployee && employee == null)
+            {   // wants to be employee but haven't provided employee data
+                ErrorMessage = "Provide employee data";
+                return false;
+            }
+
+            if(!wantsToBeEmployee && employee != null)
+            {   // don't want to be employee but provided extra data
+                ErrorMessage = "Extra data (employee) detected";
+                return false;
+            }
+
+            ErrorMessage = string.Empty;
+            return true;
+        }
+
+        public void PreSaveUserEmployee(USREMP userEmployee)
+        {
+            List<USR01> lstUser = GetUsers();
+            // create a new user object and append it to User.json array
+            int nextUserId = 101;
+
+            if (lstUser != null && lstUser.Count != 0)
+            {
+                nextUserId = lstUser[lstUser.Count - 1].r01f01 + 1;
+            }
+
+            // set nextUser
+            userEmployee.user.r01f01 = nextUserId;
+
+            if(userEmployee.employee != null)
+            {
+                BLEmployee bLEmployee = new BLEmployee();
+                List<EMP01> lstEmployee = bLEmployee.GetEmployees();
+
+                int nextEmployeeId = 101;
+
+                if(lstEmployee != null && lstEmployee.Count != 0)
+                {
+                    nextEmployeeId = lstEmployee[lstEmployee.Count - 1].p01f01 + 1;
+                }
+
+                userEmployee.employee.p01f01 = nextEmployeeId;
+            }
+        }
+
+        public void SaveUserEmployee(USREMP UserEmployee)
+        {
+            // save user in user.json file
+            SetUser(UserEmployee.user);
+
+            if(UserEmployee.employee != null)
+            {   // save employee in employee.json file
+                BLEmployee bLEmployee = new BLEmployee();
+                bLEmployee.SetEmployee(UserEmployee.employee);
+
+                // save user and employee id's in UserEmployee.json file
+                BLUserEmployee bLUserEmployee = new BLUserEmployee();
+                bLUserEmployee.SetUserEmployee(new UIDEID01 { 
+                    d01f01 = UserEmployee.user.r01f01, 
+                    d01f02 = UserEmployee.employee.p01f01
+                });
+            }
+        }
+
         /// <summary>
         /// BL method to add a user
         /// </summary>
         /// <param name="UserEmployee">USREMP instance that contains info to create new user and/or new employee</param>
-        /// <returns>ResponseStatusInfo object that encapsulates info to create response accordingly</returns>
+        /// <returns>ResponseStatusInfo object that encapsulates info to create response accordingly</returns
         public ResponseStatusInfo AddUser(USREMP UserEmployee)
         {
-            // check if user already exists
-            List<USR01> lstUser = GetUsers();
-            USR01 user = lstUser.FirstOrDefault(u => u.r01f02 == UserEmployee.user.r01f02);
+            string ErrorMessage = string.Empty;
 
-            // if not then get next user id
-            if (user == null)
-            {
-                user = UserEmployee.user;
-
-                // create a new user object and append it to User.json array
-                int nextUserId = lstUser[lstUser.Count - 1].r01f01 + 1;
-
-                // set nextUser
-                user.r01f01 = nextUserId;
-
-                bool IsEmployee = user.r01f04.Split(',').Any(role => role == "employee");
+            if (ValidateUserEmployee(UserEmployee, out ErrorMessage))
+            {   // user-employee structure is a valid structure
+                USR01 user = UserEmployee.user;
                 EMP01 employee = UserEmployee.employee;
 
-                if (IsEmployee && employee == null)
-                {
-                    // user want's to be employee, but haven't provided employee data
-                    return new ResponseStatusInfo()
-                    {
-                        IsRequestSuccessful = false,
-                        StatusCode = HttpStatusCode.BadRequest,
-                        Message = "Provide employee data",
-                        Data = null
-                    };
-                    //return ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Provide employee data"));
-                }
+                PreSaveUserEmployee(UserEmployee);
 
-                // update USR01.json file
-                SetUser(user);
+                SaveUserEmployee(UserEmployee);
 
-                // check if role is employee
-                if (IsEmployee && employee != null)
-                {
-                    int nextEmployeeId = -1;
-
-                    BLEmployee blEmployee = new BLEmployee();
-                    List<EMP01> employees = blEmployee.GetEmployees();
-
-                    // set next employee id
-                    if (employees.Count == 0)
-                    {
-                        nextEmployeeId = 101;
-                    }
-                    else
-                    {
-                        nextEmployeeId = employees[employees.Count - 1].p01f01 + 1;
-                    }
-
-                    // add employee id to Employee object
-                    employee.p01f01 = nextEmployeeId;
-
-                    // save this employee to Employee.json
-                    blEmployee.SetEmployee(employee);
-
-                    // update UserEmployee.json junction file
-                    BLUserEmployee bLUser_Employee = new BLUserEmployee();
-                    bLUser_Employee.SetUserEmployee(new UIDEID01() { d01f01 = user.r01f01, d01f02 = employee.p01f01 });
-                    return new ResponseStatusInfo()
-                    {
-                        IsRequestSuccessful = true,
-                        StatusCode = HttpStatusCode.OK,
-                        Message = $"User and Employee has been successfully created. Your user-id is: {nextUserId} and employee-id is {nextEmployeeId}",
-                        Data = user
-                    };
-                    //return Ok(ResponseWrapper.Wrap($"User and Employee has been successfully created. Your user-id is: {nextUserId} and employee-id is {nextEmployeeId}", newUser));
-                }
-            }
-            else
-            {
                 return new ResponseStatusInfo()
                 {
-                    IsRequestSuccessful = false,
-                    StatusCode = (HttpStatusCode)403,
-                    Message = "User Already exists",
-                    Data = null
+                    IsRequestSuccessful = true,
+                    StatusCode = HttpStatusCode.OK,
+                    Message = $"User {( (employee != null) ? ("and Employee ") : (string.Empty) )}have been successfully created. Your user-id is: {user.r01f01} {((employee != null) ? ($"and employee - id is {employee.p01f01}") : (string.Empty))}.",
+                    Data = user
                 };
-                //return ResponseMessage(Request.CreateErrorResponse((HttpStatusCode)403, "User Already exists"));
+                //return Ok(ResponseWrapper.Wrap($"User and Employee has been successfully created. Your user-id is: {nextUserId} and employee-id is {nextEmployeeId}", newUser));
             }
             return new ResponseStatusInfo()
             {
-                IsRequestSuccessful = true,
+                IsRequestSuccessful = false,
                 StatusCode = HttpStatusCode.OK,
-                Message = $"User (not an employee) has been successfully created. Your user id is: {user.r01f01}",
-                Data = user
+                Message = ErrorMessage,
+                Data = null
             };
+            //return ResponseMessage(Request.CreateErrorResponse((HttpStatusCode)403, "User Already exists"));
         }
 
 

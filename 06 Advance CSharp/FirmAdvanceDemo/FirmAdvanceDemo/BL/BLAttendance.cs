@@ -4,6 +4,8 @@ using ServiceStack.OrmLite;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
+using System.Linq;
 
 namespace FirmAdvanceDemo.BL
 {
@@ -210,6 +212,11 @@ namespace FirmAdvanceDemo.BL
                     Data = null
                 };
             }
+        }
+
+        public static ResponseStatusInfo GenerateAttendance(DateTime date)
+        {
+            return BLPunch.EvaluatePunch(date);
         }
 
         /*

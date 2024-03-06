@@ -1,0 +1,221 @@
+----------------------------------------------------------------------------------------------------
+11:26:31 AM
+username not found
+
+   at FirmWebApiDemo.Authentication.ValidateUser.Login(String username, String password) in F:\prajval-gahine\prajval-gahine\04.WebApi\Intro to web api\FirmWebApiDemo\FirmWebApiDemo\Authentication\ValidateUser.cs:line 36
+   at FirmWebApiDemo.Authentication.BasicAuthentication.OnAuthorization(HttpActionContext actionContext) in F:\prajval-gahine\prajval-gahine\04.WebApi\Intro to web api\FirmWebApiDemo\FirmWebApiDemo\Authentication\BasicAuthentication.cs:line 43
+   at System.Web.Http.Filters.AuthorizationFilterAttribute.OnAuthorizationAsync(HttpActionContext actionContext, CancellationToken cancellationToken)
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Web.Http.Filters.AuthorizationFilterAttribute.<ExecuteAuthorizationFilterAsyncCore>d__3.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Web.Http.Controllers.ExceptionFilterResult.<ExecuteAsync>d__6.MoveNext()
+
+----------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------
+11:27:28 AM
+Username not found
+
+   at FirmWebApiDemo.Authentication.ValidateUser.Login(String username, String password)
+   at FirmWebApiDemo.Authentication.BasicAuthentication.OnAuthorization(HttpActionContext actionContext)
+   at System.Web.Http.Filters.AuthorizationFilterAttribute.OnAuthorizationAsync(HttpActionContext actionContext, CancellationToken cancellationToken)
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Web.Http.Filters.AuthorizationFilterAttribute.<ExecuteAuthorizationFilterAsyncCore>d__3.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Web.Http.Controllers.ExceptionFilterResult.<ExecuteAsync>d__6.MoveNext()
+
+----------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------
+11:27:37 AM
+Username not found
+
+   at FirmWebApiDemo.Authentication.ValidateUser.Login(String username, String password)
+   at FirmWebApiDemo.Authentication.BasicAuthentication.OnAuthorization(HttpActionContext actionContext)
+   at System.Web.Http.Filters.AuthorizationFilterAttribute.OnAuthorizationAsync(HttpActionContext actionContext, CancellationToken cancellationToken)
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Web.Http.Filters.AuthorizationFilterAttribute.<ExecuteAuthorizationFilterAsyncCore>d__3.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Web.Http.Controllers.ExceptionFilterResult.<ExecuteAsync>d__6.MoveNext()
+
+----------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------
+11:27:49 AM
+Username not found
+
+   at FirmWebApiDemo.Authentication.ValidateUser.Login(String username, String password)
+   at FirmWebApiDemo.Authentication.BasicAuthentication.OnAuthorization(HttpActionContext actionContext)
+   at System.Web.Http.Filters.AuthorizationFilterAttribute.OnAuthorizationAsync(HttpActionContext actionContext, CancellationToken cancellationToken)
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Web.Http.Filters.AuthorizationFilterAttribute.<ExecuteAuthorizationFilterAsyncCore>d__3.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Web.Http.Controllers.ExceptionFilterResult.<ExecuteAsync>d__6.MoveNext()
+
+----------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------
+11:29:49 AM
+Username not found
+
+   at FirmWebApiDemo.Authentication.ValidateUser.Login(String username, String password) in F:\prajval-gahine\prajval-gahine\04.WebApi\Intro to web api\FirmWebApiDemo\FirmWebApiDemo\Authentication\ValidateUser.cs:line 37
+   at FirmWebApiDemo.Authentication.BasicAuthentication.OnAuthorization(HttpActionContext actionContext) in F:\prajval-gahine\prajval-gahine\04.WebApi\Intro to web api\FirmWebApiDemo\FirmWebApiDemo\Authentication\BasicAuthentication.cs:line 43
+   at System.Web.Http.Filters.AuthorizationFilterAttribute.OnAuthorizationAsync(HttpActionContext actionContext, CancellationToken cancellationToken)
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Web.Http.Filters.AuthorizationFilterAttribute.<ExecuteAuthorizationFilterAsyncCore>d__3.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Web.Http.Controllers.ExceptionFilterResult.<ExecuteAsync>d__6.MoveNext()
+
+----------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------
+11:32:11 AM
+Username not found
+
+   at FirmWebApiDemo.Authentication.ValidateUser.Login(String username, String password) in F:\prajval-gahine\prajval-gahine\04.WebApi\Intro to web api\FirmWebApiDemo\FirmWebApiDemo\Authentication\ValidateUser.cs:line 37
+   at FirmWebApiDemo.Authentication.BasicAuthentication.OnAuthorization(HttpActionContext actionContext) in F:\prajval-gahine\prajval-gahine\04.WebApi\Intro to web api\FirmWebApiDemo\FirmWebApiDemo\Authentication\BasicAuthentication.cs:line 43
+   at System.Web.Http.Filters.AuthorizationFilterAttribute.OnAuthorizationAsync(HttpActionContext actionContext, CancellationToken cancellationToken)
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Web.Http.Filters.AuthorizationFilterAttribute.<ExecuteAuthorizationFilterAsyncCore>d__3.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Web.Http.Controllers.ExceptionFilterResult.<ExecuteAsync>d__6.MoveNext()
+
+----------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------
+12:18:38 PM
+Object reference not set to an instance of an object.
+
+   at FirmWebApiDemo.Authentication.BearerAuthenticationAttribute.OnAuthorization(HttpActionContext actionContext) in F:\prajval-gahine\prajval-gahine\04.WebApi\Intro to web api\FirmWebApiDemo\FirmWebApiDemo\Authentication\BearerAuthenticationAttribute.cs:line 22
+   at System.Web.Http.Filters.AuthorizationFilterAttribute.OnAuthorizationAsync(HttpActionContext actionContext, CancellationToken cancellationToken)
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Web.Http.Filters.AuthorizationFilterAttribute.<ExecuteAuthorizationFilterAsyncCore>d__3.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Web.Http.Controllers.ExceptionFilterResult.<ExecuteAsync>d__6.MoveNext()
+
+----------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------
+12:24:19 PM
+Object reference not set to an instance of an object.
+
+   at FirmWebApiDemo.Authentication.BearerAuthenticationAttribute.OnAuthorization(HttpActionContext actionContext) in F:\prajval-gahine\prajval-gahine\04.WebApi\Intro to web api\FirmWebApiDemo\FirmWebApiDemo\Authentication\BearerAuthenticationAttribute.cs:line 22
+   at System.Web.Http.Filters.AuthorizationFilterAttribute.OnAuthorizationAsync(HttpActionContext actionContext, CancellationToken cancellationToken)
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Web.Http.Filters.AuthorizationFilterAttribute.<ExecuteAuthorizationFilterAsyncCore>d__3.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Web.Http.Controllers.ExceptionFilterResult.<ExecuteAsync>d__6.MoveNext()
+
+----------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------
+12:26:40 PM
+Invalid length for a Base-64 char array or string.
+
+   at System.Convert.FromBase64_Decode(Char* startInputPtr, Int32 inputLength, Byte* startDestPtr, Int32 destLength)
+   at System.Convert.FromBase64CharPtr(Char* inputPtr, Int32 inputLength)
+   at System.Convert.FromBase64String(String s)
+   at FirmWebApiDemo.Authentication.BasicAuthentication.OnAuthorization(HttpActionContext actionContext) in F:\prajval-gahine\prajval-gahine\04.WebApi\Intro to web api\FirmWebApiDemo\FirmWebApiDemo\Authentication\BasicAuthentication.cs:line 33
+   at System.Web.Http.Filters.AuthorizationFilterAttribute.OnAuthorizationAsync(HttpActionContext actionContext, CancellationToken cancellationToken)
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Web.Http.Filters.AuthorizationFilterAttribute.<ExecuteAuthorizationFilterAsyncCore>d__3.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Web.Http.Controllers.ExceptionFilterResult.<ExecuteAsync>d__6.MoveNext()
+
+----------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------
+12:26:52 PM
+username not found
+
+   at FirmWebApiDemo.Authentication.ValidateUser.Login(String username, String password) in F:\prajval-gahine\prajval-gahine\04.WebApi\Intro to web api\FirmWebApiDemo\FirmWebApiDemo\Authentication\ValidateUser.cs:line 36
+   at FirmWebApiDemo.Authentication.BasicAuthentication.OnAuthorization(HttpActionContext actionContext) in F:\prajval-gahine\prajval-gahine\04.WebApi\Intro to web api\FirmWebApiDemo\FirmWebApiDemo\Authentication\BasicAuthentication.cs:line 41
+   at System.Web.Http.Filters.AuthorizationFilterAttribute.OnAuthorizationAsync(HttpActionContext actionContext, CancellationToken cancellationToken)
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Web.Http.Filters.AuthorizationFilterAttribute.<ExecuteAuthorizationFilterAsyncCore>d__3.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Web.Http.Controllers.ExceptionFilterResult.<ExecuteAsync>d__6.MoveNext()
+
+----------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------
+12:28:08 PM
+username not found
+
+   at FirmWebApiDemo.Authentication.ValidateUser.Login(String username, String password) in F:\prajval-gahine\prajval-gahine\04.WebApi\Intro to web api\FirmWebApiDemo\FirmWebApiDemo\Authentication\ValidateUser.cs:line 36
+   at FirmWebApiDemo.Authentication.BasicAuthentication.OnAuthorization(HttpActionContext actionContext) in F:\prajval-gahine\prajval-gahine\04.WebApi\Intro to web api\FirmWebApiDemo\FirmWebApiDemo\Authentication\BasicAuthentication.cs:line 41
+   at System.Web.Http.Filters.AuthorizationFilterAttribute.OnAuthorizationAsync(HttpActionContext actionContext, CancellationToken cancellationToken)
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Web.Http.Filters.AuthorizationFilterAttribute.<ExecuteAuthorizationFilterAsyncCore>d__3.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Web.Http.Controllers.ExceptionFilterResult.<ExecuteAsync>d__6.MoveNext()
+
+----------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------
+12:29:29 PM
+username not found
+
+   at FirmWebApiDemo.Authentication.ValidateUser.Login(String username, String password)
+   at FirmWebApiDemo.Authentication.BasicAuthentication.OnAuthorization(HttpActionContext actionContext)
+   at System.Web.Http.Filters.AuthorizationFilterAttribute.OnAuthorizationAsync(HttpActionContext actionContext, CancellationToken cancellationToken)
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Web.Http.Filters.AuthorizationFilterAttribute.<ExecuteAuthorizationFilterAsyncCore>d__3.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Web.Http.Controllers.ExceptionFilterResult.<ExecuteAsync>d__6.MoveNext()
+
+----------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------
+12:32:42 PM
+username not found
+
+   at FirmWebApiDemo.Authentication.ValidateUser.Login(String username, String password)
+   at FirmWebApiDemo.Authentication.BasicAuthentication.OnAuthorization(HttpActionContext actionContext)
+   at System.Web.Http.Filters.AuthorizationFilterAttribute.OnAuthorizationAsync(HttpActionContext actionContext, CancellationToken cancellationToken)
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Web.Http.Filters.AuthorizationFilterAttribute.<ExecuteAuthorizationFilterAsyncCore>d__3.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Web.Http.Controllers.ExceptionFilterResult.<ExecuteAsync>d__6.MoveNext()
+
+----------------------------------------------------------------------------------------------------

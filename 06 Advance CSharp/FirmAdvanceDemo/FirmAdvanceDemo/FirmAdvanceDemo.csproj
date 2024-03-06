@@ -173,6 +173,7 @@
     <Compile Include="BL\BLDownload.cs" />
     <Compile Include="BL\BLEmployee.cs" />
     <Compile Include="BL\BLLeave.cs" />
+    <Compile Include="BL\BLPunch.cs" />
     <Compile Include="BL\BLResource.cs" />
     <Compile Include="BL\.BLRole.cs" />
     <Compile Include="BL\BLSalary.cs" />
@@ -181,8 +182,10 @@
     <Compile Include="Controllers\CLAttendanceController.cs" />
     <Compile Include="Controllers\CLDepartmentController.cs" />
     <Compile Include="Controllers\CLDownloadController.cs" />
+    <Compile Include="Controllers\CLEmployeeController.cs" />
     <Compile Include="Controllers\CLLeaveController.cs" />
     <Compile Include="Controllers\CLPositionController.cs" />
+    <Compile Include="Controllers\CLPunchController.cs" />
     <Compile Include="Controllers\CLRoleController.cs" />
     <Compile Include="Controllers\CLSalaryController.cs" />
     <Compile Include="Controllers\CLUserController.cs" />
@@ -197,6 +200,7 @@
     <Compile Include="Models\EMP01.cs" />
     <Compile Include="Models\IModel.cs" />
     <Compile Include="Models\LVE01.cs" />
+    <Compile Include="Models\PCH01.cs" />
     <Compile Include="Models\PSN01.cs" />
     <Compile Include="Models\RLE01.cs" />
     <Compile Include="Models\STG01.cs" />

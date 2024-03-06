@@ -13,7 +13,7 @@ namespace WebApplication2.Controllers
     /// <summary>
     /// Employee Controller to handle employee related apis/endpoints
     /// </summary>
-    [BasicAuthenticationAttribute]
+    //[BasicAuthenticationAttribute]
     public class CLEmployeeController : ApiController
     {
         /// <summary>
@@ -46,10 +46,11 @@ namespace WebApplication2.Controllers
         //[DisableCors()]
         //[EnableCors(origins: "https://www.google.com", headers: "name", methods: "*", exposedHeaders: "surname: gahine")]
         //[EnableCors(origins: "https://www.google.com", headers: "authorization,surname", methods: "*", exposedHeaders: "surname: gahine")]
-        [EnableCors(origins: "https://www.google.com", headers: "authorization,accept,content-type,origin,x-my-header,deep", methods: "*", exposedHeaders: "name")]
+        //[EnableCors(origins: "https://www.google.com", headers: "authorization,accept,content-type,origin,x-my-header,deep", methods: "*", exposedHeaders: "name")]
+        [EnableCors(origins: "https://www.google.com", headers: "*", methods: "*")]
         [HttpGet]
         [Route("api/employees")]
-        [BasicAuthorizationAttribute(Roles = "Admin")]
+        //[BasicAuthorizationAttribute(Roles = "Admin")]
         public HttpResponseMessage GetEmployee()
         {
             var resp = new HttpResponseMessage()

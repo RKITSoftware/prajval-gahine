@@ -1,6 +1,4 @@
 ﻿using FirmWebApiDemo.BL;
-using FirmWebApiDemo.Exceptions;
-using FirmWebApiDemo.Exceptions.CustomException;
 using FirmWebApiDemo.Models;
 using System;
 using System.Linq;
@@ -16,8 +14,15 @@ using System.Web.Http.Filters;
 
 namespace FirmWebApiDemo.Authentication
 {
+    /// <summary>
+    /// Authorization attribute to perform basic authentication
+    /// </summary>
     public class BasicAuthentication : AuthorizationFilterAttribute
     {
+        /// <summary>
+        /// Method to perfom basic authentication
+        /// </summary>
+        /// <param name="actionContext">Action Context</param>
         public override void OnAuthorization(HttpActionContext actionContext)
         {
             // check if Authorization header is present
@@ -48,7 +53,7 @@ namespace FirmWebApiDemo.Authentication
 
                     // create identity
                     GenericIdentity identity = new GenericIdentity(username);
-                    
+
                     // add claims to identity
                     identity.AddClaim(new Claim("r01f01", Convert.ToString(existingUser.r01f01)));
 

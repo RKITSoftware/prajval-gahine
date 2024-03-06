@@ -1,5 +1,8 @@
 ﻿namespace FirmWebApiDemo.Models
 {
+    /// <summary>
+    /// User Employee mapping model
+    /// </summary>
     public class UIDEID01
     {
         /// <summary>
