@@ -10,6 +10,7 @@ using System.Net;
 using System.Web;
 using System.Web.Caching;
 using FirmWebApiDemo.Authentication;
+using System.Reflection;
 
 namespace FirmWebApiDemo.BL
 {
@@ -18,6 +19,19 @@ namespace FirmWebApiDemo.BL
     /// </summary>
     public class BLUser
     {
+
+        //static BLUser()
+        //{
+        //    var loadedAssemblies = AppDomain.CurrentDomain.GetAssemblies().ToList();
+        //    var loadedPaths = loadedAssemblies.Select(a => a.Location).ToArray();
+
+        //    var referencedPaths = Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory, "*.dll");
+        //    var toLoad = referencedPaths.Where(r => !loadedPaths.Contains(r, StringComparer.InvariantCultureIgnoreCase)).ToList();
+
+        //    toLoad.ForEach(path => loadedAssemblies.Add(AppDomain.CurrentDomain.Load(AssemblyName.GetAssemblyName(path))));
+        //}
+
+
         /// <summary>
         /// File location to User.json file
         /// </summary>

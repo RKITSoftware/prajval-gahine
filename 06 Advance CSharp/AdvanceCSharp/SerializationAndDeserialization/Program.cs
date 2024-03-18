@@ -97,7 +97,6 @@ namespace SerializationAndDeserialization
             User user3 = (User)bf.Deserialize(ms);
             Console.WriteLine("\n\nuser3 (deserialization using binary)");
             DisplayUser(user3, 0);
-
         }
     }
 }

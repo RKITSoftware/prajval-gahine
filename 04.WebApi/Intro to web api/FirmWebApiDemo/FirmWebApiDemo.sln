@@ -5,6 +5,8 @@ VisualStudioVersion = 17.5.33516.290
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FirmWebApiDemo", "FirmWebApiDemo\FirmWebApiDemo.csproj", "{BF56D36C-D3F3-4DC7-9188-9D69DF09586D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FirmWebApi.Test", "FirmWebApi.Test\FirmWebApi.Test.csproj", "{FA1EFD3C-EA2E-43B1-B70D-1D7D51A0A564}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{BF56D36C-D3F3-4DC7-9188-9D69DF09586D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BF56D36C-D3F3-4DC7-9188-9D69DF09586D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BF56D36C-D3F3-4DC7-9188-9D69DF09586D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA1EFD3C-EA2E-43B1-B70D-1D7D51A0A564}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA1EFD3C-EA2E-43B1-B70D-1D7D51A0A564}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA1EFD3C-EA2E-43B1-B70D-1D7D51A0A564}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA1EFD3C-EA2E-43B1-B70D-1D7D51A0A564}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -2,9 +2,12 @@
 using FirmWebApiDemo.BL;
 using FirmWebApiDemo.Models;
 using FirmWebApiDemo.Utility;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Reflection;
 using System.Web.Http;
 
 namespace FirmWebApiDemo.Controllers
@@ -15,6 +18,17 @@ namespace FirmWebApiDemo.Controllers
     [RoutePrefix("api/user")]
     public class CLUserController : ApiController
     {
+        //static CLUserController()
+        //{
+        //    var loadedAssemblies = AppDomain.CurrentDomain.GetAssemblies().ToList();
+        //    var loadedPaths = loadedAssemblies.Select(a => a.Location).ToArray();
+
+        //    var referencedPaths = Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory, "*.dll");
+        //    var toLoad = referencedPaths.Where(r => !loadedPaths.Contains(r, StringComparer.InvariantCultureIgnoreCase)).ToList();
+
+        //    toLoad.ForEach(path => loadedAssemblies.Add(AppDomain.CurrentDomain.Load(AssemblyName.GetAssemblyName(path))));
+        //}
+
         /// <summary>
         /// Http Get action to get all users
         /// </summary>

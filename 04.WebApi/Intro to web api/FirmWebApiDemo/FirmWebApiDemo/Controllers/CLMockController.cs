@@ -1,4 +1,5 @@
-﻿using System.Web.Http;
+﻿using System;
+using System.Web.Http;
 
 namespace FirmWebApiDemo.Controllers
 {
@@ -16,6 +17,12 @@ namespace FirmWebApiDemo.Controllers
         public object GetData()
         {
             return new { data = "This is firm web api project" };
+        }
+
+        [NonAction]
+        public void HW()
+        {
+            Console.WriteLine("Hello, World");
         }
     }
 }

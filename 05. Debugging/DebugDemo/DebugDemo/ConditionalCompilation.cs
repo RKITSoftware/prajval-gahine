@@ -43,7 +43,7 @@ namespace DebugDemo
                 Console.WriteLine("Typo");
 #endif
             int x = 5;
-            Console.WriteLine(x.GetType().HasSameMetadataDefinitionAs(MyType));
+            //Console.WriteLine(x.GetType().HasSameMetadataDefinitionAs(MyType));
 
         }
     }

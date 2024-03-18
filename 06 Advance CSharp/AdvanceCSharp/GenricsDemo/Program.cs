@@ -17,11 +17,11 @@ namespace GenricsDemo
             Console.WriteLine(employee?.p01f02);
 
             // save a user data
-            USR01 newUser = new USR01(4, "krinsikayda", "krinsi@123", "employee");
+            USR01 newUser = new USR01(4, "prajvalgahine", "Prajval@123", "employee");
             userRepository.Save(newUser);
 
             // save a user data
-            EMP01 newEmployee = new EMP01(3, "Krinsi", "Kayda", "female", DateTime.Parse("2002-12-20"));
+            EMP01 newEmployee = new EMP01(3, "Prajval", "Gahine", "male", DateTime.Parse("2001-12-07"));
             employeeRepository.Save(newEmployee);
         }
     }
