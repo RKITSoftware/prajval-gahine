@@ -1,14 +1,12 @@
-﻿using FirmAdvanceDemo.Auth;
+using FirmAdvanceDemo.Auth;
 using FirmAdvanceDemo.BL;
-using FirmAdvanceDemo.Models;
+using FirmAdvanceDemo.Models.POCO;
 using FirmAdvanceDemo.Utitlity;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Security.Claims;
-using System.Web;
 using System.Web.Http;
 
 namespace FirmAdvanceDemo.Controllers
@@ -16,8 +14,27 @@ namespace FirmAdvanceDemo.Controllers
     [RoutePrefix("api/punch")]
     [AccessTokenAuthentication]
     [BasicAuthorization(Roles = "employee")]
-    public class CLPunchController : ApiController
+    public class CLPunchController : BaseController
     {
+        /// <summary>
+        /// Method used to have consistent (uniform) returns from all controller actions
+        /// </summary>
+        /// <param name="responseStatusInfo">ResponseStatusInfo instance containing response specific information</param>
+        /// <returns>Instance of type IHttpActionResult</returns>
+
+        /// <summary>
+        /// Instance of BLPunch
+        /// </summary>
+        private readonly BLPunch _objBLPunch;
+
+        /// <summary>
+        /// Default constructor for CLPunchController
+        /// </summary>
+        public CLPunchController()
+        {
+            _objBLPunch = new BLPunch();
+        }
+
         [HttpPost]
         [Route("")]
         public IHttpActionResult PostPunch()
@@ -29,7 +46,7 @@ namespace FirmAdvanceDemo.Controllers
                 .SingleOrDefault()
             );
 
-            if(EmployeeId == 0)
+            if (EmployeeId == 0)
             {
                 return ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Not an employee"));
             }
@@ -40,9 +57,19 @@ namespace FirmAdvanceDemo.Controllers
                 h01f02 = EmployeeId,
                 h01f03 = DateTime.Now
             };
-            BLPunch.AddResource(punch);
+            _objBLPunch.AddResource(punch);
 
             return Ok(ResponseWrapper.Wrap("Punched Successfully", null));
+        }
+
+        [HttpGet]
+        [Route("generate-attendance")]
+        [AccessTokenAuthentication]
+        [BasicAuthorization(Roles = "admin")]
+        public IHttpActionResult GenerateAttendance()
+        {
+            ResponseStatusInfo rsi = _objBLPunch.GenerateAttendance(DateTime.Now);
+            return Returner(rsi);
         }
     }
 }

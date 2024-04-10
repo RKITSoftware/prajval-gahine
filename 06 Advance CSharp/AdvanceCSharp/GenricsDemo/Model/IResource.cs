@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace GenricsDemo.Model
+﻿namespace GenricsDemo.Model
 {
+    /// <summary>
+    /// IResource interface representing a resource
+    /// </summary>
     internal class IResource
     {
         /// <summary>

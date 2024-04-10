@@ -1,34 +1,15 @@
-﻿using ExtensionClassDemo;
-
-namespace ExtensionMethodDemo
+﻿namespace ExtensionMethodDemo
 {
-    public class Greet
-    {
-        public string Name;
-        public void GreetOther()
-        {
-            Console.WriteLine("Good Morning from " + this.Name);
-        }
-    }
-
-    public static class ExtensionClass
-    {
-        public static void Introduce(this Greet o1)
-        {
-            Console.WriteLine("My name is " + o1.Name);
-        }
-    }
     internal class Program
     {
         static void Main(string[] args)
         {
-            Greet g1 = new Greet();
-            g1.Name = "prajval";
+            Mathematics m1 = new Mathematics();
 
-            ExtensionClass.Introduce(g1);
-            g1.Introduce();
-
-            g1.GreetGoodNight();
+            Console.WriteLine("addition: " + m1.add(20, 10));
+            Console.WriteLine("subtraction: " + m1.sub(20, 10));
+            Console.WriteLine("multiplication: " + m1.mult(20, 10));
+            Console.WriteLine("division: " + m1.div(20, 10));
         }
     }
 }

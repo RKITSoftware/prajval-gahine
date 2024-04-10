@@ -1,22 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Json.Nodes;
-using System.Threading.Tasks;
+﻿using GenricsDemo.Model;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using GenricsDemo.Model;
 
 namespace GenricsDemo
 {
+    /// <summary>
+    /// Generic Repository class
+    /// </summary>
+    /// <typeparam name="T">A Resource</typeparam>
     internal class Repository<T> where T : IResource
     {
+        /// <summary>
+        /// File path to a .../[resource].json
+        /// </summary>
         private static string? filePath;
+
+        /// <summary>
+        /// Generic Repository class constructor
+        /// </summary>
+        /// <param name="filePath"></param>
         public Repository(string filePath)
         {
             Repository<T>.filePath = filePath;
         }
+
         /// <summary>
         /// Gets an resource of type T based on resource id
         /// </summary>
@@ -30,7 +36,7 @@ namespace GenricsDemo
                 string strResources = sr.ReadToEnd();
                 lstResource = JsonConvert.DeserializeObject<List<T>>(strResources);
             }
-            if(lstResource != null)
+            if (lstResource != null)
             {
                 T? resource = lstResource.FirstOrDefault<T>(r => r.id == id);
                 return resource;
@@ -38,6 +44,11 @@ namespace GenricsDemo
             return null;
         }
 
+        /// <summary>
+        /// Save method to save an resource to .../[resource].json file
+        /// </summary>
+        /// <param name="resource">IResource object</param>
+        /// <returns></returns>
         public bool Save(T resource)
         {
             // get resource list
@@ -49,12 +60,12 @@ namespace GenricsDemo
                 {
                     lstResource = JsonConvert.DeserializeObject<List<T>>(strResources);
                 }
-                catch(Exception)
+                catch (Exception)
                 {
                     return false;
                 }
             }
-            if(lstResource != null)
+            if (lstResource != null)
             {
                 lstResource.Add(resource);
             }
@@ -65,7 +76,7 @@ namespace GenricsDemo
 
             // now serialize the .net List<T>
             string jsonLstResource = JsonConvert.SerializeObject(lstResource, Formatting.Indented);
-            using(StreamWriter sw = new StreamWriter(filePath))
+            using (StreamWriter sw = new StreamWriter(filePath))
             {
                 sw.WriteLine(jsonLstResource);
             }

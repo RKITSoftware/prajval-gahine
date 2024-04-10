@@ -1,63 +1,68 @@
-﻿using FirmAdvanceDemo.BL;
-using FirmAdvanceDemo.Models;
+using FirmAdvanceDemo.BL;
+using FirmAdvanceDemo.Models.POCO;
 using FirmAdvanceDemo.Utitlity;
 using Newtonsoft.Json.Linq;
-using System.Net.Http;
 using System.Web.Http;
 
 namespace FirmAdvanceDemo.Controllers
 {
     [RoutePrefix("api/department")]
-    public class CLDepartmentController : ApiController
+    public class CLDepartmentController : BaseController
     {
-        [NonAction]
-        public IHttpActionResult Returner(ResponseStatusInfo responseStatusInfo)
+
+
+        /// <summary>
+        /// Instance of BLDepartment
+        /// </summary>
+        private readonly BLDepartment _objBLDepartment;
+
+        /// <summary>
+        /// Default constructor for CLDepartmentController
+        /// </summary>
+        public CLDepartmentController()
         {
-            if (responseStatusInfo.IsRequestSuccessful)
-            {
-                return Ok(ResponseWrapper.Wrap(responseStatusInfo.Message, responseStatusInfo.Data));
-            }
-            return ResponseMessage(Request.CreateErrorResponse(responseStatusInfo.StatusCode, responseStatusInfo.Message));
+            _objBLDepartment = new BLDepartment();
         }
+
 
         [HttpGet]
         [Route("")]
         public IHttpActionResult GetDepartments()
         {
-            ResponseStatusInfo responseStatusInfo = BLResource<DPT01>.FetchResource();
-            return this.Returner(responseStatusInfo);
+            ResponseStatusInfo responseStatusInfo = _objBLDepartment.FetchResource();
+            return Returner(responseStatusInfo);
         }
 
         [HttpGet]
         [Route("{id}")]
         public IHttpActionResult GetDepartment(int id)
         {
-            ResponseStatusInfo responseStatusInfo = BLResource<DPT01>.FetchResource(id);
-            return this.Returner(responseStatusInfo);
+            ResponseStatusInfo responseStatusInfo = _objBLDepartment.FetchResource(id);
+            return Returner(responseStatusInfo);
         }
 
         [HttpPost]
         [Route("")]
         public IHttpActionResult PostDepartment(DPT01 Department)
         {
-            ResponseStatusInfo responseStatusInfo = BLResource<DPT01>.AddResource(Department);
-            return this.Returner(responseStatusInfo);
+            ResponseStatusInfo responseStatusInfo = _objBLDepartment.AddResource(Department);
+            return Returner(responseStatusInfo);
         }
 
         [HttpPatch]
         [Route("{id}")]
         public IHttpActionResult PatchDepartment(int id, JObject toUpdateJson)
         {
-            ResponseStatusInfo responseStatusInfo = BLResource<DPT01>.UpdateResource(id, toUpdateJson);
-            return this.Returner(responseStatusInfo);
+            ResponseStatusInfo responseStatusInfo = _objBLDepartment.UpdateResource(id, toUpdateJson);
+            return Returner(responseStatusInfo);
         }
 
         [HttpDelete]
         [Route("{id}")]
         public IHttpActionResult DeleteDepartment(int id)
         {
-            ResponseStatusInfo responseStatusInfo = BLResource<DPT01>.RemoveResource(id);
-            return this.Returner(responseStatusInfo);
+            ResponseStatusInfo responseStatusInfo = _objBLDepartment.RemoveResource(id);
+            return Returner(responseStatusInfo);
         }
     }
 }

@@ -1,11 +1,6 @@
-﻿using FirmAdvanceDemo.BL;
+using FirmAdvanceDemo.BL;
 using FirmAdvanceDemo.Utitlity;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Text;
 using System.Web;
 using System.Web.Http;
@@ -13,25 +8,26 @@ using System.Web.Http;
 namespace FirmAdvanceDemo.Controllers
 {
     [RoutePrefix("api/download")]
-    public class CLDownloadController : ApiController
+    public class CLDownloadController : BaseController
     {
-        [NonAction]
-        public IHttpActionResult Returner(ResponseStatusInfo responseStatusInfo)
-        {
-            if (responseStatusInfo.IsRequestSuccessful)
-            {
-                
-                return Ok(ResponseWrapper.Wrap(responseStatusInfo.Message, responseStatusInfo.Data));
-            }
-            return ResponseMessage(Request.CreateErrorResponse(responseStatusInfo.StatusCode, responseStatusInfo.Message));
-        }
+        /// <summary>
+        /// Instance of BLDownload
+        /// </summary>
+        private readonly BLDownload _objBLDownload;
 
+        /// <summary>
+        /// Default constructor for CLDownloadController
+        /// </summary>
+        public CLDownloadController()
+        {
+            _objBLDownload = new BLDownload();
+        }
 
         [HttpGet]
         [Route("salaryslip/{id}")]
         public IHttpActionResult GetSalarySlipCsv(int id, string start, string end)
         {
-            ResponseStatusInfo rsi = BLDownload.DownloadSalarySlip(
+            ResponseStatusInfo rsi = _objBLDownload.DownloadSalarySlip(
                 id,
                 DateTime.ParseExact(start, "yyyy-MM-dd", null),
                 DateTime.ParseExact(end, "yyyy-MM-dd", null)

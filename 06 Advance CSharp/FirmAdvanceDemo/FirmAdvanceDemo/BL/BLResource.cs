@@ -1,10 +1,11 @@
-﻿using FirmAdvanceDemo.Models;
+using FirmAdvanceDemo.Models.POCO;
 using FirmAdvanceDemo.Utitlity;
 using Newtonsoft.Json.Linq;
 using ServiceStack.OrmLite;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Net;
 
 namespace FirmAdvanceDemo.BL
 {
@@ -18,18 +19,25 @@ namespace FirmAdvanceDemo.BL
         /// <summary>
         /// Ormlite Connection Factory instance from Connection class - that represent a connection with a particular database
         /// </summary>
-        protected static readonly OrmLiteConnectionFactory _dbFactory;
+        protected readonly OrmLiteConnectionFactory _dbFactory;
 
-        static BLResource()
+        internal readonly ResponseStatusInfo _rsi;
+
+        public BLResource()
         {
             _dbFactory = Connection.dbFactory;
+        }
+
+        public BLResource(ResponseStatusInfo rsi) : this()
+        {
+            _rsi = rsi;
         }
 
         /// <summary>
         /// Method used to fetch the all Resource of RSE01 class
         /// </summary>
         /// <returns>ResponseStatusInfo instance containing list_of_resource (of RSE01 class) if successful or null if any exception</returns>
-        public static ResponseStatusInfo FetchResource()
+        public ResponseStatusInfo FetchResource()
         {
             using (IDbConnection db = _dbFactory.OpenDbConnection())
             {
@@ -60,7 +68,7 @@ namespace FirmAdvanceDemo.BL
         /// </summary>
         /// <param name="ResourceId">resource id</param>
         /// <returns>ResponseStatusInfo instance containing resource of RSE01 type if successful or null if any exception</returns>
-        public static ResponseStatusInfo FetchResource(int ResourceId)
+        public ResponseStatusInfo FetchResource(int ResourceId)
         {
             using (IDbConnection db = _dbFactory.OpenDbConnection())
             {
@@ -92,7 +100,7 @@ namespace FirmAdvanceDemo.BL
         /// </summary>
         /// <param name="Resource">An instance of RSE01 type</param>
         /// <returns>ResponseStatusInfo instance containing ResourceId if successful or null if any exception</returns>
-        public static ResponseStatusInfo AddResource(RSE01 Resource)
+        public ResponseStatusInfo AddResource(RSE01 Resource)
         {
             using (IDbConnection db = _dbFactory.OpenDbConnection())
             {
@@ -124,7 +132,7 @@ namespace FirmAdvanceDemo.BL
         /// <param name="ResourceId">Resource id</param>
         /// <param name="toUpdateJson">Json object that contains part to update</param>
         /// <returns>ResponseStatusInfo instance containing null</returns>
-        public static ResponseStatusInfo UpdateResource(int ResourceId, JObject toUpdateJson)
+        public ResponseStatusInfo UpdateResource(int ResourceId, JObject toUpdateJson)
         {
             using (IDbConnection db = _dbFactory.OpenDbConnection())
             {
@@ -158,7 +166,7 @@ namespace FirmAdvanceDemo.BL
         /// </summary>
         /// <param name="ResourceId">Resource id</param>
         /// <returns>ResponseStatusInfo instance containing null</returns>
-        public static ResponseStatusInfo RemoveResource(int ResourceId)
+        public ResponseStatusInfo RemoveResource(int ResourceId)
         {
             using (IDbConnection db = _dbFactory.OpenDbConnection())
             {
@@ -181,6 +189,25 @@ namespace FirmAdvanceDemo.BL
                         Data = null
                     };
                 }
+            }
+        }
+
+        /// <summary>
+        /// Method to populate data into _rsi object
+        /// </summary>
+        /// <param name="isSuccess">Response status isSuccess or not</param>
+        /// <param name="statusCode">Http status code of request</param>
+        /// <param name="message">Response message</param>
+        /// <param name="data">Data of response</param>
+        public void PopulateRSI(bool isSuccess, HttpStatusCode statusCode, string message, object data)
+        {
+            if(_rsi != null)
+            {
+                _rsi.IsAlreadySet = true;
+                _rsi.IsRequestSuccessful = isSuccess;
+                _rsi.StatusCode = statusCode;
+                _rsi.Message = message;
+                _rsi.Data = data;
             }
         }
     }

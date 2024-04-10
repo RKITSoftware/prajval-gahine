@@ -4,6 +4,9 @@ using ServiceStack.DataAnnotations;
 
 namespace ORMLiteDemo.Model
 {
+    /// <summary>
+    /// User model
+    /// </summary>
     internal class USR01
     {
         /// <summary>
@@ -16,7 +19,6 @@ namespace ORMLiteDemo.Model
         /// <summary>
         /// Username
         /// </summary>
-        [Index(true)]
         public string r01f02 { get; set; }
 
         /// <summary>

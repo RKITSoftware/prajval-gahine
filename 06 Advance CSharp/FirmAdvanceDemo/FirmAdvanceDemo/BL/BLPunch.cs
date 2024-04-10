@@ -1,18 +1,66 @@
-﻿using FirmAdvanceDemo.Models;
+using FirmAdvanceDemo.Enums;
+using FirmAdvanceDemo.Models.DTO;
+using FirmAdvanceDemo.Models.POCO;
 using FirmAdvanceDemo.Utitlity;
 using ServiceStack.OrmLite;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Web;
 
 namespace FirmAdvanceDemo.BL
 {
     public class BLPunch : BLResource<PCH01>
     {
+        /// <summary>
+        /// Instance of PCH01 model
+        /// </summary>
+        private PCH01 _objPCH01;
+
+        /// <summary>
+        /// Default constructor for BLPunch, initializes PCH01 instance
+        /// </summary>
+        public BLPunch()
+        {
+            _objPCH01 = new PCH01();
+        }
+
+        /// <summary>
+        /// Method to convert DTOPCH01 instance to PCH01 instance
+        /// </summary>
+        /// <param name="objDTOPCH01">Instance of DTOPCH01</param>
+        private void Presave(DTOPCH01 objDTOPCH01)
+        {
+            _objPCH01 = objDTOPCH01.ConvertModel<PCH01>();
+        }
+
+        /// <summary>
+        /// Method to validate the PCH01 instance
+        /// </summary>
+        /// <returns>True if PCH01 instance is valid else false</returns>
+        private bool Validate()
+        {
+            return true;
+        }
+
+        /// <summary>
+        /// Method to Add (Create) a new record of pch01 table in DB
+        /// </summary>
+        private void Add()
+        {
+
+        }
+
+        /// <summary>
+        /// Method to Update (Modify) an existing record pch01 table in DB
+        /// </summary>
+        private void Update()
+        {
+
+        }
+
         [Obsolete]
-        private static void RemoveMisPunch(List<PCH01> lstPunch)
+        private void RemoveMisPunch(List<PCH01> lstPunch)
         {
             TimeSpan timeBuffer = new TimeSpan(0, 0, 10);    // 1 minute buffer
             for (int i = 1; i < lstPunch.Count; i++)
@@ -29,7 +77,7 @@ namespace FirmAdvanceDemo.BL
         }
 
         [Obsolete]
-        private static List<PCH01> PopulateAttendanceFromPunch(List<PCH01> lstPunch, ATD01[] lstAttendance)
+        private List<PCH01> PopulateAttendanceFromPunch(List<PCH01> lstPunch, ATD01[] lstAttendance)
         {
             DateTime date = lstPunch[0].h01f03.Date;
 
@@ -77,12 +125,12 @@ namespace FirmAdvanceDemo.BL
         }
 
         [Obsolete]
-        public static bool isPunchLegitimate(PCH01 punch)
+        public bool isPunchLegitimate(PCH01 punch)
         {
-            return punch.h01f04 != null && punch.h01f04 != PunchType.Mistaken && punch.h01f04 != PunchType.Ambiguous;
+            return punch.h01f04 != null && punch.h01f04 != EnmPunchType.Mistaken && punch.h01f04 != EnmPunchType.Ambiguous;
         }
 
-        private static List<ATD01> ComputeAttendance(List<PCH01> lstPunch)
+        private List<ATD01> ComputeAttendance(List<PCH01> lstPunch)
         {
             if (lstPunch == null || lstPunch.Count == 0 || lstPunch.Count == 1)
             {
@@ -99,11 +147,11 @@ namespace FirmAdvanceDemo.BL
             int lastPunchInIndex = -1;
             for (int i = 0; i < size; i++)
             {
-                if (lstPunch[i].h01f04 == PunchType.In)
+                if (lstPunch[i].h01f04 == EnmPunchType.In)
                 {
                     lastPunchInIndex = i;
                 }
-                else if (lstPunch[i].h01f04 == PunchType.Out)
+                else if (lstPunch[i].h01f04 == EnmPunchType.Out)
                 {
                     tempWorkHpur += lstPunch[i].h01f03.Subtract(lstPunch[lastPunchInIndex].h01f03).TotalHours;
                 }
@@ -125,7 +173,7 @@ namespace FirmAdvanceDemo.BL
         }
 
 
-        private static void MarkMistakenlyPunch(List<PCH01> lstPunch)
+        private void MarkMistakenlyPunch(List<PCH01> lstPunch)
         {
             if (lstPunch == null || lstPunch.Count == 0 || lstPunch.Count == 1)
             {
@@ -140,13 +188,13 @@ namespace FirmAdvanceDemo.BL
                     if (lstPunch[i].h01f03.Subtract(lstPunch[i - 1].h01f03) <= timeBuffer)
                     {
                         //lstPunch.RemoveAt(i);
-                        lstPunch[i].h01f04 = PunchType.Mistaken;
+                        lstPunch[i].h01f04 = EnmPunchType.Mistaken;
                     }
                 }
             }
         }
 
-        private static void MarkAmbiguousPunch(List<PCH01> lstPunch)
+        private void MarkAmbiguousPunch(List<PCH01> lstPunch)
         {
             if (lstPunch == null || lstPunch.Count == 0)
             {
@@ -154,7 +202,7 @@ namespace FirmAdvanceDemo.BL
             }
             if (lstPunch.Count == 1)
             {
-                lstPunch[0].h01f04 = PunchType.Ambiguous;
+                lstPunch[0].h01f04 = EnmPunchType.Ambiguous;
                 return;
             }
             int size = lstPunch.Count;
@@ -170,7 +218,7 @@ namespace FirmAdvanceDemo.BL
                     tempEmployeeId = lstPunch[0].h01f02;
                     tempEmployeelLegitimatePunchCount++;
                 }
-                else if (lstPunch[i].h01f04 != PunchType.Mistaken && lstPunch[i].h01f02 == tempEmployeeId)
+                else if (lstPunch[i].h01f04 != EnmPunchType.Mistaken && lstPunch[i].h01f02 == tempEmployeeId)
                 {
                     tempEmployeelLegitimatePunchCount++;
                 }
@@ -184,7 +232,7 @@ namespace FirmAdvanceDemo.BL
                         {
                             if (lstPunch[j].h01f04 == null)
                             {
-                                lstPunch[j].h01f04 = PunchType.Ambiguous;
+                                lstPunch[j].h01f04 = EnmPunchType.Ambiguous;
                             }
                         }
                     }
@@ -200,7 +248,7 @@ namespace FirmAdvanceDemo.BL
             }
         }
 
-        private static void MarkInOutPunch(List<PCH01> lstPunch)
+        private void MarkInOutPunch(List<PCH01> lstPunch)
         {
             if (lstPunch == null || lstPunch.Count == 0)
             {
@@ -212,31 +260,31 @@ namespace FirmAdvanceDemo.BL
             for (int i = 0; i < size; i++)
             {
                 if
-                (lstPunch[i].h01f04 != PunchType.Mistaken
-                    && lstPunch[i].h01f04 != PunchType.Ambiguous)
+                (lstPunch[i].h01f04 != EnmPunchType.Mistaken
+                    && lstPunch[i].h01f04 != EnmPunchType.Ambiguous)
                 {
                     if (tempIsPunchedIn == false)
                     {
-                        lstPunch[i].h01f04 = PunchType.In;
+                        lstPunch[i].h01f04 = EnmPunchType.In;
                         tempIsPunchedIn = true;
                     }
                     else
                     {
-                        lstPunch[i].h01f04 = PunchType.Out;
+                        lstPunch[i].h01f04 = EnmPunchType.Out;
                         tempIsPunchedIn = false;
                     }
                 }
             }
         }
 
-        private static void UpdatePunchType(List<PCH01> lstPunch)
+        private void UpdatePunchType(List<PCH01> lstPunch)
         {
             MarkMistakenlyPunch(lstPunch);
             MarkAmbiguousPunch(lstPunch);
             MarkInOutPunch(lstPunch);
         }
 
-        public static ResponseStatusInfo EvaluatePunch(DateTime date)
+        public ResponseStatusInfo GenerateAttendance(DateTime date)
         {
             try
             {
@@ -275,17 +323,5 @@ namespace FirmAdvanceDemo.BL
                 }; ;
             }
         }
-    }
-
-
-
-    public enum PunchType : byte
-    {
-        In,
-        Out,
-        Mistaken,
-        Ambiguous,
-        VirtualIn,
-        VirtualOut,
     }
 }

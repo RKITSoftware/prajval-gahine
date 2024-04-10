@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace GenericsInCSharp
+﻿namespace GenericsInCSharp
 {
     class Base1
     {
@@ -72,6 +66,5 @@ namespace GenericsInCSharp
             public int x;
             public int y;
         }
-
     }
 }

@@ -1,6 +1,4 @@
-﻿using ExtensionMethodDemo;
-
-namespace ExtensionClassDemo
+﻿namespace ExtensionClassDemo
 {
     public static class ExtensionClass2
     {

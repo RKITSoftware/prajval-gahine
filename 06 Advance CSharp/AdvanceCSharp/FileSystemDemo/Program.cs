@@ -1,68 +1,21 @@
-﻿using System.Runtime;
-using System.Text;
+﻿using System.Text;
 
 namespace FileSystemDemo
 {
+    /// <summary>
+    /// Program class for entry of file system demo
+    /// </summary>
     internal class Program
     {
-        static void CopyImage(string orignalFilePath, string copyingFilePath)
-        {
-            // create stream instance of original image file
-            Stream stm = File.Open(orignalFilePath, FileMode.Open);
-            int count = (int)stm.Length;
-
-            // create binary reader instance on the above file stream instance
-            BinaryReader br = new BinaryReader(stm, Encoding.UTF8);
-            byte[] imgbytes = br.ReadBytes(count);
-
-            // create stream instance of copying file with file mode create new
-            Stream stm2 = File.Open(copyingFilePath, FileMode.Create);
-
-            // write to the copying file using binary writer
-            BinaryWriter bw = new BinaryWriter(stm2, Encoding.UTF8);
-
-            bw.Write(imgbytes);
-        }
-
-        static void GetText(string textFilePath)
-        {
-            Stream stm = File.Open(textFilePath, FileMode.Open);
-            int count = (int)stm.Length;
-            using (BinaryReader br = new BinaryReader(stm, Encoding.UTF8))
-            {
-                //char[] chars = br.ReadChars(11);
-                while (count > 0)
-                {
-                    Console.Write(br.ReadChar());
-                    count--;
-                }
-            }
-        }
-
-        static void DatFileWriteRead(string datFilePath)
-        {
-            FileInfo fi = new FileInfo(datFilePath);
-            using(BinaryWriter bw = new BinaryWriter(fi.OpenWrite()))
-            {
-                int intgr = 7;
-                string str = "hello world";
-                bw.Write(intgr);
-                bw.Write(str);
-            }
-
-            using(BinaryReader br = new BinaryReader(fi.OpenRead()))
-            {
-                Console.WriteLine("\n\nDat file reading");
-                Console.WriteLine(br.ReadInt32());
-                Console.WriteLine(br.ReadString());
-                Console.WriteLine("Dat file reading complete");
-            }
-        }
+        /// <summary>
+        /// Main method - entry point for file system demo
+        /// </summary>
         static void Main(string[] args)
         {
             // drive info class
             DriveInfo[] lstDi = DriveInfo.GetDrives();
-            foreach(DriveInfo di in lstDi){
+            foreach (DriveInfo di in lstDi)
+            {
                 Console.WriteLine(di.Name);
             }
             DriveInfo drive = new DriveInfo("C:\\");
@@ -95,13 +48,13 @@ namespace FileSystemDemo
             //dirInfo.Delete(true);
 
             // reading and writing to a file
-            string text = File.ReadAllText(dirInfo.FullName + @"\text.txt");
-            Console.WriteLine("file content: " + text);
+            //string text = File.ReadAllText(dirInfo.FullName + @"\text.txt");
+            //Console.WriteLine("file content: " + text);
 
             // writing to file
-            //File.WriteAllText(dirInfo.FullName + @"\text.txt", "hello world 2.0");
+            //File.WriteAllText(dirInfo.FullName + @"\text.txt", "hello world 2.0
 
-            GetText(dirInfo.FullName + @"\text.txt");
+            //GetText(dirInfo.FullName + @"\text.txt");
 
             // binary reader and writer
             // image file
@@ -109,6 +62,73 @@ namespace FileSystemDemo
 
             // binary reader and writer dat file
             DatFileWriteRead(dirInfo.FullName + @"\subdirectroy1\bFile.dat");
+        }
+
+        /// <summary>
+        /// Method to copy an image
+        /// </summary>
+        /// <param name="orignalFilePath">Image current path</param>
+        /// <param name="copyingFilePath">To copy path</param>
+        static void CopyImage(string orignalFilePath, string copyingFilePath)
+        {
+            // create stream instance of original image file
+            Stream stm = File.Open(orignalFilePath, FileMode.Open);
+            int count = (int)stm.Length;
+
+            // create binary reader instance on the above file stream instance
+            BinaryReader br = new BinaryReader(stm, Encoding.UTF8);
+            byte[] imgbytes = br.ReadBytes(count);
+
+            // create stream instance of copying file with file mode create new
+            Stream stm2 = File.Open(copyingFilePath, FileMode.Create);
+
+            // write to the copying file using binary writer
+            BinaryWriter bw = new BinaryWriter(stm2, Encoding.UTF8);
+
+            bw.Write(imgbytes);
+        }
+
+        /// <summary>
+        /// Method to get text from specified file
+        /// </summary>
+        /// <param name="textFilePath">file path</param>
+        static void GetText(string textFilePath)
+        {
+            Stream stm = File.Open(textFilePath, FileMode.Open);
+            int count = (int)stm.Length;
+            using (BinaryReader br = new BinaryReader(stm, Encoding.UTF8))
+            {
+                //char[] chars = br.ReadChars(11);
+                while (count > 0)
+                {
+                    Console.Write(br.ReadChar());
+                    count--;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Dat file Write and Read method
+        /// </summary>
+        /// <param name="datFilePath">Dat file path</param>
+        static void DatFileWriteRead(string datFilePath)
+        {
+            FileInfo fi = new FileInfo(datFilePath);
+            using (BinaryWriter bw = new BinaryWriter(fi.OpenWrite()))
+            {
+                int intgr = 7;
+                string str = "hello world";
+                bw.Write(intgr);
+                bw.Write(str);
+            }
+
+            using (BinaryReader br = new BinaryReader(fi.OpenRead()))
+            {
+                Console.WriteLine("\n\nDat file reading");
+                Console.WriteLine(br.ReadInt32());
+                Console.WriteLine(br.ReadString());
+                Console.WriteLine("Dat file reading complete");
+            }
         }
     }
 }

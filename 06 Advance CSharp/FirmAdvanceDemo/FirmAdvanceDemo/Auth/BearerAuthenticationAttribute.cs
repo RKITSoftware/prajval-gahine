@@ -1,17 +1,10 @@
-﻿using FirmAdvanceDemo.BL;
+using FirmAdvanceDemo.BL;
 using FirmAdvanceDemo.Utitlity;
-using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
 using System.Text;
-using System.Web;
 using System.Web.Http.Filters;
-using System.Net.Http.Headers;
-using System.Web.Http.Controllers;
-using System.Net.Http;
 
 namespace FirmAdvanceDemo.Auth
 {
@@ -62,17 +55,17 @@ namespace FirmAdvanceDemo.Auth
                         // check for existance of user (by userId)
                         // if exists => then get username and its roles
                         int userId = (int)payloadJson["id"];
-
-                        ResponseStatusInfo rsiGetUsername = BLUser.FetchUsernameByUserId(userId);
-                        ResponseStatusInfo rsiGetUserRoles = BLUser.FetchUserRolesByUserId(userId);
+                        BLUser objBLUser = new BLUser();
+                        ResponseStatusInfo rsiGetUsername = objBLUser.FetchUsernameByUserId(userId);
+                        ResponseStatusInfo rsiGetUserRoles = objBLUser.FetchUserRolesByUserId(userId);
 
                         if (rsiGetUsername.IsRequestSuccessful == true && rsiGetUserRoles.IsRequestSuccessful == true)
                         {
                             string username = (string)rsiGetUsername.Data;
                             string[] roles = (string[])rsiGetUserRoles.Data;
 
-
-                            int EmlpoyeeId = BLEmployee.FetchEmployeeIdByUserId(userId);
+                            BLEmployee objBLEmployee = new BLEmployee();
+                            int EmlpoyeeId = objBLEmployee.FetchEmployeeIdByUserId(userId);
                             bool IsPrincipalAttached = GeneralUtility.AttachPrinicpal(userId.ToString(), username, EmlpoyeeId.ToString(), roles);
 
                             if (!IsPrincipalAttached)
@@ -101,6 +94,6 @@ namespace FirmAdvanceDemo.Auth
             }
             return ErrorMessage;
         }
-        
+
     }
 }

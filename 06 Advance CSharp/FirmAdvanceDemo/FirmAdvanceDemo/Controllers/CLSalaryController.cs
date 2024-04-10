@@ -1,30 +1,30 @@
-﻿using FirmAdvanceDemo.BL;
+using FirmAdvanceDemo.BL;
 using FirmAdvanceDemo.Utitlity;
-using System.Net.Http;
 using System.Web.Http;
 
 namespace FirmAdvanceDemo.Controllers
 {
     [RoutePrefix("api/salary")]
-    public class CLSalaryController : ApiController
+    public class CLSalaryController : BaseController
     {
+        /// <summary>
+        /// Instance of BLSalary
+        /// </summary>
+        private readonly BLSalary _objBLSalary;
 
-        [NonAction]
-        public IHttpActionResult Returner(ResponseStatusInfo responseStatusInfo)
+        /// <summary>
+        /// Default constructor for CLSalaryController
+        /// </summary>
+        public CLSalaryController()
         {
-            if (responseStatusInfo.IsRequestSuccessful)
-            {
-                return Ok(ResponseWrapper.Wrap(responseStatusInfo.Message, responseStatusInfo.Data));
-            }
-            return ResponseMessage(Request.CreateErrorResponse(responseStatusInfo.StatusCode, responseStatusInfo.Message));
+            _objBLSalary = new BLSalary();
         }
-
 
         [HttpPost]
         [Route("")]
         public IHttpActionResult PostSalary()
         {
-            ResponseStatusInfo responseStatusInfo = BLSalary.CreditSalary();
+            ResponseStatusInfo responseStatusInfo = _objBLSalary.CreditSalary();
             return Returner(responseStatusInfo);
         }
     }

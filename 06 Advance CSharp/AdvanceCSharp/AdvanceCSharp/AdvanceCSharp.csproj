@@ -6,7 +6,7 @@
     <RootNamespace>AdvanceCSharp</RootNamespace>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <StartupObject>AdvanceCSharp.Program</StartupObject>
+    <StartupObject>AdvanceCSharp.SealedMethodMain</StartupObject>
   </PropertyGroup>
 
 </Project>

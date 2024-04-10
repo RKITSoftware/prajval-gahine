@@ -1,4 +1,4 @@
-﻿using ServiceStack.OrmLite;
+using ServiceStack.OrmLite;
 using System.Configuration;
 
 namespace FirmAdvanceDemo

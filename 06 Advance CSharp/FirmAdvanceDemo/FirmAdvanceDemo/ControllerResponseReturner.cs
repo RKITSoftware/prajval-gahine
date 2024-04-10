@@ -1,4 +1,4 @@
-﻿using FirmAdvanceDemo.Utitlity;
+using FirmAdvanceDemo.Utitlity;
 using Org.BouncyCastle.Asn1.Ocsp;
 using System;
 using System.Collections.Generic;

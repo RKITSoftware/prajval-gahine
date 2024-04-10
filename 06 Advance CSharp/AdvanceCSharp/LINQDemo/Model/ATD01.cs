@@ -2,6 +2,9 @@
 
 namespace LINQDemo.Model
 {
+    /// <summary>
+    /// Model class to model Attendance
+    /// </summary>
     [Alias("atd01")]
     internal class ATD01
     {
@@ -18,7 +21,7 @@ namespace LINQDemo.Model
         /// <summary>
         /// Attendance date
         /// </summary>
-        public DateOnly d01f03 { get; set; } =new DateOnly();
+        public DateOnly d01f03 { get; set; } = new DateOnly();
 
 
         /// <summary>

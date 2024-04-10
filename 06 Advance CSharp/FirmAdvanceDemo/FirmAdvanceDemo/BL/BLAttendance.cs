@@ -1,11 +1,10 @@
-﻿using FirmAdvanceDemo.Models;
+using FirmAdvanceDemo.Models.DTO;
+using FirmAdvanceDemo.Models.POCO;
 using FirmAdvanceDemo.Utitlity;
 using ServiceStack.OrmLite;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Diagnostics;
-using System.Linq;
 
 namespace FirmAdvanceDemo.BL
 {
@@ -15,12 +14,59 @@ namespace FirmAdvanceDemo.BL
     public class BLAttendance : BLResource<ATD01>
     {
         /// <summary>
+        /// Instance of ATD01 model
+        /// </summary>
+        private ATD01 _objATD01;
+
+        /// <summary>
+        /// Default constructor for BLAttendance, initializes ATD01 instance
+        /// </summary>
+        public BLAttendance()
+        {
+            _objATD01 = new ATD01();
+        }
+
+        /// <summary>
+        /// Method to convert DTOATD01 instance to ATD01 instance
+        /// </summary>
+        /// <param name="objDTOATD01">Instance of DTOATD01</param>
+        private void Presave(DTOATD01 objDTOATD01)
+        {
+            _objATD01 = objDTOATD01.ConvertModel<ATD01>();
+        }
+
+        /// <summary>
+        /// Method to validate the ATD01 instance
+        /// </summary>
+        /// <returns>True if ATD01 instance is valid else false</returns>
+        private bool Validate()
+        {
+            return true;
+        }
+
+        /// <summary>
+        /// Method to Add (Create) a new record of atd01 table in DB
+        /// </summary>
+        private void Add()
+        {
+
+        }
+
+        /// <summary>
+        /// Method to Update (Modify) an existing record atd01 table in DB
+        /// </summary>
+        private void Update()
+        {
+
+        }
+
+        /// <summary>
         /// Method to add an attendance to datatbase
         /// </summary>
         /// <param name="EmployeeId">Employee Id</param>
         /// <param name="DayWorkHour">Current date work hour</param>
         /// <returns>ResponseStatusInfo instance containing null</returns>
-        public static ResponseStatusInfo AddAttendance(int EmployeeId, double DayWorkHour)
+        public ResponseStatusInfo AddAttendance(int EmployeeId, double DayWorkHour)
         {
             try
             {
@@ -59,7 +105,7 @@ namespace FirmAdvanceDemo.BL
         /// </summary>
         /// <param name="EmployeeId">Employee Id</param>
         /// <returns>ResponseStatusInfo instance containing lst_of_attendance, null if any exception is thrown</returns>
-        public static ResponseStatusInfo FetchAttendanceByEmployeeId(int EmployeeId)
+        public ResponseStatusInfo FetchAttendanceByEmployeeId(int EmployeeId)
         {
             try
             {
@@ -91,7 +137,7 @@ namespace FirmAdvanceDemo.BL
         /// <param name="month">Attendance Month</param>
         /// <param name="year">Attendance Year</param>
         /// <returns>ResponseStatusInfo instance containing lst_of_attendance, null if any exception is thrown</returns>
-        public static ResponseStatusInfo FetchAttendanceByMonthYear(int month, int year)
+        public ResponseStatusInfo FetchAttendanceByMonthYear(int month, int year)
         {
             try
             {
@@ -131,7 +177,7 @@ namespace FirmAdvanceDemo.BL
         /// Method to fetch all todays attendance
         /// </summary>
         /// <returns>ResponseStatusInfo instance containing lst_of_attendance, null if any exception is thrown</returns>
-        public static ResponseStatusInfo FetchTodaysAttendance()
+        public ResponseStatusInfo FetchTodaysAttendance()
         {
             try
             {
@@ -176,7 +222,7 @@ namespace FirmAdvanceDemo.BL
         /// <param name="month">Month</param>
         /// <param name="year">Year</param>
         /// <returns>ResponseStatusInfo instance containing lst_of_attendance, null if any exception is thrown</returns>
-        public static ResponseStatusInfo FetchAttendanceByEmployeeIdAndMonthYear(int EmployeeId, int month, int year)
+        public ResponseStatusInfo FetchAttendanceByEmployeeIdAndMonthYear(int EmployeeId, int month, int year)
         {
             try
             {
@@ -214,18 +260,13 @@ namespace FirmAdvanceDemo.BL
             }
         }
 
-        public static ResponseStatusInfo GenerateAttendance(DateTime date)
-        {
-            return BLPunch.EvaluatePunch(date);
-        }
-
         /*
         /// <summary>
         /// Method to fetch all attendance of employee for current month
         /// </summary>
         /// <param name="EmployeeId">Employee id</param>
         /// <returns>ResponseStatusInfo instance containing lst_of_attendance, null if any exception is thrown</returns>
-        public static ResponseStatusInfo FetchAttendanceByEmployeeIdForCurrentMonth(int EmployeeId)
+        public ResponseStatusInfo FetchAttendanceByEmployeeIdForCurrentMonth(int EmployeeId)
         {
             try
             {

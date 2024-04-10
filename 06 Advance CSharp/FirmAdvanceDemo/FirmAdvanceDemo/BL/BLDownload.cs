@@ -1,25 +1,22 @@
-﻿using FirmAdvanceDemo.Models;
+using FirmAdvanceDemo.Models.POCO;
 using FirmAdvanceDemo.Utitlity;
 using ServiceStack.OrmLite;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.IO;
-using System.Linq;
-using System.Web;
 
 namespace FirmAdvanceDemo.BL
 {
     public class BLDownload
     {
-        private static readonly OrmLiteConnectionFactory _dbFactory;
-        static BLDownload()
+        private readonly OrmLiteConnectionFactory _dbFactory;
+        public BLDownload()
         {
             _dbFactory = Connection.dbFactory;
         }
-        public static ResponseStatusInfo DownloadSalarySlip(int EmployeeId, DateTime start, DateTime end)
+        public ResponseStatusInfo DownloadSalarySlip(int EmployeeId, DateTime start, DateTime end)
         {
-            using(IDbConnection db = _dbFactory.OpenDbConnection())
+            using (IDbConnection db = _dbFactory.OpenDbConnection())
             {
                 SqlExpression<SLY01> sqlExp = db.From<SLY01>()
                     .Where(salary => salary.y01f02 == EmployeeId)
@@ -29,7 +26,7 @@ namespace FirmAdvanceDemo.BL
 
                 string csvContent = CSVConvert<SLY01>.ConvertToCSV(lstSalary, typeof(SLY01));
 
-               
+
                 return new ResponseStatusInfo
                 {
                     IsRequestSuccessful = true,
@@ -40,6 +37,3 @@ namespace FirmAdvanceDemo.BL
         }
     }
 }
-
-//"foobarthebarfoofoo"
-//["foo", "the", "bar", "foo", "foo"]

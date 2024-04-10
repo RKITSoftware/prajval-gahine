@@ -2,8 +2,14 @@
 
 namespace GenricsDemo
 {
+    /// <summary>
+    /// Program class for entry of generics demo
+    /// </summary>
     internal class Program
     {
+        /// <summary>
+        /// Main method - entry point for generics demo
+        /// </summary>
         static void Main(string[] args)
         {
             // Get a user's username

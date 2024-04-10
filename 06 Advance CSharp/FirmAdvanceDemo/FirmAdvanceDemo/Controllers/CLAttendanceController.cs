@@ -1,44 +1,29 @@
-﻿using FirmAdvanceDemo.Auth;
+using FirmAdvanceDemo.Auth;
 using FirmAdvanceDemo.BL;
-using FirmAdvanceDemo.Models;
 using FirmAdvanceDemo.Utitlity;
 using Newtonsoft.Json.Linq;
 using System;
-using System.Drawing;
 using System.Linq;
-using System.Net.Http;
 using System.Security.Claims;
+using System.Web;
 using System.Web.Http;
 
 namespace FirmAdvanceDemo.Controllers
 {
     [RoutePrefix("api/attendance")]
-    public class CLAttendanceController : ApiController
+    public class CLAttendanceController : BaseController
     {
         /// <summary>
-        /// Method used to have consistent (uniform) returns from all controller actions
+        /// Instance of BLAttendance
         /// </summary>
-        /// <param name="responseStatusInfo">ResponseStatusInfo instance containing response specific information</param>
-        /// <returns>Instance of type IHttpActionResult</returns>
-        [NonAction]
-        public IHttpActionResult Returner(ResponseStatusInfo responseStatusInfo)
-        {
-            if (responseStatusInfo.IsRequestSuccessful)
-            {
-                return Ok(ResponseWrapper.Wrap(responseStatusInfo.Message, responseStatusInfo.Data));
-            }
-            return ResponseMessage(Request.CreateErrorResponse(responseStatusInfo.StatusCode, responseStatusInfo.Message));
-        }
+        private readonly BLAttendance _objBLAttendance;
 
-
-        [HttpPost]
-        [Route("evaluatepunch")]
-        [AccessTokenAuthentication]
-        [BasicAuthorization(Roles = "admin")]
-        public IHttpActionResult EvaludatePunch()
+        /// <summary>
+        /// Default constructor for CLAttendanceController
+        /// </summary>
+        public CLAttendanceController()
         {
-            ResponseStatusInfo rsi = BLAttendance.GenerateAttendance(DateTime.Now);
-            return this.Returner(rsi);
+            _objBLAttendance = new BLAttendance();
         }
 
         /// <summary>
@@ -50,8 +35,8 @@ namespace FirmAdvanceDemo.Controllers
         [BasicAuthorization(Roles = "admin")]
         public IHttpActionResult GetAttendances()
         {
-            ResponseStatusInfo responseStatusInfo = BLResource<ATD01>.FetchResource();
-            return this.Returner(responseStatusInfo);
+            ResponseStatusInfo responseStatusInfo = _objBLAttendance.FetchResource();
+            return Returner(responseStatusInfo);
         }
 
         /// <summary>
@@ -64,8 +49,8 @@ namespace FirmAdvanceDemo.Controllers
         [BasicAuthorization(Roles = "admin")]
         public IHttpActionResult GetAttendanceByEmployeeId(int EmployeeId)
         {
-            ResponseStatusInfo responseStatusInfo = BLAttendance.FetchAttendanceByEmployeeId(EmployeeId);
-            return this.Returner(responseStatusInfo);
+            ResponseStatusInfo responseStatusInfo = _objBLAttendance.FetchAttendanceByEmployeeId(EmployeeId);
+            return Returner(responseStatusInfo);
         }
 
         /// <summary>
@@ -79,8 +64,8 @@ namespace FirmAdvanceDemo.Controllers
         [BasicAuthorization(Roles = "admin")]
         public IHttpActionResult GetAttendanceByMonthYear(int month, int year)
         {
-            ResponseStatusInfo responseStatusInfo = BLAttendance.FetchAttendanceByMonthYear(month, year);
-            return this.Returner(responseStatusInfo);
+            ResponseStatusInfo responseStatusInfo = _objBLAttendance.FetchAttendanceByMonthYear(month, year);
+            return Returner(responseStatusInfo);
         }
 
         /// <summary>
@@ -92,8 +77,8 @@ namespace FirmAdvanceDemo.Controllers
         [BasicAuthorization(Roles = "admin")]
         public IHttpActionResult GetTodaysAttendance()
         {
-            ResponseStatusInfo responseStatusInfo = BLAttendance.FetchTodaysAttendance();
-            return this.Returner(responseStatusInfo);
+            ResponseStatusInfo responseStatusInfo = _objBLAttendance.FetchTodaysAttendance();
+            return Returner(responseStatusInfo);
         }
 
         /// <summary>
@@ -108,8 +93,8 @@ namespace FirmAdvanceDemo.Controllers
         [BasicAuthorization(Roles = "admin")]
         public IHttpActionResult GetAttendanceByEmployeeIdAndMonthYear(int id, int month, int year)
         {
-            ResponseStatusInfo responseStatusInfo = BLAttendance.FetchAttendanceByEmployeeIdAndMonthYear(id, month, year);
-            return this.Returner(responseStatusInfo);
+            ResponseStatusInfo responseStatusInfo = _objBLAttendance.FetchAttendanceByEmployeeIdAndMonthYear(id, month, year);
+            return Returner(responseStatusInfo);
         }
 
         /// <summary>
@@ -123,8 +108,8 @@ namespace FirmAdvanceDemo.Controllers
         public IHttpActionResult GetAttendanceByEmployeeIdForCurrentMonth(int id)
         {
             DateTime date = DateTime.Today;
-            ResponseStatusInfo responseStatusInfo = BLAttendance.FetchAttendanceByEmployeeIdAndMonthYear(id, date.Month, date.Year);
-            return this.Returner(responseStatusInfo);
+            ResponseStatusInfo responseStatusInfo = _objBLAttendance.FetchAttendanceByEmployeeIdAndMonthYear(id, date.Month, date.Year);
+            return Returner(responseStatusInfo);
         }
 
 
@@ -132,8 +117,8 @@ namespace FirmAdvanceDemo.Controllers
         //[Route("{id}")]
         //public IHttpActionResult GetAttendance(int id)
         //{
-        //    ResponseStatusInfo responseStatusInfo = BLResource<ATD01>.FetchResource(id);
-        //    return this.Returner(responseStatusInfo);
+        //    ResponseStatusInfo responseStatusInfo = _objBLAttendance.FetchResource(id);
+        //    return Returner(responseStatusInfo);
         //}
 
         /// <summary>
@@ -155,8 +140,8 @@ namespace FirmAdvanceDemo.Controllers
                 .SingleOrDefault()
             );
 
-            ResponseStatusInfo responseStatusInfo = BLAttendance.AddAttendance(id, (double)dayWorkHour["dayWorkHour"]);
-            return this.Returner(responseStatusInfo);
+            ResponseStatusInfo responseStatusInfo = _objBLAttendance.AddAttendance(id, (double)dayWorkHour["dayWorkHour"]);
+            return Returner(responseStatusInfo);
         }
 
         /// <summary>
@@ -170,8 +155,8 @@ namespace FirmAdvanceDemo.Controllers
         [BasicAuthorization(Roles = "admin")]
         public IHttpActionResult PatchAttendance(int id, JObject toUpdateJson)
         {
-            ResponseStatusInfo responseStatusInfo = BLResource<ATD01>.UpdateResource(id, toUpdateJson);
-            return this.Returner(responseStatusInfo);
+            ResponseStatusInfo responseStatusInfo = _objBLAttendance.UpdateResource(id, toUpdateJson);
+            return Returner(responseStatusInfo);
         }
 
         /// <summary>
@@ -184,8 +169,8 @@ namespace FirmAdvanceDemo.Controllers
         [Route("{id}")]
         public IHttpActionResult DeleteAttendance(int id)
         {
-            ResponseStatusInfo responseStatusInfo = BLResource<ATD01>.RemoveResource(id);
-            return this.Returner(responseStatusInfo);
+            ResponseStatusInfo responseStatusInfo = _objBLAttendance.RemoveResource(id);
+            return Returner(responseStatusInfo);
         }
     }
 }

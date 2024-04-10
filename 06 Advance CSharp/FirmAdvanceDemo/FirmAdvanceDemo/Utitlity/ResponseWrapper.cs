@@ -1,4 +1,4 @@
-﻿namespace FirmAdvanceDemo.Utitlity
+namespace FirmAdvanceDemo.Utitlity
 {
     /// <summary>
     /// Class used to wrap up response data in uniform format

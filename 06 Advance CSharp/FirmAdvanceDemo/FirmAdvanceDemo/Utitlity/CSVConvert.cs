@@ -1,10 +1,7 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using System.IO;
 using System.Reflection;
-using System.Net.Http;
 
 namespace FirmAdvanceDemo.Utitlity
 {
@@ -16,7 +13,7 @@ namespace FirmAdvanceDemo.Utitlity
 
 
             // get resource's all public and instance props
-            PropertyInfo[] props =  resourceType.GetProperties(BindingFlags.Public | BindingFlags.Instance);
+            PropertyInfo[] props = resourceType.GetProperties(BindingFlags.Public | BindingFlags.Instance);
 
             // add those props Name as csv header
             List<string> lstCsvHeader = props.Select(prop => prop.Name).ToList<string>();
@@ -31,7 +28,7 @@ namespace FirmAdvanceDemo.Utitlity
                 foreach (PropertyInfo prop in props)
                 {
                     string data = null;
-                    if(prop.PropertyType == typeof(DateTime))
+                    if (prop.PropertyType == typeof(DateTime))
                     {
                         data = ((DateTime)prop.GetValue(resource, null)).ToString("dd-MM-yyyy");
                     }

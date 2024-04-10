@@ -1,8 +1,8 @@
+using FirmAdvanceDemo;
+using FirmAdvanceDemo.SwaggerRequirements;
+using Swashbuckle.Application;
 using System.Web.Http;
 using WebActivatorEx;
-using FirmAdvanceDemo;
-using Swashbuckle.Application;
-using FirmAdvanceDemo.SwaggerRequirements;
 
 [assembly: PreApplicationStartMethod(typeof(SwaggerConfig), "Register")]
 
@@ -63,10 +63,10 @@ namespace FirmAdvanceDemo
                         //    .Description("Basic HTTP Authentication");
                         //
                         // NOTE: You must also configure 'EnableApiKeySupport' below in the SwaggerUI section
-                        //c.ApiKey("apiKey")
-                        //    .Description("API Key Authentication")
-                        //    .Name("apiKey")
-                        //    .In("header");
+                        c.ApiKey("apiKey")
+                            .Description("Access Token")
+                            .Name("Authorization")
+                            .In("header");
                         //
                         //c.OAuth2("oauth2")
                         //    .Description("OAuth2 Implicit Grant")
@@ -157,7 +157,7 @@ namespace FirmAdvanceDemo
                         // to inspect some attribute on each action and infer which (if any) OAuth2 scopes are required
                         // to execute the operation
                         //
-                        c.OperationFilter<AccessTokenAuthRequirements>();
+                        //c.OperationFilter<AccessTokenAuthRequirements>();
                         c.OperationFilter<BasicAuthRequirements>();
 
                         // Post-modify the entire Swagger document by wiring up one or more Document filters.
@@ -250,7 +250,7 @@ namespace FirmAdvanceDemo
                         // If your API supports ApiKey, you can override the default values.
                         // "apiKeyIn" can either be "query" or "header"
                         //
-                        //c.EnableApiKeySupport("apiKey", "header");
+                        c.EnableApiKeySupport("Authorization", "header");
                     });
         }
     }

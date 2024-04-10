@@ -7,9 +7,15 @@ using System.Data;
 
 namespace ORMLiteDemo
 {
+    /// <summary>
+    /// Entry class for LINQ demo
+    /// </summary>
     internal class Program
     {
-        static void Main(string[] args)
+        /// <summary>
+        /// Entry method for LINQ demo
+        /// </summary>
+        static void Main()
         {
             string connString = ConfigurationManager.ConnectionStrings["connString"].ConnectionString;
             Console.WriteLine(connString);
@@ -18,7 +24,7 @@ namespace ORMLiteDemo
             OrmLiteConnectionFactory dbFactory = new OrmLiteConnectionFactory(connString, MySqlDialect.Provider);
 
             // open a connection
-            using(IDbConnection db = dbFactory.OpenDbConnection())
+            using (IDbConnection db = dbFactory.OpenDbConnection())
             {
                 // create USR01 table in db if not exists
                 db.CreateTableIfNotExists<USR01>();
@@ -35,38 +41,44 @@ namespace ORMLiteDemo
                 // -------------------- INSERT -----------------------
 
                 // insert user list in USR01 table
-                //db.Insert<USR01>(lstUser);
+                db.Insert<USR01>(lstUser);
                 //db.InsertAll<USR01>(lstUser);
 
                 // -------------------- UPDATE -----------------------
 
-
-                // update a password of prajval to gahine@123 (i.e., update inplace)
-                //db.Update<USR01>(new { r01f03 = "prajval@123" }, where: user => user.r01f02 == "prajvalgahine");
+                // update password of prajval to gahine@123 (i.e., update inplace)
+                db.Update<USR01>(new { r01f03 = "prajval@123" }, where: user => user.r01f02 == "prajvalgahine");
 
 
                 //or use single mthd => which first gets the user info from mysql and return USR01 object
-                //USR01 user = db.Single<USR01>(user => user.r01f02 == "prajvalgahine");
+                USR01 user = db.Single<USR01>(user => user.r01f02 == "prajvalgahine");
                 // change the portion of user that u want to update
-                //user.r01f03 = "png@123";
-                // update the same to mysql server
-                //db.Update<USR01>(user);
+                user.r01f03 = "png@123";
+                //update the same to mysql server
+                db.Update<USR01>(user);
 
 
                 // sql expression represented as an object => it will be used in onlyFields
-                //SqlExpression<USR01> SqlExp = db.From<USR01>()
-                //    .Where(user => user.r01f02 == "prajvalgahine")
-                //    .Update(user => user.r01f03);
-                //db.UpdateOnlyFields<USR01>(new USR01 { r01f03 = "prag@123"}, onlyFields: SqlExp);
+                SqlExpression<USR01> SqlExp = db.From<USR01>()
+                    .Where(user => user.r01f02 == "prajvalgahine")
+                    .Update(user => user.r01f03);
+
+
+                db.UpdateOnlyFields<USR01>(new USR01 { r01f03 = "prag@123" }, onlyFields: SqlExp);
 
                 // updateOnly using dictionary
+                Dictionary<string, object> toUpdateDict = new Dictionary<string, object>()
+                {
+                    [nameof(USR01.r01f03)] = "prajval@gahine"
+                };
+
+                db.UpdateOnly<USR01>( () => new USR01 { r01f03 = "prajval@gahine" }, where: user => user.r01f02 == "prajvalgahine");
                 //Dictionary<string, object> toUpdateDict = new Dictionary<string, object>()
                 //{
                 //    [nameof(USR01.r01f03)] = "prajval@gahine"
                 //};
 
-                //db.UpdateOnly<USR01>(toUpdateDict, user => user.r01f02 == "prajvalgahine");
-
+                db.UpdateOnly<USR01>(toUpdateDict, user => user.r01f02 == "prajvalgahine");
 
 
 
@@ -123,7 +135,7 @@ namespace ORMLiteDemo
                 SqlExpForSelect = db.From<USR01>()
                     .Select(user => user.r01f02);
                 List<string> lstUsername = db.Column<string>(SqlExpForSelect);
-                foreach(string username in lstUsername)
+                foreach (string username in lstUsername)
                 {
                     Console.WriteLine(username);
                 }
@@ -133,17 +145,21 @@ namespace ORMLiteDemo
                 SqlExpForSelect = db.From<USR01>()
                     .Select(user => new { user.r01f01, user.r01f02 });
                 Dictionary<int, string> IdNameDict = db.Dictionary<int, string>(SqlExpForSelect);
-                foreach(KeyValuePair<int, string> IdName in IdNameDict)
+                foreach (KeyValuePair<int, string> IdName in IdNameDict)
                 {
                     Console.WriteLine($"User id: {IdName.Key}, username: {IdName.Value}");
                 }
                 Console.WriteLine();
-            
             }
         }
+
+        /// <summary>
+        /// Method to print user list
+        /// </summary>
+        /// <param name="lstUser">list of user</param>
         public static void PrintUserList(List<USR01> lstUser)
         {
-            foreach(USR01 user in lstUser)
+            foreach (USR01 user in lstUser)
             {
                 Console.WriteLine($"User id: {user.r01f01}, username: {user.r01f02}");
             }

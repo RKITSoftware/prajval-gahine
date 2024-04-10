@@ -1,15 +1,5 @@
-﻿using FirmAdvanceDemo.BL;
-using FirmAdvanceDemo.Utitlity;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System;
 using System.Net;
 using System.Net.Http;
-using System.Security.Claims;
-using System.Security.Principal;
-using System.Text;
-using System.Threading;
-using System.Web;
 using System.Web.Http.Controllers;
 
 namespace FirmAdvanceDemo.Auth

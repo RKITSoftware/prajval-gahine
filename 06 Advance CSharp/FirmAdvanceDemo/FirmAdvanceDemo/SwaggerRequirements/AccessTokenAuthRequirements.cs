@@ -1,13 +1,11 @@
-﻿using System;
+using FirmAdvanceDemo.Auth;
+using Swashbuckle.Swagger;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
-using System.Web;
+using System.Web.Http;
 using System.Web.Http.Description;
 using System.Web.Http.Filters;
-using Swashbuckle.Swagger;
-using System.Collections.ObjectModel;
-using System.Web.Http;
-using FirmAdvanceDemo.Auth;
 
 namespace FirmAdvanceDemo.SwaggerRequirements
 {

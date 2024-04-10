@@ -1,23 +1,14 @@
-﻿
-using System.ComponentModel;
-using System.Linq;
-using LINQDemo.Custom;
-using LINQDemo.Model;
-using System.Configuration;
+﻿using LINQDemo.Model;
 using ServiceStack.OrmLite;
+using System.Configuration;
 using System.Data;
 
 namespace LINQDemo
 {
     internal partial class Program
     {
-
         static void Main(string[] args)
         {
-            //LinqMethods();
-
-            //LinqWithDataTable();
-
             string connString = ConfigurationManager.ConnectionStrings["ConnName"]?.ConnectionString;
 
             Console.WriteLine(connString);
@@ -25,7 +16,7 @@ namespace LINQDemo
             // create a connection to ur db
             OrmLiteConnectionFactory dbFactory = new OrmLiteConnectionFactory(connString, MySqlDialect.Provider);
 
-            using(IDbConnection db = dbFactory.OpenDbConnection())
+            using (IDbConnection db = dbFactory.OpenDbConnection())
             {
                 // create an instance of attendance (ATD01) class
                 ATD01 attendance = new ATD01()

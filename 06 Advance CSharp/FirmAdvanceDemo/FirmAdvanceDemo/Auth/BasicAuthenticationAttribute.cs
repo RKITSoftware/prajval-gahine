@@ -1,16 +1,11 @@
-﻿using FirmAdvanceDemo.BL;
+using FirmAdvanceDemo.BL;
 using FirmAdvanceDemo.Utitlity;
 using System;
 using System.Net;
 using System.Net.Http;
-using System.Security.Claims;
-using System.Security.Principal;
 using System.Text;
-using System.Threading;
-using System.Web;
 using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
-using static ServiceStack.LicenseUtils;
 
 namespace FirmAdvanceDemo.Auth
 {
@@ -19,8 +14,6 @@ namespace FirmAdvanceDemo.Auth
     /// </summary>
     public class BasicAuthenticationAttribute : AuthorizationFilterAttribute
     {
-
-
         public override void OnAuthorization(HttpActionContext actionContext)
         {
             if (actionContext?.Request?.Headers?.Authorization == null)
@@ -45,10 +38,11 @@ namespace FirmAdvanceDemo.Auth
 
                     if (IsUserValid)
                     {
-                        int EmlpoyeeId = BLEmployee.FetchEmployeeIdByUserId(userId);
+                        BLEmployee objBLEmployee = new BLEmployee();
+                        int EmlpoyeeId = objBLEmployee.FetchEmployeeIdByUserId(userId);
                         bool IsPrincipalAttached = GeneralUtility.AttachPrinicpal(userId.ToString(), username, EmlpoyeeId.ToString(), roles);
 
-                        if(!IsPrincipalAttached)
+                        if (!IsPrincipalAttached)
                         {
                             actionContext.Response = actionContext.Request.CreateErrorResponse(HttpStatusCode.Unauthorized, "Authorization denied");
                         }

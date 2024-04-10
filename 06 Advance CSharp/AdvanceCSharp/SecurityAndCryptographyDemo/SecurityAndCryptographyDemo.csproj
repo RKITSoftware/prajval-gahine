@@ -6,10 +6,14 @@
     <ImplicitUsings>disable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+    <StartupObject>SecurityAndCryptographyDemo.RSA.Program</StartupObject>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Update="TestData.txt">
+    <None Update="RSA\keys\PrivateKey.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="RSA\keys\PublicKey.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

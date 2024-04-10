@@ -1,0 +1,10 @@
+{
+  "solution": {
+    "path": "WebAPIDemo.sln",
+    "projects": [
+      "DemoGenericService\\DemoGenericService.csproj",
+      "DemoNLog\\DemoNLog.csproj",
+      "PocoDtoConversion\\PocoDtoConversion.csproj"
+    ]
+  }
+}

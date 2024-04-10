@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace GenricsDemo.Model
+﻿namespace GenricsDemo.Model
 {
+    /// <summary>
+    /// User model class
+    /// </summary>
     internal class USR01 : IResource
     {
         /// <summary>
@@ -23,6 +20,13 @@ namespace GenricsDemo.Model
         /// </summary>
         public string? r01f04 { get; set; }
 
+        /// <summary>
+        /// User model class constructor
+        /// </summary>
+        /// <param name="id">User Id</param>
+        /// <param name="username">Username</param>
+        /// <param name="password">Password</param>
+        /// <param name="roles">Roles</param>
         public USR01(int id, string username, string password, string roles)
         {
             this.id = id;

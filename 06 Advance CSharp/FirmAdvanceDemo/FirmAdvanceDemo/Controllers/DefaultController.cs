@@ -1,9 +1,10 @@
-﻿using System.Web.Http;
+using System.Web.Http;
 
 namespace FirmAdvanceDemo.Controllers
 {
-    public class DefaultController : ApiController
+    public class DefaultController : BaseController
     {
+
         [HttpGet]
         [Route("api/data/getdata")]
         public IHttpActionResult GetAppInfo()

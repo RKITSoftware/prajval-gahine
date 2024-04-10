@@ -1,22 +1,22 @@
-﻿using FirmAdvanceDemo.Auth;
+using FirmAdvanceDemo.Auth;
 using FirmAdvanceDemo.Utitlity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Text;
 using System.Web.Http;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Net;
 
 namespace FirmAdvanceDemo.Controllers
 {
-    public class CLAuthController : ApiController
+    public class CLAuthController : BaseController
     {
         /// <summary>
         /// Non action method to generate a jwt based on header and payload
-            /// </summary>
+        /// </summary>
         /// <param name="header">Jwt Header</param>
         /// <param name="payload">Jwt Payload</param>
         /// <returns></returns>
@@ -48,7 +48,7 @@ namespace FirmAdvanceDemo.Controllers
             string header = "{\"alg\":\"HS256\",\"typ\":\"JWT\"}";
             string payload = $"{{\"id\":\"{userId}\",\"expires\":\"{DateTimeOffset.UtcNow.ToUnixTimeSeconds() + 7776000}\"}}";
 
-            string refreshToken = this.GenerateJWT(header, payload);
+            string refreshToken = GenerateJWT(header, payload);
 
             // encrypt the refresh token
             string encryptedRefreshToken = GeneralUtility.AesEncrypt(refreshToken, null);
@@ -79,7 +79,7 @@ namespace FirmAdvanceDemo.Controllers
             string header = "{\"alg\":\"HS256\",\"typ\":\"JWT\"}";
             string payload = $"{{\"id\":\"{userId}\",\"expires\":\"{DateTimeOffset.UtcNow.ToUnixTimeSeconds() + 7890000}\"}}";
 
-            string accessToken = this.GenerateJWT(header, payload);
+            string accessToken = GenerateJWT(header, payload);
 
             return accessToken;
         }

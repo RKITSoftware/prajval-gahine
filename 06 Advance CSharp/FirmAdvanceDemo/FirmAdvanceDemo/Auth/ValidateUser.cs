@@ -1,9 +1,5 @@
-﻿using FirmAdvanceDemo.BL;
-using FirmAdvanceDemo.Models;
+using FirmAdvanceDemo.BL;
 using FirmAdvanceDemo.Utitlity;
-using ServiceStack.OrmLite;
-using System.Data;
-using System.Linq;
 
 namespace FirmAdvanceDemo.Auth
 {
@@ -29,20 +25,21 @@ namespace FirmAdvanceDemo.Auth
             byte[] hashedPassword = GeneralUtility.GetHMAC(password, null);
 
             // get userId
-            ResponseStatusInfo rsiGetUserId = BLUser.FetchUserIdByUsername(username);
+            BLUser objBLUser = new BLUser();
+            ResponseStatusInfo rsiGetUserId = objBLUser.FetchUserIdByUsername(username);
 
             // get roles associated with that userId
             if (rsiGetUserId.IsRequestSuccessful)
             {
                 userId = (int)rsiGetUserId.Data;
-                ResponseStatusInfo rsiGetUserRoles = BLUser.FetchUserRolesByUserId(userId);
+                ResponseStatusInfo rsiGetUserRoles = objBLUser.FetchUserRolesByUserId(userId);
                 if (rsiGetUserRoles.IsRequestSuccessful)
                 {
                     roles = (string[])rsiGetUserRoles.Data;
                 }
             }
 
-            if(userId == 0 || roles == null)
+            if (userId == 0 || roles == null)
             {
                 return false;
             }

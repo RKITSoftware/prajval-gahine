@@ -13,18 +13,3 @@ F:\prajval-gahine\prajval-gahine\05. Debugging\AdvanceC#\GenericsInCSharp\obj\De
 F:\prajval-gahine\prajval-gahine\05. Debugging\AdvanceC#\GenericsInCSharp\obj\Debug\net6.0\GenericsInCSharp.pdb
 F:\prajval-gahine\prajval-gahine\05. Debugging\AdvanceC#\GenericsInCSharp\obj\Debug\net6.0\GenericsInCSharp.genruntimeconfig.cache
 F:\prajval-gahine\prajval-gahine\05. Debugging\AdvanceC#\GenericsInCSharp\obj\Debug\net6.0\ref\GenericsInCSharp.dll
-F:\prajval-gahine\prajval-gahine\06 Advance CSharp\AdvanceCSharp\GenericsInCSharp\bin\Debug\net6.0\GenericsInCSharp.exe
-F:\prajval-gahine\prajval-gahine\06 Advance CSharp\AdvanceCSharp\GenericsInCSharp\bin\Debug\net6.0\GenericsInCSharp.deps.json
-F:\prajval-gahine\prajval-gahine\06 Advance CSharp\AdvanceCSharp\GenericsInCSharp\bin\Debug\net6.0\GenericsInCSharp.runtimeconfig.json
-F:\prajval-gahine\prajval-gahine\06 Advance CSharp\AdvanceCSharp\GenericsInCSharp\bin\Debug\net6.0\GenericsInCSharp.dll
-F:\prajval-gahine\prajval-gahine\06 Advance CSharp\AdvanceCSharp\GenericsInCSharp\bin\Debug\net6.0\GenericsInCSharp.pdb
-F:\prajval-gahine\prajval-gahine\06 Advance CSharp\AdvanceCSharp\GenericsInCSharp\obj\Debug\net6.0\GenericsInCSharp.csproj.AssemblyReference.cache
-F:\prajval-gahine\prajval-gahine\06 Advance CSharp\AdvanceCSharp\GenericsInCSharp\obj\Debug\net6.0\GenericsInCSharp.GeneratedMSBuildEditorConfig.editorconfig
-F:\prajval-gahine\prajval-gahine\06 Advance CSharp\AdvanceCSharp\GenericsInCSharp\obj\Debug\net6.0\GenericsInCSharp.AssemblyInfoInputs.cache
-F:\prajval-gahine\prajval-gahine\06 Advance CSharp\AdvanceCSharp\GenericsInCSharp\obj\Debug\net6.0\GenericsInCSharp.AssemblyInfo.cs
-F:\prajval-gahine\prajval-gahine\06 Advance CSharp\AdvanceCSharp\GenericsInCSharp\obj\Debug\net6.0\GenericsInCSharp.csproj.CoreCompileInputs.cache
-F:\prajval-gahine\prajval-gahine\06 Advance CSharp\AdvanceCSharp\GenericsInCSharp\obj\Debug\net6.0\GenericsInCSharp.dll
-F:\prajval-gahine\prajval-gahine\06 Advance CSharp\AdvanceCSharp\GenericsInCSharp\obj\Debug\net6.0\refint\GenericsInCSharp.dll
-F:\prajval-gahine\prajval-gahine\06 Advance CSharp\AdvanceCSharp\GenericsInCSharp\obj\Debug\net6.0\GenericsInCSharp.pdb
-F:\prajval-gahine\prajval-gahine\06 Advance CSharp\AdvanceCSharp\GenericsInCSharp\obj\Debug\net6.0\GenericsInCSharp.genruntimeconfig.cache
-F:\prajval-gahine\prajval-gahine\06 Advance CSharp\AdvanceCSharp\GenericsInCSharp\obj\Debug\net6.0\ref\GenericsInCSharp.dll
