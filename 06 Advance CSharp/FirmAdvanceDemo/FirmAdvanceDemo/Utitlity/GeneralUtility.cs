@@ -1,6 +1,5 @@
 using FirmAdvanceDemo.Enums;
 using ServiceStack;
-using ServiceStack.Script;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -14,7 +13,6 @@ using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Web;
-using System.Web.Security;
 
 namespace FirmAdvanceDemo.Utitlity
 {

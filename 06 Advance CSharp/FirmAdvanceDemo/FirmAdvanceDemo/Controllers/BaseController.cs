@@ -27,13 +27,13 @@ namespace FirmAdvanceDemo.Controllers
         /// <returns>Instance of type IHttpActionResult</returns>
         [Obsolete]
         [NonAction]
-        protected IHttpActionResult Returner(ResponseStatusInfo rsi)
+        protected IHttpActionResult Returner(ResponseStatusInfo statusInfo)
         {
-            if (rsi.IsRequestSuccessful)
+            if (statusInfo.IsRequestSuccessful)
             {
-                return Ok(ResponseWrapper.Wrap(rsi.Message, rsi.Data));
+                return Ok(ResponseWrapper.Wrap(statusInfo.Message, statusInfo.Data));
             }
-            return ResponseMessage(Request.CreateErrorResponse(rsi.StatusCode, rsi.Message));
+            return ResponseMessage(Request.CreateErrorResponse(statusInfo.StatusCode, statusInfo.Message));
         }
 
         [NonAction]

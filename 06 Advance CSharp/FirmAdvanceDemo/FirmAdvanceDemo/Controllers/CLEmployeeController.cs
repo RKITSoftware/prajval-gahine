@@ -1,9 +1,6 @@
 using FirmAdvanceDemo.BL;
 using FirmAdvanceDemo.Enums;
 using FirmAdvanceDemo.Models.DTO;
-using FirmAdvanceDemo.Utitlity;
-using Microsoft.SqlServer.Server;
-using System.Security.Cryptography;
 using System.Web.Http;
 
 namespace FirmAdvanceDemo.Controllers
@@ -26,14 +23,29 @@ namespace FirmAdvanceDemo.Controllers
 
         [HttpPost]
         [Route("")]
-        public IHttpActionResult Post(DTOUMP objUSREMP)
+        public IHttpActionResult Post(DTOUMP objDTOUMP)
         {
-            if(_objBLEmployee.Prevalidate(objUSREMP, EnmDBOperation.Create))
+            if(_objBLEmployee.Prevalidate(objDTOUMP, EnmDBOperation.Create))
             {
-                _objBLEmployee.Presave(objUSREMP, EnmDBOperation.Create);
+                _objBLEmployee.Presave(objDTOUMP, EnmDBOperation.Create);
                 if (_objBLEmployee.Validate())
                 {
                     _objBLEmployee.Save(EnmDBOperation.Create);
+                }
+            }
+            return Returner();
+        }
+
+        [HttpPatch]
+        [Route("")]
+        public IHttpActionResult Patch(DTOUMP objDTOUMP)
+        {
+            if (_objBLEmployee.Prevalidate(objDTOUMP, EnmDBOperation.Update))
+            {
+                _objBLEmployee.Presave(objDTOUMP, EnmDBOperation.Update);
+                if (_objBLEmployee.Validate())
+                {
+                    _objBLEmployee.Save(EnmDBOperation.Update);
                 }
             }
             return Returner();

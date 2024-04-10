@@ -12,7 +12,7 @@ namespace FirmAdvanceDemo.BL
         private readonly OrmLiteConnectionFactory _dbFactory;
         public BLDownload()
         {
-            _dbFactory = Connection.dbFactory;
+            _dbFactory = Connection.DbFactory;
         }
         public ResponseStatusInfo DownloadSalarySlip(int EmployeeId, DateTime start, DateTime end)
         {

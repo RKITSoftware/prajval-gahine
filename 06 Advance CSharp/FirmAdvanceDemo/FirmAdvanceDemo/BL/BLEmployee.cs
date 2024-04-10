@@ -1,17 +1,15 @@
 using FirmAdvanceDemo.Enums;
 using FirmAdvanceDemo.Models.DTO;
 using FirmAdvanceDemo.Models.POCO;
-using static FirmAdvanceDemo.Utitlity.GeneralUtility;
+using FirmAdvanceDemo.Utitlity;
+using ServiceStack;
 using ServiceStack.OrmLite;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Configuration;
-using ServiceStack;
-using System.Collections.Generic;
-using System.Web.Services.Protocols;
-using FirmAdvanceDemo.Utitlity;
 using System.Net;
+using static FirmAdvanceDemo.Utitlity.GeneralUtility;
 
 namespace FirmAdvanceDemo.BL
 {
@@ -47,7 +45,7 @@ namespace FirmAdvanceDemo.BL
         /// <returns>True if instance of DTOUMP is in valid format, else false</returns>
         public bool Prevalidate(DTOUMP objDTOUMP, EnmDBOperation operation)
         {
-            _objBLUser = new BLUser(_rsi);
+            _objBLUser = new BLUser(_statusInfo);
             if (_objBLUser.Prevalidate(objDTOUMP, EnmRole.Employee, operation))
             {
                 bool isValid = false;
@@ -138,6 +136,13 @@ namespace FirmAdvanceDemo.BL
                 {
                     Dictionary<string, object> dictToUpdate = GetDictionary(_objEMP01);
                     db.UpdateOnly<EMP01>(dictToUpdate, e => e.Id == _objEMP01.Id);
+
+                    PopulateRSI(
+                        true,
+                        HttpStatusCode.OK,
+                        "Data updated successfully",
+                        null
+                    );
                 }
             }
         }

@@ -21,16 +21,16 @@ namespace FirmAdvanceDemo.BL
         /// </summary>
         protected readonly OrmLiteConnectionFactory _dbFactory;
 
-        internal readonly ResponseStatusInfo _rsi;
+        internal readonly ResponseStatusInfo _statusInfo;
 
         public BLResource()
         {
-            _dbFactory = Connection.dbFactory;
+            _dbFactory = Connection.DbFactory;
         }
 
-        public BLResource(ResponseStatusInfo rsi) : this()
+        public BLResource(ResponseStatusInfo statusInfo) : this()
         {
-            _rsi = rsi;
+            _statusInfo = statusInfo;
         }
 
         /// <summary>
@@ -193,7 +193,7 @@ namespace FirmAdvanceDemo.BL
         }
 
         /// <summary>
-        /// Method to populate data into _rsi object
+        /// Method to populate data into _statusInfo object
         /// </summary>
         /// <param name="isSuccess">Response status isSuccess or not</param>
         /// <param name="statusCode">Http status code of request</param>
@@ -201,13 +201,13 @@ namespace FirmAdvanceDemo.BL
         /// <param name="data">Data of response</param>
         public void PopulateRSI(bool isSuccess, HttpStatusCode statusCode, string message, object data)
         {
-            if(_rsi != null)
+            if(_statusInfo != null)
             {
-                _rsi.IsAlreadySet = true;
-                _rsi.IsRequestSuccessful = isSuccess;
-                _rsi.StatusCode = statusCode;
-                _rsi.Message = message;
-                _rsi.Data = data;
+                _statusInfo.IsAlreadySet = true;
+                _statusInfo.IsRequestSuccessful = isSuccess;
+                _statusInfo.StatusCode = statusCode;
+                _statusInfo.Message = message;
+                _statusInfo.Data = data;
             }
         }
     }

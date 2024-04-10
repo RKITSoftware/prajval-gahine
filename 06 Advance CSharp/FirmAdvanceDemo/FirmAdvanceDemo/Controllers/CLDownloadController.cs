@@ -27,7 +27,7 @@ namespace FirmAdvanceDemo.Controllers
         [Route("salaryslip/{id}")]
         public IHttpActionResult GetSalarySlipCsv(int id, string start, string end)
         {
-            ResponseStatusInfo rsi = _objBLDownload.DownloadSalarySlip(
+            ResponseStatusInfo statusInfo = _objBLDownload.DownloadSalarySlip(
                 id,
                 DateTime.ParseExact(start, "yyyy-MM-dd", null),
                 DateTime.ParseExact(end, "yyyy-MM-dd", null)
@@ -39,7 +39,7 @@ namespace FirmAdvanceDemo.Controllers
             response.AppendHeader("Content-Type", "text/csv");
             response.AppendHeader("Content-Disposition", $"attachment;filename=salary-slip-{id}-{start}TO{end}.csv;");
 
-            string csvContent = rsi.Data.ToString();
+            string csvContent = statusInfo.Data.ToString();
             response.BinaryWrite(Encoding.UTF8.GetBytes(csvContent));
             return Ok();
         }

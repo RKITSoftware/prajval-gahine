@@ -68,8 +68,8 @@ namespace FirmAdvanceDemo.Controllers
         [BasicAuthorization(Roles = "admin")]
         public IHttpActionResult GenerateAttendance()
         {
-            ResponseStatusInfo rsi = _objBLPunch.GenerateAttendance(DateTime.Now);
-            return Returner(rsi);
+            ResponseStatusInfo statusInfo = _objBLPunch.GenerateAttendance(DateTime.Now);
+            return Returner(statusInfo);
         }
     }
 }

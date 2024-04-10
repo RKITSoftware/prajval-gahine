@@ -1,7 +1,7 @@
+using FirmAdvanceDemo.Enums;
 using ServiceStack;
 using ServiceStack.DataAnnotations;
 using System;
-using FirmAdvanceDemo.Enums;
 
 namespace FirmAdvanceDemo.Models.POCO
 {

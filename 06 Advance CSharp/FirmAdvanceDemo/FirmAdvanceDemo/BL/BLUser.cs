@@ -12,7 +12,6 @@ using System.Data;
 using System.Linq;
 using System.Net;
 using static FirmAdvanceDemo.Utitlity.GeneralUtility;
-using FirmAdvanceDemo.Exceptions;
 
 namespace FirmAdvanceDemo.BL
 {
@@ -40,9 +39,10 @@ namespace FirmAdvanceDemo.BL
         }
 
         /// <summary>
-        /// Constructor for BLUser, intialize _rsi <see cref="ResponseStatusInfo"/>
+        /// Constructor for BLUser, intialize 
+        /// <see cref="ResponseStatusInfo"/>
         /// </summary>
-        public BLUser(ResponseStatusInfo rsi) : base(rsi)
+        public BLUser(ResponseStatusInfo statusInfo) : base(statusInfo)
         {
         }
 
@@ -95,35 +95,28 @@ namespace FirmAdvanceDemo.BL
             return isValid;
         }
 
-        public USR01 GenerateUSR01(IDTOUSR01 objDTOUSR01, EnmDBOperation operation)
-        {
-            USR01 tempObjUSR01 = objDTOUSR01.ConvertModel<USR01>();
-
-            // converting string password to hased password (bytes)
-            string secretKey = (string)ConfigurationManager.AppSettings["PasswordHashSecretKey"];
-            byte[] hashedPassword = GetHMAC(objDTOUSR01.r01103, secretKey);
-            tempObjUSR01.r01f03 = hashedPassword;
-
-            DateTime currentDateTime = DateTime.Now;
-            if (operation == EnmDBOperation.Create)
-            {
-                tempObjUSR01.r01f06 = currentDateTime;
-            }
-            tempObjUSR01.r01f07 = currentDateTime;
-
-            // initialize list of roles
-            lstRole = objDTOUSR01.r01106;
-
-            return tempObjUSR01;
-        }
-
         /// <summary>
         /// Method to convert DTOUSR01 instance to USR01 instance
         /// </summary>
         /// <param name="objDTOUSR01">Instance of DTOUSR01</param>
         public void Presave(IDTOUSR01 objDTOUSR01, EnmDBOperation operation)
         {
-            _objUSR01 = GenerateUSR01(objDTOUSR01, operation);
+            _objUSR01 = objDTOUSR01.ConvertModel<USR01>();
+
+            // converting string password to hased password (bytes)
+            string secretKey = (string)ConfigurationManager.AppSettings["PasswordHashSecretKey"];
+            byte[] hashedPassword = GetHMAC(objDTOUSR01.r01103, secretKey);
+            _objUSR01.r01f03 = hashedPassword;
+
+            DateTime currentDateTime = DateTime.Now;
+            if (operation == EnmDBOperation.Create)
+            {
+                _objUSR01.r01f06 = currentDateTime;
+            }
+            _objUSR01.r01f07 = currentDateTime;
+
+            // initialize list of roles
+            lstRole = objDTOUSR01.r01106;
         }
 
         /// <summary>
@@ -133,7 +126,7 @@ namespace FirmAdvanceDemo.BL
         public bool Validate()
         {
             bool isValid = !DoesUsernameExists();
-            if (!isValid && !_rsi.IsAlreadySet)
+            if (!isValid && !_statusInfo.IsAlreadySet)
             {
                 PopulateRSI(
                             false,
@@ -177,6 +170,7 @@ namespace FirmAdvanceDemo.BL
                     else
                     {
                         Dictionary<string, object> toUpdateDict = GetDictionary(_objUSR01);
+                        toUpdateDict.Remove("r01f02");
                         db.UpdateOnly<USR01>(toUpdateDict, user => user.Id ==  _objUSR01.Id);
 
                         PopulateRSI(true,

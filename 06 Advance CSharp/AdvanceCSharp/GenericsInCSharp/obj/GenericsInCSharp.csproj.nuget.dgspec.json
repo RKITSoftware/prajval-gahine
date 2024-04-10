@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "F:\\prajval-gahine\\prajval-gahine\\06 Advance CSharp\\AdvanceCSharp\\GenericsInCSharp\\GenericsInCSharp.csproj": {}
+    "D:\\rkit\\prajval-gahine\\06 Advance CSharp\\AdvanceCSharp\\GenericsInCSharp\\GenericsInCSharp.csproj": {}
   },
   "projects": {
-    "F:\\prajval-gahine\\prajval-gahine\\06 Advance CSharp\\AdvanceCSharp\\GenericsInCSharp\\GenericsInCSharp.csproj": {
+    "D:\\rkit\\prajval-gahine\\06 Advance CSharp\\AdvanceCSharp\\GenericsInCSharp\\GenericsInCSharp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "F:\\prajval-gahine\\prajval-gahine\\06 Advance CSharp\\AdvanceCSharp\\GenericsInCSharp\\GenericsInCSharp.csproj",
+        "projectUniqueName": "D:\\rkit\\prajval-gahine\\06 Advance CSharp\\AdvanceCSharp\\GenericsInCSharp\\GenericsInCSharp.csproj",
         "projectName": "GenericsInCSharp",
-        "projectPath": "F:\\prajval-gahine\\prajval-gahine\\06 Advance CSharp\\AdvanceCSharp\\GenericsInCSharp\\GenericsInCSharp.csproj",
-        "packagesPath": "C:\\Users\\prajval.g\\.nuget\\packages\\",
-        "outputPath": "F:\\prajval-gahine\\prajval-gahine\\06 Advance CSharp\\AdvanceCSharp\\GenericsInCSharp\\obj\\",
+        "projectPath": "D:\\rkit\\prajval-gahine\\06 Advance CSharp\\AdvanceCSharp\\GenericsInCSharp\\GenericsInCSharp.csproj",
+        "packagesPath": "C:\\Users\\prajv\\.nuget\\packages\\",
+        "outputPath": "D:\\rkit\\prajval-gahine\\06 Advance CSharp\\AdvanceCSharp\\GenericsInCSharp\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\prajval.g\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\prajv\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -55,7 +55,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.202\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.402\\RuntimeIdentifierGraph.json"
         }
       }
     }

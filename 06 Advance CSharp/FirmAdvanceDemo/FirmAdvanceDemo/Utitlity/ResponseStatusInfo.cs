@@ -9,7 +9,7 @@ namespace FirmAdvanceDemo.Utitlity
     {
 
         /// <summary>
-        /// Specifies that this rsi instance is already populated by below layer,
+        /// Specifies that this statusInfo instance is already populated by below layer,
         /// So, no need to populate further
         /// </summary>
         public bool IsAlreadySet { get; set; } = false;

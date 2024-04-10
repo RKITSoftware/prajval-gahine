@@ -34,7 +34,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AccessModifiers", "AccessMo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BaseClassLibraryDemo", "BaseClassLibraryDemo\BaseClassLibraryDemo.csproj", "{A847DEF1-7CDC-45A3-B07B-6B653F6946A4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatabaseWithCRUD", "DatabaseWithCRUD\DatabaseWithCRUD.csproj", "{8FC2DC35-12C4-4211-B758-154CF2D47F44}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DatabaseWithCRUD", "DatabaseWithCRUD\DatabaseWithCRUD.csproj", "{8FC2DC35-12C4-4211-B758-154CF2D47F44}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatabaseWithCrudWebApi", "DatabaseWithCrudWebApi\DatabaseWithCrudWebApi.csproj", "{05AC5AAD-8949-46BE-BB6A-939C5FC7D195}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -102,6 +104,10 @@ Global
 		{8FC2DC35-12C4-4211-B758-154CF2D47F44}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8FC2DC35-12C4-4211-B758-154CF2D47F44}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8FC2DC35-12C4-4211-B758-154CF2D47F44}.Release|Any CPU.Build.0 = Release|Any CPU
+		{05AC5AAD-8949-46BE-BB6A-939C5FC7D195}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05AC5AAD-8949-46BE-BB6A-939C5FC7D195}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05AC5AAD-8949-46BE-BB6A-939C5FC7D195}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{05AC5AAD-8949-46BE-BB6A-939C5FC7D195}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
