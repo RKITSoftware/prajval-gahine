@@ -1,23 +1,32 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace DatabaseWithCrudWebApi.Models
 {
+    /// <summary>
+    /// User DTO model
+    /// </summary>
     public class DTOUSR01
     {
+        #region Public Properties
+
+        /// <summary>
+        /// Userid
+        /// </summary>
+        [JsonProperty("r01101")]
+        public int R01F01 { get; set; }
+
         /// <summary>
         /// Username
         /// </summary>
-        [JsonProperty("r01f02")]
-        public string r01102 { get; set; }
+        [JsonProperty("r01102")]
+        public string R01F02 { get; set; }
 
         /// <summary>
         /// User Password
         /// </summary>
-        [JsonProperty("r01f03")]
-        public string r01103 { get; set; }
+        [JsonProperty("r01103")]
+        public string R01F03 { get; set; }
+    
+        #endregion
     }
 }

@@ -1,42 +1,40 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System;
 
 namespace DatabaseWithCrudWebApi.Models
 {
     /// <summary>
-    /// User model
+    /// User POCO model
     /// </summary>
-    internal class USR01
+    public class USR01
     {
+        #region Property
+
         /// <summary>
         /// User Id
         /// </summary>
-        public int r01f01 { get; set; }
+        public int R01F01 { get; set; }
 
         /// <summary>
         /// Username
         /// </summary>
-        [JsonProperty("r01102")]
-        public string r01f02 { get; set; }
+        public string R01F02 { get; set; }
 
         /// <summary>
         /// User Password
         /// </summary>
-        [JsonProperty("r01103")]
-        public string r01f03 { get; set; }
+        public string R01F03 { get; set; }
 
         /// <summary>
         /// Creation date time
         /// </summary>
-        public DateTime r01f04 { get; set; }
+        public DateTime R01F04 { get; set; }
 
 
         /// <summary>
         /// Last modified date time
         /// </summary>
-        public DateTime r01f05 { get; set; }
+        public DateTime R01F05 { get; set; }
+
+        #endregion
     }
 }

@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace DatabaseWithCrudWebApi
+﻿namespace DatabaseWithCrudWebApi
 {
+    /// <summary>
+    /// Represents the type of operation to be performed (Create or Update).
+    /// </summary>
     public enum EnmOperation
     {
         Create = 1,
