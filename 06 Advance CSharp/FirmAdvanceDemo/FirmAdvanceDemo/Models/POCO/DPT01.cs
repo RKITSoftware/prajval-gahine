@@ -13,28 +13,25 @@ namespace FirmAdvanceDemo.Models.POCO
         /// <summary>
         /// Department Id
         /// </summary>
-        [AutoIncrement]
         [PrimaryKey]
         [Alias("t01f01")]
-        public int Id { get; set; }
+        public int t01f01 { get; set; }
 
         /// <summary>
         /// Department Name
         /// </summary>
-        [ValidateNotNull]
-        [JsonPropertyName("t01102")]
         public string t01f02 { get; set; }
 
         /// <summary>
         /// Department creation datetime
         /// </summary>
-        [ValidateNotNull]
+        [IgnoreOnUpdate]
         public DateTime t01f03 { get; set; }
 
         /// <summary>
         /// Department last modified datetime
         /// </summary>
-        [ValidateNotNull]
+        [IgnoreOnInsert]
         public DateTime t01f04 { get; set; }
     }
 }

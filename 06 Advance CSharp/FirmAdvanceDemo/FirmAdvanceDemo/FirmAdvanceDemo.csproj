@@ -170,45 +170,60 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ControllerResponseReturner.cs" />
+    <Compile Include="Global.asax.cs" />
+    <Compile Include="InitializeDB.cs" />
     <Compile Include="App_Start\SwaggerConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Auth\AccessTokenAuthenticationAttribute.cs" />
     <Compile Include="Auth\BasicAuthenticationAttribute.cs" />
     <Compile Include="Auth\BasicAuthorizationAttribute.cs" />
-    <Compile Include="Auth\AccessTokenAuthenticationAttribute.cs" />
     <Compile Include="Auth\BearerAuthenticationAttribute.cs" />
     <Compile Include="Auth\RefreshTokenAuthenticationAttribute.cs" />
     <Compile Include="Auth\ValidateUser.cs" />
-    <Compile Include="BL\BLDepartment.cs" />
-    <Compile Include="BL\BLAttendance.cs" />
+    <Compile Include="BL\.BLDepartment2.cs" />
+    <Compile Include="BL\.BLRole2.cs" />
+    <Compile Include="BL\BLATD01Handler.cs" />
     <Compile Include="BL\BLDownload.cs" />
-    <Compile Include="BL\BLEmployee.cs" />
-    <Compile Include="BL\BLLeave.cs" />
-    <Compile Include="BL\BLPosition.cs" />
-    <Compile Include="BL\BLPunch.cs" />
+    <Compile Include="BL\BLDPT01Handler.cs" />
+    <Compile Include="BL\BLEMP01Handler.cs" />
+    <Compile Include="BL\BLLVE02Handler.cs" />
+    <Compile Include="BL\BLPCH01Handler.cs" />
+    <Compile Include="BL\BLPSN01Handler.cs" />
     <Compile Include="BL\BLResource.cs" />
-    <Compile Include="BL\BLRole.cs" />
-    <Compile Include="BL\BLSalary.cs" />
-    <Compile Include="BL\BLUser.cs" />
-    <Compile Include="Connection\Connection.cs" />
-    <Compile Include="Controllers\BaseController.cs" />
-    <Compile Include="Controllers\CLAttendanceController.cs" />
-    <Compile Include="Controllers\CLDepartmentController.cs" />
-    <Compile Include="Controllers\CLDownloadController.cs" />
-    <Compile Include="Controllers\CLEmployeeController.cs" />
-    <Compile Include="Controllers\CLLeaveController.cs" />
-    <Compile Include="Controllers\CLPositionController.cs" />
-    <Compile Include="Controllers\CLPunchController.cs" />
-    <Compile Include="Controllers\CLRoleController.cs" />
-    <Compile Include="Controllers\CLSalaryController.cs" />
-    <Compile Include="Controllers\CLUserController.cs" />
-    <Compile Include="Controllers\DefaultController.cs" />
+    <Compile Include="BL\BLRLE01Handler.cs" />
+    <Compile Include="BL\BLSLY01Handler.cs" />
+    <Compile Include="BL\BLUSR01Handler.cs" />
+    <Compile Include="Connection\MysqlDbConnector.cs" />
+    <Compile Include="Connection\OrmliteDbConnector.cs" />
+    <Compile Include="Controllers\CLATD01Controller.cs" />
     <Compile Include="Controllers\CLAuthController.cs" />
-    <Compile Include="CreateTables.cs" />
-    <Compile Include="Enums\FirmEnums.cs" />
-    <Compile Include="Exceptions\RequestPipelineException.cs" />
-    <Compile Include="Global.asax.cs">
-      <DependentUpon>Global.asax</DependentUpon>
-    </Compile>
+    <Compile Include="Controllers\CLDownloadController.cs" />
+    <Compile Include="Controllers\CLDPT01Controller.cs" />
+    <Compile Include="Controllers\CLEMP01Controller.cs" />
+    <Compile Include="Controllers\CLLVE02Controller.cs" />
+    <Compile Include="Controllers\CLPCH01Controller.cs" />
+    <Compile Include="Controllers\CLPSN01Controller.cs" />
+    <Compile Include="Controllers\CLRLE01Controller.cs" />
+    <Compile Include="Controllers\CLSLY01Controller.cs" />
+    <Compile Include="Controllers\CLUSR01Controller.cs" />
+    <Compile Include="Controllers\DefaultController.cs" />
+    <Compile Include="DL\DBATD01Context.cs" />
+    <Compile Include="DL\DBDPT01Context.cs" />
+    <Compile Include="DL\DBEMP01Context.cs" />
+    <Compile Include="DL\DBLVE02Context.cs" />
+    <Compile Include="DL\DBPCH01Context.cs" />
+    <Compile Include="DL\DBPSN01Context.cs" />
+    <Compile Include="DL\DBRLE01Context.cs" />
+    <Compile Include="DL\DBSLY01Context.cs" />
+    <Compile Include="DL\DBUSR01Context.cs" />
+    <Compile Include="Utitlity\FirmEnums.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SwaggerRequirements\AccessTokenAuthRequirements.cs" />
+    <Compile Include="SwaggerRequirements\BasicAuthRequirements.cs" />
+    <Compile Include="Utitlity\GeneralUtility.cs" />
+    <Compile Include="Utitlity\Response.cs" />
+    <Compile Include="Utitlity\ResponseWrapper.cs" />
     <Compile Include="Models\DTO\DTOATD01.cs" />
     <Compile Include="Models\DTO\DTODPT01.cs" />
     <Compile Include="Models\DTO\DTOEMP01.cs" />
@@ -217,6 +232,7 @@
     <Compile Include="Models\DTO\DTOPSN01.cs" />
     <Compile Include="Models\DTO\DTORLE01.cs" />
     <Compile Include="Models\DTO\DTOSLY01.cs" />
+    <Compile Include="Models\DTO\DTOUMP.cs" />
     <Compile Include="Models\DTO\DTOUSR01.cs" />
     <Compile Include="Models\DTO\IDTOEMP01.cs" />
     <Compile Include="Models\DTO\IDTOUSR01.cs" />
@@ -228,19 +244,11 @@
     <Compile Include="Models\POCO\PCH01.cs" />
     <Compile Include="Models\POCO\PSN01.cs" />
     <Compile Include="Models\POCO\RLE01.cs" />
+    <Compile Include="Models\POCO\SLY01.cs" />
     <Compile Include="Models\POCO\STG01.cs" />
     <Compile Include="Models\POCO\ULE02.cs" />
-    <Compile Include="Models\POCO\SLY01.cs" />
-    <Compile Include="Models\POCO\USR01.cs" />
     <Compile Include="Models\POCO\UMP02.cs" />
-    <Compile Include="Models\DTO\DTOUMP.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SwaggerRequirements\AccessTokenAuthRequirements.cs" />
-    <Compile Include="SwaggerRequirements\BasicAuthRequirements.cs" />
-    <Compile Include="Utitlity\CSVConvert.cs" />
-    <Compile Include="Utitlity\GeneralUtility.cs" />
-    <Compile Include="Utitlity\ResponseStatusInfo.cs" />
-    <Compile Include="Utitlity\ResponseWrapper.cs" />
+    <Compile Include="Models\POCO\USR01.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -253,6 +261,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Enums\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

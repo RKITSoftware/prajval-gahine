@@ -1,6 +1,8 @@
 ﻿using DatabaseWithCrudWebApi.BL;
 using DatabaseWithCrudWebApi.Models;
 using System.Web.Http;
+using System.Data;
+using System.Net;
 
 namespace DatabaseWithCrudWebApi.Controllers
 {
@@ -38,7 +40,8 @@ namespace DatabaseWithCrudWebApi.Controllers
         [HttpGet]
         public IHttpActionResult Get()
         {
-            return Ok(_objBLUser.GetAllUSR01());
+            Response response = new Response();
+            
         }
 
         [Route("{id}")]
@@ -59,8 +62,12 @@ namespace DatabaseWithCrudWebApi.Controllers
             _objBLUser.Operation = EnmOperation.Create;
 
             _objBLUser.Presave(objDTOUSR01);
-
-            ResponseInfo response = _objBLUser.Validate() ?? _objBLUser.Save();
+            //ResponseInfo response = _objBLUser.Validate() ?? _objBLUser.Save();
+            Response response = _objBLUser.Validate();
+            if(response != null)
+            {
+                response = _objBLUser.Save();
+            }
             return Ok(response);
         }
 
@@ -77,7 +84,7 @@ namespace DatabaseWithCrudWebApi.Controllers
 
             _objBLUser.Presave(objDTOUSR01);
 
-            ResponseInfo response = _objBLUser.Validate() ?? _objBLUser.Save();
+            Response response = _objBLUser.Validate() ?? _objBLUser.Save();
             return Ok(response);
         }
 
@@ -90,7 +97,7 @@ namespace DatabaseWithCrudWebApi.Controllers
         [HttpDelete]
         public IHttpActionResult Delete(int id)
         {
-            ResponseInfo response = _objBLUser.ValidateDelete(id) ?? _objBLUser.Delete(id);
+            Response response = _objBLUser.ValidateDelete(id) ?? _objBLUser.Delete(id);
             return Ok(response);
         }
 

@@ -27,7 +27,7 @@ namespace FirmAdvanceDemo.Controllers
         [Route("salaryslip/{id}")]
         public IHttpActionResult GetSalarySlipCsv(int id, string start, string end)
         {
-            ResponseStatusInfo statusInfo = _objBLDownload.DownloadSalarySlip(
+            Response statusInfo = _objBLDownload.DownloadSalarySlip(
                 id,
                 DateTime.ParseExact(start, "yyyy-MM-dd", null),
                 DateTime.ParseExact(end, "yyyy-MM-dd", null)

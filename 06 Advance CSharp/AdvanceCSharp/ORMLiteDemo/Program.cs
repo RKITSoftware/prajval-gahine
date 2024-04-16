@@ -92,9 +92,10 @@ namespace ORMLiteDemo
                 lstUserFromSelect = db.Select<USR01>(user => user.r01f01 > 2);
                 PrintUserList(lstUserFromSelect);
                 Console.WriteLine();
-
+                
+                int id = 500;
                 // select using Sql.In() (similar to LINQ Contains method)
-                lstUserFromSelect = db.Select<USR01>(user => Sql.In(user.r01f01, 2, 3));
+                lstUserFromSelect = db.Select<USR01>(user => Sql.In(id, 2, 3, 500));
                 PrintUserList(lstUserFromSelect);
                 Console.WriteLine();
 

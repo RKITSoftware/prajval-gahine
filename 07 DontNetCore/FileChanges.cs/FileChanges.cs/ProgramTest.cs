@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -128,12 +129,62 @@ namespace FileChanges.cs
             //injectCreateUpdateProp.Update();
 
 
-            InjectConsPresaveValidateAddUpdate injectPVAU = new InjectConsPresaveValidateAddUpdate(
-                    @"F:\prajval-gahine\prajval-gahine\06 Advance CSharp\FirmAdvanceDemo\FirmAdvanceDemo\BL\",
-                    false
-                );
+            //InjectConsPresaveValidateAddUpdate injectPVAU = new InjectConsPresaveValidateAddUpdate(
+            //        @"F:\prajval-gahine\prajval-gahine\06 Advance CSharp\FirmAdvanceDemo\FirmAdvanceDemo\BL\",
+            //        false
+            //    );
 
-            injectPVAU.Update();
+            //injectPVAU.Update();
+
+
+
+
+            // -----------------------------------------------------------
+
+            //string path = @"F:\prajval-gahine\prajval-gahine\06 Advance CSharp\FirmAdvanceDemo\FirmAdvanceDemo\Models\POCO\";
+            //DirectoryInfo dirInfo = new DirectoryInfo(path);
+            //FileInfo[] lstFileInfo = dirInfo.GetFiles();
+
+            //foreach (FileInfo fileInfo in lstFileInfo)
+            //{
+            //    List<string> lstFileContent = File.ReadAllLines(fileInfo.FullName).ToList();
+            //    for(int i = 0; i < lstFileContent.Count; i++)
+            //    {
+            //        string line = lstFileContent[i];
+            //        if (line.Contains("JsonPropertyName"))
+            //        {
+            //            lstFileContent.RemoveAt(i);
+            //            i--;
+            //        }
+            //    }
+            //    File.WriteAllLines(fileInfo.FullName, lstFileContent);
+            //}
+
+            // -----------------------------------------------------------
+
+            string path = @"F:\prajval-gahine\prajval-gahine\06 Advance CSharp\FirmAdvanceDemo\FirmAdvanceDemo";
+            DirectoryInfo dirInfo = new DirectoryInfo(path);
+            FileInfo[] lstFileInfo = dirInfo.GetFiles("*.cs", SearchOption.AllDirectories);
+            string all = "";
+            foreach (FileInfo fileInfo in lstFileInfo)
+            {
+                string subPath = fileInfo.FullName.Substring(83);
+                string line = $@"    <Compile Include=""{subPath}"" />
+";
+                all += line;
+                List<string> lstFileContent = File.ReadAllLines(fileInfo.FullName).ToList();
+                //for (int i = 0; i < lstFileContent.Count; i++)
+                //{
+                //    string line = lstFileContent[i];
+                //    if (line.Contains("JsonPropertyName"))
+                //    {
+                //        lstFileContent.RemoveAt(i);
+                //        i--;
+                //    }
+                //}
+                //File.WriteAllLines(fileInfo.FullName, lstFileContent);
+            }
+            File.WriteAllText("./hello.txt", all);
         }
     }
 }

@@ -70,9 +70,9 @@ namespace DatabaseWithCrudWebApi
         /// <param name="httpStatusCode">The HTTP status code.</param>
         /// <param name="data">Optional data associated with the error.</param>
         /// <returns>The error response.</returns>
-        public static ResponseInfo ErrorResponse(string message, HttpStatusCode httpStatusCode, object data = null)
+        public static Response ErrorResponse(string message, HttpStatusCode httpStatusCode, object data = null)
         {
-            return new ResponseInfo()
+            return new Response()
             {
                 IsSuccess = false,
                 HttpStatusCode = httpStatusCode,
@@ -88,9 +88,9 @@ namespace DatabaseWithCrudWebApi
         /// <param name="httpStatusCode">The HTTP status code (default is OK).</param>
         /// <param name="data">Optional data associated with the success.</param>
         /// <returns>The success response.</returns>
-        public static ResponseInfo SuccessResponse(string message, HttpStatusCode httpStatusCode = HttpStatusCode.OK, object data = null)
+        public static Response SuccessResponse(string message, HttpStatusCode httpStatusCode = HttpStatusCode.OK, object data = null)
         {
-            return new ResponseInfo()
+            return new Response()
             {
                 IsSuccess = true,
                 HttpStatusCode = httpStatusCode,

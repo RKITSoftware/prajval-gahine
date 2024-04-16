@@ -21,14 +21,14 @@ namespace FirmAdvanceDemo.BL
         /// </summary>
         protected readonly OrmLiteConnectionFactory _dbFactory;
 
-        internal readonly ResponseStatusInfo _statusInfo;
+        internal readonly Response _statusInfo;
 
         public BLResource()
         {
-            _dbFactory = Connection.DbFactory;
+            _dbFactory = OrmliteDbConnector.DbFactory;
         }
 
-        public BLResource(ResponseStatusInfo statusInfo) : this()
+        public BLResource(Response statusInfo) : this()
         {
             _statusInfo = statusInfo;
         }
@@ -37,25 +37,25 @@ namespace FirmAdvanceDemo.BL
         /// Method used to fetch the all Resource of RSE01 class
         /// </summary>
         /// <returns>ResponseStatusInfo instance containing list_of_resource (of RSE01 class) if successful or null if any exception</returns>
-        public ResponseStatusInfo FetchResource()
+        public Response RetrieveResource()
         {
             using (IDbConnection db = _dbFactory.OpenDbConnection())
             {
                 try
                 {
                     List<RSE01> lstResource = db.Select<RSE01>();
-                    return new ResponseStatusInfo()
+                    return new Response()
                     {
-                        IsRequestSuccessful = true,
+                        IsError = true,
                         Message = $"Existing {db.GetQuotedTableName<RSE01>()}s",
                         Data = new { Resources = lstResource }
                     };
                 }
                 catch (Exception ex)
                 {
-                    return new ResponseStatusInfo()
+                    return new Response()
                     {
-                        IsRequestSuccessful = false,
+                        IsError = false,
                         Message = ex.Message,
                         Data = null
                     };
@@ -68,25 +68,25 @@ namespace FirmAdvanceDemo.BL
         /// </summary>
         /// <param name="ResourceId">resource id</param>
         /// <returns>ResponseStatusInfo instance containing resource of RSE01 type if successful or null if any exception</returns>
-        public ResponseStatusInfo FetchResource(int ResourceId)
+        public Response FetchResource(int ResourceId)
         {
             using (IDbConnection db = _dbFactory.OpenDbConnection())
             {
                 try
                 {
                     RSE01 Resource = db.SingleById<RSE01>(ResourceId);
-                    return new ResponseStatusInfo()
+                    return new Response()
                     {
-                        IsRequestSuccessful = true,
+                        IsError = true,
                         Message = Resource == null ? $"No Resource found for id {ResourceId}" : $"{db.GetQuotedTableName<RSE01>()} Details",
                         Data = new { Resources = Resource }
                     };
                 }
                 catch (Exception ex)
                 {
-                    return new ResponseStatusInfo()
+                    return new Response()
                     {
-                        IsRequestSuccessful = false,
+                        IsError = false,
                         Message = ex.Message,
                         Data = null
                     };
@@ -100,25 +100,25 @@ namespace FirmAdvanceDemo.BL
         /// </summary>
         /// <param name="Resource">An instance of RSE01 type</param>
         /// <returns>ResponseStatusInfo instance containing ResourceId if successful or null if any exception</returns>
-        public ResponseStatusInfo AddResource(RSE01 Resource)
+        public Response AddResource(RSE01 Resource)
         {
             using (IDbConnection db = _dbFactory.OpenDbConnection())
             {
                 try
                 {
                     long ResourceId = db.Insert<RSE01>(Resource, selectIdentity: true);
-                    return new ResponseStatusInfo()
+                    return new Response()
                     {
-                        IsRequestSuccessful = true,
+                        IsError = true,
                         Message = $"{db.GetQuotedTableName<RSE01>()} created successfully",
                         Data = new { Id = ResourceId }
                     };
                 }
                 catch (Exception ex)
                 {
-                    return new ResponseStatusInfo()
+                    return new Response()
                     {
-                        IsRequestSuccessful = false,
+                        IsError = false,
                         Message = ex.Message,
                         Data = null
                     };
@@ -132,7 +132,7 @@ namespace FirmAdvanceDemo.BL
         /// <param name="ResourceId">Resource id</param>
         /// <param name="toUpdateJson">Json object that contains part to update</param>
         /// <returns>ResponseStatusInfo instance containing null</returns>
-        public ResponseStatusInfo UpdateResource(int ResourceId, JObject toUpdateJson)
+        public Response UpdateResource(int ResourceId, JObject toUpdateJson)
         {
             using (IDbConnection db = _dbFactory.OpenDbConnection())
             {
@@ -140,20 +140,20 @@ namespace FirmAdvanceDemo.BL
                 {
                     Dictionary<string, object> toUpdateDictionary = toUpdateJson.ToObject<Dictionary<string, object>>();
 
-                    db.UpdateOnly<RSE01>(updateFields: toUpdateDictionary, obj: p => p.Id == ResourceId);
+                    db.UpdateOnly<RSE01>(updateFields: toUpdateDictionary, obj: p => p.t01f01 == ResourceId);
 
-                    return new ResponseStatusInfo()
+                    return new Response()
                     {
-                        IsRequestSuccessful = true,
+                        IsError = true,
                         Message = $"{db.GetQuotedTableName<RSE01>()} with id {ResourceId} upadted",
                         Data = null
                     };
                 }
                 catch (Exception ex)
                 {
-                    return new ResponseStatusInfo()
+                    return new Response()
                     {
-                        IsRequestSuccessful = false,
+                        IsError = false,
                         Message = ex.Message,
                         Data = null
                     };
@@ -166,25 +166,25 @@ namespace FirmAdvanceDemo.BL
         /// </summary>
         /// <param name="ResourceId">Resource id</param>
         /// <returns>ResponseStatusInfo instance containing null</returns>
-        public ResponseStatusInfo RemoveResource(int ResourceId)
+        public Response RemoveResource(int ResourceId)
         {
             using (IDbConnection db = _dbFactory.OpenDbConnection())
             {
                 try
                 {
                     db.DeleteById<RSE01>(ResourceId);
-                    return new ResponseStatusInfo()
+                    return new Response()
                     {
-                        IsRequestSuccessful = true,
+                        IsError = true,
                         Message = $"{db.GetQuotedTableName<RSE01>()} deleted with id: {ResourceId}",
                         Data = null
                     };
                 }
                 catch (Exception ex)
                 {
-                    return new ResponseStatusInfo()
+                    return new Response()
                     {
-                        IsRequestSuccessful = false,
+                        IsError = false,
                         Message = ex.Message,
                         Data = null
                     };
@@ -204,8 +204,8 @@ namespace FirmAdvanceDemo.BL
             if(_statusInfo != null)
             {
                 _statusInfo.IsAlreadySet = true;
-                _statusInfo.IsRequestSuccessful = isSuccess;
-                _statusInfo.StatusCode = statusCode;
+                _statusInfo.IsError = isSuccess;
+                _statusInfo.HttpStatusCode = statusCode;
                 _statusInfo.Message = message;
                 _statusInfo.Data = data;
             }

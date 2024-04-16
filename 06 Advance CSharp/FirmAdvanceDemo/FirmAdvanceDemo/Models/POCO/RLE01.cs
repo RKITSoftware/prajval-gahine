@@ -13,28 +13,25 @@ namespace FirmAdvanceDemo.Models.POCO
         /// <summary>
         /// Role Id
         /// </summary>
-        [AutoIncrement]
         [PrimaryKey]
         [Alias("e01f01")]
-        public int Id { get; set; }
+        public int t01f01 { get; set; }
 
         /// <summary>
         /// Role name
         /// </summary>
-        [ValidateNotNull]
-        [JsonPropertyName("e01102")]
         public string e01f02 { get; set; }
 
         /// <summary>
         ///  creation datetime
         /// </summary>
-        [ValidateNotNull]
+        [IgnoreOnUpdate]
         public DateTime e01f03 { get; set; }
 
         /// <summary>
         ///  last modified datetime
         /// </summary>
-        [ValidateNotNull]
+        [IgnoreOnInsert]
         public DateTime e01f04 { get; set; }
     }
 }

@@ -1,6 +1,8 @@
 ﻿using DatabaseWithCrudWebApi.Contexts;
 using DatabaseWithCrudWebApi.Models;
+using Swashbuckle.Swagger;
 using System;
+using System.Data;
 using System.Net;
 using static DatabaseWithCrudWebApi.Utility;
 
@@ -75,7 +77,7 @@ namespace DatabaseWithCrudWebApi.BL
         /// </summary>
         /// <param name="operation">The operation being performed (Create or Update).</param>
         /// <returns>True if the user object is valid, otherwise false.</returns>
-        public ResponseInfo Validate()
+        public Response Validate()
         {
             if (Operation == EnmOperation.Create)
             {
@@ -121,7 +123,7 @@ namespace DatabaseWithCrudWebApi.BL
         /// Saves the user object to the database.
         /// </summary>
         /// <param name="operation">The operation being performed (Create or Update).</param>
-        public ResponseInfo Save()
+        public Response Save()
         {
             if (Operation == EnmOperation.Create)
             {
@@ -139,9 +141,21 @@ namespace DatabaseWithCrudWebApi.BL
         /// Retrieves a list of all users.
         /// </summary>
         /// <returns>A list of user objects.</returns>
-        public ResponseInfo GetAllUSR01()
+        public Response GetAllUSR01()
         {
-            return _context.SelectUSR01();
+            Response response = new Response();
+            DataTable dtUSR01 = _context.SelectUSR01();
+            if (dtUSR01.Rows.Count == 0)
+            {
+                response.IsError = true;
+                response.HttpStatusCode = HttpStatusCode.NotFound;
+                response.Message = "No user exists";
+                return response;
+            }
+
+            response.HttpStatusCode = HttpStatusCode.OK;
+            response.Data = dtUSR01;
+            return response;
         }
 
         /// <summary>
@@ -149,12 +163,12 @@ namespace DatabaseWithCrudWebApi.BL
         /// </summary>
         /// <param name="userId">The user ID to search for.</param>
         /// <returns>The user object if found, otherwise a new instance of USR01.</returns>
-        public ResponseInfo GetUSR01(int userId)
+        public Response GetUSR01(int userId)
         {
             return _context.SelectUSR01(userId);
         }
 
-        public ResponseInfo ValidateDelete(int userId)
+        public Response ValidateDelete(int userId)
         {
             bool? isExists = _context.ExistsUserId(userId);
             if (isExists == null)
@@ -172,7 +186,7 @@ namespace DatabaseWithCrudWebApi.BL
         /// Deletes a user with the specified user ID from the database.
         /// </summary>
         /// <param name="userId">The ID of the user to delete.</param>
-        public ResponseInfo Delete(int userId)
+        public Response Delete(int userId)
         {
             return _context.DeleteUSR01(userId);
         }

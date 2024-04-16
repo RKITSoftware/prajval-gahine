@@ -14,41 +14,36 @@ namespace FirmAdvanceDemo.Models.POCO
         /// <summary>
         /// Punch Id
         /// </summary>
-        [AutoIncrement]
         [PrimaryKey]
         [Alias("d01f01")]
-        public int Id { get; set; }
+        public int t01f01 { get; set; }
 
         /// <summary>
         /// Employee Id
         /// </summary>
-        [ForeignKey(typeof(EMP01), OnDelete = "CASCADE")]
-        [JsonPropertyName("h01102")]
         public int h01f02 { get; set; }
 
         /// <summary>
         /// DateTime of Punch
         /// </summary>
-        [ValidateNotNull]
-        [JsonPropertyName("h01103")]
         public DateTime h01f03 { get; set; }
 
         /// <summary>
         /// Punch Type
         /// </summary>
-        [JsonPropertyName("h01104")]
-        public EnmPunchType? h01f04 { get; set; }
+        [IgnoreOnInsert]
+        public EnmPunchType h01f04 { get; set; }
 
         /// <summary>
         /// Punch creation datetime
         /// </summary>
-        [ValidateNotNull]
+        [IgnoreOnUpdate]
         public DateTime h01f05 { get; set; }
 
         /// <summary>
         /// Punch last modified datetime
         /// </summary>
-        [ValidateNotNull]
+        [IgnoreOnInsert]
         public DateTime h01f06 { get; set; }
     }
 }

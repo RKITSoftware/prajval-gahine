@@ -117,8 +117,9 @@ namespace FirmAdvanceDemo.Utitlity
         {
             GenericIdentity identity = new GenericIdentity(username);
             identity.AddClaim(new Claim("Id", userId));
-            identity.AddClaim(new Claim("Username", username));
-            identity.AddClaim(new Claim("EmployeeId", employeeId));
+
+            HttpContext.Current.Items["employeeId"] = employeeId;
+            HttpContext.Current.Items["username"] = username;
 
             GenericPrincipal principal = new GenericPrincipal(identity, roles);
 
@@ -220,45 +221,46 @@ namespace FirmAdvanceDemo.Utitlity
             return decryptedText;
         }
 
-
-        public static D ConvertModel<D>(this object objSource) where D : class
+        /// <summary>
+        /// Maps the properties of the source object to a new instance of the destination object.
+        /// </summary>
+        /// <typeparam name="D">The type of the destination object.</typeparam>
+        /// <param name="objSource">The source object to map from.</param>
+        /// <returns>A new instance of the destination object with mapped properties.</returns>
+        public static D ConvertModel<D>(this object objSource)
         {
             // get type of both source and destination .net object
             Type sourceType = objSource.GetType();
             Type destinationType = typeof(D);
 
-            // get target attribute type
-            Type AttachedAttributeType = typeof(JsonPropertyNameAttribute);
-
             // create a blank instance of destination type
-            D objDestination = Activator.CreateInstance(destinationType) as D;
+            D objDestination = (D)Activator.CreateInstance(destinationType);
 
             // get all public, instance props having JsonPropertyNameAttribute on source type
             PropertyInfo[] sourceProps = sourceType.GetProperties(BindingFlags.Instance | BindingFlags.Public)
-                .Where(prop => prop.IsDefined(AttachedAttributeType, false))
                 .ToArray();
 
             foreach (PropertyInfo sourceProp in sourceProps)
             {
-                // get JsonPropertyName of sourceProp
-                JsonPropertyNameAttribute objJsonPropertyName = sourceProp.GetCustomAttribute(AttachedAttributeType) as JsonPropertyNameAttribute;
-                string destinationPropName = objJsonPropertyName.Name;
-
-                // get value of sourceProp
-                object sourcePropValue = sourceProp.GetValue(objSource);
+                string propName = sourceProp.Name;
 
                 // set the sourceProp value to destinationProp
-                PropertyInfo destinationProp = destinationType.GetProperty(destinationPropName);
+                PropertyInfo destinationProp = destinationType.GetProperty(propName);
                 if(destinationProp != null)
                 {
+                    // get value of sourceProp
+                    object sourcePropValue = sourceProp.GetValue(objSource);
                     destinationProp.SetValue(objDestination, sourcePropValue);
                 }
             }
-
             return objDestination;
         }
 
-
+        /// <summary>
+        /// Converts the properties of the specified object into a dictionary of property names and values, excluding null values and default values for value types.
+        /// </summary>
+        /// <param name="target">The target object to convert.</param>
+        /// <returns>A dictionary of property names and values.</returns>
         public static Dictionary<string, object> GetDictionary(object target)
         {
             Dictionary<string, object> dict = new Dictionary<string, object>();
@@ -288,6 +290,50 @@ namespace FirmAdvanceDemo.Utitlity
                 }
             }
             return dict;
+        }
+
+        /// <summary>
+        /// Converts a list of objects to a CSV string based on the properties of the objects.
+        /// </summary>
+        /// <typeparam name="T">The type of the objects in the list.</typeparam>
+        /// <param name="lstResource">The list of objects to convert.</param>
+        /// <param name="resourceType">The type of the objects in the list.</param>
+        /// <returns>A CSV string representing the list of objects.</returns>
+        public static string ConvertToCSV<T>(List<T> lstResource, Type resourceType)
+        {
+            string csvContent = string.Empty;
+
+
+            // get resource's all public and instance props
+            PropertyInfo[] props = resourceType.GetProperties(BindingFlags.Public | BindingFlags.Instance);
+
+            // add those props Name as csv header
+            List<string> lstCsvHeader = props.Select(prop => prop.Name).ToList<string>();
+            string csvHeaders = string.Join(",", lstCsvHeader) + "\n";
+            string csvBody = string.Empty;
+
+            // create a memory stream
+            List<string> lstRowData = null;
+            lstResource.ForEach(resource =>
+            {
+                lstRowData = new List<string>(props.Length);
+                foreach (PropertyInfo prop in props)
+                {
+                    string data = null;
+                    if (prop.PropertyType == typeof(DateTime))
+                    {
+                        data = ((DateTime)prop.GetValue(resource, null)).ToString("dd-MM-yyyy");
+                    }
+                    else
+                    {
+                        data = prop.GetValue(resource, null).ToString();
+                    }
+                    lstRowData.Add(data);
+                }
+                string row = string.Join(",", lstRowData) + "\n";
+                csvBody += row;
+            });
+            return $"{csvHeaders}{csvBody}";
         }
     }
 }

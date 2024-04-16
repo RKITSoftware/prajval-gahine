@@ -55,16 +55,16 @@ namespace FirmAdvanceDemo.Auth
                         // check for existance of user (by userId)
                         // if exists => then get username and its roles
                         int userId = (int)payloadJson["id"];
-                        BLUser objBLUser = new BLUser();
-                        ResponseStatusInfo rsiGetUsername = objBLUser.FetchUsernameByUserId(userId);
-                        ResponseStatusInfo rsiGetUserRoles = objBLUser.FetchUserRolesByUserId(userId);
+                        BLUSR01Handler objBLUser = new BLUSR01Handler();
+                        Response rsiGetUsername = objBLUser.FetchUsernameByUserId(userId);
+                        Response rsiGetUserRoles = objBLUser.FetchUserRolesByUserId(userId);
 
-                        if (rsiGetUsername.IsRequestSuccessful == true && rsiGetUserRoles.IsRequestSuccessful == true)
+                        if (rsiGetUsername.IsError == true && rsiGetUserRoles.IsError == true)
                         {
                             string username = (string)rsiGetUsername.Data;
                             string[] roles = (string[])rsiGetUserRoles.Data;
 
-                            BLEmployee objBLEmployee = new BLEmployee();
+                            BLEMP01Handler objBLEmployee = new BLEMP01Handler();
                             int EmlpoyeeId = objBLEmployee.FetchEmployeeIdByUserId(userId);
                             bool IsPrincipalAttached = GeneralUtility.AttachPrinicpal(userId.ToString(), username, EmlpoyeeId.ToString(), roles);
 

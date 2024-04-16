@@ -13,33 +13,30 @@ namespace FirmAdvanceDemo.Models.POCO
         /// <summary>
         /// USR01EMP01 record Id
         /// </summary>
-        [AutoIncrement]
         [PrimaryKey]
         [Alias("p02f01")]
-        public int Id { get; set; }
+        public int t01f01 { get; set; }
 
         /// <summary>
         /// User Id (Foreign key)
         /// </summary>
-        [ForeignKey(typeof(USR01), OnDelete = "CASCADE")]
         public int p02f02 { get; set; }
 
         /// <summary>
         /// Employee Id (Foreign key)
         /// </summary>
-        [ForeignKey(typeof(EMP01), OnDelete = "CASCADE")]
         public int p02f03 { get; set; }
 
         /// <summary>
         /// UserEmployee creation datetime
         /// </summary>
-        [ValidateNotNull]
+        [IgnoreOnUpdate]
         public DateTime p02f04 { get; set; }
 
         /// <summary>
         /// UserEmployee last update datetime
         /// </summary>
-        [ValidateNotNull]
+        [IgnoreOnInsert]
         public DateTime p02f05 { get; set; }
     }
 }

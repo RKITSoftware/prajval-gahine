@@ -10,13 +10,13 @@ namespace FirmAdvanceDemo
 {
     public class ControllerResponseReturner
     {
-        //public static IHttpActionResult Returner(ResponseStatusInfo responseStatusInfo)
+        //public static IHttpActionResult Returner(ResponseStatusInfo response)
         //{
-        //    if (responseStatusInfo.IsRequestSuccessful)
+        //    if (response.IsRequestSuccessful)
         //    {
-        //        return ApiController.Ok(ResponseWrapper.Wrap(responseStatusInfo.Message, responseStatusInfo.Data));
+        //        return ApiController.Ok(ResponseWrapper.Wrap(response.Message, response.Data));
         //    }
-        //    return ResponseMessage(Request.CreateErrorResponse(responseStatusInfo.StatusCode, responseStatusInfo.Message));
+        //    return ResponseMessage(Request.CreateErrorResponse(response.StatusCode, response.Message));
 
         //}
     }

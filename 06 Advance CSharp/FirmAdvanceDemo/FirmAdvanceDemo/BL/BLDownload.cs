@@ -12,9 +12,9 @@ namespace FirmAdvanceDemo.BL
         private readonly OrmLiteConnectionFactory _dbFactory;
         public BLDownload()
         {
-            _dbFactory = Connection.DbFactory;
+            _dbFactory = OrmliteDbConnector.DbFactory;
         }
-        public ResponseStatusInfo DownloadSalarySlip(int EmployeeId, DateTime start, DateTime end)
+        public Response DownloadSalarySlip(int EmployeeId, DateTime start, DateTime end)
         {
             using (IDbConnection db = _dbFactory.OpenDbConnection())
             {
@@ -27,9 +27,9 @@ namespace FirmAdvanceDemo.BL
                 string csvContent = CSVConvert<SLY01>.ConvertToCSV(lstSalary, typeof(SLY01));
 
 
-                return new ResponseStatusInfo
+                return new Response
                 {
-                    IsRequestSuccessful = true,
+                    IsError = true,
                     Message = $"Salary Slip of Employee Id {EmployeeId} from {start.ToString("dd-MM-yyy")} to {end.ToString("dd-MM-yyy")}",
                     Data = csvContent
                 };

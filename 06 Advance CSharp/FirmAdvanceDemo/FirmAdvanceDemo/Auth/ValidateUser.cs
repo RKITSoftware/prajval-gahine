@@ -25,15 +25,15 @@ namespace FirmAdvanceDemo.Auth
             byte[] hashedPassword = GeneralUtility.GetHMAC(password, null);
 
             // get userId
-            BLUser objBLUser = new BLUser();
-            ResponseStatusInfo rsiGetUserId = objBLUser.FetchUserIdByUsername(username);
+            BLUSR01Handler objBLUser = new BLUSR01Handler();
+            Response rsiGetUserId = objBLUser.FetchUserIdByUsername(username);
 
             // get roles associated with that userId
-            if (rsiGetUserId.IsRequestSuccessful)
+            if (rsiGetUserId.IsError)
             {
                 userId = (int)rsiGetUserId.Data;
-                ResponseStatusInfo rsiGetUserRoles = objBLUser.FetchUserRolesByUserId(userId);
-                if (rsiGetUserRoles.IsRequestSuccessful)
+                Response rsiGetUserRoles = objBLUser.FetchUserRolesByUserId(userId);
+                if (rsiGetUserRoles.IsError)
                 {
                     roles = (string[])rsiGetUserRoles.Data;
                 }

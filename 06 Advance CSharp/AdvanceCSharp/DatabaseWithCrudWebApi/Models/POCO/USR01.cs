@@ -12,6 +12,7 @@ namespace DatabaseWithCrudWebApi.Models
         /// <summary>
         /// User Id
         /// </summary>
+        [PrimaryKey]
         public int R01F01 { get; set; }
 
         /// <summary>

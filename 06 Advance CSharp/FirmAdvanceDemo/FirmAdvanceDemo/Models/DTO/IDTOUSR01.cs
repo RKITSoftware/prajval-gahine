@@ -8,26 +8,26 @@ namespace FirmAdvanceDemo.Models.DTO
         /// <summary>
         /// username
         /// </summary>
-        string r01102 { get; set; }
+        string r01f02 { get; set; }
 
         /// <summary>
         /// user hashed password
         /// </summary>
-        string r01103 { get; set; }
+        string r01f03 { get; set; }
 
         /// <summary>
         /// user emailId
         /// </summary>
-        string r01104 { get; set; }
+        string r01f04 { get; set; }
 
         /// <summary>
         /// User phone no.
         /// </summary>
-        string r01105 { get; set; }
+        string r01f05 { get; set; }
 
         /// <summary>
         /// User roles
         /// </summary>
-        List<EnmRole> r01106 { get; set; }
+        List<EnmRole> r01f06 { get; set; }
     }
 }
