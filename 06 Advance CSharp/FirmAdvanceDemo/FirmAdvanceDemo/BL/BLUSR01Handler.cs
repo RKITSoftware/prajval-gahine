@@ -23,25 +23,19 @@ namespace FirmAdvanceDemo.BL
         /// <summary>
         /// Instance of USR01 model
         /// </summary>
-        public USR01 _objUSR01;
+        public USR01 ObjUSR01 { get; set; }
 
         /// <summary>
         /// List of Roles
         /// </summary>
         public List<EnmRole> lstRole;
 
+        public EnmOperation Operation { get; set; }
+
         /// <summary>
         /// Default constructor for BLUser
         /// </summary>
         public BLUSR01Handler()
-        {
-        }
-
-        /// <summary>
-        /// Constructor for BLUser, intialize 
-        /// <see cref="Response"/>
-        /// </summary>
-        public BLUSR01Handler(Response statusInfo) : base(statusInfo)
         {
         }
 
@@ -52,81 +46,78 @@ namespace FirmAdvanceDemo.BL
         /// <param name="role">role of user</param>
         /// <param name="operation">operation to perform</param>
         /// <returns></returns>
-        public bool Prevalidate(IDTOUSR01 objUSR01, EnmRole role, EnmOperation operation)
+        public Response Prevalidate(DTOUSR01 objDTOUSR01)
         {
-            bool isValid;
-            if (operation == EnmOperation.A)
+            Response response = new Response();
+            if (Operation == EnmOperation.E)
             {
-                isValid = (!objUSR01.r01f02.IsNullOrEmpty()
-                    && (!objUSR01.r01f06.IsNullOrEmpty() && ValidateRole(role, objUSR01.r01f06))
-                    && (!objUSR01.r01f03.IsNullOrEmpty() && ValidatePassword(objUSR01.r01f03))
-                    && (!objUSR01.r01f05.IsNullOrEmpty() && ValidatePhoneNo(objUSR01.r01f05))
-                    && (!objUSR01.r01f04.IsNullOrEmpty() && ValidateEmail(objUSR01.r01f04))
-                );
-            }
-            else
-            {
-                isValid = (objUSR01.r01f02.IsNullOrEmpty()
-                    && (objUSR01.r01f06.IsNullOrEmpty() || ValidateRole(EnmRole.E, objUSR01.r01f06))
-                    && (objUSR01.r01f03.IsNullOrEmpty() || ValidatePassword(objUSR01.r01f03))
-                    && (objUSR01.r01f05.IsNullOrEmpty() || ValidatePhoneNo(objUSR01.r01f05))
-                    && (objUSR01.r01f04.IsNullOrEmpty() || ValidateEmail(objUSR01.r01f04))
-                );
-            }
+                int userId = objDTOUSR01.r01f01;
+                int userCount;
+                using (IDbConnection db = _dbFactory.OpenDbConnection())
+                {
+                    userCount = (int)db.Count<USR01>(usr01 => usr01.P01F01 == userId);
+                }
 
-            if (!isValid)
-            {
-                PopulateRSI(
-                    false,
-                    HttpStatusCode.BadRequest,
-                    "Enter user data in correct format",
-                    null
-                );
+                if (userCount == 0)
+                {
+                    response.IsError = true;
+                    response.HttpStatusCode = HttpStatusCode.NotFound;
+                    response.Message = $"User not found with id: {userId}";
+
+                    return response;
+                }
             }
-            return isValid;
+            return response;
         }
 
         /// <summary>
         /// Method to convert DTOUSR01 instance to USR01 instance
         /// </summary>
         /// <param name="objDTOUSR01">Instance of DTOUSR01</param>
-        public void Presave(IDTOUSR01 objDTOUSR01, EnmOperation operation)
+        public void Presave(DTOUSR01 objDTOUSR01)
         {
-            _objUSR01 = objDTOUSR01.ConvertModel<USR01>();
+            ObjUSR01 = objDTOUSR01.ConvertModel<USR01>();
 
             // converting string password to hased password (bytes)
             string secretKey = (string)ConfigurationManager.AppSettings["PasswordHashSecretKey"];
-            byte[] hashedPassword = GetHMAC(objDTOUSR01.r01f03, secretKey);
-            _objUSR01.r01f03 = hashedPassword;
+            ObjUSR01.r01f03 = GetHMACBase64(objDTOUSR01.r01f03, secretKey);
 
-            DateTime currentDateTime = DateTime.Now;
-            if (operation == EnmOperation.A)
+            if (Operation == EnmOperation.A)
             {
-                _objUSR01.r01f06 = currentDateTime;
+                ObjUSR01.P01F01 = 0;
+                ObjUSR01.r01f06 = DateTime.Now;
             }
-            _objUSR01.r01f07 = currentDateTime;
-
-            // initialize list of roles
-            lstRole = objDTOUSR01.r01f06;
+            else
+            {
+                ObjUSR01.r01f07 = DateTime.Now;
+            }
         }
 
         /// <summary>
         /// Method to validate the USR01 instance
         /// </summary>
         /// <returns>True if USR01 instance is valid else false</returns>
-        public bool Validate()
+        public Response Validate()
         {
-            bool isValid = !DoesUsernameExists();
-            if (!isValid && !_statusInfo.IsAlreadySet)
+            Response response = new Response();
+
+            int userCount;
+            string username = ObjUSR01.r01f02;
+            using (IDbConnection db = _dbFactory.OpenDbConnection())
             {
-                PopulateRSI(
-                            false,
-                            HttpStatusCode.OK,
-                            "Username already exists",
-                            null
-                        );
+                userCount = (int)db.Count<USR01>(user => user.r01f02 == username);
             }
-            return isValid;
+
+            if (userCount > 0)
+            {
+                response.IsError = true;
+                response.HttpStatusCode = HttpStatusCode.Conflict;
+                response.Message = $"User already exists with username: {username}";
+
+                return response;
+            }
+
+            return response;
         }
 
         /// <summary>
@@ -141,15 +132,15 @@ namespace FirmAdvanceDemo.BL
                 {
                     if (operation == EnmOperation.A)
                     {
-                        newUserId = (int)db.Insert<USR01>(_objUSR01, selectIdentity: true);
+                        newUserId = (int)db.Insert<USR01>(ObjUSR01, selectIdentity: true);
                         int tempNewUserId = newUserId;
                         // create role - user.
                         List<ULE02> lstULE02 = lstRole.Select(role => new ULE02()
                         {
-                            e02f02 = tempNewUserId,
-                            e02f03 = role,
-                            e02f04 = _objUSR01.r01f06,
-                            e02f05 = _objUSR01.r01f06
+                            E02F02 = tempNewUserId,
+                            E02F03 = role,
+                            E02F04 = ObjUSR01.r01f06,
+                            E02F05 = ObjUSR01.r01f06
                         }).ToList();
                         db.InsertAll<ULE02>(lstULE02);
 
@@ -160,9 +151,9 @@ namespace FirmAdvanceDemo.BL
                     }
                     else
                     {
-                        Dictionary<string, object> toUpdateDict = GetDictionary(_objUSR01);
+                        Dictionary<string, object> toUpdateDict = GetDictionary(ObjUSR01);
                         toUpdateDict.Remove("r01f02");
-                        db.UpdateOnly<USR01>(toUpdateDict, user => user.t01f01 ==  _objUSR01.t01f01);
+                        db.UpdateOnly<USR01>(toUpdateDict, user => user.r01f02 == ObjUSR01.r01f02);
 
                         PopulateRSI(true,
                             HttpStatusCode.OK,
@@ -191,11 +182,11 @@ namespace FirmAdvanceDemo.BL
                 using (IDbConnection db = _dbFactory.OpenDbConnection())
                 {
                     //throw new Exception("SQL ERROR");
-                    int count = (int)db.Count<USR01>(user => user.r01f02 == _objUSR01.r01f02);
+                    int count = (int)db.Count<USR01>(user => user.r01f02 == ObjUSR01.r01f02);
                     return count > 0;
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 PopulateRSI(
                     false,
@@ -208,7 +199,7 @@ namespace FirmAdvanceDemo.BL
         }
 
         /// <summary>
-        /// Method to fetch used id using username from database
+        /// Method to fetch used ID using username from database
         /// </summary>
         /// <param name="username">Username</param>
         /// <returns>ResponseStatusInfo instance containing userId if successful or null if any exception</returns>
@@ -220,7 +211,7 @@ namespace FirmAdvanceDemo.BL
                 {
                     SqlExpression<USR01> sqlExp = db.From<USR01>()
                         .Where(user => user.r01f02 == username)
-                        .Select<USR01>(user => user.t01f01);
+                        .Select<USR01>(user => user.r01f02);
 
                     int userId = db.Single<int>(sqlExp);
                     if (userId == 0)
@@ -258,7 +249,7 @@ namespace FirmAdvanceDemo.BL
                 using (IDbConnection db = _dbFactory.OpenDbConnection())
                 {
                     SqlExpression<USR01> sqlExp = db.From<USR01>()
-                        .Where(user => user.t01f01 == userId)
+                        .Where(user => user.r01f02 == userId)
                         .Select<USR01>(user => user.r01f02);
 
                     string username = db.Single<string>(sqlExp);
@@ -298,9 +289,9 @@ namespace FirmAdvanceDemo.BL
                 {
                     // get user roles
                     var SqlExp = db.From<ULE02>()
-                        .Where(ur => ur.e02f02 == userId)
-                        .Join<RLE01>((ur, r) => (int)ur.e02f03 == r.t01f01)
-                        .Select<RLE01>(r => r.e01f02);
+                        .Where(ur => ur.E02F02 == userId)
+                        .Join<RLE01>((ur, r) => (int)ur.E02F03 == r.P01F01)
+                        .Select<RLE01>(r => r.E01F02);
 
                     string[] roles = db.Select<string>(SqlExp).ToArray<string>();
                     return new Response()
@@ -346,12 +337,12 @@ namespace FirmAdvanceDemo.BL
                     //string secretKey = "FirmAdvanceDemoSecretKey";
                     string secretKey = ConfigurationManager.AppSettings["PasswordHashSecretKey"] as string;
                     // hash the password 
-                    Byte[] hashedPassword = GeneralUtility.GetHMAC((string)UserJson["r01f03"], secretKey);
+                    Byte[] hashedPassword = GeneralUtility.GetHMACBase64((string)UserJson["r01f03"], secretKey);
 
                     // create user and get the user id
                     USR01 user = new USR01()
                     {
-                        t01f01 = -1,
+                        r01f02 = -1,
                         r01f02 = (string)UserJson["r01f02"],
                         r01f03 = hashedPassword,
                         r01f04 = (string)UserJson["r01f04"],
@@ -365,8 +356,8 @@ namespace FirmAdvanceDemo.BL
 
                     IEnumerable<ULE02> lstRoleUser = roles.Select<int, ULE02>(roleId => new ULE02()
                     {
-                        e02f02 = userId,
-                        e02f03 = (EnmRole)roleId
+                        E02F02 = userId,
+                        E02F03 = (EnmRole)roleId
                     });
 
                     db.InsertAll(lstRoleUser);
@@ -378,20 +369,20 @@ namespace FirmAdvanceDemo.BL
                         // create employee object and get the employee id
                         EMP01 employee = new EMP01()
                         {
-                            t01f01 = -1,
-                            p01f02 = (string)EmployeeJson["p01f02"],
-                            p01f03 = (string)EmployeeJson["p01f03"],
-                            p01f04 = ((string)EmployeeJson["p01f04"])[0],
-                            p01f05 = DateTime.Parse((string)EmployeeJson["p01f05"]).Date,
-                            p01f06 = (int)EmployeeJson["p01f06"]
+                            P01F02 = -1,
+                            P01F02 = (string)EmployeeJson["P01F02"],
+                            P01F03 = (string)EmployeeJson["P01F03"],
+                            P01F04 = ((string)EmployeeJson["P01F04"])[0],
+                            P01F05 = DateTime.Parse((string)EmployeeJson["P01F05"]).Date,
+                            P01F06 = (int)EmployeeJson["P01F06"]
                         };
                         employeeId = (int)db.Insert<EMP01>(employee, selectIdentity: true);
 
                         // populate the user-employee table
                         UMP02 userEmployee = new UMP02()
                         {
-                            p02f02 = userId,
-                            p02f03 = employeeId
+                            P01F02 = userId,
+                            P01F03 = employeeId
                         };
 
                         db.Insert(userEmployee);

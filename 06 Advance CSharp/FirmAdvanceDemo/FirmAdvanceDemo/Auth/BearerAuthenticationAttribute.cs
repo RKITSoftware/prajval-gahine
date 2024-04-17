@@ -35,7 +35,7 @@ namespace FirmAdvanceDemo.Auth
                 string payloadEn = headerEn_payloadEn_digest[1];
                 string digest = headerEn_payloadEn_digest[2];
 
-                string digestToCompute = Convert.ToBase64String(GeneralUtility.GetHMAC($"{headerEn}.{payloadEn}", null))
+                string digestToCompute = Convert.ToBase64String(GeneralUtility.GetHMACBase64($"{headerEn}.{payloadEn}", null))
                     .Replace('/', '_')
                     .Replace('+', '-')
                     .Replace("=", "");
@@ -65,7 +65,7 @@ namespace FirmAdvanceDemo.Auth
                             string[] roles = (string[])rsiGetUserRoles.Data;
 
                             BLEMP01Handler objBLEmployee = new BLEMP01Handler();
-                            int EmlpoyeeId = objBLEmployee.FetchEmployeeIdByUserId(userId);
+                            int EmlpoyeeId = objBLEmployee.RetrieveEmployeeIdByUserId(userId);
                             bool IsPrincipalAttached = GeneralUtility.AttachPrinicpal(userId.ToString(), username, EmlpoyeeId.ToString(), roles);
 
                             if (!IsPrincipalAttached)

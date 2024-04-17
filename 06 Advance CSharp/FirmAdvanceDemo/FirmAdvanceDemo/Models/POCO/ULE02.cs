@@ -1,5 +1,4 @@
 using FirmAdvanceDemo.Enums;
-using ServiceStack;
 using ServiceStack.DataAnnotations;
 using System;
 
@@ -14,29 +13,29 @@ namespace FirmAdvanceDemo.Models.POCO
         /// User-Role record Id
         /// </summary>
         [PrimaryKey]
-        [Alias("e02f01")]
-        public int t01f01 { get; set; }
+        [Alias("E02F01")]
+        public int P01F01 { get; set; }
 
         /// <summary>
         /// User Id (Foreign key)
         /// </summary>
-        public int e02f02 { get; set; }
+        public int E02F02 { get; set; }
 
         /// <summary>
         /// Role Id (Foreign key)
         /// </summary>
-        public EnmRole e02f03 { get; set; }
+        public EnmRole E02F03 { get; set; }
 
         /// <summary>
         /// UserEmployee creation datetime
         /// </summary>
         [IgnoreOnUpdate]
-        public DateTime e02f04 { get; set; }
+        public DateTime E02F04 { get; set; }
 
         /// <summary>
         /// UserEmployee last update datetime
         /// </summary>
         [IgnoreOnInsert]
-        public DateTime e02f05 { get; set; }
+        public DateTime E02F05 { get; set; }
     }
 }

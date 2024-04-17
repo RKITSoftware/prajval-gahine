@@ -5,7 +5,14 @@
     /// </summary>
     public enum EnmOperation
     {
-        Create = 1,
-        Update
+        /// <summary>
+        /// Add
+        /// </summary>
+        A = 1,
+
+        /// <summary>
+        /// Edit
+        /// </summary>
+        E
     }
 }

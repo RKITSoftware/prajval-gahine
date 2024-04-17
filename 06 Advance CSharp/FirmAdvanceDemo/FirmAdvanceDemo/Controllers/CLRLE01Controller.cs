@@ -28,14 +28,14 @@ namespace FirmAdvanceDemo.Controllers
         [Route("")]
         public IHttpActionResult GetRoles()
         {
-            Response 
-                
-                
-                
-                
-                
-                
-                
+            Response
+
+
+
+
+
+
+
                 = _objBLRole.RetrieveResource();
             return Ok(response);
         }

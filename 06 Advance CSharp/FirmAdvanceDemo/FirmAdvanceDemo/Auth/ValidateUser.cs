@@ -13,7 +13,7 @@ namespace FirmAdvanceDemo.Auth
         /// </summary>
         /// <param name="username">Username</param>
         /// <param name="password">Password</param>
-        /// <param name="userId">Out paramter, mehtod sets user id if user exists else set to 0</param>
+        /// <param name="userId">Out paramter, mehtod sets user ID if user exists else set to 0</param>
         /// <param name="roles">Out parameter, method sets user-roles if user exists else set null</param>
         /// <returns></returns>
         public static bool Login(string username, string password, out int userId, out string[] roles)
@@ -22,7 +22,7 @@ namespace FirmAdvanceDemo.Auth
             roles = null;
 
             // first hash the password
-            byte[] hashedPassword = GeneralUtility.GetHMAC(password, null);
+            byte[] hashedPassword = GeneralUtility.GetHMACBase64(password, null);
 
             // get userId
             BLUSR01Handler objBLUser = new BLUSR01Handler();

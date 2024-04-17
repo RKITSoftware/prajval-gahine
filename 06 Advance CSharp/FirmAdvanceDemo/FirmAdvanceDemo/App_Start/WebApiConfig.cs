@@ -15,7 +15,7 @@ namespace FirmAdvanceDemo
             //config.Routes.MapHttpRoute(
             //    name: "DefaultApi",
             //    routeTemplate: "api/{controller}/{id}",
-            //    defaults: new { id = RouteParameter.Optional }
+            //    defaults: new { ID = RouteParameter.Optional }
             //);
 
             string ConnString = ConfigurationManager.ConnectionStrings["connect-to-firmadvance2-db"].ConnectionString;

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace FirmAdvanceDemo.Models.DTO
 {
     public interface IDTOUSR01
-    {        
+    {
         /// <summary>
         /// username
         /// </summary>

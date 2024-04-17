@@ -78,7 +78,7 @@ namespace FirmAdvanceDemo.BL
                     return new Response()
                     {
                         IsError = true,
-                        Message = Resource == null ? $"No Resource found for id {ResourceId}" : $"{db.GetQuotedTableName<RSE01>()} Details",
+                        Message = Resource == null ? $"No Resource found for ID {ResourceId}" : $"{db.GetQuotedTableName<RSE01>()} Details",
                         Data = new { Resources = Resource }
                     };
                 }
@@ -127,7 +127,7 @@ namespace FirmAdvanceDemo.BL
         }
 
         /// <summary>
-        /// Method to update an resource on database using resoure id an part_to_update
+        /// Method to update an resource on database using resoure ID an part_to_update
         /// </summary>
         /// <param name="ResourceId">Resource id</param>
         /// <param name="toUpdateJson">Json object that contains part to update</param>
@@ -140,12 +140,12 @@ namespace FirmAdvanceDemo.BL
                 {
                     Dictionary<string, object> toUpdateDictionary = toUpdateJson.ToObject<Dictionary<string, object>>();
 
-                    db.UpdateOnly<RSE01>(updateFields: toUpdateDictionary, obj: p => p.t01f01 == ResourceId);
+                    db.UpdateOnly<RSE01>(updateFields: toUpdateDictionary, obj: p => p.P01F01 == ResourceId);
 
                     return new Response()
                     {
                         IsError = true,
-                        Message = $"{db.GetQuotedTableName<RSE01>()} with id {ResourceId} upadted",
+                        Message = $"{db.GetQuotedTableName<RSE01>()} with ID {ResourceId} upadted",
                         Data = null
                     };
                 }
@@ -201,7 +201,7 @@ namespace FirmAdvanceDemo.BL
         /// <param name="data">Data of response</param>
         public void PopulateRSI(bool isSuccess, HttpStatusCode statusCode, string message, object data)
         {
-            if(_statusInfo != null)
+            if (_statusInfo != null)
             {
                 _statusInfo.IsAlreadySet = true;
                 _statusInfo.IsError = isSuccess;

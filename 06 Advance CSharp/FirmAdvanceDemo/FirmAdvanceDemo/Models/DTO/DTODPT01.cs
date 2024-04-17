@@ -1,4 +1,3 @@
-using Org.BouncyCastle.Asn1.Mozilla;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
@@ -13,9 +12,9 @@ namespace FirmAdvanceDemo.Models.DTO
         /// Department Id
         /// </summary>
         [JsonPropertyName("t01101")]
-        [Required(ErrorMessage = "Department id cannot be empty.")]
+        [Required(ErrorMessage = "Department ID cannot be empty.")]
         [Range(0, int.MaxValue)]
-        public int t01f01 { get; set; }
+        public int T01F01 { get; set; }
 
         /// <summary>
         /// Department Name
@@ -23,6 +22,6 @@ namespace FirmAdvanceDemo.Models.DTO
         [JsonPropertyName("t01102")]
         [Range(0, int.MaxValue)]
         [Required(ErrorMessage = "Department name cannot be empty.")]
-        public string t01f02 { get; set; }
+        public string T01F02 { get; set; }
     }
 }

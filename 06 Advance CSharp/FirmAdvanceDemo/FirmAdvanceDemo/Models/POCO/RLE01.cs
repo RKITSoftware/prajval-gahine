@@ -1,7 +1,5 @@
-using ServiceStack;
 using ServiceStack.DataAnnotations;
 using System;
-using System.Text.Json.Serialization;
 
 namespace FirmAdvanceDemo.Models.POCO
 {
@@ -14,24 +12,23 @@ namespace FirmAdvanceDemo.Models.POCO
         /// Role Id
         /// </summary>
         [PrimaryKey]
-        [Alias("e01f01")]
-        public int t01f01 { get; set; }
+        public int P01F01 { get; set; }
 
         /// <summary>
         /// Role name
         /// </summary>
-        public string e01f02 { get; set; }
+        public string E01F02 { get; set; }
 
         /// <summary>
         ///  creation datetime
         /// </summary>
         [IgnoreOnUpdate]
-        public DateTime e01f03 { get; set; }
+        public DateTime E01F03 { get; set; }
 
         /// <summary>
         ///  last modified datetime
         /// </summary>
         [IgnoreOnInsert]
-        public DateTime e01f04 { get; set; }
+        public DateTime E01F04 { get; set; }
     }
 }

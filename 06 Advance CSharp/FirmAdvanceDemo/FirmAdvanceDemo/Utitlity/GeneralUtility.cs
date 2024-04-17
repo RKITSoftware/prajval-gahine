@@ -9,7 +9,6 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Security.Principal;
 using System.Text;
-using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Web;
@@ -21,6 +20,7 @@ namespace FirmAdvanceDemo.Utitlity
     /// </summary>
     public static class GeneralUtility
     {
+
         /// <summary>
         /// Validate DOB
         /// </summary>
@@ -29,7 +29,7 @@ namespace FirmAdvanceDemo.Utitlity
         public static bool ValidateDOB(DateTime date)
         {
             DateTime currentDateTime = DateTime.Now;
-            return date <= currentDateTime.AddYears(-18) 
+            return date <= currentDateTime.AddYears(-18)
                 && date > currentDateTime.AddYears(-80);
         }
 
@@ -92,7 +92,7 @@ namespace FirmAdvanceDemo.Utitlity
         /// Method to validate email format
         /// </summary>
         /// <param name="email">Email id</param>
-        /// <returns>True if email id is in valid format, else false</returns>
+        /// <returns>True if email ID is in valid format, else false</returns>
         public static bool ValidateEmail(string email)
         {
             string pattern = @"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$";
@@ -139,13 +139,14 @@ namespace FirmAdvanceDemo.Utitlity
         /// <param name="text">String whose secure hash is to be calculated</param>
         /// <param name="key">Key using which the hash is to computed</param>
         /// <returns></returns>
-        public static Byte[] GetHMAC(string text, string key)
+        public static string GetHMACBase64(string text, string key)
         {
+            byte[] hash;
             using (HMACSHA256 hmacsha256 = new HMACSHA256(Encoding.UTF8.GetBytes(key)))
             {
-                Byte[] hash = hmacsha256.ComputeHash(Encoding.UTF8.GetBytes(text));
-                return hash;
+                hash = hmacsha256.ComputeHash(Encoding.UTF8.GetBytes(text));
             }
+            return Convert.ToBase64String(hash);
         }
 
         /// <summary>
@@ -246,7 +247,7 @@ namespace FirmAdvanceDemo.Utitlity
 
                 // set the sourceProp value to destinationProp
                 PropertyInfo destinationProp = destinationType.GetProperty(propName);
-                if(destinationProp != null)
+                if (destinationProp != null)
                 {
                     // get value of sourceProp
                     object sourcePropValue = sourceProp.GetValue(objSource);
@@ -276,14 +277,14 @@ namespace FirmAdvanceDemo.Utitlity
                 if (propType.IsValueType)
                 {
                     object defaultValue = Activator.CreateInstance(propType);
-                    if(propValue != defaultValue)
+                    if (propValue != defaultValue)
                     {
                         dict.Add(prop.Name, propValue);
                     }
                 }
                 else
                 {
-                    if(propValue != null)
+                    if (propValue != null)
                     {
                         dict.Add(prop.Name, propValue);
                     }
@@ -302,7 +303,6 @@ namespace FirmAdvanceDemo.Utitlity
         public static string ConvertToCSV<T>(List<T> lstResource, Type resourceType)
         {
             string csvContent = string.Empty;
-
 
             // get resource's all public and instance props
             PropertyInfo[] props = resourceType.GetProperties(BindingFlags.Public | BindingFlags.Instance);

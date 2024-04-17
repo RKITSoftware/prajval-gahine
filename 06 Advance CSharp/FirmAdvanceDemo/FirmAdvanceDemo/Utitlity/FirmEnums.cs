@@ -5,8 +5,8 @@ namespace FirmAdvanceDemo.Enums
     /// <summary>
     /// Represnt current status of leave. None value is used to get all types of leaves
     /// </summary>
-    [EnumAsInt]
-    public enum LeaveStatus
+    [EnumAsChar]
+    public enum EnmLeaveStatus
     {
         /// <summary>
         /// None
@@ -37,37 +37,39 @@ namespace FirmAdvanceDemo.Enums
     /// <summary>
     /// Represnt type of punch
     /// </summary>
-    [EnumAsInt]
+    [EnumAsChar]
     public enum EnmPunchType : byte
     {
-        In,
-        Out,
-        Mistaken,
-        Ambiguous,
-        VirtualIn,
-        VirtualOut,
-    }
-
-    /// <summary>
-    /// Represent type of operation to be performed
-    /// </summary>
-    public enum EnmOperation : byte
-    {
         /// <summary>
-        /// Add
+        /// Unprocessed
         /// </summary>
-        A,
+        U,
 
         /// <summary>
-        /// Edit
+        /// Punch In
         /// </summary>
-        E
+        I,
+
+        /// <summary>
+        /// Punch Out
+        /// </summary>
+        O,
+
+        /// <summary>
+        /// Mistaken Punch
+        /// </summary>
+        M,
+
+        /// <summary>
+        /// Ambiguous Punch
+        /// </summary>
+        A
     }
 
     /// <summary>
     /// Represent type of role of user
     /// </summary>
-    [EnumAsInt]
+    [EnumAsChar]
     public enum EnmRole : byte
     {
         /// <summary>
@@ -81,6 +83,7 @@ namespace FirmAdvanceDemo.Enums
         E
     }
 
+    [EnumAsChar]
     public enum EnmGender : byte
     {
         /// <summary>
@@ -97,5 +100,21 @@ namespace FirmAdvanceDemo.Enums
         /// Others
         /// </summary>
         O
+    }
+
+    /// <summary>
+    /// Represent type of operation to be performed
+    /// </summary>
+    public enum EnmOperation : byte
+    {
+        /// <summary>
+        /// Add
+        /// </summary>
+        A,
+
+        /// <summary>
+        /// Edit
+        /// </summary>
+        E
     }
 }

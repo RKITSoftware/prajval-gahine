@@ -26,13 +26,13 @@ namespace FirmAdvanceDemo.Controllers
         [Route("")]
         public IHttpActionResult GetPositions()
         {
-            Response 
-                
-                
-                
-                
+            Response
+
+
+
+
                 = _objBLPosition.RetrieveResource();
-            
+
 
         }
 

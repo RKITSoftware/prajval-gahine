@@ -1,4 +1,3 @@
-using ServiceStack;
 using ServiceStack.DataAnnotations;
 using System;
 
@@ -13,24 +12,23 @@ namespace FirmAdvanceDemo.Models.POCO
         /// Primary key for STG01 (ORMLite forces first field as PK if not specified)
         /// </summary>
         [PrimaryKey]
-        [Alias("g01f01")]
-        public int t01f01 { get; set; }
+        public int P01F01 { get; set; }
 
         /// <summary>
         /// Previous Month Salary CreditDate
         /// </summary>
-        public DateTime g01f02 { get; set; }
+        public DateTime G01F02 { get; set; }
 
         /// <summary>
         /// Setting creation datetime
         /// </summary>
         [IgnoreOnUpdate]
-        public DateTime g01f03 { get; set; }
+        public DateTime G01F03 { get; set; }
 
         /// <summary>
         /// Setting last modified datetime
         /// </summary>
         [IgnoreOnInsert]
-        public DateTime g01f04 { get; set; }
+        public DateTime G01F04 { get; set; }
     }
 }

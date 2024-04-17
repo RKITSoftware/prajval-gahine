@@ -1,7 +1,5 @@
-using ServiceStack;
 using ServiceStack.DataAnnotations;
 using System;
-using System.Text.Json.Serialization;
 
 namespace FirmAdvanceDemo.Models.POCO
 {
@@ -14,8 +12,7 @@ namespace FirmAdvanceDemo.Models.POCO
         /// user id
         /// </summary>
         [PrimaryKey]
-        [Alias("r01f01")]
-        public int t01f01 { get; set; }
+        public int P01F01 { get; set; }
 
         /// <summary>
         /// username
@@ -25,7 +22,7 @@ namespace FirmAdvanceDemo.Models.POCO
         /// <summary>
         /// user hashed password
         /// </summary>
-        public byte[] r01f03 { get; set; }
+        public string r01f03 { get; set; }
 
         /// <summary>
         /// user emailId

@@ -1,11 +1,10 @@
+using FirmAdvanceDemo.DB;
 using FirmAdvanceDemo.Enums;
 using FirmAdvanceDemo.Models.DTO;
 using FirmAdvanceDemo.Models.POCO;
 using FirmAdvanceDemo.Utitlity;
-using ServiceStack;
 using ServiceStack.OrmLite;
 using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Net;
@@ -13,30 +12,29 @@ using static FirmAdvanceDemo.Utitlity.GeneralUtility;
 
 namespace FirmAdvanceDemo.BL
 {
-    public class BLEMP01Handler : BLResource<EMP01>
+    public class BLEMP01Handler
     {
+
+        private readonly OrmLiteConnectionFactory _dbFactory;
+
         /// <summary>
         /// Instance of EMP01 model
         /// </summary>
         private EMP01 _objEMP01;
 
-        /// <summary>
-        /// Instance of BLUser
-        /// </summary>
-        private BLUSR01Handler _objBLUser;
-
         public EnmOperation Operation { get; set; }
 
         /// <summary>
-        /// Default constructor for BLEmployee, initializes EMP01 instance
+        /// Instance of BLUser
         /// </summary>
-        public BLEMP01Handler(Response _statusInfo) : base(_statusInfo)
-        {
-        }
+        private BLUSR01Handler _objBLUSR01Handler;
+
+        private DBEMP01Context _context;
 
         public BLEMP01Handler()
         {
-
+            _dbFactory = OrmliteDbConnector.DbFactory;
+            _context = new DBEMP01Context();
         }
 
         /// <summary>
@@ -45,59 +43,80 @@ namespace FirmAdvanceDemo.BL
         /// <param name="objDTOUMP">instance of DTOUMP</param>
         /// <param name="operation">Operation to perform</param>
         /// <returns>True if instance of DTOUMP is in valid format, else false</returns>
-        public bool Prevalidate(DTOUMP objDTOUMP, EnmOperation operation)
+        public Response Prevalidate(DTOUMP01 objDTOUMP)
         {
-            _objBLUser = new BLUSR01Handler(_statusInfo);
+            Response response;
 
-            if (_objBLUser.Prevalidate(objDTOUMP, EnmRole.E, operation))
+            DTOUSR01 objDTOUSR01 = objDTOUMP.ObjDTOUSR01;
+            DTOEMP01 dTOEMP01 = objDTOUMP.ObjDTOEMP01;
+
+            _objBLUSR01Handler.Operation = Operation;
+            response = _objBLUSR01Handler.Prevalidate(objDTOUSR01);
+
+            if (!response.IsError)
             {
-                bool isValid = false;
-                if(operation == EnmOperation.A)
+                // check if position ID exists in db (for A and E both)
+                int positionId = dTOEMP01.P01F06;
+                int positionCount;
+                using (IDbConnection db = _dbFactory.OpenDbConnection())
                 {
-                    isValid = ValidateGender(objDTOUMP.p01f04)
-                        && !objDTOUMP.p01f02.IsNullOrEmpty() && ValidateName(objDTOUMP.p01f02)
-                        && !objDTOUMP.p01f03.IsNullOrEmpty() && ValidateName(objDTOUMP.p01f03)
-                        && ValidateDOB(objDTOUMP.p01f05);
+                    positionCount = (int)db.Count<EMP01>(emp01 => emp01.P01F06 == positionId);
                 }
-                else
+                if (positionCount == 0)
                 {
-                    isValid = ValidateGender(objDTOUMP.p01f04)
-                        && (objDTOUMP.p01f02.IsNullOrEmpty() || ValidateName(objDTOUMP.p01f02))
-                        && (objDTOUMP.p01f03.IsNullOrEmpty() || ValidateName(objDTOUMP.p01f03))
-                        && ValidateDOB(objDTOUMP.p01f05);
-                }
-                if (!isValid)
-                {
-                    PopulateRSI(false,
-                        HttpStatusCode.BadGateway,
-                        "Enter employee data in valid format",
-                        null);
-                }
-                return isValid;
-            }
-            return false;
-        }
+                    response.IsError = true;
+                    response.HttpStatusCode = HttpStatusCode.NotFound;
+                    response.Message = $"Position not found wqith {positionId}";
 
+                    return response;
+                }
+
+                // in case of E, check employee ID already exists?
+                if (Operation == EnmOperation.E)
+                {
+                    int employeeId = dTOEMP01.P01F01;
+                    int employeeCount;
+                    using (IDbConnection db = _dbFactory.OpenDbConnection())
+                    {
+                        employeeCount = (int)db.Count<EMP01>(emp01 => emp01.P01F01 == employeeId);
+                    }
+
+                    if (employeeCount == 0)
+                    {
+                        response.IsError = true;
+                        response.HttpStatusCode = HttpStatusCode.NotFound;
+                        response.Message = $"Employee not found with id: {employeeId}";
+
+                        return response;
+                    }
+                }
+            }
+            return response;
+        }
 
         /// <summary>
         /// Method to convert DTOEMP01 instance to EMP01 instance
         /// </summary>
         /// <param name="objDTOEMP01">Instance of DTOEMP01</param>
-        public void Presave(DTOUMP objUSREMP, EnmOperation operation)
+        public void Presave(DTOUMP01 objUSREMP)
         {
-            _objEMP01 = objUSREMP.ConvertModel<EMP01>();
+            // presave USR01
+            DTOUSR01 objDTOUSR01 = objUSREMP.ObjDTOUSR01;
+            DTOEMP01 objDTOEMP01 = objUSREMP.ObjDTOEMP01;
 
-            DTOUSR01 objDTOUSR01 = objUSREMP.ConvertModel<DTOUSR01>();
+            _objBLUSR01Handler.Operation = Operation;
+            _objBLUSR01Handler.Presave(objDTOUSR01);
 
-            _objBLUser.Presave(objDTOUSR01, operation);
+            _objEMP01 = objDTOEMP01.ConvertModel<EMP01>();
 
-            DateTime currentDateTime = DateTime.Now;
-
-            _objEMP01.p01f08 = currentDateTime;
-
-            if (operation == EnmOperation.A)
+            if (Operation == EnmOperation.A)
             {
-                _objEMP01.p01f07 = currentDateTime;
+                _objEMP01.P01F01 = 0;
+                _objEMP01.P01F07 = DateTime.Now;
+            }
+            else
+            {
+                _objEMP01.P01F07 = DateTime.Now;
             }
         }
 
@@ -105,72 +124,115 @@ namespace FirmAdvanceDemo.BL
         /// Method to validate the EMP01 instance
         /// </summary>
         /// <returns>True if EMP01 instance is valid else false</returns>
-        public bool Validate()
+        public Response Validate()
         {
-            // validation for _objUSR01, username already exists
-            return _objBLUser.Validate();
+            Response response = _objBLUSR01Handler.Validate();
+            // nothing to validate for employee as of now
+            return response;
         }
 
         /// <summary>
         /// Method to create or update a record of emp01 table in DB
         /// </summary>
-        public void Save(EnmOperation operation)
+        public Response Save()
         {
-            if(operation == EnmOperation.A)
+            Response response = new Response();
+
+            using (IDbConnection db = _dbFactory.OpenDbConnection())
             {
-                using (IDbConnection db = _dbFactory.OpenDbConnection())
+                if (Operation == EnmOperation.A)
                 {
-                    _objBLUser.Save(EnmOperation.A, out int newUserId);
-
-                    // create employee
-                    int employeeId = (int)db.Insert<EMP01>(_objEMP01, selectIdentity: true);
-
-                    // create user - employee
-                    UMP02 objUMP02 = new UMP02()
+                    int userId;
+                    int employeeId;
+                    using (IDbTransaction tnx = db.BeginTransaction())
                     {
-                        p02f02 = newUserId,
-                        p02f03 = employeeId,
-                        p02f04 = _objEMP01.p01f07,
-                        p02f05 = _objEMP01.p01f08
-                    };
-                    db.Insert(objUMP02);
-                }
-            }
-            else
-            {
-                using (IDbConnection db = _dbFactory.OpenDbConnection())
-                {
-                    Dictionary<string, object> dictToUpdate = GetDictionary(_objEMP01);
-                    db.UpdateOnly<EMP01>(dictToUpdate, e => e.t01f01 == _objEMP01.t01f01);
+                        try
+                        {
+                            USR01 objUSR01 = _objBLUSR01Handler.ObjUSR01;
 
-                    PopulateRSI(
-                        true,
-                        HttpStatusCode.OK,
-                        "Data updated successfully",
-                        null
-                    );
+                            // save user
+                            userId = (int)db.Insert(objUSR01, selectIdentity: true);
+
+                            // save user role
+                            ULE02 objULE02 = new ULE02()
+                            {
+                                E02F02 = userId,
+                                E02F03 = EnmRole.E,
+                                E02F04 = DateTime.Now
+                            };
+                            db.Insert<ULE02>(objULE02);
+
+                            // save employee
+                            employeeId = (int)db.Insert(_objEMP01, selectIdentity: true);
+
+                            // save user employee id's
+                            UMP02 objUMP02 = new UMP02()
+                            {
+                                P01F02 = userId,
+                                P01F03 = employeeId,
+                            };
+                            db.Insert<UMP02>(objUMP02);
+
+                            tnx.Commit();
+                        }
+                        catch
+                        {
+                            tnx.Rollback();
+                            throw;
+                        }
+                    }
+                    response.HttpStatusCode = HttpStatusCode.OK;
+                    response.Message = $"Employee created with user-id: {userId} and employee-id: {employeeId}.";
+                    return response;
+                }
+                else
+                {
+                    // update user
+                    USR01 objUSR01 = _objBLUSR01Handler.ObjUSR01;
+                    db.Update<USR01>(objUSR01);
+
+                    // update employee
+                    db.Update<EMP01>(_objEMP01);
+
+                    response.HttpStatusCode = HttpStatusCode.OK;
+                    response.Message = $"Employee data updated.";
+                    return response;
                 }
             }
         }
 
-        public int FetchEmployeeIdByUserId(int userId)
+        public Response RetrieveEmployee(int employeeId)
         {
-            try
-            {
-                using (IDbConnection db = _dbFactory.OpenDbConnection())
-                {
-                    int employeeId = (int)db.Select<UMP02>(ue => ue.p02f02 == userId)
-                            .Select(ue => ue.p02f03)
-                            .SingleOrDefault();
-                    return employeeId;
+            Response response = new Response();
+            DataTable dtEmployee = _context.FetchEmployee(employeeId);
 
-                }
-            }
-            catch (Exception ex)
+            if (dtEmployee.Rows.Count == 0)
             {
-                System.Diagnostics.Debug.WriteLine(ex.Message);
-                return 0;
+                response.IsError = true;
+                response.HttpStatusCode = HttpStatusCode.NotFound;
+                response.Message = $"No employee found with id: {employeeId}";
+                return response;
             }
+            response.HttpStatusCode = HttpStatusCode.OK;
+            response.Data = dtEmployee;
+            return response;
+        }
+
+        public Response RetrieveEmployee()
+        {
+            Response response = new Response();
+            DataTable dtEmployee = _context.FetchEmployee();
+
+            if (dtEmployee.Rows.Count == 0)
+            {
+                response.IsError = true;
+                response.HttpStatusCode = HttpStatusCode.NotFound;
+                response.Message = "No employee found";
+                return response;
+            }
+            response.HttpStatusCode = HttpStatusCode.OK;
+            response.Data = dtEmployee;
+            return response;
         }
     }
 }

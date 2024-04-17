@@ -64,46 +64,11 @@ namespace DatabaseWithCrudWebApi
         }
 
         /// <summary>
-        /// Creates an error response with the specified message, HTTP status code, and optional data.
-        /// </summary>
-        /// <param name="message">The error message.</param>
-        /// <param name="httpStatusCode">The HTTP status code.</param>
-        /// <param name="data">Optional data associated with the error.</param>
-        /// <returns>The error response.</returns>
-        public static Response ErrorResponse(string message, HttpStatusCode httpStatusCode, object data = null)
-        {
-            return new Response()
-            {
-                IsSuccess = false,
-                HttpStatusCode = httpStatusCode,
-                Message = message,
-                Data = data
-            };
-        }
-
-        /// <summary>
-        /// Creates a success response with the specified message, HTTP status code, and optional data.
-        /// </summary>
-        /// <param name="message">The success message.</param>
-        /// <param name="httpStatusCode">The HTTP status code (default is OK).</param>
-        /// <param name="data">Optional data associated with the success.</param>
-        /// <returns>The success response.</returns>
-        public static Response SuccessResponse(string message, HttpStatusCode httpStatusCode = HttpStatusCode.OK, object data = null)
-        {
-            return new Response()
-            {
-                IsSuccess = true,
-                HttpStatusCode = httpStatusCode,
-                Message = message,
-                Data = data
-            };
-        }
-
-        /// <summary>
         /// Converts the properties of the specified object into a dictionary of property names and values, excluding null values and default values for value types.
         /// </summary>
         /// <param name="target">The target object to convert.</param>
         /// <returns>A dictionary of property names and values.</returns>
+        [Obsolete]
         public static Dictionary<string, object> GetToUpdateDictionary(object target)
         {
             Dictionary<string, object> dict = new Dictionary<string, object>();

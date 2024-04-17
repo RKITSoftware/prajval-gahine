@@ -39,7 +39,7 @@ WHERE
 ", dbName);
                 int count = db.Scalar<int>(query);
 
-                if(count == 0)
+                if (count == 0)
                 {
                     DateTime now = DateTime.Now;
 
@@ -48,14 +48,14 @@ WHERE
 
                     // create and initiate stg01 table
                     db.CreateTableIfNotExists<STG01>();
-                    db.Insert<STG01>(new STG01() { g01f02 = null, g01f03 = now, g01f04 = now });
+                    db.Insert<STG01>(new STG01() { G01F02 = null, G01F03 = now, G01F04 = now });
 
                     // create and initiate rle01 table
                     db.CreateTableIfNotExists<RLE01>();
                     List<RLE01> lstRole = new List<RLE01>()
                     {
-                        new RLE01(){ e01f02 = "Admin", e01f03 = now, e01f04 = now},
-                        new RLE01(){ e01f02 = "Employee", e01f03 = now, e01f04 = now}
+                        new RLE01(){ E01F02 = "Admin", E01F03 = now, E01F04 = now},
+                        new RLE01(){ E01F02 = "Employee", E01F03 = now, E01F04 = now}
                     };
                     db.InsertAll<RLE01>(lstRole);
 
@@ -63,10 +63,10 @@ WHERE
                     db.CreateTableIfNotExists<DPT01>();
                     List<DPT01> lstDepartment = new List<DPT01>()
                     {
-                        new DPT01(){ t01f02 = "Development", t01f03 = now, t01f04 = now},
-                        new DPT01(){ t01f02 = "Marketing", t01f03 = now, t01f04 = now},
-                        new DPT01(){ t01f02 = "Testing", t01f03 = now, t01f04 = now},
-                        new DPT01(){ t01f02 = "Network", t01f03 = now, t01f04 = now}
+                        new DPT01(){ T01F02 = "Development", T01F03 = now, T01F04 = now},
+                        new DPT01(){ T01F02 = "Marketing", T01F03 = now, T01F04 = now},
+                        new DPT01(){ T01F02 = "Testing", T01F03 = now, T01F04 = now},
+                        new DPT01(){ T01F02 = "Network", T01F03 = now, T01F04 = now}
                     };
                     db.InsertAll(lstDepartment);
 
@@ -74,16 +74,16 @@ WHERE
                     db.CreateTableIfNotExists<PSN01>();
                     List<PSN01> lstPosition = new List<PSN01>()
                     {
-                        new PSN01 { n01f02 = "Full Stack Developer", n01f03 = 6.50, n01f04 = 50000, n01f05 = 10000.00, n01f06 = 1, n01f07 = now, n01f08 = now },
-                        new PSN01 { n01f02 = "Flutter", n01f03 = 4.50, n01f04 = 35000, n01f05 = 10000.00, n01f06 = 1, n01f07 = now, n01f08 = now},
-                        new PSN01 { n01f02 = "Project Manager", n01f03 = 8.50, n01f04 = 68000, n01f05 = 25000.00, n01f06 = 1, n01f07 = now, n01f08 = now},
-                        new PSN01 { n01f02 = "Social Media Coordinator", n01f03 = 3.50, n01f04 = 25000, n01f05 = 5000.00, n01f06 = 2, n01f07 = now, n01f08 = now},
-                        new PSN01 { n01f02 = "Marketing Executive", n01f03 = 4.00, n01f04 = 30000, n01f05 = 4000.00, n01f06 = 2, n01f07 = now, n01f08 = now},
-                        new PSN01 { n01f02 = "Director of Marketing", n01f03 = 7.50, n01f04 = 60000, n01f05 = 30000.00, n01f06 = 2, n01f07 = now, n01f08 = now},
-                        new PSN01 { n01f02 = "QA Engineer", n01f03 = 4.50, n01f04 = 35000, n01f05 = 10000.00, n01f06 = 3, n01f07 = now, n01f08 = now},
-                        new PSN01 { n01f02 = "Test Engineer", n01f03 = 4.50, n01f04 = 35000, n01f05 = 10000.00, n01f06 = 3, n01f07 = now, n01f08 = now},
-                        new PSN01 { n01f02 = "Software Tester", n01f03 = 5.50, n01f04 = 41500, n01f05 = 12000.00, n01f06 = 3, n01f07 = now, n01f08 = now},
-                        new PSN01 { n01f02 = "Computer Technician", n01f03 = 4.00, n01f04 = 3000, n01f05 = 8000.00, n01f06 = 4, n01f07 = now, n01f08 = now}
+                        new PSN01 { N01F02 = "Full Stack Developer", N01F03 = 6.50, N01F04 = 50000, N01F05 = 10000.00, N01F06 = 1, N01F07 = now, N01F08 = now },
+                        new PSN01 { N01F02 = "Flutter", N01F03 = 4.50, N01F04 = 35000, N01F05 = 10000.00, N01F06 = 1, N01F07 = now, N01F08 = now},
+                        new PSN01 { N01F02 = "Project Manager", N01F03 = 8.50, N01F04 = 68000, N01F05 = 25000.00, N01F06 = 1, N01F07 = now, N01F08 = now},
+                        new PSN01 { N01F02 = "Social Media Coordinator", N01F03 = 3.50, N01F04 = 25000, N01F05 = 5000.00, N01F06 = 2, N01F07 = now, N01F08 = now},
+                        new PSN01 { N01F02 = "Marketing Executive", N01F03 = 4.00, N01F04 = 30000, N01F05 = 4000.00, N01F06 = 2, N01F07 = now, N01F08 = now},
+                        new PSN01 { N01F02 = "Director of Marketing", N01F03 = 7.50, N01F04 = 60000, N01F05 = 30000.00, N01F06 = 2, N01F07 = now, N01F08 = now},
+                        new PSN01 { N01F02 = "QA Engineer", N01F03 = 4.50, N01F04 = 35000, N01F05 = 10000.00, N01F06 = 3, N01F07 = now, N01F08 = now},
+                        new PSN01 { N01F02 = "Test Engineer", N01F03 = 4.50, N01F04 = 35000, N01F05 = 10000.00, N01F06 = 3, N01F07 = now, N01F08 = now},
+                        new PSN01 { N01F02 = "Software Tester", N01F03 = 5.50, N01F04 = 41500, N01F05 = 12000.00, N01F06 = 3, N01F07 = now, N01F08 = now},
+                        new PSN01 { N01F02 = "Computer Technician", N01F03 = 4.00, N01F04 = 3000, N01F05 = 8000.00, N01F06 = 4, N01F07 = now, N01F08 = now}
                     };
                     db.InsertAll<PSN01>(lstPosition);
 
@@ -98,7 +98,7 @@ WHERE
                     int userId = (int)db.Insert<USR01>(new USR01()
                     {
                         r01f02 = adminUsername,
-                        r01f03 = GetHMAC(adminPassword, passwordHashSecretKey),
+                        r01f03 = GetHMACBase64(adminPassword, passwordHashSecretKey),
                         r01f04 = adminEmail,
                         r01f05 = adminPhoneNo,
                         r01f06 = now,
@@ -107,10 +107,12 @@ WHERE
 
                     // add above user role in ule02 table
                     db.CreateTableIfNotExists<ULE02>();
-                    db.Insert<ULE02>(new ULE02 { e02f02 = userId,
-                        e02f03 = EnmRole.A,
-                        e02f04 = now,
-                        e02f05 = now
+                    db.Insert<ULE02>(new ULE02
+                    {
+                        E02F02 = userId,
+                        E02F03 = EnmRole.A,
+                        E02F04 = now,
+                        E02F05 = now
                     });
 
                     db.CreateTableIfNotExists<EMP01>();
@@ -122,30 +124,30 @@ WHERE
                     db.ExecuteNonQuery(@"
 CREATE TABLE `SLY01` 
 (
-  `y01f01` INT(11) PRIMARY KEY AUTO_INCREMENT, 
-  `y01f02` INT(11) NOT NULL, 
-  `y01f03` DATETIME NOT NULL, 
-  `y01f04` DOUBLE NOT NULL, 
-  `y01f05` INT(11) NOT NULL, 
-  `y01f06` DATETIME NOT NULL, 
-  `y01f07` DATETIME NOT NULL, 
+  `Y01F01` INT(11) PRIMARY KEY AUTO_INCREMENT, 
+  `Y01F02` INT(11) NOT NULL, 
+  `Y01F03` DATETIME NOT NULL, 
+  `Y01F04` DOUBLE NOT NULL, 
+  `Y01F05` INT(11) NOT NULL, 
+  `Y01F06` DATETIME NOT NULL, 
+  `Y01F07` DATETIME NOT NULL, 
 
-  CONSTRAINT `FK_SLY01_EMP01_y01f02` FOREIGN KEY (`y01f02`) REFERENCES `EMP01` (`p01f01`) ON DELETE CASCADE, 
+  CONSTRAINT `FK_SLY01_EMP01_Y01F02` FOREIGN KEY (`Y01F02`) REFERENCES `EMP01` (`P01F01`) ON DELETE CASCADE, 
 
-  CONSTRAINT `FK_SLY01_PSN01_y01f05` FOREIGN KEY (`y01f05`) REFERENCES `PSN01` (`n01f01`) ON DELETE CASCADE 
+  CONSTRAINT `FK_SLY01_PSN01_Y01F05` FOREIGN KEY (`Y01F05`) REFERENCES `PSN01` (`N01F01`) ON DELETE CASCADE 
 )");
 
                     db.ExecuteNonQuery(@"
 CREATE TABLE `PCH01` 
 (
-  `d01f01` INT(11) PRIMARY KEY AUTO_INCREMENT, 
-  `h01f02` INT(11) NOT NULL, 
-  `h01f03` DATETIME NOT NULL, 
-  `h01f04` INT(11) NULL, 
-  `h01f05` DATETIME NOT NULL, 
-  `h01f06` DATETIME NOT NULL, 
+  `D01F01` INT(11) PRIMARY KEY AUTO_INCREMENT, 
+  `H01F02` INT(11) NOT NULL, 
+  `H01F03` DATETIME NOT NULL, 
+  `H01F04` INT(11) NULL, 
+  `H01F05` DATETIME NOT NULL, 
+  `H01F06` DATETIME NOT NULL, 
 
-  CONSTRAINT `FK_PCH01_EMP01_h01f02` FOREIGN KEY (`h01f02`) REFERENCES `EMP01` (`p01f01`) ON DELETE CASCADE 
+  CONSTRAINT `FK_PCH01_EMP01_H01F02` FOREIGN KEY (`H01F02`) REFERENCES `EMP01` (`P01F01`) ON DELETE CASCADE 
 )");
                 }
             }

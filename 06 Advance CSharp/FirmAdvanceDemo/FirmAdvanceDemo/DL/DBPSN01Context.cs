@@ -1,10 +1,4 @@
-﻿
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace FirmAdvanceDemo.DB
+﻿namespace FirmAdvanceDemo.DB
 {
     public class DBPSN01Context
     {

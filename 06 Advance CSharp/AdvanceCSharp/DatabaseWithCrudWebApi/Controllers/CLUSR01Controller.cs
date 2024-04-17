@@ -59,7 +59,7 @@ namespace DatabaseWithCrudWebApi.Controllers
         [HttpPost]
         public IHttpActionResult Post(DTOUSR01 objDTOUSR01)
         {
-            _objBLUser.Operation = EnmOperation.Create;
+            _objBLUser.Operation = EnmOperation.A;
 
             _objBLUser.Presave(objDTOUSR01);
             //ResponseInfo response = _objBLUser.Validate() ?? _objBLUser.Save();
@@ -80,7 +80,7 @@ namespace DatabaseWithCrudWebApi.Controllers
         [HttpPatch]
         public IHttpActionResult Patch(DTOUSR01 objDTOUSR01)
         {
-            _objBLUser.Operation = EnmOperation.Update;
+            _objBLUser.Operation = EnmOperation.E;
 
             _objBLUser.Presave(objDTOUSR01);
 

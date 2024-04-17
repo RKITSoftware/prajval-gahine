@@ -10,7 +10,7 @@ using System.Net;
 
 namespace FirmAdvanceDemo.BL
 {
-    public class BLDPT01Handler : BLResource<DPT01>
+    public class BLDPT01Handler
     {
         /// <summary>
         /// Instance of DPT01 POCO model
@@ -40,16 +40,16 @@ namespace FirmAdvanceDemo.BL
         public Response RetrieveDepartment()
         {
             Response response = new Response();
-            DataTable dtDPT01 = _context.SelectDPT01();
+            DataTable dtDPT01 = _context.FetchDepartment();
 
-            if(dtDPT01.Rows.Count == 0)
+            if (dtDPT01.Rows.Count == 0)
             {
                 response.IsError = true;
                 response.HttpStatusCode = HttpStatusCode.NotFound;
                 response.Message = "No user exists";
                 return response;
             }
-            response.HttpStatusCode= HttpStatusCode.OK;
+            response.HttpStatusCode = HttpStatusCode.OK;
             response.Data = dtDPT01;
             return response;
         }
@@ -57,7 +57,7 @@ namespace FirmAdvanceDemo.BL
         public Response RetrieveDepartment(int departmentId)
         {
             Response response = new Response();
-            DataTable dtDPT01 = _context.SelectDPT01(departmentId);
+            DataTable dtDPT01 = _context.FetchDepartment(departmentId);
 
             if (dtDPT01.Rows.Count == 0)
             {
@@ -74,15 +74,15 @@ namespace FirmAdvanceDemo.BL
         public void Presave(DTODPT01 objDTPDPT01)
         {
             _objDPT01 = objDTPDPT01.ConvertModel<DPT01>();
-            
-            if(Operation == EnmOperation.A)
+
+            if (Operation == EnmOperation.A)
             {
-                _objDPT01.t01f01 = 0;
-                _objDPT01.t01f03 = DateTime.Now;
+                _objDPT01.P01F01 = 0;
+                _objDPT01.T01F03 = DateTime.Now;
             }
             else
             {
-                _objDPT01.t01f04 = DateTime.Now;
+                _objDPT01.T01F04 = DateTime.Now;
             }
         }
 
@@ -91,12 +91,12 @@ namespace FirmAdvanceDemo.BL
             Response response = new Response();
 
             int count;
-            using(IDbConnection db = _dbFactory.OpenDbConnection())
+            using (IDbConnection db = _dbFactory.OpenDbConnection())
             {
-                count = (int) db.Count<DPT01>(dpt01 => dpt01.t01f02 == _objDPT01.t01f02);
+                count = (int)db.Count<DPT01>(dpt01 => dpt01.T01F02 == _objDPT01.T01F02);
             }
 
-            if(count > 0)
+            if (count > 0)
             {
                 response.IsError = true;
                 response.HttpStatusCode = HttpStatusCode.Conflict;
@@ -113,9 +113,9 @@ namespace FirmAdvanceDemo.BL
 
             using (IDbConnection db = _dbFactory.OpenDbConnection())
             {
-                if(Operation == EnmOperation.A)
+                if (Operation == EnmOperation.A)
                 {
-                    int id = (int) db.Insert<DPT01>(_objDPT01, selectIdentity: true);
+                    int ID = (int)db.Insert<DPT01>(_objDPT01, selectIdentity: true);
 
                     response.HttpStatusCode = HttpStatusCode.OK;
                     response.Message = $"Department created with id: {id}";
@@ -126,7 +126,7 @@ namespace FirmAdvanceDemo.BL
                     db.Update<DPT01>(_objDPT01);
 
                     response.HttpStatusCode = HttpStatusCode.OK;
-                    response.Message = $"Department updated with id: {_objDPT01.t01f01}";
+                    response.Message = $"Department updated with id: {_objDPT01.P01F01}";
                     return response;
                 }
             }
@@ -136,12 +136,12 @@ namespace FirmAdvanceDemo.BL
         {
             Response response = new Response();
             int count;
-            using(IDbConnection db  = _dbFactory.OpenDbConnection())
+            using (IDbConnection db = _dbFactory.OpenDbConnection())
             {
-                count = (int)db.Count<DPT01>(dpt01 => dpt01.t01f01 == departmentId); 
+                count = (int)db.Count<DPT01>(dpt01 => dpt01.P01F01 == departmentId);
             }
 
-            if(count == 0)
+            if (count == 0)
             {
                 response.IsError = true;
                 response.HttpStatusCode = HttpStatusCode.NotFound;
@@ -155,7 +155,7 @@ namespace FirmAdvanceDemo.BL
         public Response Delete(int departmentId)
         {
             Response response = new Response();
-            using(IDbConnection db = _dbFactory.OpenDbConnection())
+            using (IDbConnection db = _dbFactory.OpenDbConnection())
             {
                 db.DeleteById<DPT01>(departmentId);
             }

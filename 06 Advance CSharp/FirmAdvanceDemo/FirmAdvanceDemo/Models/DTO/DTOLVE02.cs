@@ -1,8 +1,8 @@
 using FirmAdvanceDemo.Enums;
+using FirmAdvanceDemo.Models.DTO.DataAnnotations;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
-using static ServiceStack.LicenseUtils;
 
 namespace FirmAdvanceDemo.Models.DTO
 {
@@ -15,51 +15,45 @@ namespace FirmAdvanceDemo.Models.DTO
         /// Leave id
         /// </summary>
         [JsonPropertyName("e02101")]
-        [Range(0, int.MaxValue)]
-        [Required(ErrorMessage = "Leave id cannot be empty.")]
-        public int e02f01 { get; set; }
+        [Range(0, int.MaxValue, ErrorMessage = "Leave ID cannot be less than 0.")]
+        [Required(ErrorMessage = "Leave ID cannot be empty.")]
+        public int E02F01 { get; set; }
 
         /// <summary>
         /// Employee Id
         /// </summary>
         [JsonPropertyName("e02102")]
-        [Range(0, int.MaxValue)]
-        [Required(ErrorMessage = "Employee id cannot be empty.")]
-        public int e02f02 { get; set; }
-
-        /// <summary>
-        ///  Date of Request for Leave
-        /// </summary>
-        [JsonPropertyName("e02103")]
-        [Required(ErrorMessage = "Date of request cannot be empty.")]
-        public DateTime e02f03 { get; set; }
+        [Range(0, int.MaxValue, ErrorMessage = "Employee ID cannot be less than 0.")]
+        [Required(ErrorMessage = "Employee ID cannot be empty.")]
+        public int E02F02 { get; set; }
 
         /// <summary>
         /// Leave Date
         /// </summary>
         [JsonPropertyName("e02104")]
         [Required(ErrorMessage = "Leave date must be selected.")]
-        public DateTime e02f04 { get; set; }
+        public DateTime E02F04 { get; set; }
 
         /// <summary>
         /// No. of leaves from Leave Date
         /// </summary>
         [JsonPropertyName("e02105")]
-        [Range(0, int.MaxValue)]
+        [Range(0, 60, ErrorMessage = "No. of leave must be in range 0 to 60.")]
         [Required(ErrorMessage = "No. of leaves cannot be empty.")]
-        public int e02f05 { get; set; }
+        [InMultipleOf(divisor: 0.25, ErrorMessage = "No. of leaves must be in multiple of 0.25.")]
+        public double E02F05 { get; set; }
 
         /// <summary>
         /// Reason for leave
         /// </summary>
         [JsonPropertyName("e02106")]
         [Required(ErrorMessage = "Reason of leave cannot be empty.")]
-        public string e02f06 { get; set; }
+        public string E02F06 { get; set; }
 
         /// <summary>
         /// Leave status
         /// </summary>
         [JsonPropertyName("e02107")]
-        public LeaveStatus e02f07 { get; set; }
+        public EnmLeaveStatus E02F07 { get; set; }
     }
 }

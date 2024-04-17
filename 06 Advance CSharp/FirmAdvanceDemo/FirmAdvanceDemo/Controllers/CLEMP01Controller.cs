@@ -1,6 +1,7 @@
 using FirmAdvanceDemo.BL;
 using FirmAdvanceDemo.Enums;
 using FirmAdvanceDemo.Models.DTO;
+using FirmAdvanceDemo.Utitlity;
 using System.Web.Http;
 
 namespace FirmAdvanceDemo.Controllers
@@ -9,63 +10,80 @@ namespace FirmAdvanceDemo.Controllers
     /// Controller for managing employee operations.
     /// </summary>
     [RoutePrefix("api/employee")]
-    public class CLEMP01Controller : BaseController
+    public class CLEMP01Controller : ApiController
     {
         /// <summary>
         /// Instance of BLEmployee
         /// </summary>
-        private readonly BLEMP01Handler _objBLEmployee;
+        private readonly BLEMP01Handler _objBLEMP01Handler;
 
         /// <summary>
         /// Default constructor for CLEmployeeController
         /// </summary>
-        public CLEMP01Controller() : base()
+        public CLEMP01Controller()
         {
-            _objBLEmployee = new BLEMP01Handler(_statusInfo);
+            _objBLEMP01Handler = new BLEMP01Handler();
         }
 
         [HttpGet]
         [Route("")]
-        public IHttpActionResult Get()
+        public IHttpActionResult GetEmployee()
         {
-            return Ok();
+            Response response = _objBLEMP01Handler.RetrieveEmployee();
+            return Ok(response);
+
         }
 
         [HttpGet]
-        [Route("{id}")]
-        public IHttpActionResult Get(int id)
+        [Route("{employeeId}")]
+        public IHttpActionResult GetEmployee(int employeeId)
         {
-            return Ok();
+            Response response = _objBLEMP01Handler.RetrieveEmployee(employeeId);
+            return Ok(response);
         }
 
         [HttpPost]
         [Route("")]
-        public IHttpActionResult Post(DTOUMP objDTOUMP)
+        public IHttpActionResult PostEmployee(DTOUMP01 objDTOUMP)
         {
-            if(_objBLEmployee.Prevalidate(objDTOUMP, EnmOperation.A))
+            Response response;
+
+            _objBLEMP01Handler.Operation = EnmOperation.A;
+
+            response = _objBLEMP01Handler.Prevalidate(objDTOUMP);
+
+            if (!response.IsError)
             {
-                _objBLEmployee.Presave(objDTOUMP, EnmOperation.A);
-                if (_objBLEmployee.Validate())
+                _objBLEMP01Handler.Presave(objDTOUMP);
+                response = _objBLEMP01Handler.Validate();
+                if (!response.IsError)
                 {
-                    _objBLEmployee.Save(EnmOperation.A);
+                    response = _objBLEMP01Handler.Save();
                 }
             }
-            return Returner();
+            return Ok(response);
         }
 
-        [HttpPatch]
+        [HttpPut]
         [Route("")]
-        public IHttpActionResult Patch(DTOUMP objDTOUMP)
+        public IHttpActionResult PutEmployee(DTOUMP01 objDTOUMP)
         {
-            if (_objBLEmployee.Prevalidate(objDTOUMP, EnmOperation.E))
+            Response response;
+
+            _objBLEMP01Handler.Operation = EnmOperation.E;
+
+            response = _objBLEMP01Handler.Prevalidate(objDTOUMP);
+
+            if (!response.IsError)
             {
-                _objBLEmployee.Presave(objDTOUMP, EnmOperation.E);
-                if (_objBLEmployee.Validate())
+                _objBLEMP01Handler.Presave(objDTOUMP);
+                response = _objBLEMP01Handler.Validate();
+                if (!response.IsError)
                 {
-                    _objBLEmployee.Save(EnmOperation.E);
+                    response = _objBLEMP01Handler.Save();
                 }
             }
-            return Returner();
+            return Ok(response);
         }
     }
 }

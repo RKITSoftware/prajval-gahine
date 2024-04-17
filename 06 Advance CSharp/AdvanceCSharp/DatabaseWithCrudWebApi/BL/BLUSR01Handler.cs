@@ -60,15 +60,14 @@ namespace DatabaseWithCrudWebApi.BL
         {
             _objUSR01 = Utility.ConvertModel<USR01>(objDTOUSR01);
 
-            DateTime now = DateTime.Now;
-            if (Operation == EnmOperation.Create)
+            if (Operation == EnmOperation.A)
             {
                 _objUSR01.R01F01 = 0;
-                _objUSR01.R01F04 = now;
+                _objUSR01.R01F04 = DateTime.Now;
             }
             else
             {
-                _objUSR01.R01F05 = now;
+                _objUSR01.R01F05 = DateTime.Now;
             }
         }
 
@@ -79,44 +78,36 @@ namespace DatabaseWithCrudWebApi.BL
         /// <returns>True if the user object is valid, otherwise false.</returns>
         public Response Validate()
         {
-            if (Operation == EnmOperation.Create)
+            Response response = new Response();
+            
+            if (Operation == EnmOperation.A)
             {
+                bool isExists = _context.ExistsUsername(_objUSR01.R01F02);
                 // user creation
-                if (string.IsNullOrEmpty(_objUSR01.R01F02))
+                if (isExists)
                 {
-                    return ErrorResponse("username field cannot be empty", HttpStatusCode.PreconditionFailed);
-                }
+                    response.IsError = true;
+                    response.HttpStatusCode = HttpStatusCode.Conflict;
+                    response.Message = $"User already exists with username: {_objUSR01.R01F02}";
 
-                if (string.IsNullOrEmpty(_objUSR01.R01F03))
-                {
-                    return ErrorResponse("password field cannot be empty", HttpStatusCode.PreconditionFailed);
+                    return response;
                 }
-
-                bool? existsUser = _context.ExistsUsername(_objUSR01.R01F02);
-                if (existsUser == null)
-                {
-                    return ErrorResponse("an intenal server occurred", HttpStatusCode.InternalServerError);
-                }
-                else if (existsUser == true)
-                {
-                    return ErrorResponse("user already exists", HttpStatusCode.Conflict);
-                }
-                return null;
             }
             else
             {
+                bool isExists = _context.ExistsUserId(_objUSR01.R01F01);
                 // user updation
-                bool? existsUser = _context.ExistsUserId(_objUSR01.R01F01);
-                if (existsUser == null)
+                if (!isExists)
                 {
-                    return ErrorResponse("an intenal server occurred", HttpStatusCode.InternalServerError);
+                    response.IsError= true;
+                    response.HttpStatusCode = HttpStatusCode.NotFound;
+                    response.Message = $"User not found with id: {_objUSR01.R01F01}";
+
+                    return response;
                 }
-                else if (existsUser == false)
-                {
-                    return ErrorResponse("username donot exists", HttpStatusCode.NotFound);
-                }
-                return null;
             }
+
+            return response;
         }
 
         /// <summary>
@@ -125,16 +116,18 @@ namespace DatabaseWithCrudWebApi.BL
         /// <param name="operation">The operation being performed (Create or Update).</param>
         public Response Save()
         {
-            if (Operation == EnmOperation.Create)
+            Response response;
+            if (Operation == EnmOperation.A)
             {
                 // user creation
-                return _context.InsertUSR01(_objUSR01);
+                response = _context.InsertUSR01(_objUSR01);
             }
             else
             {
                 // user updation
-                return _context.UpdateUSR01(_objUSR01);
+                response = _context.UpdateUSR01(_objUSR01);
             }
+            return response;
         }
 
         /// <summary>
@@ -165,21 +158,36 @@ namespace DatabaseWithCrudWebApi.BL
         /// <returns>The user object if found, otherwise a new instance of USR01.</returns>
         public Response GetUSR01(int userId)
         {
-            return _context.SelectUSR01(userId);
+            Response response = new Response();
+            DataTable dtUSR01 = _context.SelectUSR01(userId);
+            if(dtUSR01.Rows.Count == 0)
+            {
+                response.IsError = true;
+                response.HttpStatusCode = HttpStatusCode.NotFound;
+                response.Message = $"User not found with id: {userId}";
+
+                return response;
+            }
+            response.HttpStatusCode = HttpStatusCode.OK;
+            response.Data = dtUSR01;
+
+            return response;
         }
 
         public Response ValidateDelete(int userId)
         {
-            bool? isExists = _context.ExistsUserId(userId);
-            if (isExists == null)
+            Response response = new Response();
+            bool isExists = _context.ExistsUserId(userId);
+
+            if (!isExists)
             {
-                return ErrorResponse("an internal server occurred", HttpStatusCode.InternalServerError);
+                response.IsError = true;
+                response.HttpStatusCode = HttpStatusCode.NotFound;
+                response.Message = $"User not found with id: {userId}";
+
+                return response;
             }
-            else if (isExists == false)
-            {
-                return ErrorResponse("user not found", HttpStatusCode.Conflict);
-            }
-            return null;
+            return response;
         }
 
         /// <summary>
@@ -188,7 +196,9 @@ namespace DatabaseWithCrudWebApi.BL
         /// <param name="userId">The ID of the user to delete.</param>
         public Response Delete(int userId)
         {
-            return _context.DeleteUSR01(userId);
+            Response response;
+            response = _context.DeleteUSR01(userId);
+            return response;
         }
         #endregion
     }

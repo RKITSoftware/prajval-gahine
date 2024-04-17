@@ -15,8 +15,8 @@ namespace FirmAdvanceDemo.Models.DTO
         /// </summary>
         [JsonPropertyName("r01101")]
         [Range(0, int.MaxValue)]
-        [Required(ErrorMessage = "User id cannot be empty.")]
-        public int r01f01 {  get; set; }
+        [Required(ErrorMessage = "User ID cannot be empty.")]
+        public int r01f01 { get; set; }
 
         /// <summary>
         /// username
@@ -36,7 +36,7 @@ namespace FirmAdvanceDemo.Models.DTO
         /// </summary>
         [JsonPropertyName("r01104")]
         [EmailAddress]
-        [Required(ErrorMessage = "Email id cannot be empty.")]
+        [Required(ErrorMessage = "Email ID cannot be empty.")]
         public string r01f04 { get; set; }
 
         /// <summary>

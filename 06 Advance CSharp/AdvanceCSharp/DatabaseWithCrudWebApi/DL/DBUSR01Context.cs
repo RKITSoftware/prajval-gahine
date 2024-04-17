@@ -43,31 +43,31 @@ namespace DatabaseWithCrudWebApi.Contexts
         /// <returns>A ResponseInfo object indicating the result of the operation.</returns>
         public Response InsertUSR01(USR01 objUSR01)
         {
+            Response response = new Response();
+
             string query = string.Format(@"INSERT INTO
-	                                            usr01 (r01f02, r01f03, r01f04, r01f05)
+	                                            usr01 (r01f02, r01f03, r01f04)
                                             VALUES
-                                                ('{0}', '{1}', '{2}', '{3}');",
+                                                ('{0}', '{1}', '{2}');",
                                         objUSR01.R01F02,
                                         objUSR01.R01F03,
-                                        objUSR01.R01F04.ToString(GlobalDateTimeFormat),
-                                        objUSR01.R01F05.ToString(GlobalDateTimeFormat));
+                                        objUSR01.R01F04.ToString(GlobalDateTimeFormat));
 
             MySqlCommand cmd = new MySqlCommand(query, _connection);
             try
             {
                 _connection.Open();
                 cmd.ExecuteNonQuery();
-
-                return SuccessResponse("user created");
-            }
-            catch (Exception ex)
-            {
-                return ErrorResponse(ex.Message, HttpStatusCode.InternalServerError);
             }
             finally
             {
                 _connection.Close();
             }
+
+            response.HttpStatusCode = HttpStatusCode.OK;
+            response.Message = $"User created with id: {objUSR01.R01F01}";
+
+            return response;
         }
 
         /// <summary>
@@ -77,48 +77,31 @@ namespace DatabaseWithCrudWebApi.Contexts
         /// <returns>A ResponseInfo object indicating the result of the operation.</returns>
         public Response UpdateUSR01(USR01 objUSR01)
         {
-            Dictionary<string, object> toUpdateDict = GetToUpdateDictionary(objUSR01);
-            toUpdateDict.Remove("R01F01");  // id
-            toUpdateDict.Remove("R01F04");  // created at
+            Response response = new Response();
+            string query = string.Format(
+                            @"UPDATE
+                                usr01
+                            SET
+                                r01f02 = {0}, r01f03 = {1}, r01f05 = {2}",
+                            objUSR01.R01F02,
+                            objUSR01.R01F03,
+                            objUSR01.R01F05.ToString(GlobalDateTimeFormat));
 
-            if (toUpdateDict.Count <= 1)
-            {
-                return ErrorResponse("nothing to update", HttpStatusCode.BadRequest);
-            }
-
-            StringBuilder semiQuery = new StringBuilder();
-            semiQuery.Append("UPDATE USR01 SET ");
-
-            foreach (KeyValuePair<string, object> field in toUpdateDict)
-            {
-                object value = field.Value;
-                if (value.GetType() == typeof(DateTime))
-                {
-                    value = ((DateTime)value).ToString(GlobalDateTimeFormat);
-                }
-                semiQuery.Append($"{field.Key} = '{value}', ");
-            }
-
-            semiQuery.Length -= 2;
-            semiQuery.Append($" WHERE r01f01 = '{objUSR01.R01F01}';");
-
-            MySqlCommand cmd = new MySqlCommand(semiQuery.ToString(), _connection);
+            MySqlCommand cmd = new MySqlCommand(query, _connection);
 
             try
             {
                 _connection.Open();
                 cmd.ExecuteNonQuery();
-
-                return SuccessResponse("user updated");
-            }
-            catch (Exception ex)
-            {
-                return ErrorResponse(ex.Message, HttpStatusCode.InternalServerError);
             }
             finally
             {
                 _connection.Close();
             }
+            response.HttpStatusCode = HttpStatusCode.OK;
+            response.Message = $"User updated with id: {objUSR01.R01F01}";
+
+            return response;
         }
 
         /// <summary>
@@ -126,7 +109,7 @@ namespace DatabaseWithCrudWebApi.Contexts
         /// </summary>
         /// <param name="userId">The ID of the user to check.</param>
         /// <returns>True if the user exists, false if not, or null if an error occurred.</returns>
-        public bool? ExistsUserId(int userId)
+        public bool ExistsUserId(int userId)
         {
             string query = string.Format(
                     "SELECT COUNT(*) AS count FROM USR01 WHERE r01f01 = {0};",
@@ -139,10 +122,15 @@ namespace DatabaseWithCrudWebApi.Contexts
         /// </summary>
         /// <param name="username">The username to check.</param>
         /// <returns>True if the user exists, false if not, or null if an error occurred.</returns>
-        public bool? ExistsUsername(string username)
+        public bool ExistsUsername(string username)
         {
             string query = string.Format(
-                    "SELECT COUNT(*) AS count FROM USR01 WHERE r01f02 = '{0}';",
+                    @"SELECT
+                        COUNT(*) AS count
+                    FROM
+                        USR01 
+                    WHERE
+                        r01f02 = '{0}';",
                     username);
 
             return ExistsUSR01(query);
@@ -156,9 +144,9 @@ namespace DatabaseWithCrudWebApi.Contexts
         {
             DataTable dtUSR01 = new DataTable();
             string query = @"SELECT
-                                                    r01f02 AS r01102, r01f03 AS r01103
-                                                FROM usr01;";
-            MySqlCommand cmd = new MySqlCommand(", _connection);
+                                r01f02 AS r01102, r01f03 AS r01103
+                            FROM usr01;";
+            MySqlCommand cmd = new MySqlCommand(query, _connection);
             MySqlDataAdapter dataAdapter = new MySqlDataAdapter(cmd);
 
             try
@@ -166,20 +154,11 @@ namespace DatabaseWithCrudWebApi.Contexts
                 _connection.Open();
                 dataAdapter.Fill(dtUSR01);
             }
-            catch (Exception ex)
-            {
-                return ErrorResponse(ex.Message, HttpStatusCode.InternalServerError);
-            }
             finally
             {
                 _connection.Close();
             }
-
-            if (dtUSR01.Rows.Count <= 0)
-            {
-                return ErrorResponse("user not found", HttpStatusCode.Conflict);
-            }
-            return SuccessResponse("list of user", data: dtUSR01);
+            return dtUSR01;
         }
 
         /// <summary>
@@ -187,9 +166,15 @@ namespace DatabaseWithCrudWebApi.Contexts
         /// </summary>
         /// <param name="userId">The ID of the user to select.</param>
         /// <returns>A ResponseInfo object containing the result of the operation.</returns>
-        public Response SelectUSR01(int userId)
+        public DataTable SelectUSR01(int userId)
         {
-            string query = string.Format("SELECT r01f02 AS r01102, r01f03 AS r01103 FROM usr01 WHERE r01f01 = {0}", userId);
+            string query = string.Format(
+                                    @"SELECT
+                                        r01f02 AS r01102, r01f03 AS r01103
+                                    FROM
+                                        usr01
+                                    WHERE
+                                        r01f01 = {0}", userId);
             MySqlCommand cmd = new MySqlCommand(query, _connection);
             MySqlDataAdapter dataAdapter = new MySqlDataAdapter(cmd);
             DataTable dtUSR01;
@@ -199,20 +184,11 @@ namespace DatabaseWithCrudWebApi.Contexts
                 dtUSR01 = new DataTable();
                 dataAdapter.Fill(dtUSR01);
             }
-            catch (Exception ex)
-            {
-                return ErrorResponse(ex.Message, HttpStatusCode.InternalServerError);
-            }
             finally
             {
                 _connection.Close();
             }
-
-            if (dtUSR01.Rows.Count < 0)
-            {
-                return ErrorResponse("user not found", HttpStatusCode.NotFound);
-            }
-            return SuccessResponse("user data", data: dtUSR01);
+            return dtUSR01;
         }
 
         /// <summary>
@@ -222,22 +198,28 @@ namespace DatabaseWithCrudWebApi.Contexts
         /// <returns>A ResponseInfo object indicating the result of the operation.</returns>
         public Response DeleteUSR01(int userId)
         {
-            MySqlCommand cmd = new MySqlCommand(string.Format("DELETE FROM usr01 WHERE r01f01 = {0}", userId), _connection);
+            Response response = new Response();
+
+            string query = string.Format(
+                                        @"DELETE FROM
+                                            usr01
+                                        WHERE r01f01 = {0};", userId);
+
+            MySqlCommand cmd = new MySqlCommand(query, _connection);
 
             try
             {
                 _connection.Open();
                 cmd.ExecuteNonQuery();
             }
-            catch (Exception ex)
-            {
-                return ErrorResponse(ex.Message, HttpStatusCode.InternalServerError);
-            }
             finally
             {
                 _connection.Close();
             }
-            return SuccessResponse("user deleted");
+            response.HttpStatusCode = HttpStatusCode.OK;
+            response.Message = $"User deleted with id: {userId}";
+
+            return response;
         }
 
 
@@ -250,7 +232,7 @@ namespace DatabaseWithCrudWebApi.Contexts
         /// </summary>
         /// <param name="query">The query to execute.</param>
         /// <returns>True if the record exists, false if not, or null if an error occurred.</returns>
-        private bool? ExistsUSR01(string query)
+        private bool ExistsUSR01(string query)
         {
             int count = 0;
             MySqlCommand cmd = new MySqlCommand(query, _connection);
@@ -258,17 +240,7 @@ namespace DatabaseWithCrudWebApi.Contexts
             try
             {
                 _connection.Open();
-                using (MySqlDataReader reader = cmd.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        count = reader.GetInt32("count");
-                    }
-                }
-            }
-            catch (Exception)
-            {
-                return null;
+                count = (int) cmd.ExecuteScalar();
             }
             finally
             {

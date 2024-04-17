@@ -8,6 +8,6 @@ namespace FirmAdvanceDemo.Models.POCO
         /// <summary>
         /// A particular Resource Id
         /// </summary>
-        int t01f01 { get; set; }
+        int P01F01 { get; set; }
     }
 }

@@ -30,7 +30,7 @@ namespace FirmAdvanceDemo.Controllers
         [Route("")]
         public IHttpActionResult GetAllLeaves()
         {
-            Response response = _objBLLeave.FetchLeaves(LeaveStatus.N);
+            Response response = _objBLLeave.FetchLeaves(EnmLeaveStatus.N);
             return Ok(response);
         }
 
@@ -38,7 +38,7 @@ namespace FirmAdvanceDemo.Controllers
         [Route("approved")]
         public IHttpActionResult GetApproveLeaves()
         {
-            Response response = _objBLLeave.FetchLeaves(LeaveStatus.A);
+            Response response = _objBLLeave.FetchLeaves(EnmLeaveStatus.A);
             return Ok(response);
         }
 
@@ -46,7 +46,7 @@ namespace FirmAdvanceDemo.Controllers
         [Route("pending")]
         public IHttpActionResult GetPendingLeaves()
         {
-            Response response = _objBLLeave.FetchLeaves(LeaveStatus.P);
+            Response response = _objBLLeave.FetchLeaves(EnmLeaveStatus.P);
             return Ok(response);
         }
 
@@ -54,7 +54,7 @@ namespace FirmAdvanceDemo.Controllers
         [Route("rejected")]
         public IHttpActionResult GetRejectedLeaves()
         {
-            Response response = _objBLLeave.FetchLeaves(LeaveStatus.R);
+            Response response = _objBLLeave.FetchLeaves(EnmLeaveStatus.R);
             return Ok(response);
         }
 
@@ -152,7 +152,7 @@ namespace FirmAdvanceDemo.Controllers
         [Route("approve/{leaveId}")]
         public IHttpActionResult PatchApproveLeave(int leaveId)
         {
-            Response response = _objBLLeave.UpdateLeaveStatus(leaveId, LeaveStatus.A);
+            Response response = _objBLLeave.UpdateLeaveStatus(leaveId, EnmLeaveStatus.A);
             return Ok(response);
         }
 
@@ -160,7 +160,7 @@ namespace FirmAdvanceDemo.Controllers
         [Route("reject/{leaveId}")]
         public IHttpActionResult PatchRejectLeave(int leaveId)
         {
-            Response response = _objBLLeave.UpdateLeaveStatus(leaveId, LeaveStatus.R);
+            Response response = _objBLLeave.UpdateLeaveStatus(leaveId, EnmLeaveStatus.R);
             return Ok(response);
         }
 

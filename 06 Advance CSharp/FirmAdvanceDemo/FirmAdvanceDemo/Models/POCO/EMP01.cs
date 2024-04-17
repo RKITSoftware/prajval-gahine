@@ -1,57 +1,54 @@
-using ServiceStack;
 using ServiceStack.DataAnnotations;
 using System;
-using System.Text.Json.Serialization;
 
 namespace FirmAdvanceDemo.Models.POCO
 {
     /// <summary>
     /// Employee POCO model
     /// </summary>
-    public class EMP01 : IModel
+    public class EMP01
     {
         /// <summary>
         /// Employee Id
         /// </summary>
         [PrimaryKey]
-        [Alias("p01f01")]
-        public int t01f01 { get; set; }
+        public int P01F01 { get; set; }
 
         /// <summary>
         /// Employee First Name
         /// </summary>
-        public string p01f02 { get; set; }
+        public string P01F02 { get; set; }
 
         /// <summary>
         /// Employee Last Name
         /// </summary>
-        public string p01f03 { get; set; }
+        public string P01F03 { get; set; }
 
         /// <summary>
         /// Employee Gender
         /// </summary>
-        public char p01f04 { get; set; }
+        public char P01F04 { get; set; }
 
         /// <summary>
         /// Employee Date of Birth
         /// </summary>
-        public DateTime p01f05 { get; set; }
+        public DateTime P01F05 { get; set; }
 
         /// <summary>
         /// Position Id (Foreign key)
         /// </summary>
-        public int p01f06 { get; set; }
+        public int P01F06 { get; set; }
 
         /// <summary>
         /// Employee creation datetime
         /// </summary>
         [IgnoreOnUpdate]
-        public DateTime p01f07 { get; set; }
+        public DateTime P01F07 { get; set; }
 
         /// <summary>
         /// Employee last modified datetime
         /// </summary>
         [IgnoreOnInsert]
-        public DateTime p01f08 { get; set; }
+        public DateTime P01F08 { get; set; }
     }
 }

@@ -39,7 +39,7 @@ namespace FirmAdvanceDemo.Auth
                     if (IsUserValid)
                     {
                         BLEMP01Handler objBLEmployee = new BLEMP01Handler();
-                        int EmlpoyeeId = objBLEmployee.FetchEmployeeIdByUserId(userId);
+                        int EmlpoyeeId = objBLEmployee.RetrieveEmployeeIdByUserId(userId);
                         bool IsPrincipalAttached = GeneralUtility.AttachPrinicpal(userId.ToString(), username, EmlpoyeeId.ToString(), roles);
 
                         if (!IsPrincipalAttached)

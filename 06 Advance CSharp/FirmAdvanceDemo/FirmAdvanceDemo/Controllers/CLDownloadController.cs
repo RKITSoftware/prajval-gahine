@@ -39,7 +39,7 @@ namespace FirmAdvanceDemo.Controllers
             response.AppendHeader("Content-Type", "text/csv");
             response.AppendHeader("Content-Disposition", $"attachment;filename=salary-slip-{id}-{start}TO{end}.csv;");
 
-            string csvContent = statusInfo.Data.ToString();
+            string csvContent = (string)statusInfo.Data;
             response.BinaryWrite(Encoding.UTF8.GetBytes(csvContent));
             return Ok();
         }

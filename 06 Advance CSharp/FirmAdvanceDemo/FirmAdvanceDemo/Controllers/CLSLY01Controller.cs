@@ -25,7 +25,7 @@ namespace FirmAdvanceDemo.Controllers
         public IHttpActionResult PostSalary()
         {
             Response = _objBLSalary.CreditSalary();
-            
+
 
         }
     }

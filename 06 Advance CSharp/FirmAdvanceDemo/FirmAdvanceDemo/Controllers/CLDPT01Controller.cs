@@ -2,11 +2,8 @@ using FirmAdvanceDemo.Auth;
 using FirmAdvanceDemo.BL;
 using FirmAdvanceDemo.Enums;
 using FirmAdvanceDemo.Models.DTO;
-using FirmAdvanceDemo.Models.POCO;
 using FirmAdvanceDemo.Utitlity;
-using Newtonsoft.Json.Linq;
 using System.Web.Http;
-using System.Web.Security;
 
 namespace FirmAdvanceDemo.Controllers
 {

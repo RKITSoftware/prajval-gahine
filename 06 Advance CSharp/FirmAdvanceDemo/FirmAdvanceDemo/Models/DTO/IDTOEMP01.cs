@@ -7,26 +7,26 @@ namespace FirmAdvanceDemo.Models.DTO
         /// <summary>
         /// Employee First Name
         /// </summary>
-        string p01f02 { get; set; }
+        string P01F02 { get; set; }
 
         /// <summary>
         /// Employee Last Name
         /// </summary
-        string p01f03 { get; set; }
+        string P01F03 { get; set; }
 
         /// <summary>
         /// Employee Gender
         /// </summary>
-        char p01f04 { get; set; }
+        char P01F04 { get; set; }
 
         /// <summary>
         /// Employee Date of Birth
         /// </summary>
-        DateTime p01f05 { get; set; }
+        DateTime P01F05 { get; set; }
 
         /// <summary>
         /// Position Id
         /// </summary>
-        int p01f06 { get; set; }
+        int P01F06 { get; set; }
     }
 }

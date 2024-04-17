@@ -19,8 +19,8 @@ namespace FirmAdvanceDemo.BL
             using (IDbConnection db = _dbFactory.OpenDbConnection())
             {
                 SqlExpression<SLY01> sqlExp = db.From<SLY01>()
-                    .Where(salary => salary.y01f02 == EmployeeId)
-                    .And(salary => salary.y01f03 >= start && salary.y01f03 <= end);
+                    .Where(salary => salary.Y01F02 == EmployeeId)
+                    .And(salary => salary.Y01F03 >= start && salary.Y01F03 <= end);
 
                 List<SLY01> lstSalary = db.Select<SLY01>(sqlExp);
 

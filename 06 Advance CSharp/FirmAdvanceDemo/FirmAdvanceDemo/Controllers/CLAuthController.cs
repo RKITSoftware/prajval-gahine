@@ -26,7 +26,7 @@ namespace FirmAdvanceDemo.Controllers
             string headerEncoded = Convert.ToBase64String(Encoding.UTF8.GetBytes(header));
             string payloadEncoded = Convert.ToBase64String(Encoding.UTF8.GetBytes(payload));
 
-            string digest = Convert.ToBase64String(GeneralUtility.GetHMAC($"{headerEncoded}.{payloadEncoded}", null))
+            string digest = Convert.ToBase64String(GeneralUtility.GetHMACBase64($"{headerEncoded}.{payloadEncoded}", null))
                 .Replace('/', '_')
                 .Replace('+', '-')
                 .Replace("=", "");
@@ -41,7 +41,7 @@ namespace FirmAdvanceDemo.Controllers
         {
             IEnumerable<Claim> claims = ((ClaimsIdentity)User.Identity).Claims;
 
-            // get user id from identity
+            // get user ID from identity
             int userId = int.Parse(claims.Where(c => c.Type == "Id")
                    .Select(c => c.Value).SingleOrDefault());
 
@@ -72,7 +72,7 @@ namespace FirmAdvanceDemo.Controllers
         {
             IEnumerable<Claim> claims = ((ClaimsIdentity)User.Identity).Claims;
 
-            // get user id from identity
+            // get user ID from identity
             int userId = int.Parse(claims.Where(c => c.Type == "Id")
                    .Select(c => c.Value).SingleOrDefault());
 

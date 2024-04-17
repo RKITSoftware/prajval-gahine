@@ -30,9 +30,9 @@ namespace FirmAdvanceDemo.Controllers
         [BasicAuthorization(Roles = "admin")]
         public IHttpActionResult Get()
         {
-            Response 
+            Response
                 = _objBLUser.RetrieveResource();
-            
+
 
         }
 

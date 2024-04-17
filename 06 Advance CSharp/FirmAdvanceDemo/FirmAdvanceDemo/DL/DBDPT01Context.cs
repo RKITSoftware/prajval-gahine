@@ -1,11 +1,6 @@
 ﻿using FirmAdvanceDemo.Connection;
 using MySql.Data.MySqlClient;
-using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Data.Common;
-using System.Linq;
-using System.Web;
 
 namespace FirmAdvanceDemo.DB
 {
@@ -18,12 +13,12 @@ namespace FirmAdvanceDemo.DB
             _connection = MysqlDbConnector.Connection;
         }
 
-        public DataTable SelectDPT01()
+        public DataTable FetchDepartment()
         {
             DataTable dtDPT01 = new DataTable();
 
             string query = @"SELECT
-                                d01f01 AS D01101, d01f02 AS D01102
+                                D01F01 AS D01101, D01F02 AS D01102
                             FROM dpt01;";
 
             MySqlCommand cmd = new MySqlCommand(query, _connection);
@@ -43,15 +38,15 @@ namespace FirmAdvanceDemo.DB
         }
 
 
-        public DataTable SelectDPT01(int departmentId)
+        public DataTable FetchDepartment(int departmentId)
         {
             DataTable dtDPT01 = new DataTable();
 
             string query = string.Format(
                             @"SELECT
-                                d01f01 AS D01101, d01f02 AS D01102
+                                D01F01 AS D01101, D01F02 AS D01102
                             FROM dpt01
-                                WHERE d01f01 = {0};", departmentId);
+                                WHERE D01F01 = {0};", departmentId);
 
             MySqlCommand cmd = new MySqlCommand(query, _connection);
 

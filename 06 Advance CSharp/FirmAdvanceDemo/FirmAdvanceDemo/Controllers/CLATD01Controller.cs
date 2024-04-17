@@ -1,16 +1,9 @@
-
-using FirmAdvanceDemo.Auth;
 using FirmAdvanceDemo.BL;
 using FirmAdvanceDemo.Enums;
 using FirmAdvanceDemo.Models.DTO;
 using FirmAdvanceDemo.Utitlity;
-using Newtonsoft.Json.Linq;
 using System;
-using System.Linq;
-using System.Security.Claims;
-using System.Web;
 using System.Web.Http;
-using System.Web.Http.Results;
 
 namespace FirmAdvanceDemo.Controllers
 {
@@ -94,7 +87,7 @@ namespace FirmAdvanceDemo.Controllers
         }
 
         /// <summary>
-        /// Action method to get attendances by employee id and month-year
+        /// Action method to get attendances by employee ID and month-year
         /// </summary>
         /// <param name="employeeId">Employee Id</param>
         /// <param name="month">Attendance Month</param>
@@ -110,7 +103,7 @@ namespace FirmAdvanceDemo.Controllers
         }
 
         /// <summary>
-        /// Action method to get all attendances by employee id an current month 
+        /// Action method to get all attendances by employee ID an current month 
         /// </summary>
         /// <param name="employeeId">Employee Id</param>
         /// <returns>Instance of type IHttpActionResult</returns>
@@ -188,6 +181,22 @@ namespace FirmAdvanceDemo.Controllers
         public IHttpActionResult DeleteAttendance(int id)
         {
             Response response = _objBLAttendance.RemoveResource(id);
+            return Ok(response);
+        }
+
+
+        [HttpPost]
+        [Route("api/attendance/evaluate-eod-punches")]
+        public IHttpActionResult EvaluateEndOfDayPunches(DateTime date)
+        {
+            // check378 - check if model state is invalid when we donot pass date in query string
+            if (!ModelState.IsValid)
+            {
+                date = DateTime.Now;
+            }
+
+            Response response = _objBLAttendance.ProcessEndOfDayPunches(date);
+
             return Ok(response);
         }
     }
