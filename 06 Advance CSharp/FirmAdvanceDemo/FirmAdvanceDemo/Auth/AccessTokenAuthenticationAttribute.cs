@@ -1,3 +1,4 @@
+using FirmAdvanceDemo.Utitlity;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http.Controllers;
@@ -15,20 +16,25 @@ namespace FirmAdvanceDemo.Auth
         /// <param name="actionContext">context of current action</param>
         public override void OnAuthorization(HttpActionContext actionContext)
         {
-            string ErrorMessage = null;
+            Response response;
             if (actionContext.Request.Headers.Authorization.Scheme != "Bearer")
             {
-                ErrorMessage = "Invalid authentication request";
+                response = new Response
+                {
+                    IsError = true,
+                    HttpStatusCode = HttpStatusCode.Unauthorized,
+                    Message = "No bearer authentication scheme."
+                };
             }
             else
             {
                 string jwt = actionContext.Request.Headers.Authorization.Parameter;
-                ErrorMessage = this.AuthenticateJWT(jwt);
+                response = AuthenticateJWT(jwt);
             }
 
-            if (ErrorMessage != null)
+            if (response.IsError)
             {
-                actionContext.Response = actionContext.Request.CreateResponse(HttpStatusCode.Unauthorized, ErrorMessage);
+                actionContext.Response = actionContext.Request.CreateResponse(response.HttpStatusCode, response.Message);
             }
         }
     }

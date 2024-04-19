@@ -20,17 +20,17 @@ namespace FirmAdvanceDemo.BL
             {
                 SqlExpression<SLY01> sqlExp = db.From<SLY01>()
                     .Where(salary => salary.Y01F02 == EmployeeId)
-                    .And(salary => salary.Y01F03 >= start && salary.Y01F03 <= end);
+                    .And(salary => salary.Y01F05 >= start && salary.Y01F05 <= end);
 
                 List<SLY01> lstSalary = db.Select<SLY01>(sqlExp);
 
-                string csvContent = CSVConvert<SLY01>.ConvertToCSV(lstSalary, typeof(SLY01));
+                string csvContent = GeneralUtility.ConvertToCSV<SLY01>(lstSalary, typeof(SLY01));
 
 
                 return new Response
                 {
                     IsError = true,
-                    Message = $"Salary Slip of Employee Id {EmployeeId} from {start.ToString("dd-MM-yyy")} to {end.ToString("dd-MM-yyy")}",
+                    Message = $"Salary Slip of Employee Id {EmployeeId} from {start:dd-MM-yyy} to {end:dd-MM-yyy}",
                     Data = csvContent
                 };
             }

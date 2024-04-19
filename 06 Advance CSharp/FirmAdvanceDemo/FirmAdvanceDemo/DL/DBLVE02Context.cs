@@ -12,7 +12,7 @@ namespace FirmAdvanceDemo.DB
 {
     public class DBLVE02Context
     {
-        private MySqlConnection _connection;
+        private readonly MySqlConnection _connection;
 
         public DBLVE02Context()
         {

@@ -1,41 +1,44 @@
-using FirmAdvanceDemo.BL;
-using ServiceStack;
+using FirmAdvanceDemo.Enums;
 using ServiceStack.DataAnnotations;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace FirmAdvanceDemo.Models.POCO
 {
     /// <summary>
-    /// Punch model representing Punch table
+    /// Punch POCO model
     /// </summary>
-    public class PCH01 : IModel
+    public class PCH01
     {
         /// <summary>
         /// Punch Id
         /// </summary>
         [AutoIncrement]
         [PrimaryKey]
-        [Alias("d01f01")]
-        public int Id { get; set; }
+        public int P01F01 { get; set; }
 
         /// <summary>
         /// Employee Id
         /// </summary>
         [ForeignKey(typeof(EMP01), OnDelete = "CASCADE")]
-        public int h01f02 { get; set; }
-
-        /// <summary>
-        /// DateTime of Punch
-        /// </summary>
-        [ValidateNotNull]
-        public DateTime h01f03 { get; set; }
+        public int H01F02 { get; set; }
 
         /// <summary>
         /// Punch Type
         /// </summary>
-        public PunchType? h01f04 { get; set; }
+        [ValidateNotNull]
+        public EnmPunchType H01F03 { get; set; }
+
+        /// <summary>
+        /// Punch creation datetime
+        /// </summary>
+        [IgnoreOnUpdate]
+        [ValidateNotNull]
+        public DateTime H01F04 { get; set; }
+
+        /// <summary>
+        /// Punch last modified datetime
+        /// </summary>
+        [IgnoreOnInsert]
+        public DateTime H01F05 { get; set; }
     }
 }

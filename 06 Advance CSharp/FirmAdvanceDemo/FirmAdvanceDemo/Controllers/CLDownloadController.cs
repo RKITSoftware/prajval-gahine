@@ -8,7 +8,7 @@ using System.Web.Http;
 namespace FirmAdvanceDemo.Controllers
 {
     [RoutePrefix("api/download")]
-    public class CLDownloadController
+    public class CLDownloadController : ApiController
     {
         /// <summary>
         /// Instance of BLDownload
@@ -41,7 +41,7 @@ namespace FirmAdvanceDemo.Controllers
 
             string csvContent = (string)statusInfo.Data;
             response.BinaryWrite(Encoding.UTF8.GetBytes(csvContent));
-            return Ok();
+            return Ok(response);
         }
     }
 }

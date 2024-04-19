@@ -1,18 +1,19 @@
-using ServiceStack;
 using ServiceStack.DataAnnotations;
 using System;
 
 namespace FirmAdvanceDemo.Models.POCO
 {
-    public class USR01 : IModel
+    /// <summary>
+    /// User POCO model
+    /// </summary>
+    public class USR01
     {
         /// <summary>
         /// user id
         /// </summary>
         [AutoIncrement]
         [PrimaryKey]
-        [Alias("r01f01")]
-        public int Id { get; set; }
+        public int R01F01 { get; set; }
 
         /// <summary>
         /// username
@@ -20,30 +21,37 @@ namespace FirmAdvanceDemo.Models.POCO
         [Unique]
         [ValidateNotNull]
         [Index]
-        public string r10f02 { get; set; }
+        public string R01F02 { get; set; }
 
         /// <summary>
         /// user hashed password
         /// </summary>
         [ValidateNotNull]
-        public byte[] r01f03 { get; set; }
+        public string R01F03 { get; set; }
 
         /// <summary>
         /// user emailId
         /// </summary>
         [ValidateNotNull]
-        public string r01f04 { get; set; }
+        public string R01F04 { get; set; }
 
         /// <summary>
         /// User phone no.
         /// </summary>
         [ValidateNotNull]
-        public string r01f05 { get; set; }
+        public string R01F05 { get; set; }
 
         /// <summary>
-        /// User creation date
+        /// User creation datetime
         /// </summary>
+        [IgnoreOnUpdate]
         [ValidateNotNull]
-        public DateTime r01f06 { get; set; }
+        public DateTime R01F06 { get; set; }
+
+        /// <summary>
+        /// User last update datetime
+        /// </summary
+        [IgnoreOnInsert]
+        public DateTime R01F07 { get; set; }
     }
 }

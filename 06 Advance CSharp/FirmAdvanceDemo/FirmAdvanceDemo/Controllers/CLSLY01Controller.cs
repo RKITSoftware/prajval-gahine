@@ -5,7 +5,7 @@ using System.Web.Http;
 namespace FirmAdvanceDemo.Controllers
 {
     [RoutePrefix("api/salary")]
-    public class CLSLY01Controller
+    public class CLSLY01Controller : ApiController
     {
         /// <summary>
         /// Instance of BLSalary
@@ -25,7 +25,7 @@ namespace FirmAdvanceDemo.Controllers
         public IHttpActionResult CreditSalary()
         {
             Response response = _objBLSLY01Handler.CreditSalary();
-            return response;
+            return Ok(response);
         }
     }
 }

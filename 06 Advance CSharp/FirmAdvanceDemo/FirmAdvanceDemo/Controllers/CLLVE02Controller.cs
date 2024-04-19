@@ -56,7 +56,7 @@ namespace FirmAdvanceDemo.Controllers
         }
 
         [HttpGet]
-        [Route("employee/{employeeId}")]
+        [Route("employee/{employeeId}/monthly")]
         public IHttpActionResult GetLeaveByEmployeeAndMonthYear(int employeeId, int year, int month)
         {
             Response response = _objBLLVE02Handler.RetrieveLeaveByEmployeeAndMonthYear(employeeId, year, month);
@@ -64,7 +64,7 @@ namespace FirmAdvanceDemo.Controllers
         }
 
         [HttpGet]
-        [Route("employee/{employeeId}")]
+        [Route("employee/{employeeId}/yearly")]
         public IHttpActionResult GetLeaveByEmployeeAndYear(int employeeId, int year)
         {
             Response response = _objBLLVE02Handler.RetrieveLeaveByEmployeeAnYear(employeeId, year);
@@ -100,7 +100,7 @@ namespace FirmAdvanceDemo.Controllers
         [Route("date/{date}")]
         public IHttpActionResult GetLeaveByDate(DateTime date)
         {
-            Response response = _objBLLVE02Handler.RetrieveLeaveByDate(DateTime.ParseExact(date, "yyyy-MM-dd", null));
+            Response response = _objBLLVE02Handler.RetrieveLeaveByDate(date);
             return Ok(response);
         }
 

@@ -151,5 +151,62 @@ namespace FirmAdvanceDemo.DB
             }
             return dtAttendance;
         }
+
+        public DataTable FetchAttendance()
+        {
+            DataTable dtAttendance = new DataTable();
+
+            string query = @"SELECT
+                                d01f01 AS D01101,
+                                d01f02 AS D01102,
+                                d01f03 AS D01103,
+                                d01f04 AS D01104
+                            FROM atd01";
+
+            MySqlCommand cmd = new MySqlCommand(query, _connection);
+
+            MySqlDataAdapter adapter = new MySqlDataAdapter(cmd);
+
+            try
+            {
+                _connection.Open();
+                adapter.Fill(dtAttendance);
+            }
+            finally
+            {
+                _connection.Close();
+            }
+            return dtAttendance;
+        }
+
+
+        public DataTable FetchAttendance(int attendanceId)
+        {
+            DataTable dtAttendance = new DataTable();
+
+            string query = string.Format(
+                            @"SELECT
+                                d01f01 AS D01101, 
+                                d01f02 AS D01102
+                                d01f03 AS D01103
+                                d01f04 AS D01104
+                            FROM atd01
+                                WHERE d01f01 = {0};", attendanceId);
+
+            MySqlCommand cmd = new MySqlCommand(query, _connection);
+
+            MySqlDataAdapter adapter = new MySqlDataAdapter(cmd);
+
+            try
+            {
+                _connection.Open();
+                adapter.Fill(dtAttendance);
+            }
+            finally
+            {
+                _connection.Close();
+            }
+            return dtAttendance;
+        }
     }
 }

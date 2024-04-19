@@ -10,11 +10,13 @@ namespace FirmAdvanceDemo.DB
 {
     public class DBSLY01Context
     {
-        private MySqlConnection _connection;
+        private readonly MySqlConnection _connection;
         public DBSLY01Context()
         {
             _connection = MysqlDbConnector.Connection;
         }
+
+        public MySqlConnection Connection => _connection;
 
         public DataTable FetchUnpaidWorkHours(DateTime lastCreditDate)
         {
@@ -44,18 +46,18 @@ namespace FirmAdvanceDemo.DB
                                         lastCreditDate.ToString(GlobalDateFormat),
                                         DateTime.Now.ToString(GlobalDateFormat));
 
-            cmd = new MySqlCommand(query, _connection);
+            cmd = new MySqlCommand(query, Connection);
             adapter = new MySqlDataAdapter(cmd);
             dtEmployeeWorkHour = new DataTable();
 
-            _connection.Open();
+            Connection.Open();
             try
             {
                 adapter.Fill(dtEmployeeWorkHour);
             }
             finally
             {
-                _connection.Close();
+                Connection.Close();
             }
             return dtEmployeeWorkHour;
         }

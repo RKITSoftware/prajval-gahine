@@ -55,8 +55,10 @@ namespace FirmAdvanceDemo.Controllers
 
             // set the refreshtoken in cookie
             HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, "refresh-token");
-            CookieHeaderValue cookie = new CookieHeaderValue("refresh-token", encryptedRefreshToken);
-            cookie.HttpOnly = true;
+            CookieHeaderValue cookie = new CookieHeaderValue("refresh-token", encryptedRefreshToken)
+            {
+                HttpOnly = true
+            };
 
             response.Headers.AddCookies(new CookieHeaderValue[] { cookie });
             response.StatusCode = HttpStatusCode.OK;

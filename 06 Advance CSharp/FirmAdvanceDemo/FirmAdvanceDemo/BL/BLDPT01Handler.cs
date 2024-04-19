@@ -20,10 +20,10 @@ namespace FirmAdvanceDemo.BL
         /// <summary>
         /// Context for Deparment handler
         /// </summary>
-        private DBDPT01Context _context;
+        private readonly DBDPT01Context _context;
 
 
-        private OrmLiteConnectionFactory _dbFactory;
+        private readonly OrmLiteConnectionFactory _dbFactory;
 
         public EnmOperation Operation { get; set; }
 
@@ -115,10 +115,10 @@ namespace FirmAdvanceDemo.BL
             {
                 if (Operation == EnmOperation.A)
                 {
-                    int ID = (int)db.Insert<DPT01>(_objDPT01, selectIdentity: true);
+                    int departmentID = (int)db.Insert<DPT01>(_objDPT01, selectIdentity: true);
 
                     response.HttpStatusCode = HttpStatusCode.OK;
-                    response.Message = $"Department created with id: {id}";
+                    response.Message = $"Department created with id: {departmentID}";
                     return response;
                 }
                 else

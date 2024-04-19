@@ -1,7 +1,11 @@
 using FirmAdvanceDemo.Enums;
+using FirmAdvanceDemo.Models.POCO;
 using ServiceStack;
+using ServiceStack.OrmLite;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -20,92 +24,6 @@ namespace FirmAdvanceDemo.Utitlity
     /// </summary>
     public static class GeneralUtility
     {
-
-        /// <summary>
-        /// Validate DOB
-        /// </summary>
-        /// <param name="date">DOB</param>
-        /// <returns>True if age is equal or greater than 18, else false</returns>
-        public static bool ValidateDOB(DateTime date)
-        {
-            DateTime currentDateTime = DateTime.Now;
-            return date <= currentDateTime.AddYears(-18)
-                && date > currentDateTime.AddYears(-80);
-        }
-
-        /// <summary>
-        /// Method to validate gender
-        /// </summary>
-        /// <param name="gender">gender</param>
-        /// <returns>True if gender is valid, else false</returns>
-        public static bool ValidateGender(char gender)
-        {
-            return gender == 'm' || gender == 'f' || gender == 'o';
-        }
-
-        /// <summary>
-        /// Method to validate name
-        /// </summary>
-        /// <param name="name">Name</param>
-        /// <returns>True if name is in valid format, else false</returns>
-        public static bool ValidateName(string name)
-        {
-            // name cannot contain number
-            return name.All(char.IsLetter);
-        }
-
-
-        /// <summary>
-        /// Method to validate password format
-        /// </summary>
-        /// <param name="password">Password</param>
-        /// <returns>True if password is in valid format, else false</returns>
-        public static bool ValidatePassword(string password)
-        {
-            var x = ((password.Length >= 6 && password.Length <= 20)
-                && (password.All(ValidChars)));
-            return x;
-
-            bool ValidChars(char c)
-            {
-                return ((c >= '0' && c <= '9')
-                    || (c >= 'a' && c <= 'z')
-                    || (c >= 'A' && c <= 'Z')
-                    || c == '@'
-                    || c == '!'
-                    || c == '.');
-            }
-        }
-
-        /// <summary>
-        /// Method to validate phone no format
-        /// </summary>
-        /// <param name="phoneNo">Phone no</param>
-        /// <returns>True if phone no is in valid format, else false</returns>
-        public static bool ValidatePhoneNo(string phoneNo)
-        {
-            return ((phoneNo.Length == 10)
-                && (phoneNo.All(char.IsDigit)));
-        }
-
-        /// <summary>
-        /// Method to validate email format
-        /// </summary>
-        /// <param name="email">Email id</param>
-        /// <returns>True if email ID is in valid format, else false</returns>
-        public static bool ValidateEmail(string email)
-        {
-            string pattern = @"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$";
-            Regex regex = new Regex(pattern);
-
-            return regex.Match(email).Success;
-        }
-
-        public static bool ValidateRole(EnmRole role, List<EnmRole> lstRoles)
-        {
-            return lstRoles.Any(r => r == role);
-        }
-
         /// <summary>
         /// Method to create and attach principal to current thread and http context
         /// </summary>
@@ -139,8 +57,10 @@ namespace FirmAdvanceDemo.Utitlity
         /// <param name="text">String whose secure hash is to be calculated</param>
         /// <param name="key">Key using which the hash is to computed</param>
         /// <returns></returns>
-        public static string GetHMACBase64(string text, string key)
+        public static string GetHMACBase64(string text, string key = null)
         {
+            key = key ?? ConfigurationManager.AppSettings["password-hash-secret-key"];
+
             byte[] hash;
             using (HMACSHA256 hmacsha256 = new HMACSHA256(Encoding.UTF8.GetBytes(key)))
             {

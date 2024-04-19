@@ -23,9 +23,9 @@ namespace FirmAdvanceDemo.BL
         /// </summary>
         private LVE02 _objLVE02;
 
-        private OrmLiteConnectionFactory _dbFactory;
+        private readonly OrmLiteConnectionFactory _dbFactory;
 
-        private DBLVE02Context _objDBLVE02Context;
+        private readonly DBLVE02Context _objDBLVE02Context;
 
         public EnmOperation Operation;
 
@@ -173,7 +173,8 @@ namespace FirmAdvanceDemo.BL
                             MonthFirstDate.ToString("yyyy-MM-dd"),
                             MonthLastDate.ToString("yyyy-MM-dd")
                      );
-                    sqlExp.SelectExpression = $"sum(CASE WHEN E01F04 < '{MonthFirstDate.ToString("yyyy-MM-dd")}' THEN DATEDIFF(ADDDATE(E01F04, INTERVAL(E01F05 - 1) DAY), '{MonthFirstDate.ToString("yyyy-MM-dd")}') + 1 WHEN ADDDATE(E01F04, INTERVAL(E01F05 - 1) DAY) > '{MonthLastDate.ToString("yyyy-MM-dd")}' THEN DATEDIFF(E01F04, '{MonthLastDate.ToString("yyyy-MM-dd")}') + 1 ELSE DATEDIFF(ADDDATE(E01F04, INTERVAL(E01F05 - 1) DAY), E01F04) + 1 END) AS Leave_Count";
+                    string v = $"sum(CASE WHEN E01F04 < '{MonthFirstDate:yyyy-MM-dd}' THEN DATEDIFF(ADDDATE(E01F04, INTERVAL(E01F05 - 1) DAY), '{MonthFirstDate:yyyy-MM-dd}') + 1 WHEN ADDDATE(E01F04, INTERVAL(E01F05 - 1) DAY) > '{MonthLastDate:yyyy-MM-dd}' THEN DATEDIFF(E01F04, '{MonthLastDate:yyyy-MM-dd}') + 1 ELSE DATEDIFF(ADDDATE(E01F04, INTERVAL(E01F05 - 1) DAY), E01F04) + 1 END) AS Leave_Count";
+                    sqlExp.SelectExpression = v;
 
                     int leaveCount = db.Scalar<int>(sqlExp);
 
@@ -440,7 +441,7 @@ namespace FirmAdvanceDemo.BL
                 return new Response()
                 {
                     IsError = true,
-                    Message = $"Pending leaves before {CurrentDate.ToString("yyyy-MM-dd")} marked as expired",
+                    Message = $"Pending leaves before {CurrentDate:yyyy-MM-dd} marked as expired",
                     Data = null
                 };
             }

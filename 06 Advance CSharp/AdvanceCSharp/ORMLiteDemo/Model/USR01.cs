@@ -12,8 +12,8 @@ namespace ORMLiteDemo.Model
         /// <summary>
         /// User Id
         /// </summary>
-        [AutoIncrement]
         [PrimaryKey]
+        [AutoIncrement]
         public int r01f01 { get; set; }
 
         /// <summary>

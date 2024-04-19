@@ -1,25 +1,37 @@
-using ServiceStack;
 using ServiceStack.DataAnnotations;
+using System;
 
 namespace FirmAdvanceDemo.Models.POCO
 {
     /// <summary>
-    /// Role class
+    /// Role POCO model
     /// </summary>
-    public class RLE01 : IModel
+    public class RLE01
     {
         /// <summary>
         /// Role Id
         /// </summary>
         [AutoIncrement]
         [PrimaryKey]
-        [Alias("e01f01")]
-        public int Id { get; set; }
+        public int E01F01 { get; set; }
 
         /// <summary>
         /// Role name
         /// </summary>
         [ValidateNotNull]
-        public string e01f02 { get; set; }
+        public string E01F02 { get; set; }
+
+        /// <summary>
+        ///  creation datetime
+        /// </summary>
+        [IgnoreOnUpdate]
+        [ValidateNotNull]
+        public DateTime E01F03 { get; set; }
+
+        /// <summary>
+        ///  last modified datetime
+        /// </summary>
+        [IgnoreOnInsert]
+        public DateTime E01F04 { get; set; }
     }
 }

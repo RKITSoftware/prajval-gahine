@@ -6,12 +6,14 @@ namespace FirmAdvanceDemo.DB
 {
     public class DBEMP01Context
     {
-        private MySqlConnection _connection;
+        private readonly MySqlConnection _connection;
 
         public DBEMP01Context()
         {
             _connection = MysqlDbConnector.Connection;
         }
+
+        public MySqlConnection Connection => _connection;
 
         public DataTable FetchEmployee(int employeeId)
         {
@@ -36,18 +38,18 @@ namespace FirmAdvanceDemo.DB
                                 WHERE
                                     P01F01 = {0}", employeeId);
 
-            MySqlCommand cmd = new MySqlCommand(query, _connection);
+            MySqlCommand cmd = new MySqlCommand(query, Connection);
 
             MySqlDataAdapter adapter = new MySqlDataAdapter(cmd);
 
             try
             {
-                _connection.Open();
+                Connection.Open();
                 adapter.Fill(dtEmployee);
             }
             finally
             {
-                _connection.Close();
+                Connection.Close();
             }
 
             return dtEmployee;
@@ -73,18 +75,18 @@ namespace FirmAdvanceDemo.DB
                                     usr01 INNER JOIN ump02 ON r01f01 = P01F02
                                           INNER JOIN emp01 ON P01F01 = P01F03");
 
-            MySqlCommand cmd = new MySqlCommand(query, _connection);
+            MySqlCommand cmd = new MySqlCommand(query, Connection);
 
             MySqlDataAdapter adapter = new MySqlDataAdapter(cmd);
 
             try
             {
-                _connection.Open();
+                Connection.Open();
                 adapter.Fill(dtEmployee);
             }
             finally
             {
-                _connection.Close();
+                Connection.Close();
             }
 
             return dtEmployee;

@@ -5,24 +5,25 @@ using FirmAdvanceDemo.Models.DTO;
 using FirmAdvanceDemo.Utitlity;
 using Newtonsoft.Json.Linq;
 using System.Web.Http;
+using System.Web.Security;
 
 namespace FirmAdvanceDemo.Controllers
 {
     [RoutePrefix("api/user")]
     //[AccessTokenAuthentication]
-    public class CLUSR01Controller
+    public class CLUSR01Controller : ApiController
     {
         /// <summary>
         /// Instance of BLUser
         /// </summary>
-        private readonly BLUSR01Handler _objBLUser;
+        private readonly BLUSR01Handler _objBLUSR01Handler;
 
         /// <summary>
         /// Default constructor for CLUserController
         /// </summary>
-        public CLUSR01Controller() : base()
+        public CLUSR01Controller()
         {
-            _objBLUser = new BLUSR01Handler(_statusInfo);
+            _objBLUSR01Handler = new BLUSR01Handler();
         }
 
         [HttpGet]
@@ -30,17 +31,15 @@ namespace FirmAdvanceDemo.Controllers
         [BasicAuthorization(Roles = "admin")]
         public IHttpActionResult Get()
         {
-            Response
-                = _objBLUser.RetrieveResource();
-
-
+            Response response = _objBLUSR01Handler.RetrieveUser();
+            return Ok(response);
         }
 
         [HttpGet]
         [Route("{id}")]
         public IHttpActionResult Get(int id)
         {
-            Response response = _objBLUser.FetchResource(id);
+            Response response = _objBLUSR01Handler.RetrieveUser(id);
             return Ok(response);
         }
 
@@ -48,30 +47,49 @@ namespace FirmAdvanceDemo.Controllers
         [Route("")]
         public IHttpActionResult Post(DTOUSR01 objDTOUSR01)
         {
-            if (_objBLUser.Prevalidate(objDTOUSR01, EnmRole.A, EnmOperation.A))
+            Response response;
+            _objBLUSR01Handler.Operation = EnmOperation.A;
+            response = _objBLUSR01Handler.Prevalidate(objDTOUSR01);
+            if (!response.IsError)
             {
-                _objBLUser.Presave(objDTOUSR01, EnmOperation.A);
-                if (_objBLUser.Validate())
+                _objBLUSR01Handler.Presave(objDTOUSR01);
+                response = _objBLUSR01Handler.Validate();
+                if (!response.IsError)
                 {
-                    _objBLUser.Save(EnmOperation.A, out _);
+                    _objBLUSR01Handler.Save();
                 }
             }
-            return Returner();
+            return Ok();
         }
 
         [HttpPatch]
         [Route("{id}")]
-        public IHttpActionResult Patch(int id, JObject toUpdateJson)
+        public IHttpActionResult Patch(DTOUSR01 objDTOUSR01)
         {
-            Response response = _objBLUser.UpdateResource(id, toUpdateJson);
-            return Ok(response);
+            Response response;
+            _objBLUSR01Handler.Operation = EnmOperation.E;
+            response = _objBLUSR01Handler.Prevalidate(objDTOUSR01);
+            if (!response.IsError)
+            {
+                _objBLUSR01Handler.Presave(objDTOUSR01);
+                response = _objBLUSR01Handler.Validate();
+                if (!response.IsError)
+                {
+                    _objBLUSR01Handler.Save();
+                }
+            }
+            return Ok();
         }
 
         [HttpDelete]
-        [Route("{id}")]
-        public IHttpActionResult Delete(int id)
+        [Route("{userID}")]
+        public IHttpActionResult Delete(int userID)
         {
-            Response response = _objBLUser.RemoveResource(id);
+            Response response = _objBLUSR01Handler.ValidateDelete(userID);
+            if (!response.IsError)
+            {
+                response = _objBLUSR01Handler.Delete(userID);
+            }
             return Ok(response);
         }
     }

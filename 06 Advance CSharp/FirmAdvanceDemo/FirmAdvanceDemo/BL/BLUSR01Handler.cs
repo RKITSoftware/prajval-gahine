@@ -250,5 +250,30 @@ namespace FirmAdvanceDemo.BL
                 };
             }
         }
+
+        internal Response RetrieveUser(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal Response RetrieveUser()
+        {
+            throw new NotImplementedException();
+        }
+
+        internal void Save()
+        {
+            throw new NotImplementedException();
+        }
+
+        internal Response ValidateDelete(int userID)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal Response Delete(int userID)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

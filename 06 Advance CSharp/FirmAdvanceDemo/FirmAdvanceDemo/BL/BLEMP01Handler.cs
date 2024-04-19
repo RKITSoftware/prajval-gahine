@@ -27,9 +27,19 @@ namespace FirmAdvanceDemo.BL
         /// <summary>
         /// Instance of BLUser
         /// </summary>
-        private BLUSR01Handler _objBLUSR01Handler;
+        private readonly BLUSR01Handler _objBLUSR01Handler;
 
-        private DBEMP01Context _context;
+        public BLEMP01Handler(BLUSR01Handler objBLUSR01Handler)
+        {
+            _objBLUSR01Handler = objBLUSR01Handler;
+        }
+
+        private readonly DBEMP01Context _context;
+
+        public BLEMP01Handler(DBEMP01Context context)
+        {
+            _context = context;
+        }
 
         public BLEMP01Handler()
         {
@@ -168,8 +178,8 @@ namespace FirmAdvanceDemo.BL
                             // save user employee id's
                             UMP02 objUMP02 = new UMP02()
                             {
-                                P01F02 = userId,
-                                P01F03 = employeeId,
+                                P02F02 = userId,
+                                P02F03 = employeeId,
                             };
                             db.Insert<UMP02>(objUMP02);
 

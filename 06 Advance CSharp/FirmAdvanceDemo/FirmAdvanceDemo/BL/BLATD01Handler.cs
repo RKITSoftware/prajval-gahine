@@ -23,9 +23,9 @@ namespace FirmAdvanceDemo.BL
         /// </summary>
         private ATD01 _objATD01;
 
-        private OrmLiteConnectionFactory _dbFactory;
+        private readonly OrmLiteConnectionFactory _dbFactory;
 
-        private DBATD01Context _objDBATD01Context;
+        private readonly DBATD01Context _objDBATD01Context;
 
         private DBPCH01Context _objDBPCH01Context;
 
@@ -50,7 +50,7 @@ namespace FirmAdvanceDemo.BL
             _objATD01 = objDTOATD01.ConvertModel<ATD01>();
             if (Operation == EnmOperation.A)
             {
-                _objATD01.P01F01 = 0;
+                _objATD01.D01F01 = 0;
                 _objATD01.D01F05 = DateTime.Now;
             }
             else
@@ -401,6 +401,59 @@ namespace FirmAdvanceDemo.BL
             }
             return lstAttendance;
         }
+        public Response RetrieveAttendance()
+        {
+            Response response = new Response();
+            DataTable dtAttendance = _objDBATD01Context.FetchAttendance();
+
+            if (dtAttendance.Rows.Count == 0)
+            {
+                response.IsError = true;
+                response.HttpStatusCode = HttpStatusCode.NotFound;
+                response.Message = "No attendance found.";
+                return response;
+            }
+            response.HttpStatusCode = HttpStatusCode.OK;
+            response.Data = dtAttendance;
+            return response;
+        }
+
+        public Response RetrieveAttendance(int attendanceID)
+        {
+            Response response = new Response();
+            DataTable dtAttendance = _objDBATD01Context.FetchAttendance(attendanceID);
+
+            if (dtAttendance.Rows.Count == 0)
+            {
+                response.IsError = true;
+                response.HttpStatusCode = HttpStatusCode.NotFound;
+                response.Message = $"Attendance {attendanceID} not found.";
+                return response;
+            }
+            response.HttpStatusCode = HttpStatusCode.OK;
+            response.Data = dtAttendance;
+            return response;
+        }
+
+        internal Response Validate()
+        {
+            throw new NotImplementedException();
+        }
+
+        internal void Save()
+        {
+            throw new NotImplementedException();
+        }
+
+        internal Response ValidateDelete(int attendanceID)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal Response Delete(int attendanceID)
+        {
+            throw new NotImplementedException();
+        }
         /*
 /// <summary>
 /// Method to fetch all attendance of employee for current month
@@ -414,36 +467,36 @@ try
 using (IDbConnection db = _dbFactory.OpenDbConnection())
 {
 
-  DateTime CurrentDate = DateTime.Today;
+DateTime CurrentDate = DateTime.Today;
 
-  SqlExpression<ATD01> sqlExp = db.From<ATD01>();
-  sqlExp.Where(attendance => attendance.D01F02 == EmployeeId)
-      .And(
-          "YEAR(D01F03) = {0}",
-          CurrentDate.Year
-      )
-      .And(
-          "MONTH(D01F03) = {0}",
-          CurrentDate.Month
-      );
+SqlExpression<ATD01> sqlExp = db.From<ATD01>();
+sqlExp.Where(attendance => attendance.D01F02 == EmployeeId)
+.And(
+"YEAR(D01F03) = {0}",
+CurrentDate.Year
+)
+.And(
+"MONTH(D01F03) = {0}",
+CurrentDate.Month
+);
 
 
-  List<ATD01> lstAttendanceByEmployeeIdForCurrentMonth = db.Select<ATD01>(sqlExp);
-  return new ResponseStatusInfo()
-  {
-      IsRequestSuccessful = true,
-      Message = $"Attendance list of Employee with employeeId: {EmployeeId} for current month",
-      Data = lstAttendanceByEmployeeIdForCurrentMonth
-  };
+List<ATD01> lstAttendanceByEmployeeIdForCurrentMonth = db.Select<ATD01>(sqlExp);
+return new ResponseStatusInfo()
+{
+IsRequestSuccessful = true,
+Message = $"Attendance list of Employee with employeeId: {EmployeeId} for current month",
+Data = lstAttendanceByEmployeeIdForCurrentMonth
+};
 }
 }
 catch (Exception ex)
 {
 return new ResponseStatusInfo()
 {
-  IsRequestSuccessful = false,
-  Message = ex.Message,
-  Data = null
+IsRequestSuccessful = false,
+Message = ex.Message,
+Data = null
 };
 }
 }

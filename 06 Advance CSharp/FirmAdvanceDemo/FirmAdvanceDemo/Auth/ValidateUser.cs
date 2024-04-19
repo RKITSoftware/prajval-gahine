@@ -1,5 +1,6 @@
 using FirmAdvanceDemo.BL;
 using FirmAdvanceDemo.Utitlity;
+using System.Net;
 
 namespace FirmAdvanceDemo.Auth
 {
@@ -16,34 +17,13 @@ namespace FirmAdvanceDemo.Auth
         /// <param name="userId">Out paramter, mehtod sets user ID if user exists else set to 0</param>
         /// <param name="roles">Out parameter, method sets user-roles if user exists else set null</param>
         /// <returns></returns>
-        public static bool Login(string username, string password, out int userId, out string[] roles)
+        public static bool Login(string username, string password)
         {
-            userId = 0;
-            roles = null;
+            string hashedPassword = GeneralUtility.GetHMACBase64(password);
 
-            // first hash the password
-            string hashedPassword = GeneralUtility.GetHMACBase64(password, null);
+            string hashedPasswordFromDB = GeneralHandler.RetrievePassword(username);
 
-            // get userId
-            BLUSR01Handler objBLUser = new BLUSR01Handler();
-            Response rsiGetUserId = objBLUser.FetchUserIdByUsername(username);
-
-            // get roles associated with that userId
-            if (rsiGetUserId.IsError)
-            {
-                userId = (int)rsiGetUserId.Data;
-                Response rsiGetUserRoles = objBLUser.FetchUserRolesByUserId(userId);
-                if (rsiGetUserRoles.IsError)
-                {
-                    roles = (string[])rsiGetUserRoles.Data;
-                }
-            }
-
-            if (userId == 0 || roles == null)
-            {
-                return false;
-            }
-            return true;
+            return hashedPasswordFromDB.Equals(hashedPassword);
         }
     }
 }

@@ -19,7 +19,9 @@ namespace FirmAdvanceDemo.BL
         /// </summary>
         private PCH01 _objPCH01;
 
-        private DBPCH01Context _context;
+        private readonly DBPCH01Context _objDBPCH01Context;
+
+        private readonly OrmLiteConnectionFactory _dbFactory;
 
         public EnmOperation Operation { get; set; }
 
@@ -28,7 +30,8 @@ namespace FirmAdvanceDemo.BL
         /// </summary>
         public BLPCH01Handler()
         {
-            _context = new DBPCH01Context();
+            _dbFactory = OrmliteDbConnector.DbFactory;
+            _objDBPCH01Context = new DBPCH01Context();
         }
 
         public Response Prevalidate(DTOPCH01 objDTOPCH01)
@@ -113,10 +116,10 @@ namespace FirmAdvanceDemo.BL
             {
                 if (Operation == EnmOperation.A)
                 {
-                    db.Insert<PCH01>(_objPCH01);
+                    int punchID = (int)db.Insert<PCH01>(_objPCH01, selectIdentity: true);
 
                     response.HttpStatusCode = HttpStatusCode.OK;
-                    response.Message = $"Punched created for employee-id: {_objPCH01.H01F02}";
+                    response.Message = $"Punch {punchID} created for employee {_objPCH01.H01F02}";
 
                     return response;
                 }
@@ -125,276 +128,45 @@ namespace FirmAdvanceDemo.BL
                     db.Update<PCH01>(_objPCH01);
 
                     response.HttpStatusCode = HttpStatusCode.OK;
-                    response.Message = $"Punched updated with id: {_objPCH01.P01F01}";
+                    response.Message = $"Punch {_objPCH01.P01F01} updated. ";
 
                     return response;
                 }
             }
         }
 
-        [Obsolete]
-        private void RemoveMisPunch(List<PCH01> lstPunch)
+        public Response RetrievePunch()
         {
-            TimeSpan timeBuffer = new TimeSpan(0, 0, 10);    // 1 minute buffer
-            for (int i = 1; i < lstPunch.Count; i++)
+            Response response = new Response();
+            DataTable dtPunch = _objDBPCH01Context.FetchPunch();
+
+            if (dtPunch.Rows.Count == 0)
             {
-                if (lstPunch[i - 1].H01F02 == lstPunch[i].H01F02)
-                {
-                    if (lstPunch[i].H01F04.Subtract(lstPunch[i - 1].H01F04) <= timeBuffer)
-                    {
-                        lstPunch.RemoveAt(i);
-                        i--;
-                    }
-                }
+                response.IsError = true;
+                response.HttpStatusCode = HttpStatusCode.NotFound;
+                response.Message = "No user found.";
+                return response;
             }
+            response.HttpStatusCode = HttpStatusCode.OK;
+            response.Data = dtPunch;
+            return response;
         }
 
-        [Obsolete]
-        private List<PCH01> PopulateAttendanceFromPunch(List<PCH01> lstPunch, ATD01[] lstAttendance)
+        public Response RetrievePunch(int punchId)
         {
-            DateTime date = lstPunch[0].H01F04.Date;
+            Response response = new Response();
+            DataTable dtPunch = _objDBPCH01Context.FetchPunch(punchId);
 
-            List<PCH01> lstUnpairPunch = new List<PCH01>();
-
-            int workHourIndex = 0;
-            double tempWorkHour = 0;
-            for (int i = 0; i < lstPunch.Count; i += 2)
+            if (dtPunch.Rows.Count == 0)
             {
-                if (i < lstPunch.Count - 1 && lstPunch[i].H01F02 == lstPunch[i + 1].H01F02)
-                {
-                    int EmployeeId = lstPunch[i].H01F02;
-                    tempWorkHour += lstPunch[i + 1].H01F04.Subtract(lstPunch[i].H01F04).TotalHours;
-                    if (i + 2 == lstPunch.Count || EmployeeId != lstPunch[i + 2].H01F02)
-                    {
-                        // next punch is of different employee => so sum up the work-hour
-                        lstAttendance[workHourIndex++] = new ATD01
-                        {
-                            D01F02 = EmployeeId,
-                            D01F03 = date,
-                            D01F04 = tempWorkHour
-                        };
-                        tempWorkHour = 0;
-                    }
-                }
-                else
-                {
-                    lstUnpairPunch.Add(lstPunch[i]);
-
-                    lstAttendance[workHourIndex++] = new ATD01
-                    {
-                        D01F02 = lstPunch[i].H01F02,
-                        D01F03 = date,
-                        D01F04 = tempWorkHour
-                    };
-                    tempWorkHour = 0;
-                    i--;
-                }
+                response.IsError = true;
+                response.HttpStatusCode = HttpStatusCode.NotFound;
+                response.Message = $"Punch {punchId} not found.";
+                return response;
             }
-            if (lstUnpairPunch.Count == 0)
-            {
-                return null;
-            }
-            return lstUnpairPunch;
-        }
-
-        [Obsolete]
-        public bool isPunchLegitimate(PCH01 punch)
-        {
-            return punch.H01F03 != EnmPunchType.M && punch.H01F03 != EnmPunchType.A;
-        }
-
-        private List<ATD01> ComputeAttendance(List<PCH01> lstPunch)
-        {
-            if (lstPunch == null || lstPunch.Count == 0 || lstPunch.Count == 1)
-            {
-                return null;
-            }
-
-            List<ATD01> lstAttendance = new List<ATD01>();
-
-            DateTime date = lstPunch[0].H01F04.Date;
-
-            int size = lstPunch.Count;
-            double tempWorkHpur = 0;
-
-            int lastPunchInIndex = -1;
-            for (int i = 0; i < size; i++)
-            {
-                if (lstPunch[i].H01F03 == EnmPunchType.I)
-                {
-                    lastPunchInIndex = i;
-                }
-                else if (lstPunch[i].H01F03 == EnmPunchType.O)
-                {
-                    tempWorkHpur += lstPunch[i].H01F04.Subtract(lstPunch[lastPunchInIndex].H01F04).TotalHours;
-                }
-
-                // check if next employee punch is of different employee ?
-                if (tempWorkHpur > 0 && (i == size - 1 || lstPunch[i].H01F02 != lstPunch[i + 1].H01F02))
-                {
-                    int EmployeeId = lstPunch[i].H01F02;
-                    lstAttendance.Add(new ATD01 { D01F02 = EmployeeId, D01F03 = date, D01F04 = tempWorkHpur });
-                    tempWorkHpur = 0;
-                }
-            }
-
-            if (lstAttendance.Count == 0)
-            {
-                return null;
-            }
-            return lstAttendance;
-        }
-
-
-        private void MarkMistakenlyPunch(List<PCH01> lstPunch)
-        {
-            if (lstPunch == null || lstPunch.Count == 0 || lstPunch.Count == 1)
-            {
-                return;
-            }
-
-            TimeSpan timeBuffer = new TimeSpan(0, 0, 10);    // 1 minute buffer
-            for (int i = 0; i < lstPunch.Count; i++)
-            {
-                if (i != 0 && lstPunch[i - 1].H01F02 == lstPunch[i].H01F02)
-                {
-                    if (lstPunch[i].H01F04.Subtract(lstPunch[i - 1].H01F04) <= timeBuffer)
-                    {
-                        //lstPunch.RemoveAt(i);
-                        lstPunch[i].H01F03 = EnmPunchType.M;
-                    }
-                }
-            }
-        }
-
-        private void MarkAmbiguousPunch(List<PCH01> lstPunch)
-        {
-            if (lstPunch == null || lstPunch.Count == 0)
-            {
-                return;
-            }
-            if (lstPunch.Count == 1)
-            {
-                lstPunch[0].H01F03 = EnmPunchType.A;
-                return;
-            }
-            int size = lstPunch.Count;
-
-            int tempEmployeeId = 0;
-            int tempEmployeeStartIndex = 0;
-            int tempEmployeelLegitimatePunchCount = 0;
-
-            for (int i = 0; i < size; i++)
-            {
-                if (i == 0)
-                {
-                    tempEmployeeId = lstPunch[0].H01F02;
-                    tempEmployeelLegitimatePunchCount++;
-                }
-                else if (lstPunch[i].H01F03 != EnmPunchType.M && lstPunch[i].H01F02 == tempEmployeeId)
-                {
-                    tempEmployeelLegitimatePunchCount++;
-                }
-
-                // check if next punch is of different employee
-                if (i == size - 1 || lstPunch[i].H01F02 != lstPunch[i + 1].H01F02)
-                {
-                    if (tempEmployeelLegitimatePunchCount % 2 != 0)
-                    {
-                        for (int j = tempEmployeeStartIndex; j <= i; j++)
-                        {
-                            if (lstPunch[j].H01F03 == EnmPunchType.U)
-                            {
-                                lstPunch[j].H01F03 = EnmPunchType.A;
-                            }
-                        }
-                    }
-
-                    // set up things for next employee punch(es)
-                    if (i != size - 1)
-                    {
-                        tempEmployeeId = lstPunch[i + 1].H01F02;
-                        tempEmployeeStartIndex = i + 1;
-                        tempEmployeelLegitimatePunchCount = 0;
-                    }
-                }
-            }
-        }
-
-        private void MarkInOutPunch(List<PCH01> lstPunch)
-        {
-            if (lstPunch == null || lstPunch.Count == 0)
-            {
-                return;
-            }
-
-            int size = lstPunch.Count;
-            bool tempIsPunchedIn = false;
-            for (int i = 0; i < size; i++)
-            {
-                if
-                (lstPunch[i].H01F03 != EnmPunchType.M
-                    && lstPunch[i].H01F03 != EnmPunchType.A)
-                {
-                    if (tempIsPunchedIn == false)
-                    {
-                        lstPunch[i].H01F03 = EnmPunchType.I;
-                        tempIsPunchedIn = true;
-                    }
-                    else
-                    {
-                        lstPunch[i].H01F03 = EnmPunchType.O;
-                        tempIsPunchedIn = false;
-                    }
-                }
-            }
-        }
-
-        private void UpdatePunchType(List<PCH01> lstPunch)
-        {
-            MarkMistakenlyPunch(lstPunch);
-            MarkAmbiguousPunch(lstPunch);
-            MarkInOutPunch(lstPunch);
-        }
-
-        public Response GenerateAttendance(DateTime date)
-        {
-            try
-            {
-                using (IDbConnection db = _dbFactory.OpenDbConnection())
-                {
-                    SqlExpression<PCH01> sqlExp = db.From<PCH01>()
-                        .And("Date(H01F04) = Date({0})", date)
-                        .OrderBy<PCH01>(punch => new { punch.H01F02, punch.H01F04 });
-                    List<PCH01> lstPunch = db.Select<PCH01>(sqlExp);
-
-                    UpdatePunchType(lstPunch);
-
-                    List<ATD01> lstAttendance = ComputeAttendance(lstPunch);
-
-                    // update todays punches type
-                    //db.UpdateAll<PCH01>(lstPunch);
-
-                    // update todays attendances
-                    //db.InsertAll<ATD01>(lstAttendance);
-
-                    return new Response()
-                    {
-                        IsError = true,
-                        Message = $"Punches for Date: {date.ToString("yyyy-MM-dd")}",
-                        Data = new { lstAttendance = lstAttendance, lstPunch = lstPunch.Select(punch => new { Id = punch.P01F01, EmployeeId = punch.H01F02, Time = punch.H01F03, Type = punch.H01F03.ToString() }) }
-                    };
-                }
-            }
-            catch (Exception ex)
-            {
-                return new Response()
-                {
-                    IsError = false,
-                    Message = ex.Message,
-                    Data = null
-                }; ;
-            }
+            response.HttpStatusCode = HttpStatusCode.OK;
+            response.Data = dtPunch;
+            return response;
         }
     }
 }

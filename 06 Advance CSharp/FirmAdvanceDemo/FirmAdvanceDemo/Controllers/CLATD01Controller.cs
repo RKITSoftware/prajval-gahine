@@ -42,11 +42,11 @@ namespace FirmAdvanceDemo.Controllers
         /// <param name="id">Employee Id</param>
         /// <returns>Instance of type IHttpActionResult</returns>
         [HttpGet]
-        [Route("{id}")]
+        [Route("{attendanceID}")]
         //[BasicAuthorization(Roles = "admin")]
-        public IHttpActionResult GetAttendance(int id)
+        public IHttpActionResult GetAttendance(int attendanceID)
         {
-            Response response = _objBLAttendance.RetrieveAttendance(id);
+            Response response = _objBLAttendance.RetrieveAttendance(attendanceID);
             return Ok(response);
         }
 
@@ -65,7 +65,7 @@ namespace FirmAdvanceDemo.Controllers
         /// <param name="year">Attendance Year</param>
         /// <returns>Instance of type IHttpActionResult</returns>
         [HttpGet]
-        [Route("")]
+        [Route("monthly")]
         //[BasicAuthorization(Roles = "admin")]
         public IHttpActionResult GetAttendanceByMonthYear(int year, int month)
         {
@@ -177,10 +177,15 @@ namespace FirmAdvanceDemo.Controllers
         /// <returns>Instance of type IHttpActionResult</returns>
         [HttpDelete]
         //[BasicAuthorization(Roles = "admin")]
-        [Route("{id}")]
-        public IHttpActionResult DeleteAttendance(int id)
+        [Route("{attendanceID}")]
+        public IHttpActionResult DeleteAttendance(int attendanceID)
         {
-            Response response = _objBLAttendance.RemoveResource(id);
+
+            Response response = _objBLAttendance.ValidateDelete(attendanceID);
+            if (!response.IsError)
+            {
+                response = _objBLAttendance.Delete(attendanceID);
+            }
             return Ok(response);
         }
 

@@ -18,16 +18,31 @@ namespace FirmAdvanceDemo.Auth
         /// <param name="actionContext">context of current action</param>
         public override void OnAuthorization(HttpActionContext actionContext)
         {
+            Response response;
+
             // access encrypted refresh token from cookie and decrypt it
             CookieHeaderValue cookie = actionContext.Request.Headers.GetCookies("refresh-token").FirstOrDefault<CookieHeaderValue>();
             string encryptedRefreshToken = cookie["refresh-token"].Value;
-            string refreshToken = GeneralUtility.AesDecrypt(encryptedRefreshToken, null);
 
-            string ErrorMessage = this.AuthenticateJWT(refreshToken);
-
-            if (ErrorMessage != null)
+            if(string.IsNullOrEmpty(encryptedRefreshToken) )
             {
-                actionContext.Response = actionContext.Request.CreateResponse(HttpStatusCode.Unauthorized, ErrorMessage);
+                response = new Response
+                {
+                    IsError = true,
+                    HttpStatusCode = HttpStatusCode.Unauthorized,
+                    Message = "Refresh token not found in cookie."
+                };
+            }
+            else
+            {
+                string refreshToken = GeneralUtility.AesDecrypt(encryptedRefreshToken, null);
+
+                response = AuthenticateJWT(refreshToken);
+            }
+
+            if (response.IsError)
+            {
+                actionContext.Response = actionContext.Request.CreateResponse(response.HttpStatusCode, response.Message);
             }
         }
     }

@@ -220,6 +220,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SwaggerRequirements\AccessTokenAuthRequirements.cs" />
     <Compile Include="SwaggerRequirements\BasicAuthRequirements.cs" />
+    <Compile Include="Utitlity\GeneralContext.cs" />
+    <Compile Include="Utitlity\GeneralHandler.cs" />
     <Compile Include="Utitlity\GeneralUtility.cs" />
     <Compile Include="Utitlity\Response.cs" />
     <Compile Include="Utitlity\ResponseWrapper.cs" />

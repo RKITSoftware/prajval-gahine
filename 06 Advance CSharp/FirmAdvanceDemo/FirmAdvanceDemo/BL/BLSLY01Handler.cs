@@ -18,9 +18,9 @@ namespace FirmAdvanceDemo.BL
         /// <summary>
         /// Instance of SLY01 model
         /// </summary>
-        private SLY01 _objSLY01;
+        private readonly SLY01 _objSLY01;
 
-        private DBSLY01Context _dBSLY01Context;
+        private readonly DBSLY01Context _dBSLY01Context;
 
         protected readonly OrmLiteConnectionFactory _dbFactory;
 

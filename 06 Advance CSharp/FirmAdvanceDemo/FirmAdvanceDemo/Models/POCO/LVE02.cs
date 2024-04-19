@@ -1,4 +1,5 @@
 using FirmAdvanceDemo.Enums;
+using ServiceStack;
 using ServiceStack.DataAnnotations;
 using System;
 
@@ -41,7 +42,6 @@ namespace FirmAdvanceDemo.Models.POCO
         /// <summary>
         /// Leave status
         /// </summary>
-        [IgnoreOnInsert]
         public EnmLeaveStatus E02F06 { get; set; }
 
         /// <summary>

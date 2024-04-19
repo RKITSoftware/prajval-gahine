@@ -3,7 +3,11 @@ using FirmAdvanceDemo.Utitlity;
 using System;
 using System.Net;
 using System.Net.Http;
+using System.Security.Claims;
+using System.Security.Principal;
 using System.Text;
+using System.Threading;
+using System.Web;
 using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
 
@@ -16,9 +20,13 @@ namespace FirmAdvanceDemo.Auth
     {
         public override void OnAuthorization(HttpActionContext actionContext)
         {
+            Response response = new Response();
+
             if (actionContext?.Request?.Headers?.Authorization == null)
             {
-                actionContext.Response = actionContext.Request.CreateErrorResponse(HttpStatusCode.Unauthorized, "Login failed");
+                response.IsError = true;
+                response.HttpStatusCode = HttpStatusCode.Unauthorized;
+                response.Message = "No Authorization Header found, login failed.";
             }
             else
             {
@@ -32,30 +40,49 @@ namespace FirmAdvanceDemo.Auth
                     string username = username_password[0];
                     string password = username_password[1];
 
-                    int userId = -1;
+                    int userID = 0;
                     string[] roles;
-                    bool IsUserValid = ValidateUser.Login(username, password, out userId, out roles);
 
-                    if (IsUserValid)
+                    bool isValid = ValidateUser.Login(username, password);
+
+                    if (isValid)
                     {
-                        BLEMP01Handler objBLEmployee = new BLEMP01Handler();
-                        int EmlpoyeeId = objBLEmployee.RetrieveEmployeeIdByUserId(userId);
-                        bool IsPrincipalAttached = GeneralUtility.AttachPrinicpal(userId.ToString(), username, EmlpoyeeId.ToString(), roles);
+                        int employeeID = GeneralHandler.RetrieveEmployeeIDByUserID(userID);
 
-                        if (!IsPrincipalAttached)
+                        GenericIdentity identity = new GenericIdentity(username);
+                        identity.AddClaim(new Claim("userID", userID.ToString()));
+
+                        HttpContext.Current.Items["employeeID"] = employeeID;
+                        HttpContext.Current.Items["username"] = username;
+
+                        roles = GeneralContext.FetchRolesByUserID(userID);
+
+                        GenericPrincipal principal = new GenericPrincipal(identity, roles);
+
+                        Thread.CurrentPrincipal = principal;
+                        if (HttpContext.Current != null)
                         {
-                            actionContext.Response = actionContext.Request.CreateErrorResponse(HttpStatusCode.Unauthorized, "Authorization denied");
+                            HttpContext.Current.User = principal;
                         }
                     }
                     else
                     {
-                        actionContext.Response = actionContext.Request.CreateErrorResponse(HttpStatusCode.Unauthorized, "Invalida Credentials");
+                        response.IsError = true;
+                        response.HttpStatusCode = HttpStatusCode.Unauthorized;
+                        response.Message = "Invalid credentials.";
                     }
                 }
                 else
                 {
-                    actionContext.Response = actionContext.Request.CreateErrorResponse(HttpStatusCode.Unauthorized, "Invalid authentication request");
+                    response.IsError = true;
+                    response.HttpStatusCode = HttpStatusCode.Unauthorized;
+                    response.Message = "Invalid authorization schema.";
                 }
+            }
+
+            if (response.IsError)
+            {
+                actionContext.Response = actionContext.Request.CreateErrorResponse(response.HttpStatusCode, response.Message);
             }
         }
     }

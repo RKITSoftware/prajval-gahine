@@ -12,7 +12,7 @@ namespace FirmAdvanceDemo.Models.POCO
         /// Attendance Id
         /// </summary>
         [PrimaryKey]
-        public int P01F01 { get; set; }
+        public int D01F01 { get; set; }
 
         /// <summary>
         /// Employee Id

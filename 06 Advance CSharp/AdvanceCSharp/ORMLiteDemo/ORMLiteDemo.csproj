@@ -5,7 +5,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <StartupObject>ORMLiteDemo.Program2</StartupObject>
+    <StartupObject>ORMLiteDemo.Program3</StartupObject>
   </PropertyGroup>
 
   <ItemGroup>

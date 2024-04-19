@@ -23,7 +23,7 @@ namespace FirmAdvanceDemo.Models.POCO
         /// <summary>
         /// Role Id (Foreign key)
         /// </summary>
-        public EnmRole E02F03 { get; set; }
+        public int E02F03 { get; set; }
 
         /// <summary>
         /// UserEmployee creation datetime
