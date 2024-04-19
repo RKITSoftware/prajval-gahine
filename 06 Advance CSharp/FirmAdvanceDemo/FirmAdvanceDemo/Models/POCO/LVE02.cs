@@ -13,23 +13,25 @@ namespace FirmAdvanceDemo.Models.POCO
         /// Leave Id
         /// </summary>
         [PrimaryKey]
-        [Alias("E02F01")]
         public int E02F01 { get; set; }
 
         /// <summary>
         /// Employee Id
         /// </summary>
+        [IgnoreOnUpdate]
         public int E02F02 { get; set; }
 
         /// <summary>
         /// Leave Datetime
         /// </summary>
+        [IgnoreOnUpdate]
         public DateTime E02F03 { get; set; }
 
         /// <summary>
         /// No. of leaves from Leave Date
         /// </summary>
-        public double E02F04 { get; set; }
+        [IgnoreOnUpdate]
+        public int E02F04 { get; set; }
 
         /// <summary>
         /// Reason for leave

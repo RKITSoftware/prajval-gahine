@@ -6,7 +6,7 @@ namespace FirmAdvanceDemo.Models.POCO
     /// <summary>
     /// Attendance POCO model
     /// </summary>
-    public class ATD01 : IModel
+    public class ATD01
     {
         /// <summary>
         /// Attendance Id

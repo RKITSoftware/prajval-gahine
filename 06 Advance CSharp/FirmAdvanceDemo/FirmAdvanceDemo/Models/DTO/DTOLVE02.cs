@@ -1,5 +1,4 @@
 using FirmAdvanceDemo.Enums;
-using FirmAdvanceDemo.Models.DTO.DataAnnotations;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
@@ -38,10 +37,9 @@ namespace FirmAdvanceDemo.Models.DTO
         /// No. of leaves from Leave Date
         /// </summary>
         [JsonPropertyName("e02105")]
-        [Range(0, 60, ErrorMessage = "No. of leave must be in range 0 to 60.")]
+        [Range(1, 60, ErrorMessage = "No. of leave must be in range 1 to 60.")]
         [Required(ErrorMessage = "No. of leaves cannot be empty.")]
-        [InMultipleOf(divisor: 0.25, ErrorMessage = "No. of leaves must be in multiple of 0.25.")]
-        public double E02F05 { get; set; }
+        public int E02F05 { get; set; }
 
         /// <summary>
         /// Reason for leave

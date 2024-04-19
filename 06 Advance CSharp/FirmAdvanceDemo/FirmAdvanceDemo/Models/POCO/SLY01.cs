@@ -6,14 +6,13 @@ namespace FirmAdvanceDemo.Models.POCO
     /// <summary>
     /// Salary POCO model
     /// </summary>
-    public class SLY01 : IModel
+    public class SLY01
     {
         /// <summary>
         /// Salary Id
         /// </summary>
         [PrimaryKey]
-        [Alias("Y01F01")]
-        public int P01F01
+        public int Y01F01
         { get; set; }
 
         /// <summary>
@@ -22,30 +21,25 @@ namespace FirmAdvanceDemo.Models.POCO
         public int Y01F02 { get; set; }
 
         /// <summary>
-        /// Month, Year of salary credit
+        /// Salary Amount
         /// </summary>
-        public DateTime Y01F03 { get; set; }
-
-        /// <summary>
-        /// Monthly salary amount
-        /// </summary>
-        public double Y01F04 { get; set; }
+        public double Y01F03 { get; set; }
 
         /// <summary>
         /// Position Id (Foreign key)
         /// </summary>
-        public int Y01F05 { get; set; }
+        public int Y01F04 { get; set; }
 
         /// <summary>
         /// Salary creation datetime
         /// </summary>
         [IgnoreOnUpdate]
-        public DateTime Y01F06 { get; set; }
+        public DateTime Y01F05 { get; set; }
 
         /// <summary>
         /// Salary last modified datetime
         /// </summary>
         [IgnoreOnInsert]
-        public DateTime Y01F07 { get; set; }
+        public DateTime Y01F06 { get; set; }
     }
 }

@@ -3,13 +3,13 @@ using FirmAdvanceDemo.Enums;
 using FirmAdvanceDemo.Models.DTO;
 using FirmAdvanceDemo.Models.POCO;
 using FirmAdvanceDemo.Utitlity;
-using MySql.Data.MySqlClient;
 using ServiceStack.OrmLite;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Net;
+using static FirmAdvanceDemo.Utitlity.Constants;
 
 namespace FirmAdvanceDemo.BL
 {
@@ -45,7 +45,7 @@ namespace FirmAdvanceDemo.BL
             // check employee ID in either A or E
             int employeeId = objDTOLVE02.E02F02;
             int employeeCount;
-            using(IDbConnection db = _dbFactory.OpenDbConnection())
+            using (IDbConnection db = _dbFactory.OpenDbConnection())
             {
                 employeeCount = (int)db.Count<EMP01>(employee => employee.P01F01 == employeeId);
             }
@@ -60,15 +60,15 @@ namespace FirmAdvanceDemo.BL
             }
 
             // check leave ID in case of E
-            if(Operation == EnmOperation.E)
+            if (Operation == EnmOperation.E)
             {
                 int leaveId = objDTOLVE02.E02F01;
                 int leaveCount;
-                using(IDbConnection db = _dbFactory.OpenDbConnection())
+                using (IDbConnection db = _dbFactory.OpenDbConnection())
                 {
                     leaveCount = (int)db.Count<LVE02>(leave => leave.E02F01 == leaveId);
                 }
-                if(leaveCount == 0)
+                if (leaveCount == 0)
                 {
                     response.IsError = true;
                     response.HttpStatusCode = HttpStatusCode.NotFound;
@@ -85,12 +85,13 @@ namespace FirmAdvanceDemo.BL
         /// Method to convert DTOLVE02 instance to LVE02 instance
         /// </summary>
         /// <param name="objDTOLVE02">Instance of DTOLVE02</param>
-        private void Presave(DTOLVE02 objDTOLVE02)
+        public void Presave(DTOLVE02 objDTOLVE02)
         {
             _objLVE02 = objDTOLVE02.ConvertModel<LVE02>();
-            if(Operation == EnmOperation.A)
+            if (Operation == EnmOperation.A)
             {
                 _objLVE02.E02F01 = 0;
+                _objLVE02.E02F03 = _objLVE02.E02F03.Date;
                 _objLVE02.E02F06 = EnmLeaveStatus.P;
                 _objLVE02.E02F07 = DateTime.Now;
             }
@@ -104,119 +105,49 @@ namespace FirmAdvanceDemo.BL
         {
             Response response = new Response();
 
-            // validate if leave already requested for given leave date range
-            bool isLeaveConflict = IsLeaveConflict();
-
+            // nothing to validate as of now
+            return response;
         }
 
-        public bool IsLeaveConflict()
+        public Response Save()
         {
-            DateTime startDateTime = _objLVE02.E02F03;
-            DateTime endDateTime = startDateTime.AddDays(_objLVE02.E02F04);
+            Response response = new Response();
 
-            int conflictCount = _objDBLVE02Context.FetchLeaveConflictCount(startDateTime, endDateTime);
-        }
-
-        /// <summary>
-        /// Method to add a leave to database
-        /// </summary>
-        /// <param name="leave">Leave instance</param>
-        /// <returns>ResponseStatusInfo instance containing null</returns>
-        public Response AddLeave(LVE02 leave)
-        {
-            try
+            if (Operation == EnmOperation.A)
             {
-                leave.E02F07 = DateTime.Now.Date;
-                leave.E02F06 = EnmLeaveStatus.P;
-
-                if (leave.E02F04 < 1)
+                if (!_objDBLVE02Context.RequestLeave(_objLVE02))
                 {
-                    throw new Exception("Reuqest valid leave days");
+                    response.IsError = true;
+                    response.HttpStatusCode = HttpStatusCode.Conflict;
+                    response.Message = "Leave request already exists within the specified range.";
+
+                    return response;
                 }
+
                 using (IDbConnection db = _dbFactory.OpenDbConnection())
                 {
-                    // check that reuest leave is not coinciding with already reuested leave for the employee
-                    DateTime startLeaveRqDate = leave.E02F03;
-                    DateTime lastLeaveRqDate = leave.E02F03.AddDays(leave.E02F04 - 1);
-
-                    SqlExpression<LVE02> sqlExp = db.From<LVE02>()
-                        .Where(l => l.E02F02 == leave.E02F02)
-                        .And(
-                            "{0} >= E01F04 AND  {0} <= ADDDATE(E01F04, INTERVAL (E01F05 - 1) DAY)",
-                            startLeaveRqDate.ToString("yyyy-MM-dd")
-                          )
-                        .Or(
-                            "{0} >= E01F04 AND  {0} <= ADDDATE(E01F04, INTERVAL (E01F05 - 1) DAY)",
-                            lastLeaveRqDate.ToString("yyyy-MM-dd")
-                          )
-                        .Or(l => l.E02F03 >= startLeaveRqDate && l.E02F03 <= lastLeaveRqDate)
-                        .Select(Sql.Count("*"));
-
-                    int count = db.Single<int>(sqlExp);
-
-                    if (count > 0)
-                    {
-                        throw new Exception($"Employee with employee id: {leave.E02F02} is already is on leave on {leave.E02F03}");
-                    }
-
-                    db.Insert<LVE02>(leave);
-
-                    return new Response()
-                    {
-                        IsError = true,
-                        Message = $"Leave request for date: {DateTime.Now.Date} submitted for employee id: {leave.E02F02}",
-                        Data = null
-                    };
+                    db.Insert(_objLVE02);
                 }
+
+                response.HttpStatusCode = HttpStatusCode.OK;
+                response.Message = "Leave request submitted.";
+
+                return response;
             }
-            catch (Exception ex)
+            else
             {
-                return new Response()
+                using (IDbConnection db = _dbFactory.OpenDbConnection())
                 {
-                    IsError = false,
-                    Message = ex.Message,
-                    Data = null
-                };
+                    db.Update<LVE02>(_objLVE02);
+                }
+                response.HttpStatusCode = HttpStatusCode.OK;
+                response.Message = $"Leave: {_objLVE02.E02F01} updated";
+
+                return response;
             }
         }
 
-        /// <summary>
-        /// Method to fetch leave of specified type (If leave type is LeaveStatus.None then it get all type of leaves)
-        /// </summary>
-        /// <param name="leaveType">leave type of Enum LeaveStatus</param>
-        /// <returns>ResponseStatusInfo instance containing list_of_leaves, null when an exception occurs</returns>
-        public Response FetchLeaves(EnmLeaveStatus leaveType)
-        {
-            using (IDbConnection db = _dbFactory.OpenDbConnection())
-            {
-                try
-                {
-                    SqlExpression<LVE02> sqlExp = db.From<LVE02>();
-                    if (leaveType != EnmLeaveStatus.N)
-                    {
-                        sqlExp.Where(l => l.E02F06 == EnmLeaveStatus.A);
-                    }
-
-                    List<LVE02> lstResource = db.Select<LVE02>(sqlExp);
-
-                    return new Response()
-                    {
-                        IsError = true,
-                        Message = $"Existing {leaveType}",
-                        Data = new { Resources = lstResource }
-                    };
-                }
-                catch (Exception ex)
-                {
-                    return new Response()
-                    {
-                        IsError = false,
-                        Message = ex.Message,
-                        Data = null
-                    };
-                }
-            }
-        }
+        //check378 - get leave by leave status
 
         /// <summary>
         /// Method to get leave count of an employee (employee id) and the month-year
@@ -345,41 +276,7 @@ namespace FirmAdvanceDemo.BL
         /// </summary>
         /// <param name="date">Date for which leaves are to be fetched</param>
         /// <returns>ResponseStatusInfo instance containing list_of_leaves, null when an exception occurs</returns>
-        public Response FetchDateLeaves(DateTime? date = null)
-        {
-            date = date ?? DateTime.Now;
-            try
-            {
-                using (IDbConnection db = _dbFactory.OpenDbConnection())
-                {
-                    SqlExpression<LVE02> sqlExp = db.From<LVE02>()
-                        .Where(l => l.E02F06 == EnmLeaveStatus.A)
-                        .And(l => l.E02F03 <= date)
-                        .And(
-                            "adddate(E01F04, INTERVAL (E01F05 - 1) DAY) >= {1}",
-                            EnmLeaveStatus.A,
-                            ((DateTime)date).ToString("yyyy-MM-dd")
-                        );
 
-                    List<LVE02> lstTodaysLeave = db.Select<LVE02>(sqlExp);
-                    return new Response()
-                    {
-                        IsError = true,
-                        Message = $"Leaves for date: {((DateTime)date).ToString("yyyy-MM-dd")}",
-                        Data = lstTodaysLeave
-                    };
-                }
-            }
-            catch (Exception ex)
-            {
-                return new Response()
-                {
-                    IsError = false,
-                    Message = ex.Message,
-                    Data = null
-                };
-            }
-        }
 
         /// <summary>
         /// Method to fetch leave of an employee for month-year
@@ -556,6 +453,183 @@ namespace FirmAdvanceDemo.BL
                     Data = null
                 };
             }
+        }
+
+        public Response RetrieveLeave()
+        {
+            Response response = new Response();
+            DataTable dtLeave = _objDBLVE02Context.FetchLeave();
+            if (dtLeave.Rows.Count == 0)
+            {
+                response.IsError = true;
+                response.HttpStatusCode = HttpStatusCode.NotFound;
+                response.Message = "No leaves found";
+
+                return response;
+            }
+            response.HttpStatusCode = HttpStatusCode.OK;
+            response.Data = dtLeave;
+
+            return response;
+        }
+
+        public Response RetrieveLeave(int leaveId)
+        {
+            Response response = new Response();
+            DataTable dtLeave = _objDBLVE02Context.FetchLeave(leaveId);
+            if (dtLeave.Rows.Count == 0)
+            {
+                response.IsError = true;
+                response.HttpStatusCode = HttpStatusCode.NotFound;
+                response.Message = "Leave: {leaveId} not found";
+
+                return response;
+            }
+            response.HttpStatusCode = HttpStatusCode.OK;
+            response.Data = dtLeave;
+
+            return response;
+        }
+
+        public Response RetrieveLeaveByStatus(EnmLeaveStatus leaveStatus)
+        {
+            Response response = new Response();
+            DataTable dtLeave = _objDBLVE02Context.FetchLeaveByStatus(leaveStatus);
+            if (dtLeave.Rows.Count == 0)
+            {
+                response.IsError = true;
+                response.HttpStatusCode = HttpStatusCode.NotFound;
+                response.Message = "No leaves found";
+
+                return response;
+            }
+            response.HttpStatusCode = HttpStatusCode.OK;
+            response.Data = dtLeave;
+
+            return response;
+        }
+
+        public Response RetrieveLeaveByEmployee(int employeeId)
+        {
+            Response response = new Response();
+            DataTable dtLeave = _objDBLVE02Context.FetchLeaveByEmployee(employeeId);
+            if (dtLeave.Rows.Count == 0)
+            {
+                response.IsError = true;
+                response.HttpStatusCode = HttpStatusCode.NotFound;
+                response.Message = $"No leaves found for employee: {employeeId}";
+
+                return response;
+            }
+            response.HttpStatusCode = HttpStatusCode.OK;
+            response.Data = dtLeave;
+
+            return response;
+        }
+
+        public Response ValidateDelete(int leaveId)
+        {
+            Response response = new Response();
+
+            int count;
+            using (IDbConnection db = _dbFactory.OpenDbConnection())
+            {
+                count = (int)db.Count<LVE02>(leave => leave.E02F01 == leaveId);
+            }
+            if (count == 0)
+            {
+                response.IsError = true;
+                response.HttpStatusCode = HttpStatusCode.NotFound;
+                response.Message = $"Leave with ID {leaveId} not found.";
+            }
+            return response;
+        }
+
+        public Response Delete(int leaveId)
+        {
+            Response response = new Response();
+
+            using (IDbConnection db = _dbFactory.OpenDbConnection())
+            {
+                db.DeleteById<LVE02>(leaveId);
+            }
+
+            response.HttpStatusCode = HttpStatusCode.OK;
+            response.Message = $"Leave with ID {leaveId} deleted.";
+
+            return response;
+        }
+
+        public Response RetrieveLeaveByMonthYear(int year, int month)
+        {
+            Response response = new Response();
+            DataTable dtLeave = _objDBLVE02Context.FetchLeaveByMonthYear(year, month);
+            if (dtLeave.Rows.Count == 0)
+            {
+                response.IsError = true;
+                response.HttpStatusCode = HttpStatusCode.NotFound;
+                response.Message = $"No leaves found for month: {year}/{month}.";
+
+                return response;
+            }
+            response.HttpStatusCode = HttpStatusCode.OK;
+            response.Data = dtLeave;
+
+            return response;
+        }
+
+        public Response RetrieveLeaveByDate(DateTime date)
+        {
+            Response response = new Response();
+            DataTable dtLeave = _objDBLVE02Context.FetchLeaveByDate(date);
+            if (dtLeave.Rows.Count == 0)
+            {
+                response.IsError = true;
+                response.HttpStatusCode = HttpStatusCode.NotFound;
+                response.Message = $"No leaves found for date: {date.ToString(GlobalDateFormat)}.";
+
+                return response;
+            }
+            response.HttpStatusCode = HttpStatusCode.OK;
+            response.Data = dtLeave;
+
+            return response;
+        }
+
+        public Response RetrieveLeaveByEmployeeAndMonthYear(int employeeId, int year, int month)
+        {
+            Response response = new Response();
+            DataTable dtLeave = _objDBLVE02Context.FetchLeaveByEmployeeAndMonthYear(employeeId, year, month);
+            if (dtLeave.Rows.Count == 0)
+            {
+                response.IsError = true;
+                response.HttpStatusCode = HttpStatusCode.NotFound;
+                response.Message = $"No leaves found for employee {employeeId} for {year}/{month}.";
+
+                return response;
+            }
+            response.HttpStatusCode = HttpStatusCode.OK;
+            response.Data = dtLeave;
+
+            return response;
+        }
+
+        public Response RetrieveLeaveByEmployeeAnYear(int employeeId, int year)
+        {
+            Response response = new Response();
+            DataTable dtLeave = _objDBLVE02Context.FetchLeaveByEmployeeAndMonth(employeeId, year);
+            if (dtLeave.Rows.Count == 0)
+            {
+                response.IsError = true;
+                response.HttpStatusCode = HttpStatusCode.NotFound;
+                response.Message = $"No leaves found for employee {employeeId} for {year}.";
+
+                return response;
+            }
+            response.HttpStatusCode = HttpStatusCode.OK;
+            response.Data = dtLeave;
+
+            return response;
         }
     }
 }

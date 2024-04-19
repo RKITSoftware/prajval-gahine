@@ -48,7 +48,7 @@ WHERE
 
                     // create and initiate stg01 table
                     db.CreateTableIfNotExists<STG01>();
-                    db.Insert<STG01>(new STG01() { G01F02 = null, G01F03 = now, G01F04 = now });
+                    db.Insert<STG01>(new STG01() { G01F02 = DateTime.Now, G01F03 = now, G01F04 = now });
 
                     // create and initiate rle01 table
                     db.CreateTableIfNotExists<RLE01>();
@@ -97,12 +97,12 @@ WHERE
                     string adminPhoneNo = ConfigurationManager.AppSettings["padmin-phone-no"];
                     int userId = (int)db.Insert<USR01>(new USR01()
                     {
-                        r01f02 = adminUsername,
-                        r01f03 = GetHMACBase64(adminPassword, passwordHashSecretKey),
-                        r01f04 = adminEmail,
-                        r01f05 = adminPhoneNo,
-                        r01f06 = now,
-                        r01f07 = now
+                        R01F02 = adminUsername,
+                        R01F03 = GetHMACBase64(adminPassword, passwordHashSecretKey),
+                        R01F04 = adminEmail,
+                        R01F05 = adminPhoneNo,
+                        R01F06 = now,
+                        R01F07 = now
                     }, selectIdentity: true);
 
                     // add above user role in ule02 table

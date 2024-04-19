@@ -186,7 +186,7 @@ namespace FirmAdvanceDemo.Controllers
 
 
         [HttpPost]
-        [Route("api/attendance/evaluate-eod-punches")]
+        [Route("evaluate-eod-punches")]
         public IHttpActionResult EvaluateEndOfDayPunches(DateTime date)
         {
             // check378 - check if model state is invalid when we donot pass date in query string

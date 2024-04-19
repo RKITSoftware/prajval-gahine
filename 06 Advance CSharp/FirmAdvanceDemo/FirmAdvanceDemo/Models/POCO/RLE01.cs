@@ -6,13 +6,13 @@ namespace FirmAdvanceDemo.Models.POCO
     /// <summary>
     /// Role POCO model
     /// </summary>
-    public class RLE01 : IModel
+    public class RLE01
     {
         /// <summary>
         /// Role Id
         /// </summary>
         [PrimaryKey]
-        public int P01F01 { get; set; }
+        public int E01F01 { get; set; }
 
         /// <summary>
         /// Role name

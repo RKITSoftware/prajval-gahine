@@ -12,7 +12,7 @@ using System.Net;
 
 namespace FirmAdvanceDemo.BL
 {
-    public class BLPCH01Handler : BLResource<PCH01>
+    public class BLPCH01Handler
     {
         /// <summary>
         /// Instance of PCH01 model

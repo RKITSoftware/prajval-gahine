@@ -2,7 +2,6 @@
 using MySql.Data.MySqlClient;
 using System;
 using System.Data;
-using System.Drawing;
 using static FirmAdvanceDemo.Utitlity.Constants;
 
 namespace FirmAdvanceDemo.DB
@@ -65,7 +64,7 @@ namespace FirmAdvanceDemo.DB
                                     atd01
                                 WHERE
                                     DATE(d01f03) = {0}",
-                            now.ToString(GloablDateFormat));
+                            now.ToString(GlobalDateFormat));
 
             MySqlCommand cmd = new MySqlCommand(query, _connection);
             MySqlDataAdapter adapter = new MySqlDataAdapter(cmd);

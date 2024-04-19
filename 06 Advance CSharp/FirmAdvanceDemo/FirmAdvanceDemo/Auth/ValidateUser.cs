@@ -22,7 +22,7 @@ namespace FirmAdvanceDemo.Auth
             roles = null;
 
             // first hash the password
-            byte[] hashedPassword = GeneralUtility.GetHMACBase64(password, null);
+            string hashedPassword = GeneralUtility.GetHMACBase64(password, null);
 
             // get userId
             BLUSR01Handler objBLUser = new BLUSR01Handler();

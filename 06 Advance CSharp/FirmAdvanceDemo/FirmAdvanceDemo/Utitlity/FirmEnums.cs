@@ -11,27 +11,27 @@ namespace FirmAdvanceDemo.Enums
         /// <summary>
         /// None
         /// </summary>
-        N = 0,
+        N,
 
         /// <summary>
         /// Pending
         /// </summary>
-        P = 1,
+        P,
 
         /// <summary>
         /// Approved
         /// </summary>
-        A = 2,
+        A,
 
         /// <summary>
         /// Rejected
         /// </summary>
-        R = 3,
+        R,
 
         /// <summary>
         /// Expired
         /// </summary>
-        E = 4
+        E
     }
 
     /// <summary>

@@ -77,7 +77,7 @@ namespace FirmAdvanceDemo.BL
 
             if (Operation == EnmOperation.A)
             {
-                _objDPT01.P01F01 = 0;
+                _objDPT01.T01F01 = 0;
                 _objDPT01.T01F03 = DateTime.Now;
             }
             else
@@ -126,7 +126,7 @@ namespace FirmAdvanceDemo.BL
                     db.Update<DPT01>(_objDPT01);
 
                     response.HttpStatusCode = HttpStatusCode.OK;
-                    response.Message = $"Department updated with id: {_objDPT01.P01F01}";
+                    response.Message = $"Department updated with id: {_objDPT01.T01F01}";
                     return response;
                 }
             }
@@ -138,7 +138,7 @@ namespace FirmAdvanceDemo.BL
             int count;
             using (IDbConnection db = _dbFactory.OpenDbConnection())
             {
-                count = (int)db.Count<DPT01>(dpt01 => dpt01.P01F01 == departmentId);
+                count = (int)db.Count<DPT01>(dpt01 => dpt01.T01F01 == departmentId);
             }
 
             if (count == 0)

@@ -16,20 +16,20 @@ namespace FirmAdvanceDemo.Models.DTO
         [JsonPropertyName("r01101")]
         [Range(0, int.MaxValue)]
         [Required(ErrorMessage = "User ID cannot be empty.")]
-        public int r01f01 { get; set; }
+        public int R01F01 { get; set; }
 
         /// <summary>
         /// username
         /// </summary>
         [JsonPropertyName("r01102")]
         [Required(ErrorMessage = "Username cannot be empty.")]
-        public string r01f02 { get; set; }
+        public string R01F02 { get; set; }
 
         /// <summary>
         /// user hashed password
         /// </summary>
         [Required(ErrorMessage = "Password cannot be empty.")]
-        public string r01f03 { get; set; }
+        public string R01F03 { get; set; }
 
         /// <summary>
         /// user emailId
@@ -37,7 +37,7 @@ namespace FirmAdvanceDemo.Models.DTO
         [JsonPropertyName("r01104")]
         [EmailAddress]
         [Required(ErrorMessage = "Email ID cannot be empty.")]
-        public string r01f04 { get; set; }
+        public string R01F04 { get; set; }
 
         /// <summary>
         /// User phone no.
@@ -45,12 +45,12 @@ namespace FirmAdvanceDemo.Models.DTO
         [JsonPropertyName("r01105")]
         [Phone]
         [Required(ErrorMessage = "Phone no. cannot be empty.")]
-        public string r01f05 { get; set; }
+        public string R01F05 { get; set; }
 
         /// <summary>
         /// User roles
         /// </summary>
         [Required(ErrorMessage = "Roles cannot be empty.")]
-        public List<EnmRole> r01f06 { get; set; }
+        public List<EnmRole> R01F06 { get; set; }
     }
 }

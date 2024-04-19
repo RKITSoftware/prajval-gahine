@@ -18,7 +18,7 @@ namespace FirmAdvanceDemo.BL
     /// <summary>
     /// Business logic class for User - defines all props and methods to suppor User controller
     /// </summary>
-    public class BLUSR01Handler : BLResource<USR01>
+    public class BLUSR01Handler
     {
         /// <summary>
         /// Instance of USR01 model
@@ -31,12 +31,14 @@ namespace FirmAdvanceDemo.BL
         public List<EnmRole> lstRole;
 
         public EnmOperation Operation { get; set; }
+        protected readonly OrmLiteConnectionFactory _dbFactory;
 
         /// <summary>
         /// Default constructor for BLUser
         /// </summary>
         public BLUSR01Handler()
         {
+            _dbFactory = OrmliteDbConnector.DbFactory;
         }
 
         /// <summary>
@@ -51,18 +53,17 @@ namespace FirmAdvanceDemo.BL
             Response response = new Response();
             if (Operation == EnmOperation.E)
             {
-                int userId = objDTOUSR01.r01f01;
                 int userCount;
                 using (IDbConnection db = _dbFactory.OpenDbConnection())
                 {
-                    userCount = (int)db.Count<USR01>(usr01 => usr01.P01F01 == userId);
+                    userCount = (int)db.Count<USR01>(usr01 => usr01.R01F01 == objDTOUSR01.R01F01);
                 }
 
                 if (userCount == 0)
                 {
                     response.IsError = true;
                     response.HttpStatusCode = HttpStatusCode.NotFound;
-                    response.Message = $"User not found with id: {userId}";
+                    response.Message = $"User not found with id: {objDTOUSR01.R01F01}";
 
                     return response;
                 }
@@ -80,16 +81,16 @@ namespace FirmAdvanceDemo.BL
 
             // converting string password to hased password (bytes)
             string secretKey = (string)ConfigurationManager.AppSettings["PasswordHashSecretKey"];
-            ObjUSR01.r01f03 = GetHMACBase64(objDTOUSR01.r01f03, secretKey);
+            ObjUSR01.R01F03 = GetHMACBase64(objDTOUSR01.R01F03, secretKey);
 
             if (Operation == EnmOperation.A)
             {
-                ObjUSR01.P01F01 = 0;
-                ObjUSR01.r01f06 = DateTime.Now;
+                ObjUSR01.R01F01 = 0;
+                ObjUSR01.R01F06 = DateTime.Now;
             }
             else
             {
-                ObjUSR01.r01f07 = DateTime.Now;
+                ObjUSR01.R01F07 = DateTime.Now;
             }
         }
 
@@ -102,10 +103,10 @@ namespace FirmAdvanceDemo.BL
             Response response = new Response();
 
             int userCount;
-            string username = ObjUSR01.r01f02;
+            string username = ObjUSR01.R01F02;
             using (IDbConnection db = _dbFactory.OpenDbConnection())
             {
-                userCount = (int)db.Count<USR01>(user => user.r01f02 == username);
+                userCount = (int)db.Count<USR01>(user => user.R01F02 == username);
             }
 
             if (userCount > 0)
@@ -118,162 +119,6 @@ namespace FirmAdvanceDemo.BL
             }
 
             return response;
-        }
-
-        /// <summary>
-        /// Method to Add (Create) a new record of usr01 table in DB
-        /// </summary>
-        public void Save(EnmOperation operation, out int newUserId)
-        {
-            newUserId = 0;
-            try
-            {
-                using (IDbConnection db = _dbFactory.OpenDbConnection())
-                {
-                    if (operation == EnmOperation.A)
-                    {
-                        newUserId = (int)db.Insert<USR01>(ObjUSR01, selectIdentity: true);
-                        int tempNewUserId = newUserId;
-                        // create role - user.
-                        List<ULE02> lstULE02 = lstRole.Select(role => new ULE02()
-                        {
-                            E02F02 = tempNewUserId,
-                            E02F03 = role,
-                            E02F04 = ObjUSR01.r01f06,
-                            E02F05 = ObjUSR01.r01f06
-                        }).ToList();
-                        db.InsertAll<ULE02>(lstULE02);
-
-                        PopulateRSI(true,
-                            HttpStatusCode.OK,
-                            $"User created with user id: {newUserId}",
-                            null);
-                    }
-                    else
-                    {
-                        Dictionary<string, object> toUpdateDict = GetDictionary(ObjUSR01);
-                        toUpdateDict.Remove("r01f02");
-                        db.UpdateOnly<USR01>(toUpdateDict, user => user.r01f02 == ObjUSR01.r01f02);
-
-                        PopulateRSI(true,
-                            HttpStatusCode.OK,
-                            "User updated successfully",
-                            null);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                PopulateRSI(false,
-                    HttpStatusCode.BadRequest,
-                    ex.Message,
-                    null);
-            }
-        }
-
-        /// <summary>
-        /// Method to check does username exists in db
-        /// </summary>
-        /// <returns>true if username already exists else false</returns>
-        public bool DoesUsernameExists()
-        {
-            try
-            {
-                using (IDbConnection db = _dbFactory.OpenDbConnection())
-                {
-                    //throw new Exception("SQL ERROR");
-                    int count = (int)db.Count<USR01>(user => user.r01f02 == ObjUSR01.r01f02);
-                    return count > 0;
-                }
-            }
-            catch (Exception ex)
-            {
-                PopulateRSI(
-                    false,
-                    HttpStatusCode.OK,
-                    ex.Message,
-                    null
-                );
-                return true;
-            }
-        }
-
-        /// <summary>
-        /// Method to fetch used ID using username from database
-        /// </summary>
-        /// <param name="username">Username</param>
-        /// <returns>ResponseStatusInfo instance containing userId if successful or null if any exception</returns>
-        public Response FetchUserIdByUsername(string username)
-        {
-            try
-            {
-                using (IDbConnection db = _dbFactory.OpenDbConnection())
-                {
-                    SqlExpression<USR01> sqlExp = db.From<USR01>()
-                        .Where(user => user.r01f02 == username)
-                        .Select<USR01>(user => user.r01f02);
-
-                    int userId = db.Single<int>(sqlExp);
-                    if (userId == 0)
-                    {
-                        throw new Exception($"No user exists with user name: {username}");
-                    }
-                    return new Response()
-                    {
-                        IsError = true,
-                        Message = $"UserId with username is: {userId}",
-                        Data = userId
-                    };
-                }
-            }
-            catch (Exception ex)
-            {
-                return new Response()
-                {
-                    IsError = false,
-                    Message = ex.Message,
-                    Data = 0
-                };
-            }
-        }
-
-        /// <summary>
-        /// Method to fetch username using used id
-        /// </summary>
-        /// <param name="userId">User id</param>
-        /// <returns>ResponseStatusInfo instance containing username if successful or null if any exception</returns>
-        public Response FetchUsernameByUserId(int userId)
-        {
-            try
-            {
-                using (IDbConnection db = _dbFactory.OpenDbConnection())
-                {
-                    SqlExpression<USR01> sqlExp = db.From<USR01>()
-                        .Where(user => user.r01f02 == userId)
-                        .Select<USR01>(user => user.r01f02);
-
-                    string username = db.Single<string>(sqlExp);
-                    if (username == null)
-                    {
-                        throw new Exception($"No user exists with user id: {userId}");
-                    }
-                    return new Response()
-                    {
-                        IsError = true,
-                        Message = $"Usernmame of user with userId {username}",
-                        Data = username
-                    };
-                }
-            }
-            catch (Exception ex)
-            {
-                return new Response()
-                {
-                    IsError = false,
-                    Message = ex.Message,
-                    Data = null
-                };
-            }
         }
 
         /// <summary>
@@ -290,7 +135,7 @@ namespace FirmAdvanceDemo.BL
                     // get user roles
                     var SqlExp = db.From<ULE02>()
                         .Where(ur => ur.E02F02 == userId)
-                        .Join<RLE01>((ur, r) => (int)ur.E02F03 == r.P01F01)
+                        .Join<RLE01>((ur, r) => (int)ur.E02F03 == r.E01F01)
                         .Select<RLE01>(r => r.E01F02);
 
                     string[] roles = db.Select<string>(SqlExp).ToArray<string>();
@@ -337,17 +182,17 @@ namespace FirmAdvanceDemo.BL
                     //string secretKey = "FirmAdvanceDemoSecretKey";
                     string secretKey = ConfigurationManager.AppSettings["PasswordHashSecretKey"] as string;
                     // hash the password 
-                    Byte[] hashedPassword = GeneralUtility.GetHMACBase64((string)UserJson["r01f03"], secretKey);
+                    string hashedPassword = GeneralUtility.GetHMACBase64((string)UserJson["R01F03"], secretKey);
 
                     // create user and get the user id
                     USR01 user = new USR01()
                     {
-                        r01f02 = -1,
-                        r01f02 = (string)UserJson["r01f02"],
-                        r01f03 = hashedPassword,
-                        r01f04 = (string)UserJson["r01f04"],
-                        r01f05 = (string)UserJson["r01f05"],
-                        r01f06 = DateTime.Now.Date
+                        R01F01 = 0,
+                        R01F02 = (string)UserJson["R01F02"],
+                        R01F03 = hashedPassword,
+                        R01F04 = (string)UserJson["R01F04"],
+                        R01F05 = (string)UserJson["R01F05"],
+                        R01F06 = DateTime.Now.Date
                     };
                     int userId = (int)db.Insert<USR01>(user, selectIdentity: true);
 
@@ -369,7 +214,7 @@ namespace FirmAdvanceDemo.BL
                         // create employee object and get the employee id
                         EMP01 employee = new EMP01()
                         {
-                            P01F02 = -1,
+                            P01F01 = 0,
                             P01F02 = (string)EmployeeJson["P01F02"],
                             P01F03 = (string)EmployeeJson["P01F03"],
                             P01F04 = ((string)EmployeeJson["P01F04"])[0],
@@ -381,8 +226,8 @@ namespace FirmAdvanceDemo.BL
                         // populate the user-employee table
                         UMP02 userEmployee = new UMP02()
                         {
-                            P01F02 = userId,
-                            P01F03 = employeeId
+                            P02F02 = userId,
+                            P02F03 = employeeId
                         };
 
                         db.Insert(userEmployee);
@@ -390,7 +235,7 @@ namespace FirmAdvanceDemo.BL
                     return new Response()
                     {
                         IsError = true,
-                        Message = $"User created with username: {(string)UserJson["r01f02"]}",
+                        Message = $"User created with username: {(string)UserJson["R01F02"]}",
                         Data = null
                     };
                 }

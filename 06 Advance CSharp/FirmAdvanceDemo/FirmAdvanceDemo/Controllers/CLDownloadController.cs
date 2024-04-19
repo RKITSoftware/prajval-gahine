@@ -8,7 +8,7 @@ using System.Web.Http;
 namespace FirmAdvanceDemo.Controllers
 {
     [RoutePrefix("api/download")]
-    public class CLDownloadController : BaseController
+    public class CLDownloadController
     {
         /// <summary>
         /// Instance of BLDownload

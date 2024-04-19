@@ -7,7 +7,7 @@ using System.Web.Http;
 namespace FirmAdvanceDemo.Controllers
 {
     [RoutePrefix("api/role")]
-    public class CLRLE01Controller : BaseController
+    public class CLRLE01Controller
     {
 
 

@@ -1,12 +1,12 @@
 ﻿using FirmAdvanceDemo.Connection;
-using MySql.Data.MySqlClient;
-using FirmAdvanceDemo.Models.POCO;
-using System.Collections.Generic;
-using System;
 using FirmAdvanceDemo.Enums;
-using static FirmAdvanceDemo.Utitlity.Constants;
+using FirmAdvanceDemo.Models.POCO;
+using MySql.Data.MySqlClient;
 using ServiceStack.OrmLite.Dapper;
+using System;
+using System.Collections.Generic;
 using System.Linq;
+using static FirmAdvanceDemo.Utitlity.Constants;
 
 namespace FirmAdvanceDemo.DB
 {
@@ -37,7 +37,7 @@ namespace FirmAdvanceDemo.DB
                                     ORDER BY
                                         H01F02, H01F04",
                                         EnmPunchType.U,
-                                        date.ToString(GloablDateFormat));
+                                        date.ToString(GlobalDateFormat));
 
             try
             {

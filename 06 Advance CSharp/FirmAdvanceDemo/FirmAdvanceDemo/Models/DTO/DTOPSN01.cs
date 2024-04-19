@@ -15,7 +15,7 @@ namespace FirmAdvanceDemo.Models.DTO
         [JsonPropertyName("n01101")]
         [Range(0, int.MaxValue)]
         [Required(ErrorMessage = "Position ID cannot be empty.")]
-        public string N01F01 { get; set; }
+        public int N01F01 { get; set; }
 
         /// <summary>
         /// Position name

@@ -6,13 +6,13 @@ namespace FirmAdvanceDemo.Models.POCO
     /// <summary>
     /// Position POCO model
     /// </summary>
-    public class PSN01 : IModel
+    public class PSN01
     {
         /// <summary>
         /// Position Id
         /// </summary>
         [PrimaryKey]
-        public int P01F01 { get; set; }
+        public int N01F01 { get; set; }
 
         /// <summary>
         /// Position Name

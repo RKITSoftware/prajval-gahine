@@ -6,13 +6,13 @@ namespace FirmAdvanceDemo.Models.POCO
     /// <summary>
     /// Setting POCO model
     /// </summary>
-    public class STG01 : IModel
+    public class STG01
     {
         /// <summary>
         /// Primary key for STG01 (ORMLite forces first field as PK if not specified)
         /// </summary>
         [PrimaryKey]
-        public int P01F01 { get; set; }
+        public int G01F01 { get; set; }
 
         /// <summary>
         /// Previous Month Salary CreditDate

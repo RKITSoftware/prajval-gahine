@@ -1,6 +1,6 @@
 ﻿using FinalDemo.Connections;
 using MySql.Data.MySqlClient;
-using System;
+using ServiceStack.OrmLite;
 using System.Configuration;
 using System.Data;
 
@@ -50,10 +50,7 @@ namespace FinalDemo.DL
             MySqlDataAdapter adapter = new MySqlDataAdapter(cmd);
 
             string connectionString = ConfigurationManager.ConnectionStrings["finalsampledemotest378"].ConnectionString;
-            using (MySqlConnection conn = new MySqlConnection(connectionString))
-            {
-
-            }
+            
             try
             {
                 _connection.Open();

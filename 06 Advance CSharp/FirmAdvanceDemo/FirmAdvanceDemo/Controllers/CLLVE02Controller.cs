@@ -1,174 +1,164 @@
 using FirmAdvanceDemo.BL;
 using FirmAdvanceDemo.Enums;
-using FirmAdvanceDemo.Models.POCO;
+using FirmAdvanceDemo.Models.DTO;
 using FirmAdvanceDemo.Utitlity;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Web.Http;
 
 namespace FirmAdvanceDemo.Controllers
 {
     [RoutePrefix("api/leave")]
-    public class CLLVE02Controller : BaseController
+    public class CLLVE02Controller : ApiController
     {
         /// <summary>
         /// Instance of BLLeave
         /// </summary>
-        private readonly BLLVE02Handler _objBLLeave;
+        private readonly BLLVE02Handler _objBLLVE02Handler;
 
         /// <summary>
         /// Default constructor for CLLeaveController
         /// </summary>
         public CLLVE02Controller()
         {
-            _objBLLeave = new BLLVE02Handler();
+            _objBLLVE02Handler = new BLLVE02Handler();
         }
-
-
 
         [HttpGet]
         [Route("")]
-        public IHttpActionResult GetAllLeaves()
+        public IHttpActionResult GetLeave()
         {
-            Response response = _objBLLeave.FetchLeaves(EnmLeaveStatus.N);
+            Response response = _objBLLVE02Handler.RetrieveLeave();
             return Ok(response);
         }
 
         [HttpGet]
-        [Route("approved")]
-        public IHttpActionResult GetApproveLeaves()
+        [Route("{leaveId}")]
+        public IHttpActionResult GetLeave(int leaveId)
         {
-            Response response = _objBLLeave.FetchLeaves(EnmLeaveStatus.A);
+            Response response = _objBLLVE02Handler.RetrieveLeave(leaveId);
             return Ok(response);
         }
 
         [HttpGet]
-        [Route("pending")]
-        public IHttpActionResult GetPendingLeaves()
+        [Route("status/{leaveStatus}")]
+        public IHttpActionResult GetLeaveByStatus(EnmLeaveStatus leaveStatus)
         {
-            Response response = _objBLLeave.FetchLeaves(EnmLeaveStatus.P);
+            Response response = _objBLLVE02Handler.RetrieveLeaveByStatus(leaveStatus);
             return Ok(response);
         }
 
         [HttpGet]
-        [Route("rejected")]
-        public IHttpActionResult GetRejectedLeaves()
+        [Route("employee/{employeeId}")]
+        public IHttpActionResult GetLeaveByEmployee(int employeeId)
         {
-            Response response = _objBLLeave.FetchLeaves(EnmLeaveStatus.R);
+            Response response = _objBLLVE02Handler.RetrieveLeaveByEmployee(employeeId);
             return Ok(response);
         }
 
         [HttpGet]
-        [Route("employee/{id}")]
-        public IHttpActionResult GetLeaveByEmployeeId(int id)
+        [Route("employee/{employeeId}")]
+        public IHttpActionResult GetLeaveByEmployeeAndMonthYear(int employeeId, int year, int month)
         {
-            Response response = _objBLLeave.FetchLeaveByEmployeeId(id);
+            Response response = _objBLLVE02Handler.RetrieveLeaveByEmployeeAndMonthYear(employeeId, year, month);
             return Ok(response);
         }
 
         [HttpGet]
-        [Route("monthyear/{month}/{year}")]
-        public IHttpActionResult GetLeaveByMonthYear(int month, int year)
+        [Route("employee/{employeeId}")]
+        public IHttpActionResult GetLeaveByEmployeeAndYear(int employeeId, int year)
         {
-            Response response = _objBLLeave.FetchLeaveByMonthYear(month, year);
+            Response response = _objBLLVE02Handler.RetrieveLeaveByEmployeeAnYear(employeeId, year);
             return Ok(response);
         }
 
         [HttpGet]
-        [Route("today")]
-        public IHttpActionResult GetTodaysLeave()
+        [Route("employee/{employeeId}/current-year")]
+        public IHttpActionResult GetLeaveByEmployeeForCurrentYear(int employeeId)
         {
-            Response response = _objBLLeave.FetchDateLeaves();
+            Response response = _objBLLVE02Handler.RetrieveLeaveByEmployeeAnYear(employeeId, DateTime.Now.Year);
+            return Ok(response);
+        }
+
+        [HttpGet]
+        [Route("employee/{employeeId}/current-month")]
+        public IHttpActionResult GetLeaveByEmployeeForCurrentMonth(int employeeId)
+        {
+            DateTime now = DateTime.Now;
+            Response response = _objBLLVE02Handler.RetrieveLeaveByEmployeeAndMonthYear(employeeId, now.Year, now.Month);
+            return Ok(response);
+        }
+
+        [HttpGet]
+        [Route("monthly")]
+        public IHttpActionResult GetLeaveByMonthYear(int year, int month)
+        {
+            Response response = _objBLLVE02Handler.RetrieveLeaveByMonthYear(year, month);
             return Ok(response);
         }
 
         [HttpGet]
         [Route("date/{date}")]
-        public IHttpActionResult GetTodaysLeave(string date)
+        public IHttpActionResult GetLeaveByDate(DateTime date)
         {
-            Response response = _objBLLeave.FetchDateLeaves(DateTime.ParseExact(date, "yyyy-MM-dd", null));
+            Response response = _objBLLVE02Handler.RetrieveLeaveByDate(DateTime.ParseExact(date, "yyyy-MM-dd", null));
             return Ok(response);
         }
 
         [HttpGet]
-        [Route("monthyear/{month}/{year}/employee/{id}")]
-        public IHttpActionResult GetLeaveByEmployeeIdAndMonthYear(int id, int month, int year)
+        [Route("today")]
+        public IHttpActionResult GetLeaveForToday()
         {
-            Response response = _objBLLeave.FetchLeaveByEmployeeIdAndMonthYear(id, month, year);
+            Response response = _objBLLVE02Handler.RetrieveLeaveByDate(DateTime.Now.Date);
             return Ok(response);
         }
-
-        [HttpGet]
-        [Route("currentmonth/employee/{id}")]
-        public IHttpActionResult GetLeaveByEmployeeIdForCurrentMonth(int id)
-        {
-            Response response = _objBLLeave.FetchLeaveByEmployeeIdForCurrentMonth(id);
-            return Ok(response);
-        }
-
-
-        [HttpGet]
-        [Route("employee/{id}/monthyear/{month}/{year}/count")]
-        public IHttpActionResult GetLeaveCountByEmployeeIdAnMonthYear(int id, int month, int year)
-        {
-            Response response = _objBLLeave.GetLeaveCountByEmployeeIdAnMonthYear(id, month, year);
-            return Ok(response);
-        }
-
-
-        //[HttpGet]
-        //[Route("{id}")]
-        //public IHttpActionResult GetLeave(int id)
-        //{
-        //    ResponseStatusInfo response = _objBLLeave.FetchResource(id);
-        //    return Ok(response);
-        //}
 
         [HttpPost]
         [Route("")]
-        public IHttpActionResult PostLeave(LVE02 leave)
+        public IHttpActionResult PostLeave(DTOLVE02 objDTOLVE02)
         {
-            Response response = _objBLLeave.AddLeave(leave);
+            Response response;
+            _objBLLVE02Handler.Operation = EnmOperation.A;
+            response = _objBLLVE02Handler.Prevalidate(objDTOLVE02);
+            if (!response.IsError)
+            {
+                _objBLLVE02Handler.Presave(objDTOLVE02);
+                response = _objBLLVE02Handler.Validate();
+                if (!response.IsError)
+                {
+                    response = _objBLLVE02Handler.Save();
+                }
+            }
             return Ok(response);
         }
 
-        [HttpPatch]
-        [Route("{id}")]
-        public IHttpActionResult PatchLeave(int id, JObject toUpdateJson)
+        [HttpPut]
+        [Route("")]
+        public IHttpActionResult PutLeave(DTOLVE02 objDTOLVE02)
         {
-            Response response = _objBLLeave.UpdateResource(id, toUpdateJson);
+            Response response;
+            _objBLLVE02Handler.Operation = EnmOperation.E;
+            response = _objBLLVE02Handler.Prevalidate(objDTOLVE02);
+            if (!response.IsError)
+            {
+                _objBLLVE02Handler.Presave(objDTOLVE02);
+                response = _objBLLVE02Handler.Validate();
+                if (!response.IsError)
+                {
+                    response = _objBLLVE02Handler.Save();
+                }
+            }
             return Ok(response);
         }
 
         [HttpDelete]
-        [Route("{id}")]
-        public IHttpActionResult DeleteLeave(int id)
+        [Route("{leaveId}")]
+        public IHttpActionResult DeleteLeave(int leaveId)
         {
-            Response response = _objBLLeave.RemoveResource(id);
-            return Ok(response);
-        }
-
-        [HttpPatch]
-        [Route("approve/{leaveId}")]
-        public IHttpActionResult PatchApproveLeave(int leaveId)
-        {
-            Response response = _objBLLeave.UpdateLeaveStatus(leaveId, EnmLeaveStatus.A);
-            return Ok(response);
-        }
-
-        [HttpPatch]
-        [Route("reject/{leaveId}")]
-        public IHttpActionResult PatchRejectLeave(int leaveId)
-        {
-            Response response = _objBLLeave.UpdateLeaveStatus(leaveId, EnmLeaveStatus.R);
-            return Ok(response);
-        }
-
-        [HttpPatch]
-        [Route("expire")]
-        public IHttpActionResult PatchExpire()
-        {
-            Response response = _objBLLeave.UpdateLeavesToExpire();
+            Response response = _objBLLVE02Handler.ValidateDelete(leaveId);
+            if (!response.IsError)
+            {
+                response = _objBLLVE02Handler.Delete(leaveId);
+            }
             return Ok(response);
         }
     }

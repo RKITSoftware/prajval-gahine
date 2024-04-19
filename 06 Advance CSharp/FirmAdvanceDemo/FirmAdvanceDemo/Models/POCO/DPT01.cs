@@ -6,13 +6,13 @@ namespace FirmAdvanceDemo.Models.POCO
     /// <summary>
     /// Department POCO model
     /// </summary>
-    public class DPT01 : IModel
+    public class DPT01
     {
         /// <summary>
         /// Department Id
         /// </summary>
         [PrimaryKey]
-        public int P01F01 { get; set; }
+        public int T01F01 { get; set; }
 
         /// <summary>
         /// Department Name

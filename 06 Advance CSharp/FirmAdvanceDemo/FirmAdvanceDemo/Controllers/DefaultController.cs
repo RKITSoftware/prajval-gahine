@@ -2,7 +2,7 @@ using System.Web.Http;
 
 namespace FirmAdvanceDemo.Controllers
 {
-    public class DefaultController : BaseController
+    public class DefaultController
     {
 
         [HttpGet]

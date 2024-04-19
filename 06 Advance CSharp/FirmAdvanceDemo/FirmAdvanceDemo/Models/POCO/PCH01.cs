@@ -7,7 +7,7 @@ namespace FirmAdvanceDemo.Models.POCO
     /// <summary>
     /// Punch POCO model
     /// </summary>
-    public class PCH01 : IModel
+    public class PCH01
     {
         /// <summary>
         /// Punch Id

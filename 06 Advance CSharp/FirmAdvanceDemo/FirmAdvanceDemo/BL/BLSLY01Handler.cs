@@ -1,62 +1,34 @@
+using FirmAdvanceDemo.DB;
 using FirmAdvanceDemo.Models.DTO;
 using FirmAdvanceDemo.Models.POCO;
 using FirmAdvanceDemo.Utitlity;
 using ServiceStack.OrmLite;
 using System;
+using System.Collections.Generic;
 using System.Data;
+using System.Net;
 
 namespace FirmAdvanceDemo.BL
 {
     /// <summary>
     /// Business logic class for Salary - defines all props and methods to suppor Salary controller
     /// </summary>
-    public class BLSLY01Handler : BLResource<SLY01>
+    public class BLSLY01Handler
     {
         /// <summary>
         /// Instance of SLY01 model
         /// </summary>
         private SLY01 _objSLY01;
 
-        /// <summary>
-        /// Default constructor for BLSalary, initializes SLY01 instance
-        /// </summary>
+        private DBSLY01Context _dBSLY01Context;
+
+        protected readonly OrmLiteConnectionFactory _dbFactory;
+
         public BLSLY01Handler()
         {
+            _dbFactory = OrmliteDbConnector.DbFactory;
+            _dBSLY01Context = new DBSLY01Context();
             _objSLY01 = new SLY01();
-        }
-
-        /// <summary>
-        /// Method to convert DTOSLY01 instance to SLY01 instance
-        /// </summary>
-        /// <param name="objDTOSLY01">Instance of DTOSLY01</param>
-        private void Presave(DTOSLY01 objDTOSLY01)
-        {
-            _objSLY01 = objDTOSLY01.ConvertModel<SLY01>();
-        }
-
-        /// <summary>
-        /// Method to validate the SLY01 instance
-        /// </summary>
-        /// <returns>True if SLY01 instance is valid else false</returns>
-        private bool Validate()
-        {
-            return true;
-        }
-
-        /// <summary>
-        /// Method to Add (Create) a new record of sly01 table in DB
-        /// </summary>
-        private void Add()
-        {
-
-        }
-
-        /// <summary>
-        /// Method to Update (Modify) an existing record sly01 table in DB
-        /// </summary>
-        private void Update()
-        {
-
         }
 
         /// <summary>
@@ -65,31 +37,93 @@ namespace FirmAdvanceDemo.BL
         /// <returns>ResponseStatusInfo instance containing data as null>/returns>
         public Response CreditSalary()
         {
-            try
+            Response response = new Response();
+
+            // get [last credit salary date]
+            DateTime lastCreditDate;
+            using (IDbConnection db = _dbFactory.OpenDbConnection())
             {
-                using (IDbConnection db = _dbFactory.OpenDbConnection())
+                lastCreditDate = db.Scalar<STG01, DateTime>(salary => salary.G01F02);
+            }
+
+            // if month same as current then error "Salary already credited for current month".
+            DateTime now = DateTime.Now;
+            if(lastCreditDate.Year == now.Year && lastCreditDate.Month == now.Month)
+            {
+                response.IsError = true;
+                response.HttpStatusCode = HttpStatusCode.Conflict;
+                response.Message = "Salary for the current month has already been processed.";
+
+                return response;
+            }
+
+            // from attendance table fetch attendances from [last credit salary date] till [yesterday] and aggragte sum on workhour for each employeeId filtered.
+            DataTable dtEmployeeWorkHour = _dBSLY01Context.FetchUnpaidWorkHours(lastCreditDate);
+            if(dtEmployeeWorkHour.Rows.Count == 0)
+            {
+                response.IsError = true;
+                response.HttpStatusCode = HttpStatusCode.NotFound;
+                response.Message = "Unable to process salary: no work hours recorded for the employee.";
+
+                return response;
+            }
+            // now u have employee id and their workhour.
+
+            List<SLY01> lstSalary = EmployeeWorkHourToSLY01(dtEmployeeWorkHour);
+
+            // now insert into sly01 table accordingly and update setting table by modifying lst credit date
+            using (IDbConnection db = _dbFactory.OpenDbConnection())
+            {
+                using (IDbTransaction txn = db.OpenTransaction())
                 {
-                    SqlExpression<STG01> sqlExp = db.From<STG01>();
-
-                    db.ExecuteSql("CALL Salary_Credit()");
-
-                    return new Response()
+                    try
                     {
-                        IsError = true,
-                        Message = $"Salary credited for current month {DateTime.Now.ToString("yyyy-MM-dd")}",
-                        Data = null
-                    };
+                        db.InsertAll<SLY01>(lstSalary);
+                        STG01 objSTG01 = new STG01()
+                        {
+                            G01F01 = 1,
+                            G01F02 = now.Date.AddDays(-1),
+                            G01F04 = now
+                        };
+                        db.Update<STG01>(objSTG01);
+                        txn.Commit();
+                    }
+                    catch
+                    {
+                        txn.Rollback();
+                    }
                 }
             }
-            catch (Exception ex)
+
+            response.HttpStatusCode = HttpStatusCode.OK;
+            response.Message = "Salary Credited";
+
+            return response;
+        }
+
+        private List<SLY01> EmployeeWorkHourToSLY01(DataTable dtEmployeeWorkHour)
+        {
+            DateTime now = DateTime.Now;
+            double totalHoursInCurrentMonth = DateTime.DaysInMonth(now.Year, now.Month) * 24;
+            List<SLY01> lstSalary = new List<SLY01>(dtEmployeeWorkHour.Rows.Count);
+
+            for(int i = 0; i < lstSalary.Count; i++)
             {
-                return new Response()
-                {
-                    IsError = false,
-                    Message = ex.Message,
-                    Data = null
-                };
+                DataRow row = dtEmployeeWorkHour.Rows[i];
+
+                lstSalary[i].Y01F02 = (int)row["EmployeeId"];
+                lstSalary[i].Y01F05 = now;
+
+                // calculate salary using workhour and monthly salary
+                double monthlySalary = (double)row["MonthlySalary"];
+                double workHours = (double)row["WorkHours"];
+                double salaryAmount = (workHours / totalHoursInCurrentMonth) * monthlySalary;
+
+                lstSalary[i].Y01F03 = salaryAmount;
+                lstSalary[i].Y01F04 = (int)row["PositionId"];
             }
+
+            return lstSalary;
         }
     }
 }

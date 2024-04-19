@@ -12,7 +12,7 @@ using System.Web.Http;
 
 namespace FirmAdvanceDemo.Controllers
 {
-    public class CLAuthController : BaseController
+    public class CLAuthController : ApiController
     {
         /// <summary>
         /// Non action method to generate a jwt based on header and payload
@@ -26,7 +26,7 @@ namespace FirmAdvanceDemo.Controllers
             string headerEncoded = Convert.ToBase64String(Encoding.UTF8.GetBytes(header));
             string payloadEncoded = Convert.ToBase64String(Encoding.UTF8.GetBytes(payload));
 
-            string digest = Convert.ToBase64String(GeneralUtility.GetHMACBase64($"{headerEncoded}.{payloadEncoded}", null))
+            string digest = GeneralUtility.GetHMACBase64($"{headerEncoded}.{payloadEncoded}", null)
                 .Replace('/', '_')
                 .Replace('+', '-')
                 .Replace("=", "");

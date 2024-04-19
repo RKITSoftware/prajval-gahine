@@ -9,7 +9,7 @@ namespace WebApplication2
         {
             // Web API configuration and services
             //ICorsPolicyProvider cors = new DefaultCorsPolicyProvider();
-            EnableCorsAttribute cors = new EnableCorsAttribute(origins: "*", headers: "*", methods: "*")
+            EnableCorsAttribute cors = new EnableCorsAttribute(origins: "https://www.docs.google.com", headers: "*", methods: "*")
             {
                 PreflightMaxAge = 10
             };

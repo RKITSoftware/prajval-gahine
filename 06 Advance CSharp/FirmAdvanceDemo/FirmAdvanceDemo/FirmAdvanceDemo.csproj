@@ -170,7 +170,6 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ControllerResponseReturner.cs" />
     <Compile Include="Global.asax.cs" />
     <Compile Include="InitializeDB.cs" />
     <Compile Include="App_Start\SwaggerConfig.cs" />
@@ -181,8 +180,6 @@
     <Compile Include="Auth\BearerAuthenticationAttribute.cs" />
     <Compile Include="Auth\RefreshTokenAuthenticationAttribute.cs" />
     <Compile Include="Auth\ValidateUser.cs" />
-    <Compile Include="BL\.BLDepartment2.cs" />
-    <Compile Include="BL\.BLRole2.cs" />
     <Compile Include="BL\BLATD01Handler.cs" />
     <Compile Include="BL\BLDownload.cs" />
     <Compile Include="BL\BLDPT01Handler.cs" />
@@ -190,7 +187,6 @@
     <Compile Include="BL\BLLVE02Handler.cs" />
     <Compile Include="BL\BLPCH01Handler.cs" />
     <Compile Include="BL\BLPSN01Handler.cs" />
-    <Compile Include="BL\BLResource.cs" />
     <Compile Include="BL\BLRLE01Handler.cs" />
     <Compile Include="BL\BLSLY01Handler.cs" />
     <Compile Include="BL\BLUSR01Handler.cs" />
@@ -217,7 +213,8 @@
     <Compile Include="DL\DBRLE01Context.cs" />
     <Compile Include="DL\DBSLY01Context.cs" />
     <Compile Include="DL\DBUSR01Context.cs" />
-    <Compile Include="Models\DTO\DataAnnotations\LessThanCurrentDateAttribute.cs" />
+    <Compile Include="Models\DTO\DataAnnotations\InMultipleOfAttribute.cs" />
+    <Compile Include="Models\DTO\DataAnnotations\LessThanCurrentDateTimeAttribute.cs" />
     <Compile Include="Utitlity\Constants.cs" />
     <Compile Include="Utitlity\FirmEnums.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -241,7 +238,6 @@
     <Compile Include="Models\POCO\ATD01.cs" />
     <Compile Include="Models\POCO\DPT01.cs" />
     <Compile Include="Models\POCO\EMP01.cs" />
-    <Compile Include="Models\POCO\IModel.cs" />
     <Compile Include="Models\POCO\LVE02.cs" />
     <Compile Include="Models\POCO\PCH01.cs" />
     <Compile Include="Models\POCO\PSN01.cs" />

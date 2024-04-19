@@ -35,7 +35,7 @@ namespace FirmAdvanceDemo.Auth
                 string payloadEn = headerEn_payloadEn_digest[1];
                 string digest = headerEn_payloadEn_digest[2];
 
-                string digestToCompute = Convert.ToBase64String(GeneralUtility.GetHMACBase64($"{headerEn}.{payloadEn}", null))
+                string digestToCompute = GeneralUtility.GetHMACBase64($"{headerEn}.{payloadEn}", null)
                     .Replace('/', '_')
                     .Replace('+', '-')
                     .Replace("=", "");

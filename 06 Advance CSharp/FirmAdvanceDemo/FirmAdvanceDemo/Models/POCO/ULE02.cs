@@ -7,14 +7,13 @@ namespace FirmAdvanceDemo.Models.POCO
     /// <summary>
     /// User-Role mapping POCO model
     /// </summary>
-    public class ULE02 : IModel
+    public class ULE02
     {
         /// <summary>
         /// User-Role record Id
         /// </summary>
         [PrimaryKey]
-        [Alias("E02F01")]
-        public int P01F01 { get; set; }
+        public int E02F01 { get; set; }
 
         /// <summary>
         /// User Id (Foreign key)

@@ -20,7 +20,8 @@ namespace FirmAdvanceDemo.DB
             string query = string.Format(
                             @"
                                 SELECT
-                                    r01f01 AS r01101,
+                                    
+1 AS r01101,
                                     r01f02 AS r01102,
                                     r01f04 AS r01104,
                                     r01f05 AS r01105,

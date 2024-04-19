@@ -48,7 +48,7 @@ namespace FirmAdvanceDemo.BL
         public void Presave(DTOATD01 objDTOATD01)
         {
             _objATD01 = objDTOATD01.ConvertModel<ATD01>();
-            if(Operation == EnmOperation.A)
+            if (Operation == EnmOperation.A)
             {
                 _objATD01.P01F01 = 0;
                 _objATD01.D01F05 = DateTime.Now;
@@ -68,7 +68,7 @@ namespace FirmAdvanceDemo.BL
         {
             Response response = new Response();
             DataTable dtAttendance = _objDBATD01Context.RetrieveAttendanceByEmployeeId(employeeId);
-            if(dtAttendance.Rows.Count == 0)
+            if (dtAttendance.Rows.Count == 0)
             {
                 response.IsError = true;
                 response.HttpStatusCode = HttpStatusCode.NotFound;
@@ -93,8 +93,8 @@ namespace FirmAdvanceDemo.BL
         {
             Response response = new Response();
             DataTable dtAttendance = _objDBATD01Context.FetchAttendanceByMonthYear(year, month);
-            
-            if(dtAttendance.Rows.Count == 0)
+
+            if (dtAttendance.Rows.Count == 0)
             {
                 response.IsError = true;
                 response.HttpStatusCode = HttpStatusCode.NotFound;
@@ -144,7 +144,7 @@ namespace FirmAdvanceDemo.BL
             Response response = new Response();
 
             DataTable dtAttendance = _objDBATD01Context.FetchAttendanceByEmployeeIdAndMonthYear(employeeId, year, month);
-            if(dtAttendance.Rows.Count == 0)
+            if (dtAttendance.Rows.Count == 0)
             {
                 response.IsError = true;
                 response.HttpStatusCode = HttpStatusCode.NotFound;
@@ -208,7 +208,7 @@ namespace FirmAdvanceDemo.BL
             {
                 response.IsError = true;
                 response.HttpStatusCode = HttpStatusCode.NotFound;
-                response.Message = $"No unprocessed punch found for date: {date.ToString(GloablDateFormat)}";
+                response.Message = $"No unprocessed punch found for date: {date.ToString(GlobalDateFormat)}";
 
                 return response;
             }
@@ -217,9 +217,9 @@ namespace FirmAdvanceDemo.BL
 
             List<ATD01> lstAttendance = ComputeAttendance(lstPunch);    // compute attendance
 
-            using(IDbConnection db = _dbFactory.OpenDbConnection())
+            using (IDbConnection db = _dbFactory.OpenDbConnection())
             {
-                using(IDbTransaction txn = db.OpenTransaction())
+                using (IDbTransaction txn = db.BeginTransaction())
                 {
                     try
                     {
@@ -236,7 +236,7 @@ namespace FirmAdvanceDemo.BL
             }
 
             response.HttpStatusCode = HttpStatusCode.OK;
-            response.Message = $"Attendance evaluated for date: {date.ToString(GloablDateFormat)}";
+            response.Message = $"Attendance evaluated for date: {date.ToString(GlobalDateFormat)}";
             return response;
         }
 

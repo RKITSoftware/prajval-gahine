@@ -10,7 +10,7 @@ namespace FirmAdvanceDemo.Controllers
 {
     [RoutePrefix("api/user")]
     //[AccessTokenAuthentication]
-    public class CLUSR01Controller : BaseController
+    public class CLUSR01Controller
     {
         /// <summary>
         /// Instance of BLUser
