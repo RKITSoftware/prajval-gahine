@@ -29,6 +29,6 @@ namespace FirmAdvanceDemo.Models.POCO
         /// Department last modified datetime
         /// </summary>
         [IgnoreOnInsert]
-        public DateTime T01F04 { get; set; }
+        public DateTime? T01F04 { get; set; }
     }
 }

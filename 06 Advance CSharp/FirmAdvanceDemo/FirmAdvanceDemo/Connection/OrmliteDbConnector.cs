@@ -15,7 +15,7 @@ namespace FirmAdvanceDemo
 
         static OrmliteDbConnector()
         {
-            string connectionString = ConfigurationManager.ConnectionStrings["connect-to-firmadvance2-db"].ConnectionString;
+            string connectionString = ConfigurationManager.ConnectionStrings["firmadvance378"].ConnectionString;
             DbFactory = new OrmLiteConnectionFactory(connectionString, MySqlDialect.Provider);
         }
     }

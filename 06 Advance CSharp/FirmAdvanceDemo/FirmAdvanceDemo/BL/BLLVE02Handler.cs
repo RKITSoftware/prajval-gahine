@@ -4,6 +4,7 @@ using FirmAdvanceDemo.Models.DTO;
 using FirmAdvanceDemo.Models.POCO;
 using FirmAdvanceDemo.Utitlity;
 using ServiceStack.OrmLite;
+using ServiceStack.Text;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -62,17 +63,34 @@ namespace FirmAdvanceDemo.BL
             // check leave ID in case of E
             if (Operation == EnmOperation.E)
             {
-                int leaveId = objDTOLVE02.E02F01;
+                int leaveID = objDTOLVE02.E02F01;
                 int leaveCount;
                 using (IDbConnection db = _dbFactory.OpenDbConnection())
                 {
-                    leaveCount = (int)db.Count<LVE02>(leave => leave.E02F01 == leaveId);
+                    leaveCount = (int)db.Count<LVE02>(leave => leave.E02F01 == leaveID);
                 }
                 if (leaveCount == 0)
                 {
                     response.IsError = true;
                     response.HttpStatusCode = HttpStatusCode.NotFound;
-                    response.Message = $"Leave not found for id: {leaveId}";
+                    response.Message = $"Leave not found for id: {leaveID}";
+
+                    return response;
+                }
+
+                // if employee is editing,
+                // then he cannot edit non-pending status leave
+                EnmLeaveStatus leaveStatus;
+                using (IDbConnection db = _dbFactory.OpenDbConnection())
+                {
+                   leaveStatus = db.Scalar<LVE02, EnmLeaveStatus>(leave => leave.E02F01 == objDTOLVE02.E02F01);
+                }
+
+                if(leaveStatus != EnmLeaveStatus.P)
+                {
+                    response.IsError = true;
+                    response.HttpStatusCode = HttpStatusCode.Conflict;
+                    response.Message = $"Leave {objDTOLVE02.E02F01} is not in pending state.";
 
                     return response;
                 }
@@ -88,6 +106,13 @@ namespace FirmAdvanceDemo.BL
         public void Presave(DTOLVE02 objDTOLVE02)
         {
             _objLVE02 = objDTOLVE02.ConvertModel<LVE02>();
+
+            // set employeeID in case of employee is accessing
+            if (!GeneralUtility.IsAdmin())
+            {
+                _objLVE02.E02F02 = GeneralUtility.GetEmployeeIDFromItems();
+            }
+
             if (Operation == EnmOperation.A)
             {
                 _objLVE02.E02F01 = 0;
@@ -97,6 +122,11 @@ namespace FirmAdvanceDemo.BL
             }
             else
             {
+                // if employee is editing then override status to P
+                if (!GeneralUtility.IsAdmin())
+                {
+                    _objLVE02.E02F06 = EnmLeaveStatus.P;
+                }
                 _objLVE02.E02F08 = DateTime.Now;
             }
         }
@@ -373,10 +403,10 @@ namespace FirmAdvanceDemo.BL
         /// <summary>
         /// Method to udpate leave status
         /// </summary>
-        /// <param name="LeaveId">Leave Id</param>
+        /// <param name="leaveID">Leave Id</param>
         /// <param name="toChange">Leave Status to change</param>
         /// <returns>ResponseStatusInfo instance containing null</returns>
-        public Response UpdateLeaveStatus(int LeaveId, EnmLeaveStatus toChange)
+        public Response UpdateLeaveStatus(int leaveID, EnmLeaveStatus toChange)
         {
             try
             {
@@ -385,30 +415,30 @@ namespace FirmAdvanceDemo.BL
                     // get leave date and check if it is >= today
                     DateTime CurrentDate = DateTime.Today;
 
-                    LVE02 leave = db.SingleById<LVE02>(LeaveId);
+                    LVE02 leave = db.SingleById<LVE02>(leaveID);
                     if (leave == null)
                     {
-                        throw new Exception($"No leave exists with leave id: {LeaveId}");
+                        throw new Exception($"No leave exists with leave id: {leaveID}");
                     }
                     if (leave.E02F06 == toChange)
                     {
-                        throw new Exception($"Leave with leave id: {LeaveId} already {toChange}");
+                        throw new Exception($"Leave with leave id: {leaveID} already {toChange}");
                     }
                     if (leave.E02F06 == EnmLeaveStatus.E)
                     {
-                        throw new Exception($"Leave with leave id: {LeaveId} expired cannot approve");
+                        throw new Exception($"Leave with leave id: {leaveID} expired cannot approve");
                     }
                     if (leave.E02F06 == EnmLeaveStatus.P && leave.E02F03 < CurrentDate)
                     {
                         toChange = EnmLeaveStatus.E;
                     }
-                    db.Update<LVE02>(new { E01F07 = toChange }, l => l.E02F02 == LeaveId);
+                    db.Update<LVE02>(new { E01F07 = toChange }, l => l.E02F02 == leaveID);
                 }
 
                 return new Response()
                 {
                     IsError = true,
-                    Message = $"Leave {toChange} for leaveId: {LeaveId}",
+                    Message = $"Leave {toChange} for leaveID: {leaveID}",
                     Data = null
                 };
             }
@@ -474,15 +504,15 @@ namespace FirmAdvanceDemo.BL
             return response;
         }
 
-        public Response RetrieveLeave(int leaveId)
+        public Response RetrieveLeave(int leaveID)
         {
             Response response = new Response();
-            DataTable dtLeave = _objDBLVE02Context.FetchLeave(leaveId);
+            DataTable dtLeave = _objDBLVE02Context.FetchLeave(leaveID);
             if (dtLeave.Rows.Count == 0)
             {
                 response.IsError = true;
                 response.HttpStatusCode = HttpStatusCode.NotFound;
-                response.Message = "Leave: {leaveId} not found";
+                response.Message = "Leave: {leaveID} not found";
 
                 return response;
             }
@@ -528,35 +558,55 @@ namespace FirmAdvanceDemo.BL
             return response;
         }
 
-        public Response ValidateDelete(int leaveId)
+        public Response ValidateDelete(int leaveID)
         {
             Response response = new Response();
 
             int count;
             using (IDbConnection db = _dbFactory.OpenDbConnection())
             {
-                count = (int)db.Count<LVE02>(leave => leave.E02F01 == leaveId);
+                count = (int)db.Count<LVE02>(leave => leave.E02F01 == leaveID);
             }
             if (count == 0)
             {
                 response.IsError = true;
                 response.HttpStatusCode = HttpStatusCode.NotFound;
-                response.Message = $"Leave with ID {leaveId} not found.";
+                response.Message = $"Leave with ID {leaveID} not found.";
+
+                return response;
+            }
+
+            // if employee then check employeeID associated with leaveID
+            if (!GeneralUtility.IsAdmin())
+            {
+                int leaveEmployeeID;
+                using(IDbConnection db = _dbFactory.OpenDbConnection())
+                {
+                    leaveEmployeeID = db.Scalar<LVE02, int>(leave => leave.E02F02, leave => leave.E02F01 == leaveID);
+                }
+                if (!GeneralUtility.IsValidEmployee(_objLVE02.E02F02))
+                {
+                    response.IsError = true;
+                    response.HttpStatusCode = HttpStatusCode.Conflict;
+                    response.Message = "The employee ID provided does not match the employee ID of the authenticated user.";
+
+                    return response;
+                }
             }
             return response;
         }
 
-        public Response Delete(int leaveId)
+        public Response Delete(int leaveID)
         {
             Response response = new Response();
 
             using (IDbConnection db = _dbFactory.OpenDbConnection())
             {
-                db.DeleteById<LVE02>(leaveId);
+                db.DeleteById<LVE02>(leaveID);
             }
 
             response.HttpStatusCode = HttpStatusCode.OK;
-            response.Message = $"Leave with ID {leaveId} deleted.";
+            response.Message = $"Leave with ID {leaveID} deleted.";
 
             return response;
         }

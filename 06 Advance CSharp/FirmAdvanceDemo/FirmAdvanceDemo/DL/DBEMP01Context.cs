@@ -15,15 +15,14 @@ namespace FirmAdvanceDemo.DB
 
         public MySqlConnection Connection => _connection;
 
-        public DataTable FetchEmployee(int employeeId)
+        public DataTable FetchEmployee(int employeeID )
         {
             DataTable dtEmployee = new DataTable();
 
             string query = string.Format(
                             @"
                                 SELECT
-                                    
-1 AS r01101,
+                                    r01f01 AS r01101,
                                     r01f02 AS r01102,
                                     r01f04 AS r01104,
                                     r01f05 AS r01105,
@@ -33,10 +32,10 @@ namespace FirmAdvanceDemo.DB
                                     P01F04 AS p01104,
                                     P01F05 AS p01105
                                 FROM
-                                    usr01 INNER JOIN ump02 ON r01f01 = P01F02
-                                          INNER JOIN emp01 ON P01F01 = P01F03
+                                    usr01 INNER JOIN ump02 ON r01f01 = p02f02
+                                          INNER JOIN emp01 ON p01f01 = p02f03
                                 WHERE
-                                    P01F01 = {0}", employeeId);
+                                    P01F01 = {0}", employeeID);
 
             MySqlCommand cmd = new MySqlCommand(query, Connection);
 
@@ -72,8 +71,8 @@ namespace FirmAdvanceDemo.DB
                                     P01F04 AS p01104,
                                     P01F05 AS p01105
                                 FROM
-                                    usr01 INNER JOIN ump02 ON r01f01 = P01F02
-                                          INNER JOIN emp01 ON P01F01 = P01F03");
+                                    usr01 INNER JOIN ump02 ON r01f01 = p02f02
+                                          INNER JOIN emp01 ON p01f01 = p02f03");
 
             MySqlCommand cmd = new MySqlCommand(query, Connection);
 

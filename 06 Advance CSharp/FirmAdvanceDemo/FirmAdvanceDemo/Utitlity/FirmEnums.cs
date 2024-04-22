@@ -70,17 +70,17 @@ namespace FirmAdvanceDemo.Enums
     /// Represent type of role of user
     /// </summary>
     [EnumAsChar]
-    public enum EnmRole : byte
+    public enum EnmRole
     {
         /// <summary>
         /// Admin
         /// </summary>
-        A = 1,
+        A = 'A',
 
         /// <summary>
         /// Employee
         /// </summary>
-        E
+        E = 'E'
     }
 
     [EnumAsChar]

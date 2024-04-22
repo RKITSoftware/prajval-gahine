@@ -1,6 +1,7 @@
 using FirmAdvanceDemo.Models.DTO.DataAnnotations;
 using System;
 using System.ComponentModel.DataAnnotations;
+using Newtonsoft.Json;
 using System.Text.Json.Serialization;
 
 namespace FirmAdvanceDemo.Models.DTO
@@ -13,7 +14,7 @@ namespace FirmAdvanceDemo.Models.DTO
         /// <summary>
         /// attendance id
         /// </summary>
-        [JsonPropertyName("d01101")]
+        [JsonProperty("d01101")]
         [Required(ErrorMessage = "Attendance ID cannot be empty.")]
         [Range(0, int.MaxValue)]
         public int D01F01 { get; set; }
@@ -21,7 +22,7 @@ namespace FirmAdvanceDemo.Models.DTO
         /// <summary>
         /// Employee Id
         /// </summary>
-        [JsonPropertyName("d01102")]
+        [JsonProperty("d01102")]
         [Range(0, int.MaxValue)]
         [Required(ErrorMessage = "Employee ID cannot be empty.")]
         public int D01F02 { get; set; }
@@ -29,7 +30,7 @@ namespace FirmAdvanceDemo.Models.DTO
         /// <summary>
         /// Date of attendance
         /// </summary>
-        [JsonPropertyName("d01103")]
+        [JsonProperty("d01103")]
         [Required(ErrorMessage = "Attendance date cannot be empty")]
         [LessThanCurrentDateTime(ErrorMessage = "Attendance date cannot be greater than today's date.")]
         public DateTime D01F03 { get; set; }
@@ -37,7 +38,7 @@ namespace FirmAdvanceDemo.Models.DTO
         /// <summary>
         /// Day work hour
         /// </summary>
-        [JsonPropertyName("d01104")]
+        [JsonProperty("d01104")]
         public double D01F04 { get; set; }
     }
 }

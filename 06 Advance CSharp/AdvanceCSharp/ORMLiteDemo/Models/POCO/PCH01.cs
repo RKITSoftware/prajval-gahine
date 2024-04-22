@@ -25,6 +25,7 @@ namespace ORMLiteDemo.Models.POCO
         /// Punch Type
         /// </summary>
         [IgnoreOnInsert]
+        [Default(typeof(EnmPunchType), "'U'")]
         public EnmPunchType H01F03 { get; set; }
 
         /// <summary>

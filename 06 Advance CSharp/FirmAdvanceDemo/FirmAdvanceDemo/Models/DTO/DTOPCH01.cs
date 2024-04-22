@@ -1,6 +1,7 @@
 using FirmAdvanceDemo.Enums;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace FirmAdvanceDemo.Models.DTO
 {
@@ -13,7 +14,7 @@ namespace FirmAdvanceDemo.Models.DTO
         /// <summary>
         /// Punch id
         /// </summary>
-        [JsonPropertyName("h01101")]
+        [JsonProperty("h01101")]
         [Range(0, int.MaxValue)]
         [Required(ErrorMessage = "Punch ID cannot be empty.")]
         public int H01F01 { get; set; }
@@ -21,7 +22,7 @@ namespace FirmAdvanceDemo.Models.DTO
         /// <summary>
         /// Employee Id
         /// </summary>
-        [JsonPropertyName("h01102")]
+        [JsonProperty("h01102")]
         [Range(0, int.MaxValue)]
         [Required(ErrorMessage = "Employee ID cannot be empty.")]
         public int H01F02 { get; set; }
@@ -29,7 +30,7 @@ namespace FirmAdvanceDemo.Models.DTO
         /// <summary>
         /// Punch Type
         /// </summary>
-        [JsonPropertyName("h01104")]
+        [JsonProperty("h01104")]
         public EnmPunchType H01F04 { get; set; }
     }
 }

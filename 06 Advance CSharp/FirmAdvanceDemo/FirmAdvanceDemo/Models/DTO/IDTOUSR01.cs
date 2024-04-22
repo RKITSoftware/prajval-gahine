@@ -1,4 +1,5 @@
 ﻿using FirmAdvanceDemo.Enums;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 
 namespace FirmAdvanceDemo.Models.DTO

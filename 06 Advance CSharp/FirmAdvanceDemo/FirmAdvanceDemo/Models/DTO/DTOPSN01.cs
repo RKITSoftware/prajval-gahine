@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using Newtonsoft.Json;
 using System.Text.Json.Serialization;
 
 namespace FirmAdvanceDemo.Models.DTO
@@ -12,7 +13,7 @@ namespace FirmAdvanceDemo.Models.DTO
         /// <summary>
         /// Position id
         /// </summary>
-        [JsonPropertyName("n01101")]
+        [JsonProperty("n01101")]
         [Range(0, int.MaxValue)]
         [Required(ErrorMessage = "Position ID cannot be empty.")]
         public int N01F01 { get; set; }
@@ -20,14 +21,14 @@ namespace FirmAdvanceDemo.Models.DTO
         /// <summary>
         /// Position name
         /// </summary>
-        [JsonPropertyName("n01102")]
+        [JsonProperty("n01102")]
         [Required(ErrorMessage = "Position name cannot be empty.")]
         public string N01F02 { get; set; }
 
         /// <summary>
         /// Annual Package (LPA)
         /// </summary>
-        [JsonPropertyName("n01103")]
+        [JsonProperty("n01103")]
         [Range(0, double.MaxValue)]
         [Required(ErrorMessage = "Annual Package cannot be empty.")]
         public double N01F03 { get; set; }
@@ -35,7 +36,7 @@ namespace FirmAdvanceDemo.Models.DTO
         /// <summary>
         /// Monthly Salary
         /// </summary>
-        [JsonPropertyName("n01104")]
+        [JsonProperty("n01104")]
         [Range(0, double.MaxValue)]
         [Required(ErrorMessage = "Monthly salary cannot be empty.")]
         public double N01F05 { get; set; }
@@ -43,7 +44,7 @@ namespace FirmAdvanceDemo.Models.DTO
         /// <summary>
         /// Yearly Bonus
         /// </summary>
-        [JsonPropertyName("n01105")]
+        [JsonProperty("n01105")]
         [Range(0, double.MaxValue)]
         [Required(ErrorMessage = "Yearly bonus cannot be empty.")]
         public double N01F04 { get; set; }
@@ -51,7 +52,7 @@ namespace FirmAdvanceDemo.Models.DTO
         /// <summary>
         /// Department Id
         /// </summary>
-        [JsonPropertyName("n01106")]
+        [JsonProperty("n01106")]
         [Range(0, int.MaxValue)]
         [Required(ErrorMessage = "Department ID cannot be empty.")]
         public int N01F06 { get; set; }

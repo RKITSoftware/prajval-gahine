@@ -1,3 +1,4 @@
+using FirmAdvanceDemo.Enums;
 using ServiceStack.DataAnnotations;
 using System;
 
@@ -17,7 +18,7 @@ namespace FirmAdvanceDemo.Models.POCO
         /// <summary>
         /// Role name
         /// </summary>
-        public string E01F02 { get; set; }
+        public EnmRole E01F02 { get; set; }
 
         /// <summary>
         ///  creation datetime
@@ -29,6 +30,6 @@ namespace FirmAdvanceDemo.Models.POCO
         ///  last modified datetime
         /// </summary>
         [IgnoreOnInsert]
-        public DateTime E01F04 { get; set; }
+        public DateTime? E01F04 { get; set; }
     }
 }

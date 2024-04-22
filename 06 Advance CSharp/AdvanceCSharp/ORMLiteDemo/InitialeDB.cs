@@ -108,7 +108,7 @@ WHERE
                     string adminUsername = ConfigurationManager.AppSettings["admin-username"];
                     string adminPassword = ConfigurationManager.AppSettings["admin-password"];
                     string adminEmail = ConfigurationManager.AppSettings["admin-email"];
-                    string adminPhoneNo = ConfigurationManager.AppSettings["padmin-phone-no"];
+                    string adminPhoneNo = ConfigurationManager.AppSettings["admin-phone-no"];
                     int userId = (int)db.Insert<USR01>(new USR01()
                     {
                         R01F02 = adminUsername,
@@ -121,47 +121,47 @@ WHERE
 
                     // add above user role in ule02 table
                     db.CreateTableIfNotExists<ULE02>();
+
+                    // get role id
+                    int roleID = db.Scalar<RLE01, int>(role => role.E01F01, role => role.E01F02 == EnmRole.A);
+
                     db.Insert<ULE02>(new ULE02
                     {
                         E02F02 = userId,
-                        E02F03 = EnmRole.A,
+                        E02F03 = roleID,
                         E02F04 = now,
                         E02F05 = now
                     });
 
                     db.CreateTableIfNotExists<EMP01>();
                     db.CreateTableIfNotExists<UMP02>();
-                    db.CreateTableIfNotExists<ATD01>();
-                    db.CreateTableIfNotExists<LVE02>();
+                    db.CreateTableIfNotExists<SLY01>();
+                    db.CreateTableIfNotExists<PCH01>();
                     // Service Stack free qouta limit reached
 
                     db.ExecuteNonQuery(@"
-CREATE TABLE `SLY01` 
-(
-  `Y01F01` INT(11) PRIMARY KEY AUTO_INCREMENT, 
-  `Y01F02` INT(11) NOT NULL, 
-  `Y01F03` DATETIME NOT NULL, 
-  `Y01F04` DOUBLE NOT NULL, 
-  `Y01F05` INT(11) NOT NULL, 
-  `Y01F06` DATETIME NOT NULL, 
-  `Y01F07` DATETIME NOT NULL, 
-
-  CONSTRAINT `FK_SLY01_EMP01_Y01F02` FOREIGN KEY (`Y01F02`) REFERENCES `EMP01` (`P01F01`) ON DELETE CASCADE, 
-
-  CONSTRAINT `FK_SLY01_PSN01_Y01F05` FOREIGN KEY (`Y01F05`) REFERENCES `PSN01` (`N01F01`) ON DELETE CASCADE 
-)");
-
-                    db.ExecuteNonQuery(@"
-CREATE TABLE `PCH01` 
+CREATE TABLE `ATD01` 
 (
   `D01F01` INT(11) PRIMARY KEY AUTO_INCREMENT, 
-  `H01F02` INT(11) NOT NULL, 
-  `H01F03` DATETIME NOT NULL, 
-  `H01F04` INT(11) NULL, 
-  `H01F05` DATETIME NOT NULL, 
-  `H01F06` DATETIME NOT NULL, 
+  `D01F02` INT(11) NOT NULL, 
+  `D01F03` DATE NOT NULL, 
+  `D01F04` DOUBLE NOT NULL, 
+  `D01F05` DATETIME NOT NULL, 
+  `D01F06` DATETIME NULL 
+)");
+         
 
-  CONSTRAINT `FK_PCH01_EMP01_H01F02` FOREIGN KEY (`H01F02`) REFERENCES `EMP01` (`P01F01`) ON DELETE CASCADE 
+                    db.ExecuteNonQuery(@"
+CREATE TABLE `LVE02` 
+(
+  `E02F01` INT(11) PRIMARY KEY AUTO_INCREMENT, 
+  `E02F02` INT(11) NOT NULL, 
+  `E02F03` DATE NOT NULL, 
+  `E02F04` INT(11) NOT NULL, 
+  `E02F05` VARCHAR(255) NULL, 
+  `E02F06` CHAR(1) NOT NULL, 
+  `E02F07` DATETIME NOT NULL, 
+  `E02F08` DATETIME NULL 
 )");
                 }
             }

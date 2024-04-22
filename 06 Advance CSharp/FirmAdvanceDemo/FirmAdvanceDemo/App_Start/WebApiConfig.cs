@@ -18,10 +18,10 @@ namespace FirmAdvanceDemo
             //    defaults: new { ID = RouteParameter.Optional }
             //);
 
-            string ConnString = ConfigurationManager.ConnectionStrings["connect-to-firmadvance2-db"].ConnectionString;
+            string ConnString = ConfigurationManager.ConnectionStrings["firmadvance378"].ConnectionString;
             System.Diagnostics.Debug.WriteLine(ConnString);
 
-            InitializeDB.Init();
+            //InitializeDB.Init();
 
             GlobalConfiguration.Configuration.Formatters
                 .Remove(GlobalConfiguration.Configuration.Formatters.XmlFormatter);

@@ -10,8 +10,6 @@ namespace ORMLiteDemo
     {
         public static void Main()
         {
-            
-            
             InitializeDB.Init();
         }
     }

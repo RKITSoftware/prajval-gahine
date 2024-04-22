@@ -42,7 +42,7 @@ namespace FirmAdvanceDemo.Controllers
             IEnumerable<Claim> claims = ((ClaimsIdentity)User.Identity).Claims;
 
             // get user ID from identity
-            int userId = int.Parse(claims.Where(c => c.Type == "Id")
+            int userId = int.Parse(claims.Where(c => c.Type == "userID")
                    .Select(c => c.Value).SingleOrDefault());
 
             string header = "{\"alg\":\"HS256\",\"typ\":\"JWT\"}";
@@ -75,7 +75,7 @@ namespace FirmAdvanceDemo.Controllers
             IEnumerable<Claim> claims = ((ClaimsIdentity)User.Identity).Claims;
 
             // get user ID from identity
-            int userId = int.Parse(claims.Where(c => c.Type == "Id")
+            int userId = int.Parse(claims.Where(c => c.Type == "userID")
                    .Select(c => c.Value).SingleOrDefault());
 
             string header = "{\"alg\":\"HS256\",\"typ\":\"JWT\"}";

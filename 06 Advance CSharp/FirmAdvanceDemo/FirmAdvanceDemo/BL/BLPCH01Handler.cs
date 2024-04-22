@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Net;
+using System.Web;
 
 namespace FirmAdvanceDemo.BL
 {
@@ -63,7 +64,7 @@ namespace FirmAdvanceDemo.BL
 
                 using (IDbConnection db = _dbFactory.OpenDbConnection())
                 {
-                    punchCount = (int)db.Count<PCH01>(punch => punch.P01F01 == punchId);
+                    punchCount = (int)db.Count<PCH01>(punch => punch.H01F01 == punchId);
                 }
 
                 if (punchCount == 0)
@@ -87,7 +88,8 @@ namespace FirmAdvanceDemo.BL
             _objPCH01 = objDTOPCH01.ConvertModel<PCH01>();
             if (Operation == EnmOperation.A)
             {
-                _objPCH01.P01F01 = 0;
+                _objPCH01.H01F01 = 0;
+                _objPCH01.H01F02 = (int)HttpContext.Current.Items["employeeID"];
                 _objPCH01.H01F03 = EnmPunchType.U;
                 _objPCH01.H01F04 = DateTime.Now;
             }
@@ -128,7 +130,7 @@ namespace FirmAdvanceDemo.BL
                     db.Update<PCH01>(_objPCH01);
 
                     response.HttpStatusCode = HttpStatusCode.OK;
-                    response.Message = $"Punch {_objPCH01.P01F01} updated. ";
+                    response.Message = $"Punch {_objPCH01.H01F01} updated. ";
 
                     return response;
                 }

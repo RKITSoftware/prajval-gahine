@@ -9,6 +9,8 @@ using System.Collections.Generic;
 using System.Data;
 using System.Net;
 using System.Web;
+using System.Web.Security;
+using System.Web.UI.WebControls;
 using static FirmAdvanceDemo.Utitlity.Constants;
 
 namespace FirmAdvanceDemo.BL
@@ -435,24 +437,66 @@ namespace FirmAdvanceDemo.BL
             return response;
         }
 
-        internal Response Validate()
+        public Response Validate()
         {
-            throw new NotImplementedException();
+            Response response = new Response();
+            // nothing to validate as of now
+            return response;
         }
 
-        internal void Save()
+        public Response Save()
         {
-            throw new NotImplementedException();
+            Response response = new Response();
+
+            using (IDbConnection db = _dbFactory.OpenDbConnection())
+            {
+                if (Operation == EnmOperation.A)
+                {
+                    int attendanceID = (int)db.Insert<ATD01>(_objATD01, selectIdentity: true);
+
+                    response.HttpStatusCode = HttpStatusCode.OK;
+                    response.Message = $"Attendance {attendanceID} created.";
+                }
+                else
+                {
+                    db.Update<ATD01>(_objATD01);
+
+                    response.HttpStatusCode = HttpStatusCode.OK;
+                    response.Message = $"Attendance {_objATD01.D01F01} updated.";
+                }
+            }
+            return response;
         }
 
-        internal Response ValidateDelete(int attendanceID)
+        public Response ValidateDelete(int attendanceID)
         {
-            throw new NotImplementedException();
+            Response response = new Response();
+            int attendanceCount;
+            using (IDbConnection db = _dbFactory.OpenDbConnection())
+            {
+                attendanceCount = (int)db.Count<RLE01>(attendance => attendance.E01F01 == attendanceID);
+            }
+
+            if (attendanceCount == 0)
+            {
+                response.IsError = true;
+                response.HttpStatusCode = HttpStatusCode.NotFound;
+                response.Message = $"Attendance {attendanceID} not found.";
+            }
+            return response;
         }
 
-        internal Response Delete(int attendanceID)
+        public Response Delete(int attendanceID)
         {
-            throw new NotImplementedException();
+            Response response = new Response();
+            using (IDbConnection db = _dbFactory.OpenDbConnection())
+            {
+                db.DeleteById<RLE01>(attendanceID);
+            }
+            response.HttpStatusCode = HttpStatusCode.OK;
+            response.Message = $"Attendance {attendanceID} deleted.";
+
+            return response;
         }
         /*
 /// <summary>

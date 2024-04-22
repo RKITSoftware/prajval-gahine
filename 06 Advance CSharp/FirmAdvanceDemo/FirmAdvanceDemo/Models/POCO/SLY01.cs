@@ -40,6 +40,6 @@ namespace FirmAdvanceDemo.Models.POCO
         /// Salary last modified datetime
         /// </summary>
         [IgnoreOnInsert]
-        public DateTime Y01F06 { get; set; }
+        public DateTime? Y01F06 { get; set; }
     }
 }

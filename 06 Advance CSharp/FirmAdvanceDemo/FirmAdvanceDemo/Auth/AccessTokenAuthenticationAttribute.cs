@@ -17,7 +17,7 @@ namespace FirmAdvanceDemo.Auth
         public override void OnAuthorization(HttpActionContext actionContext)
         {
             Response response;
-            if (actionContext.Request.Headers.Authorization.Scheme != "Bearer")
+            if (actionContext.Request.Headers.Authorization?.Scheme != "Bearer")
             {
                 response = new Response
                 {
@@ -29,7 +29,7 @@ namespace FirmAdvanceDemo.Auth
             else
             {
                 string jwt = actionContext.Request.Headers.Authorization.Parameter;
-                response = AuthenticateJWT(jwt);
+                response = GeneralUtility.AuthenticateJWT(jwt);
             }
 
             if (response.IsError)

@@ -28,6 +28,8 @@ namespace FirmAdvanceDemo.Controllers
 
         [HttpPost]
         [Route("")]
+        [AccessTokenAuthentication]
+        [BasicAuthorization(Roles = "E")]
         public IHttpActionResult PostPunch(DTOPCH01 objDTOPCH01)
         {
             Response response;

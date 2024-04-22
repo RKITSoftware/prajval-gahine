@@ -39,6 +39,6 @@ namespace FirmAdvanceDemo.Models.POCO
         /// Attendance last modified datetime
         /// </summary>
         [IgnoreOnInsert]
-        public DateTime D01F06 { get; set; }
+        public DateTime? D01F06 { get; set; }
     }
 }

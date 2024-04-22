@@ -1,5 +1,5 @@
 using ServiceStack.DataAnnotations;
-using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ORMLiteDemo.Models.POCO
 {
@@ -33,6 +33,7 @@ namespace ORMLiteDemo.Models.POCO
         /// <summary>
         /// Employee Date of Birth
         /// </summary>
+        [Column(TypeName = "Date")]
         public DateTime P01F05 { get; set; }
 
         /// <summary>

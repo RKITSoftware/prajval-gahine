@@ -35,6 +35,6 @@ namespace FirmAdvanceDemo.Models.POCO
         /// UserEmployee last update datetime
         /// </summary>
         [IgnoreOnInsert]
-        public DateTime P02F05 { get; set; }
+        public DateTime? P02F05 { get; set; }
     }
 }

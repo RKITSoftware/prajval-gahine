@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using Newtonsoft.Json;
 using System.Text.Json.Serialization;
 
 namespace FirmAdvanceDemo.Models.DTO
@@ -11,7 +12,7 @@ namespace FirmAdvanceDemo.Models.DTO
         /// <summary>
         /// Role id
         /// </summary>
-        [JsonPropertyName("e01101")]
+        [JsonProperty("e01101")]
         [Range(0, int.MaxValue)]
         [Required(ErrorMessage = "Role ID cannot be empty.")]
         public int E01F01 { get; set; }
@@ -19,7 +20,7 @@ namespace FirmAdvanceDemo.Models.DTO
         /// <summary>
         /// Role name
         /// </summary>
-        [JsonPropertyName("e01102")]
+        [JsonProperty("e01102")]
         [Required(ErrorMessage = "Role name cannot be empty.")]
         public string E01F02 { get; set; }
     }

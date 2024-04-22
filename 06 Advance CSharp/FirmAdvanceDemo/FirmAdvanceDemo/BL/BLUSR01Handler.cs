@@ -1,7 +1,10 @@
+using FirmAdvanceDemo.Connection;
+using FirmAdvanceDemo.DB;
 using FirmAdvanceDemo.Enums;
 using FirmAdvanceDemo.Models.DTO;
 using FirmAdvanceDemo.Models.POCO;
 using FirmAdvanceDemo.Utitlity;
+using MySql.Data.MySqlClient;
 using Newtonsoft.Json.Linq;
 using ServiceStack;
 using ServiceStack.OrmLite;
@@ -11,6 +14,7 @@ using System.Configuration;
 using System.Data;
 using System.Linq;
 using System.Net;
+using System.Web.Security;
 using static FirmAdvanceDemo.Utitlity.GeneralUtility;
 
 namespace FirmAdvanceDemo.BL
@@ -28,10 +32,12 @@ namespace FirmAdvanceDemo.BL
         /// <summary>
         /// List of Roles
         /// </summary>
-        public List<EnmRole> lstRole;
+        public List<EnmRole> LstRole { get; set; }
 
         public EnmOperation Operation { get; set; }
-        protected readonly OrmLiteConnectionFactory _dbFactory;
+        private readonly OrmLiteConnectionFactory _dbFactory;
+
+        private readonly DBUSR01Context _dbUSR01Context;
 
         /// <summary>
         /// Default constructor for BLUser
@@ -39,6 +45,7 @@ namespace FirmAdvanceDemo.BL
         public BLUSR01Handler()
         {
             _dbFactory = OrmliteDbConnector.DbFactory;
+            _dbUSR01Context = new DBUSR01Context();
         }
 
         /// <summary>
@@ -77,7 +84,9 @@ namespace FirmAdvanceDemo.BL
         /// <param name="objDTOUSR01">Instance of DTOUSR01</param>
         public void Presave(DTOUSR01 objDTOUSR01)
         {
+            LstRole = objDTOUSR01.R01X06;
             ObjUSR01 = objDTOUSR01.ConvertModel<USR01>();
+
 
             // converting string password to hased password (bytes)
             string secretKey = (string)ConfigurationManager.AppSettings["PasswordHashSecretKey"];
@@ -122,11 +131,11 @@ namespace FirmAdvanceDemo.BL
         }
 
         /// <summary>
-        /// Method to fetch user roles using userid
+        /// Method to fetch user roles using userID
         /// </summary>
-        /// <param name="userId">User id</param>
-        /// <returns>ResponseStatusInfo instance containing userId if successful or null if any exception</returns>
-        public Response FetchUserRolesByUserId(int userId)
+        /// <param name="userID">User id</param>
+        /// <returns>ResponseStatusInfo instance containing userID if successful or null if any exception</returns>
+        public Response FetchUserRolesByuserID(int userID)
         {
             try
             {
@@ -134,7 +143,7 @@ namespace FirmAdvanceDemo.BL
                 {
                     // get user roles
                     var SqlExp = db.From<ULE02>()
-                        .Where(ur => ur.E02F02 == userId)
+                        .Where(ur => ur.E02F02 == userID)
                         .Join<RLE01>((ur, r) => (int)ur.E02F03 == r.E01F01)
                         .Select<RLE01>(r => r.E01F02);
 
@@ -142,7 +151,7 @@ namespace FirmAdvanceDemo.BL
                     return new Response()
                     {
                         IsError = true,
-                        Message = $"User roles with user id: {userId}",
+                        Message = $"User roles with user id: {userID}",
                         Data = roles
                     };
                 }
@@ -158,122 +167,120 @@ namespace FirmAdvanceDemo.BL
             }
         }
 
-        /// <summary>
-        /// Method to add a User to database, which indeed adds dependent entity (employee or admin) and populates dependent junction tables accordingly
-        /// </summary>
-        /// <param name="UserEmployeeJson">JSON object containing user and/or employee information</param>
-        /// <returns>ResponseStatusInfo instance containing data as null</returns>
-        public Response AddResource(JObject UserEmployeeJson)
+        public Response RetrieveUser(int userID)
         {
-
-            JObject UserJson = (JObject)UserEmployeeJson["user"];
-            JObject EmployeeJson = (JObject)UserEmployeeJson["employee"];
-            JObject AdminJson = (JObject)UserEmployeeJson["admin"];
-
-            try
+            Response response = new Response();
+            DataTable dtUser;
+            dtUser = _dbUSR01Context.FetchUser(userID);
+            if(dtUser.Rows.Count == 0)
             {
-                if (UserJson == null)
+                response.IsError = true;
+                response.HttpStatusCode = HttpStatusCode.NotFound;
+                response.Message = $"User {userID} not found.";
+                return response;
+            }
+            response.HttpStatusCode = HttpStatusCode.OK;
+            response.Data = dtUser;
+            return response;
+        }
+
+        public Response RetrieveUser()
+        {
+            Response response = new Response();
+            DataTable dtUser;
+            dtUser = _dbUSR01Context.FetchUser();
+            if (dtUser.Rows.Count == 0)
+            {
+                response.IsError = true;
+                response.HttpStatusCode = HttpStatusCode.NotFound;
+                response.Message = "No user found.";
+                return response;
+            }
+            response.HttpStatusCode = HttpStatusCode.OK;
+            response.Data = dtUser;
+            return response;
+        }
+
+        public Response Save()
+        {
+            Response response = new Response();
+
+            using (IDbConnection db = _dbFactory.OpenDbConnection())
+            {
+                if (Operation == EnmOperation.A)
                 {
-                    throw new Exception("No user details provided");
-                }
-
-                using (IDbConnection db = _dbFactory.OpenDbConnection())
-                {
-                    //string secretKey = "FirmAdvanceDemoSecretKey";
-                    string secretKey = ConfigurationManager.AppSettings["PasswordHashSecretKey"] as string;
-                    // hash the password 
-                    string hashedPassword = GeneralUtility.GetHMACBase64((string)UserJson["R01F03"], secretKey);
-
-                    // create user and get the user id
-                    USR01 user = new USR01()
+                    int userID;
+                    using (IDbTransaction txn = db.OpenTransaction())
                     {
-                        R01F01 = 0,
-                        R01F02 = (string)UserJson["R01F02"],
-                        R01F03 = hashedPassword,
-                        R01F04 = (string)UserJson["R01F04"],
-                        R01F05 = (string)UserJson["R01F05"],
-                        R01F06 = DateTime.Now.Date
-                    };
-                    int userId = (int)db.Insert<USR01>(user, selectIdentity: true);
-
-                    // populate the user-role table
-                    List<int> roles = ((JArray)UserJson["roles"]).ToObject<List<int>>();
-
-                    IEnumerable<ULE02> lstRoleUser = roles.Select<int, ULE02>(roleId => new ULE02()
-                    {
-                        E02F02 = userId,
-                        E02F03 = (EnmRole)roleId
-                    });
-
-                    db.InsertAll(lstRoleUser);
-
-                    int employeeId = 0;
-                    // now check if the user is an employee ? (ie. role is 2)
-                    if (roles.Contains<int>(2) && EmployeeJson != null)
-                    {
-                        // create employee object and get the employee id
-                        EMP01 employee = new EMP01()
+                        try
                         {
-                            P01F01 = 0,
-                            P01F02 = (string)EmployeeJson["P01F02"],
-                            P01F03 = (string)EmployeeJson["P01F03"],
-                            P01F04 = ((string)EmployeeJson["P01F04"])[0],
-                            P01F05 = DateTime.Parse((string)EmployeeJson["P01F05"]).Date,
-                            P01F06 = (int)EmployeeJson["P01F06"]
-                        };
-                        employeeId = (int)db.Insert<EMP01>(employee, selectIdentity: true);
+                            userID = (int)db.Insert<USR01>(ObjUSR01, selectIdentity: true);
+                            // get role id
+                            int roleID = db.Scalar<RLE01, int>(role => role.E01F01, role => role.E01F02 == EnmRole.A);
 
-                        // populate the user-employee table
-                        UMP02 userEmployee = new UMP02()
+                            // save user role
+                            ULE02 objULE02 = new ULE02()
+                            {
+                                E02F02 = userID,
+                                E02F03 = roleID,
+                                E02F04 = DateTime.Now
+                            };
+                            db.Insert<ULE02>(objULE02);
+
+                            txn.Commit();
+                        }
+                        catch
                         {
-                            P02F02 = userId,
-                            P02F03 = employeeId
-                        };
-
-                        db.Insert(userEmployee);
+                            txn.Rollback();
+                            throw;
+                        }
                     }
-                    return new Response()
-                    {
-                        IsError = true,
-                        Message = $"User created with username: {(string)UserJson["R01F02"]}",
-                        Data = null
-                    };
+
+                    response.HttpStatusCode = HttpStatusCode.OK;
+                    response.Message = $"User {userID} created.";
+                }
+                else
+                {
+                    db.Update<USR01>(ObjUSR01);
+
+                    response.HttpStatusCode = HttpStatusCode.OK;
+                    response.Message = $"User {ObjUSR01.R01F01} updated.";
                 }
             }
-            catch (Exception ex)
+            return response;
+        }
+
+        public Response ValidateDelete(int userID)
+        {
+            Response response = new Response();
+            int userCount;
+            using (IDbConnection db = _dbFactory.OpenDbConnection())
             {
-                return new Response()
-                {
-                    IsError = false,
-                    Message = ex.Message,
-                    Data = null
-                };
+                userCount = (int)db.Count<USR01>(user => user.R01F01 == userID);
             }
+
+            if (userCount == 0)
+            {
+                response.IsError = true;
+                response.HttpStatusCode = HttpStatusCode.NotFound;
+                response.Message = $"User {userID} not found.";
+
+                return response;
+            }
+            return response;
         }
 
-        internal Response RetrieveUser(int id)
+        public Response Delete(int userID)
         {
-            throw new NotImplementedException();
-        }
+            Response response = new Response();
+            using (IDbConnection db = _dbFactory.OpenDbConnection())
+            {
+                db.DeleteById<USR01>(userID);
+            }
+            response.HttpStatusCode = HttpStatusCode.OK;
+            response.Message = $"User {userID} deleted.";
 
-        internal Response RetrieveUser()
-        {
-            throw new NotImplementedException();
-        }
-
-        internal void Save()
-        {
-            throw new NotImplementedException();
-        }
-
-        internal Response ValidateDelete(int userID)
-        {
-            throw new NotImplementedException();
-        }
-
-        internal Response Delete(int userID)
-        {
-            throw new NotImplementedException();
+            return response;
         }
     }
 }

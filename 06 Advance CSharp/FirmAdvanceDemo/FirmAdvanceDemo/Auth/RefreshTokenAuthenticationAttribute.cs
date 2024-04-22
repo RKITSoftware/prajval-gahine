@@ -37,7 +37,7 @@ namespace FirmAdvanceDemo.Auth
             {
                 string refreshToken = GeneralUtility.AesDecrypt(encryptedRefreshToken, null);
 
-                response = AuthenticateJWT(refreshToken);
+                response = GeneralUtility.AuthenticateJWT(refreshToken);
             }
 
             if (response.IsError)

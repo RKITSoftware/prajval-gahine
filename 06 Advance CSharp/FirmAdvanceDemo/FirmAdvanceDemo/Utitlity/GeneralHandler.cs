@@ -55,7 +55,12 @@ namespace FirmAdvanceDemo.Utitlity
             int userId = 0;
             using (IDbConnection db = _dbFactory.OpenDbConnection())
             {
-                userId = db.Scalar<USR01, int>(user => user.R01F02 == username);
+                //userId = db.Scalar<USR01, int>(user => user.R01F01,user => user.R01F02 == username);
+                var query = db.From<USR01>()
+                    .Where(user => user.R01F02 == username)
+                    .Select(user => user.R01F01);
+                var result = db.Column<int>(query);
+                userId = result[0];
             }
             return userId;
         }

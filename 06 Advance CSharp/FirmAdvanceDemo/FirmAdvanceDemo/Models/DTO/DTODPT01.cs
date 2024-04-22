@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace FirmAdvanceDemo.Models.DTO
 {
@@ -11,7 +12,7 @@ namespace FirmAdvanceDemo.Models.DTO
         /// <summary>
         /// Department Id
         /// </summary>
-        [JsonPropertyName("t01101")]
+        [JsonProperty("t01101")]
         [Required(ErrorMessage = "Department ID cannot be empty.")]
         [Range(0, int.MaxValue)]
         public int T01F01 { get; set; }
@@ -19,7 +20,7 @@ namespace FirmAdvanceDemo.Models.DTO
         /// <summary>
         /// Department Name
         /// </summary>
-        [JsonPropertyName("t01102")]
+        [JsonProperty("t01102")]
         [Range(0, int.MaxValue)]
         [Required(ErrorMessage = "Department name cannot be empty.")]
         public string T01F02 { get; set; }

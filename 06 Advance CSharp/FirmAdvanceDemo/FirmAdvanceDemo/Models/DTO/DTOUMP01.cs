@@ -1,3 +1,5 @@
+using Newtonsoft.Json;
+
 namespace FirmAdvanceDemo.Models.DTO
 {
     public class DTOUMP01

@@ -36,7 +36,7 @@ namespace FirmAdvanceDemo.Utitlity
                                                                 ule02
                                                             WHERE
                                                                 e02f02 = {0}
-                                                        ) AS tmp01 ON r01f01 = tmp01.e02f03",
+                                                        ) AS tmp01 ON e01f01 = tmp01.e02f03",
                                                         userID);
 
             dtUserRole = new DataTable();

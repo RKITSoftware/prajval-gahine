@@ -1,5 +1,7 @@
+using ServiceStack;
 using ServiceStack.DataAnnotations;
 using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FirmAdvanceDemo.Models.POCO
 {
@@ -49,6 +51,6 @@ namespace FirmAdvanceDemo.Models.POCO
         /// Employee last modified datetime
         /// </summary>
         [IgnoreOnInsert]
-        public DateTime P01F08 { get; set; }
+        public DateTime? P01F08 { get; set; }
     }
 }

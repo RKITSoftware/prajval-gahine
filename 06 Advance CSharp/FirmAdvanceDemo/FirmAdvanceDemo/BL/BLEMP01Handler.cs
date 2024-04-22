@@ -5,6 +5,7 @@ using FirmAdvanceDemo.Models.POCO;
 using FirmAdvanceDemo.Utitlity;
 using ServiceStack.OrmLite;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Net;
@@ -27,7 +28,7 @@ namespace FirmAdvanceDemo.BL
         /// <summary>
         /// Instance of BLUser
         /// </summary>
-        private readonly BLUSR01Handler _objBLUSR01Handler;
+        private BLUSR01Handler _objBLUSR01Handler;
 
         public BLEMP01Handler(BLUSR01Handler objBLUSR01Handler)
         {
@@ -55,49 +56,73 @@ namespace FirmAdvanceDemo.BL
         /// <returns>True if instance of DTOUMP is in valid format, else false</returns>
         public Response Prevalidate(DTOUMP01 objDTOUMP)
         {
-            Response response;
+            Response response = new Response();
 
             DTOUSR01 objDTOUSR01 = objDTOUMP.ObjDTOUSR01;
             DTOEMP01 dTOEMP01 = objDTOUMP.ObjDTOEMP01;
 
-            _objBLUSR01Handler.Operation = Operation;
-            response = _objBLUSR01Handler.Prevalidate(objDTOUSR01);
-
-            if (!response.IsError)
+            if(Operation == EnmOperation.A && !GeneralUtility.IsAdmin())
             {
-                // check if position ID exists in db (for A and E both)
-                int positionId = dTOEMP01.P01F06;
-                int positionCount;
-                using (IDbConnection db = _dbFactory.OpenDbConnection())
-                {
-                    positionCount = (int)db.Count<EMP01>(emp01 => emp01.P01F06 == positionId);
-                }
-                if (positionCount == 0)
-                {
-                    response.IsError = true;
-                    response.HttpStatusCode = HttpStatusCode.NotFound;
-                    response.Message = $"Position not found wqith {positionId}";
+                response.IsError = true;
+                response.HttpStatusCode = HttpStatusCode.BadRequest;
+                response.Message = "Not an admin.";
 
-                    return response;
-                }
+                return response;
+            }
+            
+            // edit operation must be done by admin or valid employee
+            if(Operation == EnmOperation.E && !GeneralUtility.IsAdmin() && !GeneralUtility.IsValidEmployee(dTOEMP01.P01F01))
+            {
+                response.IsError = true;
+                response.HttpStatusCode = HttpStatusCode.Conflict;
+                response.Message = "Operation not allowed: Only administrators can perform this action on valid employees.";
 
-                // in case of E, check employee ID already exists?
-                if (Operation == EnmOperation.E)
+                return response;
+            }
+
+            if (response.IsError)
+            {
+                _objBLUSR01Handler = new BLUSR01Handler();
+
+                _objBLUSR01Handler.Operation = Operation;
+                response = _objBLUSR01Handler.Prevalidate(objDTOUSR01);
+
+                if (!response.IsError)
                 {
-                    int employeeId = dTOEMP01.P01F01;
-                    int employeeCount;
+                    // check if position ID exists in db (for A and E both)
+                    int positionId = dTOEMP01.P01F06;
+                    int positionCount;
                     using (IDbConnection db = _dbFactory.OpenDbConnection())
                     {
-                        employeeCount = (int)db.Count<EMP01>(emp01 => emp01.P01F01 == employeeId);
+                        positionCount = (int)db.Count<PSN01>(position => position.N01F01 == positionId);
                     }
-
-                    if (employeeCount == 0)
+                    if (positionCount == 0)
                     {
                         response.IsError = true;
                         response.HttpStatusCode = HttpStatusCode.NotFound;
-                        response.Message = $"Employee not found with id: {employeeId}";
+                        response.Message = $"Position not found with {positionId}";
 
                         return response;
+                    }
+
+                    // in case of E, check employee ID already exists?
+                    if (Operation == EnmOperation.E)
+                    {
+                        int employeeId = dTOEMP01.P01F01;
+                        int employeeCount;
+                        using (IDbConnection db = _dbFactory.OpenDbConnection())
+                        {
+                            employeeCount = (int)db.Count<EMP01>(emp01 => emp01.P01F01 == employeeId);
+                        }
+
+                        if (employeeCount == 0)
+                        {
+                            response.IsError = true;
+                            response.HttpStatusCode = HttpStatusCode.NotFound;
+                            response.Message = $"Employee not found with id: {employeeId}";
+
+                            return response;
+                        }
                     }
                 }
             }
@@ -154,7 +179,7 @@ namespace FirmAdvanceDemo.BL
                 {
                     int userId;
                     int employeeId;
-                    using (IDbTransaction tnx = db.BeginTransaction())
+                    using (IDbTransaction tnx = db.OpenTransaction())
                     {
                         try
                         {
@@ -163,14 +188,28 @@ namespace FirmAdvanceDemo.BL
                             // save user
                             userId = (int)db.Insert(objUSR01, selectIdentity: true);
 
-                            // save user role
-                            ULE02 objULE02 = new ULE02()
+                            // get role id
+                            //int roleID = db.Scalar<RLE01, int>(role => role.E01F01, role => role.E01F02 == EnmRole.A);
+
+                            SqlExpression<RLE01> sqlExp = db.From<RLE01>()
+                                .Where(role => Sql.In(role.E01F02, _objBLUSR01Handler.LstRole))
+                                .Select(role => role.E01F01);
+
+                            DateTime now = DateTime.Now;
+
+                            List<ULE02> lstUserRole = db.Select<int>(sqlExp).Select(roleID => new ULE02()
                             {
                                 E02F02 = userId,
-                                E02F03 = EnmRole.E,
-                                E02F04 = DateTime.Now
-                            };
-                            db.Insert<ULE02>(objULE02);
+                                E02F03 = roleID,
+                                E02F04 = now
+                            }).ToList();
+                            //ULE02 objULE02 = new ULE02()
+                            //{
+                            //    E02F02 = userId,
+                            //    E02F03 = roleID,
+                            //    E02F04 = DateTime.Now
+                            //};
+                            db.InsertAll<ULE02>(lstUserRole);
 
                             // save employee
                             employeeId = (int)db.Insert(_objEMP01, selectIdentity: true);

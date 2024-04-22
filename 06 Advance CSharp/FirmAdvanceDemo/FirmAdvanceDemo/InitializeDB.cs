@@ -21,7 +21,7 @@ namespace FirmAdvanceDemo
         public static void Init()
         {
             // get the connection string
-            string connectionString = (string)ConfigurationManager.ConnectionStrings["connect-to-mysqld"].ConnectionString;
+            string connectionString = (string)ConfigurationManager.ConnectionStrings["mysqld"].ConnectionString;
 
             // create a connection factory (IDbConnectionFactory)
             IDbConnectionFactory dbFactory = new OrmLiteConnectionFactory(connectionString, MySqlDialect.Provider);
@@ -54,8 +54,8 @@ WHERE
                     db.CreateTableIfNotExists<RLE01>();
                     List<RLE01> lstRole = new List<RLE01>()
                     {
-                        new RLE01(){ E01F02 = "Admin", E01F03 = now, E01F04 = now},
-                        new RLE01(){ E01F02 = "Employee", E01F03 = now, E01F04 = now}
+                        new RLE01(){ E01F02 = EnmRole.A, E01F03 = now, E01F04 = now},
+                        new RLE01(){ E01F02 = EnmRole.E, E01F03 = now, E01F04 = now}
                     };
                     db.InsertAll<RLE01>(lstRole);
 
@@ -107,10 +107,13 @@ WHERE
 
                     // add above user role in ule02 table
                     db.CreateTableIfNotExists<ULE02>();
+
+                    int roleID = db.Scalar<RLE01, int>(role => role.E01F01, role => role.E01F02 == EnmRole.A);
+
                     db.Insert<ULE02>(new ULE02
                     {
                         E02F02 = userId,
-                        E02F03 = EnmRole.A,
+                        E02F03 = roleID,
                         E02F04 = now,
                         E02F05 = now
                     });

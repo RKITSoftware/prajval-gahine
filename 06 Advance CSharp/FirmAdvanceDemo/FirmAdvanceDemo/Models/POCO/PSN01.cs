@@ -49,6 +49,6 @@ namespace FirmAdvanceDemo.Models.POCO
         /// Position last modified datetime
         /// </summary>
         [IgnoreOnInsert]
-        public DateTime N01F08 { get; set; }
+        public DateTime? N01F08 { get; set; }
     }
 }

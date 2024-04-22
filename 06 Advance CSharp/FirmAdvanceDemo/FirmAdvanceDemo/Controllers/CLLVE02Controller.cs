@@ -1,9 +1,12 @@
+using FirmAdvanceDemo.Auth;
 using FirmAdvanceDemo.BL;
 using FirmAdvanceDemo.Enums;
 using FirmAdvanceDemo.Models.DTO;
 using FirmAdvanceDemo.Utitlity;
 using System;
+using System.Web;
 using System.Web.Http;
+using System.Web.Security;
 
 namespace FirmAdvanceDemo.Controllers
 {
@@ -25,6 +28,8 @@ namespace FirmAdvanceDemo.Controllers
 
         [HttpGet]
         [Route("")]
+        [AccessTokenAuthentication]
+        [BasicAuthorization(Roles = "A")]
         public IHttpActionResult GetLeave()
         {
             Response response = _objBLLVE02Handler.RetrieveLeave();
@@ -33,6 +38,8 @@ namespace FirmAdvanceDemo.Controllers
 
         [HttpGet]
         [Route("{leaveId}")]
+        [AccessTokenAuthentication]
+        [BasicAuthorization(Roles = "A")]
         public IHttpActionResult GetLeave(int leaveId)
         {
             Response response = _objBLLVE02Handler.RetrieveLeave(leaveId);
@@ -41,6 +48,8 @@ namespace FirmAdvanceDemo.Controllers
 
         [HttpGet]
         [Route("status/{leaveStatus}")]
+        [AccessTokenAuthentication]
+        [BasicAuthorization(Roles = "A")]
         public IHttpActionResult GetLeaveByStatus(EnmLeaveStatus leaveStatus)
         {
             Response response = _objBLLVE02Handler.RetrieveLeaveByStatus(leaveStatus);
@@ -48,48 +57,116 @@ namespace FirmAdvanceDemo.Controllers
         }
 
         [HttpGet]
-        [Route("employee/{employeeId}")]
-        public IHttpActionResult GetLeaveByEmployee(int employeeId)
+        [Route("employee/{employeeID}")]
+        [AccessTokenAuthentication]
+        [BasicAuthorization(Roles = "A")]
+        public IHttpActionResult GetLeaveByEmployee(int employeeID)
         {
-            Response response = _objBLLVE02Handler.RetrieveLeaveByEmployee(employeeId);
+            Response response = _objBLLVE02Handler.RetrieveLeaveByEmployee(employeeID);
             return Ok(response);
         }
 
         [HttpGet]
-        [Route("employee/{employeeId}/monthly")]
-        public IHttpActionResult GetLeaveByEmployeeAndMonthYear(int employeeId, int year, int month)
+        [Route("employee")]
+        [AccessTokenAuthentication]
+        [BasicAuthorization(Roles = "E")]
+        public IHttpActionResult GetLeaveByEmployee()
         {
-            Response response = _objBLLVE02Handler.RetrieveLeaveByEmployeeAndMonthYear(employeeId, year, month);
+            int employeeID = (int)HttpContext.Current.Items["employeeID"];
+            Response response = _objBLLVE02Handler.RetrieveLeaveByEmployee(employeeID);
             return Ok(response);
         }
 
         [HttpGet]
-        [Route("employee/{employeeId}/yearly")]
-        public IHttpActionResult GetLeaveByEmployeeAndYear(int employeeId, int year)
+        [Route("employee/{employeeID}/monthly")]
+        [AccessTokenAuthentication]
+        [BasicAuthorization(Roles = "A")]
+        public IHttpActionResult GetLeaveByEmployeeAndMonthYear(int employeeID, int year, int month)
         {
-            Response response = _objBLLVE02Handler.RetrieveLeaveByEmployeeAnYear(employeeId, year);
+            Response response = _objBLLVE02Handler.RetrieveLeaveByEmployeeAndMonthYear(employeeID, year, month);
             return Ok(response);
         }
 
         [HttpGet]
-        [Route("employee/{employeeId}/current-year")]
-        public IHttpActionResult GetLeaveByEmployeeForCurrentYear(int employeeId)
+        [Route("employee/monthly")]
+        [AccessTokenAuthentication]
+        [BasicAuthorization(Roles = "E")]
+        public IHttpActionResult GetLeaveByEmployeeAndMonthYear(int year, int month)
         {
-            Response response = _objBLLVE02Handler.RetrieveLeaveByEmployeeAnYear(employeeId, DateTime.Now.Year);
+            int employeeID = (int)HttpContext.Current.Items["employeeID"];
+            Response response = _objBLLVE02Handler.RetrieveLeaveByEmployeeAndMonthYear(employeeID, year, month);
             return Ok(response);
         }
 
         [HttpGet]
-        [Route("employee/{employeeId}/current-month")]
-        public IHttpActionResult GetLeaveByEmployeeForCurrentMonth(int employeeId)
+        [Route("employee/{employeeID}/yearly")]
+        [AccessTokenAuthentication]
+        [BasicAuthorization(Roles = "A")]
+        public IHttpActionResult GetLeaveByEmployeeAndYear(int employeeID, int year)
+        {
+            Response response = _objBLLVE02Handler.RetrieveLeaveByEmployeeAnYear(employeeID, year);
+            return Ok(response);
+        }
+
+        [HttpGet]
+        [Route("employee/yearly")]
+        [AccessTokenAuthentication]
+        [BasicAuthorization(Roles = "E")]
+        public IHttpActionResult GetLeaveByEmployeeAndYear(int year)
+        {
+            int employeeID = (int)HttpContext.Current.Items["employeeID"];
+            Response response = _objBLLVE02Handler.RetrieveLeaveByEmployeeAnYear(employeeID, year);
+            return Ok(response);
+        }
+
+        [HttpGet]
+        [Route("employee/{employeeID}/current-year")]
+        [AccessTokenAuthentication]
+        [BasicAuthorization(Roles = "A")]
+        public IHttpActionResult GetLeaveByEmployeeForCurrentYear(int employeeID)
+        {
+            Response response = _objBLLVE02Handler.RetrieveLeaveByEmployeeAnYear(employeeID, DateTime.Now.Year);
+            return Ok(response);
+        }
+
+        [HttpGet]
+        [Route("employee/current-year")]
+        [AccessTokenAuthentication]
+        [BasicAuthorization(Roles = "E")]
+        public IHttpActionResult GetLeaveByEmployeeForCurrentYear()
+        {
+            int employeeID = (int)HttpContext.Current.Items["employeeID"];
+            Response response = _objBLLVE02Handler.RetrieveLeaveByEmployeeAnYear(employeeID, DateTime.Now.Year);
+            return Ok(response);
+        }
+
+        [HttpGet]
+        [Route("employee/{employeeID}/current-month")]
+        [AccessTokenAuthentication]
+        [BasicAuthorization(Roles = "A")]
+        public IHttpActionResult GetLeaveByEmployeeForCurrentMonth(int employeeID)
         {
             DateTime now = DateTime.Now;
-            Response response = _objBLLVE02Handler.RetrieveLeaveByEmployeeAndMonthYear(employeeId, now.Year, now.Month);
+            Response response = _objBLLVE02Handler.RetrieveLeaveByEmployeeAndMonthYear(employeeID, now.Year, now.Month);
+            return Ok(response);
+        }
+
+        [HttpGet]
+        [Route("employee/current-month")]
+        [AccessTokenAuthentication]
+        [BasicAuthorization(Roles = "E")]
+        public IHttpActionResult GetLeaveByEmployeeForCurrentMonth()
+        {
+            int employeeID = (int)HttpContext.Current.Items["employeeID"];
+            DateTime now = DateTime.Now;
+            Response response = _objBLLVE02Handler.RetrieveLeaveByEmployeeAndMonthYear(employeeID, now.Year, now.Month);
             return Ok(response);
         }
 
         [HttpGet]
         [Route("monthly")]
+        [AccessTokenAuthentication]
+        [BasicAuthorization(Roles = "A")]
         public IHttpActionResult GetLeaveByMonthYear(int year, int month)
         {
             Response response = _objBLLVE02Handler.RetrieveLeaveByMonthYear(year, month);
@@ -98,6 +175,8 @@ namespace FirmAdvanceDemo.Controllers
 
         [HttpGet]
         [Route("date/{date}")]
+        [AccessTokenAuthentication]
+        [BasicAuthorization(Roles = "A")]
         public IHttpActionResult GetLeaveByDate(DateTime date)
         {
             Response response = _objBLLVE02Handler.RetrieveLeaveByDate(date);
@@ -106,6 +185,8 @@ namespace FirmAdvanceDemo.Controllers
 
         [HttpGet]
         [Route("today")]
+        [AccessTokenAuthentication]
+        [BasicAuthorization(Roles = "A")]
         public IHttpActionResult GetLeaveForToday()
         {
             Response response = _objBLLVE02Handler.RetrieveLeaveByDate(DateTime.Now.Date);
@@ -114,6 +195,8 @@ namespace FirmAdvanceDemo.Controllers
 
         [HttpPost]
         [Route("")]
+        [AccessTokenAuthentication]
+        [BasicAuthorization(Roles = "E")]
         public IHttpActionResult PostLeave(DTOLVE02 objDTOLVE02)
         {
             Response response;
@@ -133,6 +216,8 @@ namespace FirmAdvanceDemo.Controllers
 
         [HttpPut]
         [Route("")]
+        [AccessTokenAuthentication]
+        [BasicAuthorization(Roles = "A,E")]
         public IHttpActionResult PutLeave(DTOLVE02 objDTOLVE02)
         {
             Response response;
@@ -152,6 +237,8 @@ namespace FirmAdvanceDemo.Controllers
 
         [HttpDelete]
         [Route("{leaveId}")]
+        [AccessTokenAuthentication]
+        [BasicAuthorization(Roles = "A,E")]
         public IHttpActionResult DeleteLeave(int leaveId)
         {
             Response response = _objBLLVE02Handler.ValidateDelete(leaveId);

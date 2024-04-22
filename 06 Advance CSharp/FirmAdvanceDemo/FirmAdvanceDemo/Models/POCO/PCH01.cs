@@ -13,7 +13,7 @@ namespace FirmAdvanceDemo.Models.POCO
         /// Punch Id
         /// </summary>
         [PrimaryKey]
-        public int P01F01 { get; set; }
+        public int H01F01 { get; set; }
 
         /// <summary>
         /// Employee Id
@@ -24,6 +24,7 @@ namespace FirmAdvanceDemo.Models.POCO
         /// Punch Type
         /// </summary>
         [IgnoreOnInsert]
+        [Default(typeof(EnmPunchType), "'U'")]
         public EnmPunchType H01F03 { get; set; }
 
         /// <summary>
@@ -36,6 +37,6 @@ namespace FirmAdvanceDemo.Models.POCO
         /// Punch last modified datetime
         /// </summary>
         [IgnoreOnInsert]
-        public DateTime H01F05 { get; set; }
+        public DateTime? H01F05 { get; set; }
     }
 }

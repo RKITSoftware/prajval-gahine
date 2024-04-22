@@ -1,8 +1,10 @@
+using FirmAdvanceDemo.Auth;
 using FirmAdvanceDemo.BL;
 using FirmAdvanceDemo.Enums;
 using FirmAdvanceDemo.Models.DTO;
 using FirmAdvanceDemo.Utitlity;
 using System.Web.Http;
+using System.Web.Security;
 
 namespace FirmAdvanceDemo.Controllers
 {
@@ -35,15 +37,24 @@ namespace FirmAdvanceDemo.Controllers
         }
 
         [HttpGet]
-        [Route("{employeeId}")]
-        public IHttpActionResult GetEmployee(int employeeId)
+        [Route("{employeeID}")]
+        [AccessTokenAuthentication]
+        [BasicAuthorization(Roles = "A,E")]
+        public IHttpActionResult GetEmployee(int employeeID)
         {
-            Response response = _objBLEMP01Handler.RetrieveEmployee(employeeId);
+            Response response = GeneralUtility.AdminOrValidEmployee(employeeID);
+
+            if (!response.IsError)
+            {
+                response = _objBLEMP01Handler.RetrieveEmployee(employeeID);
+            }
             return Ok(response);
         }
 
         [HttpPost]
         [Route("")]
+        [AccessTokenAuthentication]
+        [BasicAuthorization(Roles = "A")]
         public IHttpActionResult PostEmployee(DTOUMP01 objDTOUMP)
         {
             Response response;
@@ -66,6 +77,8 @@ namespace FirmAdvanceDemo.Controllers
 
         [HttpPut]
         [Route("")]
+        [AccessTokenAuthentication]
+        [BasicAuthorization(Roles = "A,E")]
         public IHttpActionResult PutEmployee(DTOUMP01 objDTOUMP)
         {
             Response response;

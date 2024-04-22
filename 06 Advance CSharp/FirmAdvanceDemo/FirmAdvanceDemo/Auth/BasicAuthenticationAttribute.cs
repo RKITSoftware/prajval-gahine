@@ -40,13 +40,13 @@ namespace FirmAdvanceDemo.Auth
                     string username = username_password[0];
                     string password = username_password[1];
 
-                    int userID = 0;
-                    string[] roles;
-
                     bool isValid = ValidateUser.Login(username, password);
 
                     if (isValid)
                     {
+                        // get userID
+                        int userID = GeneralHandler.RetrieveUserIdByUsername(username);
+
                         int employeeID = GeneralHandler.RetrieveEmployeeIDByUserID(userID);
 
                         GenericIdentity identity = new GenericIdentity(username);
@@ -55,7 +55,7 @@ namespace FirmAdvanceDemo.Auth
                         HttpContext.Current.Items["employeeID"] = employeeID;
                         HttpContext.Current.Items["username"] = username;
 
-                        roles = GeneralContext.FetchRolesByUserID(userID);
+                        string[] roles = GeneralContext.FetchRolesByUserID(userID);
 
                         GenericPrincipal principal = new GenericPrincipal(identity, roles);
 

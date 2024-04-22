@@ -28,7 +28,8 @@ namespace FirmAdvanceDemo.Controllers
 
         [HttpGet]
         [Route("")]
-        [BasicAuthorization(Roles = "admin")]
+        [AccessTokenAuthentication]
+        [BasicAuthorization(Roles = "A")]
         public IHttpActionResult Get()
         {
             Response response = _objBLUSR01Handler.RetrieveUser();
@@ -36,15 +37,19 @@ namespace FirmAdvanceDemo.Controllers
         }
 
         [HttpGet]
-        [Route("{id}")]
-        public IHttpActionResult Get(int id)
+        [Route("{userID}")]
+        [AccessTokenAuthentication]
+        [BasicAuthorization(Roles = "A")]
+        public IHttpActionResult Get(int userID)
         {
-            Response response = _objBLUSR01Handler.RetrieveUser(id);
+            Response response = _objBLUSR01Handler.RetrieveUser(userID);
             return Ok(response);
         }
 
         [HttpPost]
         [Route("")]
+        [AccessTokenAuthentication]
+        [BasicAuthorization(Roles = "A")]
         public IHttpActionResult Post(DTOUSR01 objDTOUSR01)
         {
             Response response;
@@ -64,6 +69,8 @@ namespace FirmAdvanceDemo.Controllers
 
         [HttpPatch]
         [Route("{id}")]
+        [AccessTokenAuthentication]
+        [BasicAuthorization(Roles = "A")]
         public IHttpActionResult Patch(DTOUSR01 objDTOUSR01)
         {
             Response response;
@@ -83,6 +90,8 @@ namespace FirmAdvanceDemo.Controllers
 
         [HttpDelete]
         [Route("{userID}")]
+        [AccessTokenAuthentication]
+        [BasicAuthorization(Roles = "A,E")]
         public IHttpActionResult Delete(int userID)
         {
             Response response = _objBLUSR01Handler.ValidateDelete(userID);
