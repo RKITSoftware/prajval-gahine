@@ -1,4 +1,5 @@
 using ORMLiteDemo.Enums;
+using ServiceStack;
 using ServiceStack.DataAnnotations;
 using System;
 
@@ -12,19 +13,21 @@ namespace ORMLiteDemo.Models.POCO
         /// <summary>
         /// Role Id
         /// </summary>
-        [PrimaryKey]
         [AutoIncrement]
+        [PrimaryKey]
         public int E01F01 { get; set; }
 
         /// <summary>
         /// Role name
         /// </summary>
+        [ValidateNotNull]
         public EnmRole E01F02 { get; set; }
 
         /// <summary>
         ///  creation datetime
         /// </summary>
         [IgnoreOnUpdate]
+        [ValidateNotNull]
         public DateTime E01F03 { get; set; }
 
         /// <summary>
@@ -34,6 +37,3 @@ namespace ORMLiteDemo.Models.POCO
         public DateTime? E01F04 { get; set; }
     }
 }
-
-
-//@"CREATE TABLE `PCH01` \n(\n  `P01F01` INT(11) PRIMARY KEY AUTO_INCREMENT, \n  `H01F02` INT(11) NOT NULL, \n  `H01F03` CHAR(1) NOT NULL DEFAULT U, \n  `H01F04` DATETIME NOT NULL, \n  `H01F05` DATETIME NULL \n); \n"

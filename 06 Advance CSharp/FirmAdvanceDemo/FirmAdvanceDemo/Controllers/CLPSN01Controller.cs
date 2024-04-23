@@ -1,3 +1,4 @@
+using FirmAdvanceDemo.Auth;
 using FirmAdvanceDemo.BL;
 using FirmAdvanceDemo.Enums;
 using FirmAdvanceDemo.Models.DTO;
@@ -24,6 +25,8 @@ namespace FirmAdvanceDemo.Controllers
 
         [HttpGet]
         [Route("")]
+        [AccessTokenAuthentication]
+        [BasicAuthorization(Roles = "A")]
         public IHttpActionResult GetPosition()
         {
             Response response = _objBLPSN01Handler.RetrievePosition();
@@ -32,6 +35,8 @@ namespace FirmAdvanceDemo.Controllers
 
         [HttpGet]
         [Route("{id}")]
+        [AccessTokenAuthentication]
+        [BasicAuthorization(Roles = "A,E")]
         public IHttpActionResult GetPosition(int id)
         {
             Response response = _objBLPSN01Handler.RetrievePosition(id);
@@ -40,6 +45,8 @@ namespace FirmAdvanceDemo.Controllers
 
         [HttpPost]
         [Route("")]
+        [AccessTokenAuthentication]
+        [BasicAuthorization(Roles = "A")]
         public IHttpActionResult PostPosition(DTOPSN01 objDTOPSN01)
         {
             Response response;
@@ -62,6 +69,8 @@ namespace FirmAdvanceDemo.Controllers
 
         [HttpPut]
         [Route("")]
+        [AccessTokenAuthentication]
+        [BasicAuthorization(Roles = "A")]
         public IHttpActionResult PutPosition(DTOPSN01 objDTOPSN01)
         {
             Response response;
@@ -84,12 +93,14 @@ namespace FirmAdvanceDemo.Controllers
 
         [HttpDelete]
         [Route("{positionId}")]
+        [AccessTokenAuthentication]
+        [BasicAuthorization(Roles = "A")]
         public IHttpActionResult DeletePosition(int positionId)
         {
             Response response = _objBLPSN01Handler.ValidateDelete(positionId);
             if (!response.IsError)
             {
-                _objBLPSN01Handler.Delete(positionId);
+                response = _objBLPSN01Handler.Delete(positionId);
             }
             return Ok(response);
         }

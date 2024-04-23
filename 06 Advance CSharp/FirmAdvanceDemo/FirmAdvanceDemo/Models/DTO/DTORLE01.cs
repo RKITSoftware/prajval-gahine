@@ -1,6 +1,6 @@
-using System.ComponentModel.DataAnnotations;
+using FirmAdvanceDemo.Enums;
 using Newtonsoft.Json;
-using System.Text.Json.Serialization;
+using System.ComponentModel.DataAnnotations;
 
 namespace FirmAdvanceDemo.Models.DTO
 {
@@ -22,6 +22,6 @@ namespace FirmAdvanceDemo.Models.DTO
         /// </summary>
         [JsonProperty("e01102")]
         [Required(ErrorMessage = "Role name cannot be empty.")]
-        public string E01F02 { get; set; }
+        public EnmRole E01F02 { get; set; }
     }
 }

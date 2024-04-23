@@ -6,7 +6,11 @@ namespace FirmAdvanceDemo.DB
 {
     public class DBUSR01Context
     {
+        /// <summary>
+        /// The MySqlConnection used for database operations.
+        /// </summary>
         private readonly MySqlConnection _connection;
+
 
         public DBUSR01Context()
         {
@@ -29,7 +33,7 @@ namespace FirmAdvanceDemo.DB
                                 FROM
                                     usr01
                                 WHERE
-                                    P01F01 = {0}", userID);
+                                    r01f01 = {0}", userID);
 
             MySqlCommand cmd = new MySqlCommand(query, Connection);
 

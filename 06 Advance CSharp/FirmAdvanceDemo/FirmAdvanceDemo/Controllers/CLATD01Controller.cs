@@ -1,3 +1,4 @@
+using FirmAdvanceDemo.Auth;
 using FirmAdvanceDemo.BL;
 using FirmAdvanceDemo.Enums;
 using FirmAdvanceDemo.Models.DTO;
@@ -29,7 +30,8 @@ namespace FirmAdvanceDemo.Controllers
         /// <returns>Instance of type IHttpActionResult</returns>
         [HttpGet]
         [Route("")]
-        //[BasicAuthorization(Roles = "admin")]
+        [AccessTokenAuthentication]
+        [BasicAuthorization(Roles = "A")]
         public IHttpActionResult GetAttendance()
         {
             Response response = _objBLAttendance.RetrieveAttendance();
@@ -43,7 +45,8 @@ namespace FirmAdvanceDemo.Controllers
         /// <returns>Instance of type IHttpActionResult</returns>
         [HttpGet]
         [Route("{attendanceID}")]
-        //[BasicAuthorization(Roles = "admin")]
+        [AccessTokenAuthentication]
+        [BasicAuthorization(Roles = "A")]
         public IHttpActionResult GetAttendance(int attendanceID)
         {
             Response response = _objBLAttendance.RetrieveAttendance(attendanceID);
@@ -51,10 +54,17 @@ namespace FirmAdvanceDemo.Controllers
         }
 
         [HttpGet]
-        [Route("employee/{id}")]
+        [Route("employee/{employeeId}")]
+        [AccessTokenAuthentication]
+        [BasicAuthorization(Roles = "A,E")]
         public IHttpActionResult GetAttendanceByEmployeeId(int employeeId)
         {
-            Response response = _objBLAttendance.RetrieveAttendanceByEmployeeId(employeeId);
+            Response response;
+            response = GeneralUtility.ValidateAccess(employeeId);
+            if (!response.IsError)
+            {
+                response = _objBLAttendance.RetrieveAttendanceByEmployeeId(employeeId);
+            }
             return Ok(response);
         }
 
@@ -66,7 +76,8 @@ namespace FirmAdvanceDemo.Controllers
         /// <returns>Instance of type IHttpActionResult</returns>
         [HttpGet]
         [Route("monthly")]
-        //[BasicAuthorization(Roles = "admin")]
+        [AccessTokenAuthentication]
+        [BasicAuthorization(Roles = "A")]
         public IHttpActionResult GetAttendanceByMonthYear(int year, int month)
         {
             Response reponse = _objBLAttendance.RetrieveAttendanceByMonthYear(year, month);
@@ -79,7 +90,8 @@ namespace FirmAdvanceDemo.Controllers
         /// <returns>Instance of type IHttpActionResult</returns>
         [HttpGet]
         [Route("today")]
-        //[BasicAuthorization(Roles = "admin")]
+        [AccessTokenAuthentication]
+        [BasicAuthorization(Roles = "A")]
         public IHttpActionResult GetAttendanceForToday()
         {
             Response response = _objBLAttendance.RetrieveAttendanceForToday();
@@ -94,11 +106,17 @@ namespace FirmAdvanceDemo.Controllers
         /// <param name="year">Attendance Year</param>
         /// <returns>Instance of type IHttpActionResult</returns>
         [HttpGet]
-        [Route("employee/{employeeId}")]
-        //[BasicAuthorization(Roles = "admin")]
+        [Route("employee/{employeeId}/{year}/{month}")]
+        [AccessTokenAuthentication]
+        [BasicAuthorization(Roles = "A,E")]
         public IHttpActionResult GetAttendanceByEmployeeIdAndMonthYear(int employeeId, int year, int month)
         {
-            Response response = _objBLAttendance.RetrieveAttendanceByEmployeeIdAndMonthYear(employeeId, year, month);
+            Response response;
+            response = GeneralUtility.ValidateAccess(employeeId);
+            if (!response.IsError)
+            {
+                response = _objBLAttendance.RetrieveAttendanceByEmployeeIdAndMonthYear(employeeId, year, month);
+            }
             return Ok(response);
         }
 
@@ -108,12 +126,20 @@ namespace FirmAdvanceDemo.Controllers
         /// <param name="employeeId">Employee Id</param>
         /// <returns>Instance of type IHttpActionResult</returns>
         [HttpGet]
-        [Route("employee/{id}/current-month")]
-        //[BasicAuthorization(Roles = "admin")]
+        [Route("employee/{employeeId}/current-month")]
+        [AccessTokenAuthentication]
+        [BasicAuthorization(Roles = "A,E")]
         public IHttpActionResult GetAttendanceByEmployeeIdForCurrentMonth(int employeeId)
         {
             DateTime date = DateTime.Today;
-            Response response = _objBLAttendance.RetrieveAttendanceByEmployeeIdAndMonthYear(employeeId, date.Month, date.Year);
+
+            Response response;
+            response = GeneralUtility.ValidateAccess(employeeId);
+
+            if (!response.IsError)
+            {
+                response = _objBLAttendance.RetrieveAttendanceByEmployeeIdAndMonthYear(employeeId, date.Month, date.Year);
+            }
             return Ok(response);
         }
 
@@ -125,7 +151,8 @@ namespace FirmAdvanceDemo.Controllers
         /// <returns>Instance of type IHttpActionResult</returns>
         [HttpPost]
         [Route("")]
-        //[BasicAuthorization(Roles = "employee")]
+        [AccessTokenAuthentication]
+        [BasicAuthorization(Roles = "A")]
         [Obsolete]
         public IHttpActionResult PostAttendance(DTOATD01 objDTOATD01)
         {
@@ -151,8 +178,9 @@ namespace FirmAdvanceDemo.Controllers
         /// <param name="toUpdateJson">Attendance data to update in json format</param>
         /// <returns>Instance of type IHttpActionResult</returns>
         [HttpPut]
-        [Route("{id}")]
-        //[BasicAuthorization(Roles = "admin")]
+        [Route("")]
+        [AccessTokenAuthentication]
+        [BasicAuthorization(Roles = "A")]
         public IHttpActionResult PatchAttendance(DTOATD01 objDTOATD01)
         {
             Response response;
@@ -176,8 +204,9 @@ namespace FirmAdvanceDemo.Controllers
         /// <param name="id">Attendance Id</param>
         /// <returns>Instance of type IHttpActionResult</returns>
         [HttpDelete]
-        //[BasicAuthorization(Roles = "admin")]
         [Route("{attendanceID}")]
+        [AccessTokenAuthentication]
+        [BasicAuthorization(Roles = "A")]
         public IHttpActionResult DeleteAttendance(int attendanceID)
         {
 
@@ -192,6 +221,8 @@ namespace FirmAdvanceDemo.Controllers
 
         [HttpPost]
         [Route("evaluate-eod-punches")]
+        [AccessTokenAuthentication]
+        [BasicAuthorization(Roles = "A")]
         public IHttpActionResult EvaluateEndOfDayPunches(DateTime date)
         {
             // check378 - check if model state is invalid when we donot pass date in query string

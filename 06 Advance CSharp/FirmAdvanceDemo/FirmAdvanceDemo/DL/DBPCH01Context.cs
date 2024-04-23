@@ -11,15 +11,29 @@ using static FirmAdvanceDemo.Utitlity.Constants;
 
 namespace FirmAdvanceDemo.DB
 {
+    /// <summary>
+    /// Provides methods for interacting with the PCH01 table in the database.
+    /// </summary>
     public class DBPCH01Context
     {
+        /// <summary>
+        /// The MySqlConnection used for database operations.
+        /// </summary>
         private readonly MySqlConnection _connection;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DBPCH01Context"/> class.
+        /// </summary>
         public DBPCH01Context()
         {
             _connection = MysqlDbConnector.Connection;
         }
 
+        /// <summary>
+        /// Retrieves unprocessed punches for a specific date.
+        /// </summary>
+        /// <param name="date">The date for which to retrieve punches.</param>
+        /// <returns>A list of unprocessed punches for the specified date.</returns>
         public List<PCH01> GetUnprocessedPunchesForDate(DateTime date)
         {
             List<PCH01> lstPunch;
@@ -33,8 +47,8 @@ namespace FirmAdvanceDemo.DB
                                     FROM
                                         pch01
                                     WHERE
-                                        h01f03 = {0}
-                                        AND Date(h01f04) = {1}
+                                        h01f03 = '{0}'
+                                        AND Date(h01f04) = '{1}'
                                     ORDER BY
                                         h01f02, h01f04",
                                         EnmPunchType.U,
@@ -54,6 +68,10 @@ namespace FirmAdvanceDemo.DB
             return lstPunch;
         }
 
+        /// <summary>
+        /// Fetches all punch records.
+        /// </summary>
+        /// <returns>A DataTable containing all punch records.</returns>
         public DataTable FetchPunch()
         {
             DataTable dtPunch = new DataTable();
@@ -81,7 +99,11 @@ namespace FirmAdvanceDemo.DB
             return dtPunch;
         }
 
-
+        /// <summary>
+        /// Fetches a specific punch record by its ID.
+        /// </summary>
+        /// <param name="punchId">The ID of the punch record to fetch.</param>
+        /// <returns>A DataTable containing the punch record with the specified ID.</returns>
         public DataTable FetchPunch(int punchId)
         {
             DataTable dtPunch = new DataTable();

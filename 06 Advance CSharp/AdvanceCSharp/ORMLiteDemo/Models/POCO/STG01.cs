@@ -1,3 +1,4 @@
+using ServiceStack;
 using ServiceStack.DataAnnotations;
 using System;
 
@@ -12,7 +13,6 @@ namespace ORMLiteDemo.Models.POCO
         /// Primary key for STG01 (ORMLite forces first field as PK if not specified)
         /// </summary>
         [PrimaryKey]
-        [AutoIncrement]
         public int G01F01 { get; set; }
 
         /// <summary>
@@ -24,6 +24,7 @@ namespace ORMLiteDemo.Models.POCO
         /// Setting creation datetime
         /// </summary>
         [IgnoreOnUpdate]
+        [ValidateNotNull]
         public DateTime G01F03 { get; set; }
 
         /// <summary>

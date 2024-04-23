@@ -4,7 +4,6 @@ using FirmAdvanceDemo.Enums;
 using FirmAdvanceDemo.Models.DTO;
 using FirmAdvanceDemo.Utitlity;
 using System.Web.Http;
-using System.Web.Security;
 
 namespace FirmAdvanceDemo.Controllers
 {
@@ -29,11 +28,12 @@ namespace FirmAdvanceDemo.Controllers
 
         [HttpGet]
         [Route("")]
+        [AccessTokenAuthentication]
+        [BasicAuthorization(Roles = "A")]
         public IHttpActionResult GetEmployee()
         {
             Response response = _objBLEMP01Handler.RetrieveEmployee();
             return Ok(response);
-
         }
 
         [HttpGet]
@@ -42,7 +42,7 @@ namespace FirmAdvanceDemo.Controllers
         [BasicAuthorization(Roles = "A,E")]
         public IHttpActionResult GetEmployee(int employeeID)
         {
-            Response response = GeneralUtility.AdminOrValidEmployee(employeeID);
+            Response response = GeneralUtility.ValidateAccess(employeeID);
 
             if (!response.IsError)
             {
@@ -81,19 +81,22 @@ namespace FirmAdvanceDemo.Controllers
         [BasicAuthorization(Roles = "A,E")]
         public IHttpActionResult PutEmployee(DTOUMP01 objDTOUMP)
         {
-            Response response;
+            Response response = GeneralUtility.ValidateAccess(objDTOUMP.ObjDTOEMP01.P01F01);
 
             _objBLEMP01Handler.Operation = EnmOperation.E;
 
-            response = _objBLEMP01Handler.Prevalidate(objDTOUMP);
-
             if (!response.IsError)
             {
-                _objBLEMP01Handler.Presave(objDTOUMP);
-                response = _objBLEMP01Handler.Validate();
+                response = _objBLEMP01Handler.Prevalidate(objDTOUMP);
+
                 if (!response.IsError)
                 {
-                    response = _objBLEMP01Handler.Save();
+                    _objBLEMP01Handler.Presave(objDTOUMP);
+                    response = _objBLEMP01Handler.Validate();
+                    if (!response.IsError)
+                    {
+                        response = _objBLEMP01Handler.Save();
+                    }
                 }
             }
             return Ok(response);

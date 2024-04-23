@@ -12,8 +12,7 @@ namespace FirmAdvanceDemo.Models.POCO
         /// Salary Id
         /// </summary>
         [PrimaryKey]
-        public int Y01F01
-        { get; set; }
+        public int Y01F01 { get; set; }
 
         /// <summary>
         /// Employee Id (Foreign key)
@@ -23,6 +22,7 @@ namespace FirmAdvanceDemo.Models.POCO
         /// <summary>
         /// Salary Amount
         /// </summary>
+        [IgnoreOnUpdate]
         public double Y01F03 { get; set; }
 
         /// <summary>

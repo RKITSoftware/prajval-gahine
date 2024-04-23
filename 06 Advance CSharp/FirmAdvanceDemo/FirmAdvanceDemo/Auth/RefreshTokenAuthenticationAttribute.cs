@@ -4,13 +4,14 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Web.Http.Controllers;
+using System.Web.Http.Filters;
 
 namespace FirmAdvanceDemo.Auth
 {
     /// <summary>
     /// Attribute to authenticate a refresh token
     /// </summary>
-    public class RefreshTokenAuthenticationAttribute : BearerAuthenticationAttribute
+    public class RefreshTokenAuthenticationAttribute : AuthorizationFilterAttribute
     {
         /// <summary>
         /// Method to perform authentication on refresh-token
@@ -24,7 +25,7 @@ namespace FirmAdvanceDemo.Auth
             CookieHeaderValue cookie = actionContext.Request.Headers.GetCookies("refresh-token").FirstOrDefault<CookieHeaderValue>();
             string encryptedRefreshToken = cookie["refresh-token"].Value;
 
-            if(string.IsNullOrEmpty(encryptedRefreshToken) )
+            if (string.IsNullOrEmpty(encryptedRefreshToken))
             {
                 response = new Response
                 {

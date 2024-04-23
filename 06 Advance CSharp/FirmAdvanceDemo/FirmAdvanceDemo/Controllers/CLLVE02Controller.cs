@@ -6,7 +6,6 @@ using FirmAdvanceDemo.Utitlity;
 using System;
 using System.Web;
 using System.Web.Http;
-using System.Web.Security;
 
 namespace FirmAdvanceDemo.Controllers
 {
@@ -221,15 +220,20 @@ namespace FirmAdvanceDemo.Controllers
         public IHttpActionResult PutLeave(DTOLVE02 objDTOLVE02)
         {
             Response response;
-            _objBLLVE02Handler.Operation = EnmOperation.E;
-            response = _objBLLVE02Handler.Prevalidate(objDTOLVE02);
+            response = GeneralUtility.ValidateAccess(objDTOLVE02.E02F02);
+
             if (!response.IsError)
             {
-                _objBLLVE02Handler.Presave(objDTOLVE02);
-                response = _objBLLVE02Handler.Validate();
+                _objBLLVE02Handler.Operation = EnmOperation.E;
+                response = _objBLLVE02Handler.Prevalidate(objDTOLVE02);
                 if (!response.IsError)
                 {
-                    response = _objBLLVE02Handler.Save();
+                    _objBLLVE02Handler.Presave(objDTOLVE02);
+                    response = _objBLLVE02Handler.Validate();
+                    if (!response.IsError)
+                    {
+                        response = _objBLLVE02Handler.Save();
+                    }
                 }
             }
             return Ok(response);

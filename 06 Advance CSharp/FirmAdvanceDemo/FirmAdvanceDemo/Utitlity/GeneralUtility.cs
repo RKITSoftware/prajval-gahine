@@ -1,7 +1,5 @@
-using FirmAdvanceDemo.Enums;
-using FirmAdvanceDemo.Models.POCO;
-using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using ServiceStack;
 using ServiceStack.OrmLite;
 using System;
@@ -16,33 +14,66 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Security.Principal;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading;
 using System.Web;
-using Swashbuckle.Swagger;
 
 namespace FirmAdvanceDemo.Utitlity
 {
     /// <summary>
-    /// Class to supply general utility operations
+    /// Provides general utility operations such as authentication, encryption, and data conversion.
     /// </summary>
     public static class GeneralUtility
     {
+        /// <summary>
+        /// Checks if the current user is an administrator.
+        /// </summary>
+        /// <returns>True if the current user is an administrator; otherwise, false.</returns>
         public static bool IsAdmin()
         {
             return HttpContext.Current.User.IsInRole("A");
         }
 
+        /// <summary>
+        /// Retrieves the employee ID from the HttpContext Items collection.
+        /// </summary>
+        /// <returns>The employee ID stored in the Items collection.</returns>
         public static int GetEmployeeIDFromItems()
         {
             return (int)HttpContext.Current.Items["employeeID"];
         }
 
-        public static bool IsValidEmployee(int employeeID)
+        /// <summary>
+        /// Checks if the specified employee ID is authorized.
+        /// </summary>
+        /// <param name="employeeID">The employee ID to check authorization for.</param>
+        /// <returns>True if the employee ID is authorized; otherwise, false.</returns>
+        public static bool IsAuthorizedEmployee(int employeeID)
         {
             return employeeID == GetEmployeeIDFromItems();
         }
 
+        /// <summary>
+        /// Validates access for the specified employee ID.
+        /// </summary>
+        /// <param name="employeeID">The employee ID to validate access for.</param>
+        /// <returns>A response indicating the result of the access validation.</returns>
+        public static Response ValidateAccess(int employeeID)
+        {
+            Response response = new Response();
+            if (!IsAdmin() && !IsAuthorizedEmployee(employeeID))
+            {
+                response.IsError = true;
+                response.HttpStatusCode = HttpStatusCode.Forbidden;
+                response.Message = $"You are not authorized to access employee {employeeID}.";
+            }
+            return response;
+        }
+
+        /// <summary>
+        /// Authenticates a JSON Web Token (JWT).
+        /// </summary>
+        /// <param name="jwt">The JWT to authenticate.</param>
+        /// <returns>A response indicating the result of the authentication.</returns>
         public static Response AuthenticateJWT(string jwt)
         {
             Response response = new Response();
@@ -129,41 +160,27 @@ namespace FirmAdvanceDemo.Utitlity
             return response;
         }
 
-
-
         /// <summary>
-        /// Method to create and attach principal to current thread and http context
+        /// Performs a login operation.
         /// </summary>
-        /// <param name="userId">user id</param>
-        /// <param name="username">username</param>
-        /// <param name="roles">user roles</param>
-        /// <returns></returns>
-        public static bool AttachPrinicpal(string userId, string username, string employeeId, string[] roles)
+        /// <param name="username">The username to login with.</param>
+        /// <param name="password">The password to login with.</param>
+        /// <returns>True if the login is successful; otherwise, false.</returns>
+        public static bool Login(string username, string password)
         {
-            GenericIdentity identity = new GenericIdentity(username);
-            identity.AddClaim(new Claim("Id", userId));
+            string hashedPassword = GeneralUtility.GetHMACBase64(password);
 
-            HttpContext.Current.Items["employeeId"] = employeeId;
-            HttpContext.Current.Items["username"] = username;
+            string hashedPasswordFromDB = GeneralHandler.RetrievePassword(username);
 
-            GenericPrincipal principal = new GenericPrincipal(identity, roles);
-
-            Thread.CurrentPrincipal = principal;
-            if (HttpContext.Current != null)
-            {
-                HttpContext.Current.User = principal;
-                return true;
-            }
-            return false;
+            return hashedPasswordFromDB.Equals(hashedPassword);
         }
 
-
         /// <summary>
-        /// Get HMAC (Hash-based Message Authentication Code) hash of given string(text) using given string(key)
+        /// Calculates the HMAC (Hash-based Message Authentication Code) hash of a string using a specified key.
         /// </summary>
-        /// <param name="text">String whose secure hash is to be calculated</param>
-        /// <param name="key">Key using which the hash is to computed</param>
-        /// <returns></returns>
+        /// <param name="text">The string to calculate the hash for.</param>
+        /// <param name="key">The key to use for the HMAC calculation. If null, uses a default key from configuration.</param>
+        /// <returns>The HMAC hash of the input string.</returns>
         public static string GetHMACBase64(string text, string key = null)
         {
             key = key ?? ConfigurationManager.AppSettings["password-hash-secret-key"];
@@ -177,11 +194,11 @@ namespace FirmAdvanceDemo.Utitlity
         }
 
         /// <summary>
-        /// Method to perform AesEncryption on given text using given key
+        /// Encrypts a text using AES (Advanced Encryption Standard).
         /// </summary>
-        /// <param name="text">Text which is to be encrypted</param>
-        /// <param name="key">Key using which aes encryption is to be done</param>
-        /// <returns></returns>
+        /// <param name="text">The text to encrypt.</param>
+        /// <param name="key">The key to use for encryption.</param>
+        /// <returns>The encrypted text.</returns>
         public static string AesEncrypt(string text, string key)
         {
             string encyrptedText = null;
@@ -214,11 +231,11 @@ namespace FirmAdvanceDemo.Utitlity
         }
 
         /// <summary>
-        /// Method to perform AesEncryption on given ecrypted text using given key
+        /// Decrypts an AES (Advanced Encryption Standard) encrypted text.
         /// </summary>
-        /// <param name="encryptedText">Encrypted Text which is to be decoded</param>
-        /// <param name="key">Key using which aes decryption is to be done</param>
-        /// <returns></returns>
+        /// <param name="encryptedText">The encrypted text to decrypt.</param>
+        /// <param name="key">The key to use for decryption.</param>
+        /// <returns>The decrypted text.</returns>
         public static string AesDecrypt(string encryptedText, string key)
         {
             string decryptedText = null;
@@ -250,7 +267,7 @@ namespace FirmAdvanceDemo.Utitlity
         }
 
         /// <summary>
-        /// Maps the properties of the source object to a new instance of the destination object.
+        /// Converts the properties of the source object to a new instance of the destination object.
         /// </summary>
         /// <typeparam name="D">The type of the destination object.</typeparam>
         /// <param name="objSource">The source object to map from.</param>
@@ -285,50 +302,15 @@ namespace FirmAdvanceDemo.Utitlity
         }
 
         /// <summary>
-        /// Converts the properties of the specified object into a dictionary of property names and values, excluding null values and default values for value types.
-        /// </summary>
-        /// <param name="target">The target object to convert.</param>
-        /// <returns>A dictionary of property names and values.</returns>
-        public static Dictionary<string, object> GetDictionary(object target)
-        {
-            Dictionary<string, object> dict = new Dictionary<string, object>();
-
-            Type targetType = target.GetType();
-
-            PropertyInfo[] props = targetType.GetProperties(BindingFlags.Instance | BindingFlags.Public);
-
-            foreach (PropertyInfo prop in props)
-            {
-                object propValue = prop.GetValue(target, null);
-                Type propType = prop.PropertyType;
-                if (propType.IsValueType)
-                {
-                    object defaultValue = Activator.CreateInstance(propType);
-                    if (propValue != defaultValue)
-                    {
-                        dict.Add(prop.Name, propValue);
-                    }
-                }
-                else
-                {
-                    if (propValue != null)
-                    {
-                        dict.Add(prop.Name, propValue);
-                    }
-                }
-            }
-            return dict;
-        }
-
-        /// <summary>
-        /// Converts a list of objects to a CSV string based on the properties of the objects.
+        /// Converts a list of objects to a CSV (Comma-Separated Values) string based on the properties of the objects.
         /// </summary>
         /// <typeparam name="T">The type of the objects in the list.</typeparam>
         /// <param name="lstResource">The list of objects to convert.</param>
         /// <param name="resourceType">The type of the objects in the list.</param>
         /// <returns>A CSV string representing the list of objects.</returns>
-        public static string ConvertToCSV<T>(List<T> lstResource, Type resourceType)
+        public static string ConvertToCSV<T>(List<T> lstResource)
         {
+            Type resourceType = typeof(T);
             string csvContent = string.Empty;
 
             // get resource's all public and instance props
@@ -362,6 +344,5 @@ namespace FirmAdvanceDemo.Utitlity
             });
             return $"{csvHeaders}{csvBody}";
         }
-
     }
 }

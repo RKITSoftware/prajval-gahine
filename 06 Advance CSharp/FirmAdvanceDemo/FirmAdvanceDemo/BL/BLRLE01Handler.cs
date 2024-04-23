@@ -2,11 +2,11 @@
 using FirmAdvanceDemo.Enums;
 using FirmAdvanceDemo.Models.DTO;
 using FirmAdvanceDemo.Models.POCO;
+using FirmAdvanceDemo.Utitlity;
 using ServiceStack.OrmLite;
+using System;
 using System.Data;
 using System.Net;
-using System;
-using FirmAdvanceDemo.Utitlity;
 
 namespace FirmAdvanceDemo.BL
 {
@@ -51,7 +51,7 @@ namespace FirmAdvanceDemo.BL
                 {
                     response.IsError = true;
                     response.HttpStatusCode = HttpStatusCode.NotFound;
-                    response.Message = $"Role {objDTORLE01.E01F02} not found.";
+                    response.Message = $"Role {objDTORLE01.E01F01} not found.";
 
                     return response;
                 }

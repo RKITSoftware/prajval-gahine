@@ -1,6 +1,5 @@
-using System.ComponentModel.DataAnnotations;
 using Newtonsoft.Json;
-using System.Text.Json.Serialization;
+using System.ComponentModel.DataAnnotations;
 
 namespace FirmAdvanceDemo.Models.DTO
 {

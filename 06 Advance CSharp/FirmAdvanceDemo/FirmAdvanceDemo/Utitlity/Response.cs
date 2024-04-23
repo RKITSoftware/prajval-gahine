@@ -8,12 +8,6 @@ namespace FirmAdvanceDemo.Utitlity
     public class Response
     {
         /// <summary>
-        /// Specifies that this statusInfo instance is already populated by below layer,
-        /// So, no need to populate further
-        /// </summary>
-        public bool IsAlreadySet { get; set; } = false;
-
-        /// <summary>
         /// Flag to state that whether the request was successfully perform
         /// </summary>
         public bool IsError { get; set; }

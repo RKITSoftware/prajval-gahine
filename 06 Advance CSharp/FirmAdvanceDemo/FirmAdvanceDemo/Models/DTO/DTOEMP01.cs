@@ -1,14 +1,13 @@
+using Newtonsoft.Json;
 using System;
 using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
-using Newtonsoft.Json;
 
 namespace FirmAdvanceDemo.Models.DTO
 {
     /// <summary>
     /// Employee DTO model
     /// </summary>
-    public class DTOEMP01 : IDTOEMP01
+    public class DTOEMP01
     {
         /// <summary>
         /// Employee id

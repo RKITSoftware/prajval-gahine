@@ -2,7 +2,6 @@ using FirmAdvanceDemo.Enums;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
 
 namespace FirmAdvanceDemo.Models.DTO
 {

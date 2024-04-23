@@ -4,7 +4,6 @@ using FirmAdvanceDemo.Models.DTO;
 using FirmAdvanceDemo.Models.POCO;
 using FirmAdvanceDemo.Utitlity;
 using ServiceStack.OrmLite;
-using ServiceStack.Text;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -83,10 +82,10 @@ namespace FirmAdvanceDemo.BL
                 EnmLeaveStatus leaveStatus;
                 using (IDbConnection db = _dbFactory.OpenDbConnection())
                 {
-                   leaveStatus = db.Scalar<LVE02, EnmLeaveStatus>(leave => leave.E02F01 == objDTOLVE02.E02F01);
+                    leaveStatus = db.Scalar<LVE02, EnmLeaveStatus>(leave => leave.E02F01 == objDTOLVE02.E02F01);
                 }
 
-                if(leaveStatus != EnmLeaveStatus.P)
+                if (leaveStatus != EnmLeaveStatus.P)
                 {
                     response.IsError = true;
                     response.HttpStatusCode = HttpStatusCode.Conflict;
@@ -580,15 +579,15 @@ namespace FirmAdvanceDemo.BL
             if (!GeneralUtility.IsAdmin())
             {
                 int leaveEmployeeID;
-                using(IDbConnection db = _dbFactory.OpenDbConnection())
+                using (IDbConnection db = _dbFactory.OpenDbConnection())
                 {
                     leaveEmployeeID = db.Scalar<LVE02, int>(leave => leave.E02F02, leave => leave.E02F01 == leaveID);
                 }
-                if (!GeneralUtility.IsValidEmployee(_objLVE02.E02F02))
+                if (!GeneralUtility.IsAuthorizedEmployee(_objLVE02.E02F02))
                 {
                     response.IsError = true;
                     response.HttpStatusCode = HttpStatusCode.Conflict;
-                    response.Message = "The employee ID provided does not match the employee ID of the authenticated user.";
+                    response.Message = $"You are not authorized to access employee {leaveEmployeeID}.";
 
                     return response;
                 }

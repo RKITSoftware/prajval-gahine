@@ -9,8 +9,17 @@ using System.Web.Http.Filters;
 
 namespace FirmAdvanceDemo.SwaggerRequirements
 {
-    class AccessTokenAuthRequirements : IOperationFilter
+    /// <summary>
+    /// Represents an operation filter for applying access token authentication requirements in Swagger documentation.
+    /// </summary>
+    public class AccessTokenAuthRequirements : IOperationFilter
     {
+        /// <summary>
+        /// Applies the access token authentication requirements to the Swagger operation.
+        /// </summary>
+        /// <param name="operation">The Swagger operation to apply the requirements to.</param>
+        /// <param name="schemaRegistry">The schema registry.</param>
+        /// <param name="apiDescription">The API description.</param>
         public void Apply(Operation operation, SchemaRegistry schemaRegistry, ApiDescription apiDescription)
         {
             Collection<FilterInfo> filterPipeline = apiDescription.ActionDescriptor.GetFilterPipeline();

@@ -1,11 +1,8 @@
-using FirmAdvanceDemo.Connection;
 using FirmAdvanceDemo.DB;
 using FirmAdvanceDemo.Enums;
 using FirmAdvanceDemo.Models.DTO;
 using FirmAdvanceDemo.Models.POCO;
 using FirmAdvanceDemo.Utitlity;
-using MySql.Data.MySqlClient;
-using Newtonsoft.Json.Linq;
 using ServiceStack;
 using ServiceStack.OrmLite;
 using System;
@@ -14,7 +11,6 @@ using System.Configuration;
 using System.Data;
 using System.Linq;
 using System.Net;
-using System.Web.Security;
 using static FirmAdvanceDemo.Utitlity.GeneralUtility;
 
 namespace FirmAdvanceDemo.BL
@@ -70,7 +66,7 @@ namespace FirmAdvanceDemo.BL
                 {
                     response.IsError = true;
                     response.HttpStatusCode = HttpStatusCode.NotFound;
-                    response.Message = $"User not found with id: {objDTOUSR01.R01F01}";
+                    response.Message = $"User {objDTOUSR01.R01F01} not found.";
 
                     return response;
                 }
@@ -111,14 +107,14 @@ namespace FirmAdvanceDemo.BL
         {
             Response response = new Response();
 
-            int userCount;
+            int userID;
             string username = ObjUSR01.R01F02;
             using (IDbConnection db = _dbFactory.OpenDbConnection())
             {
-                userCount = (int)db.Count<USR01>(user => user.R01F02 == username);
+                userID = (int)db.Scalar<USR01, int>(user => user.R01F01, user => user.R01F02 == username);
             }
 
-            if (userCount > 0)
+            if (userID != 0 && userID != ObjUSR01.R01F01)
             {
                 response.IsError = true;
                 response.HttpStatusCode = HttpStatusCode.Conflict;
@@ -172,7 +168,7 @@ namespace FirmAdvanceDemo.BL
             Response response = new Response();
             DataTable dtUser;
             dtUser = _dbUSR01Context.FetchUser(userID);
-            if(dtUser.Rows.Count == 0)
+            if (dtUser.Rows.Count == 0)
             {
                 response.IsError = true;
                 response.HttpStatusCode = HttpStatusCode.NotFound;

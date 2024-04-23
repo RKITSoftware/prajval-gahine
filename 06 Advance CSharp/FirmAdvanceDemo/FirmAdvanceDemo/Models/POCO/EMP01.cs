@@ -1,7 +1,5 @@
-using ServiceStack;
 using ServiceStack.DataAnnotations;
 using System;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FirmAdvanceDemo.Models.POCO
 {

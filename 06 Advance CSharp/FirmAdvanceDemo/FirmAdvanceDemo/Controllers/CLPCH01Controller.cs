@@ -9,7 +9,7 @@ namespace FirmAdvanceDemo.Controllers
 {
     [RoutePrefix("api/punch")]
     [AccessTokenAuthentication]
-    [BasicAuthorization(Roles = "employee")]
+    [BasicAuthorization(Roles = "E")]
     public class CLPCH01Controller : ApiController
     {
 
@@ -32,19 +32,22 @@ namespace FirmAdvanceDemo.Controllers
         [BasicAuthorization(Roles = "E")]
         public IHttpActionResult PostPunch(DTOPCH01 objDTOPCH01)
         {
-            Response response;
-
-            _objBLPCH01Handler.Operation = EnmOperation.A;
-
-            response = _objBLPCH01Handler.Prevalidate(objDTOPCH01);
+            Response response = GeneralUtility.ValidateAccess(objDTOPCH01.H01F02);
 
             if (!response.IsError)
             {
-                _objBLPCH01Handler.Presave(objDTOPCH01);
-                response = _objBLPCH01Handler.Validate();
+                _objBLPCH01Handler.Operation = EnmOperation.A;
+
+                response = _objBLPCH01Handler.Prevalidate(objDTOPCH01);
+
                 if (!response.IsError)
                 {
-                    response = _objBLPCH01Handler.Save();
+                    _objBLPCH01Handler.Presave(objDTOPCH01);
+                    response = _objBLPCH01Handler.Validate();
+                    if (!response.IsError)
+                    {
+                        response = _objBLPCH01Handler.Save();
+                    }
                 }
             }
             return Ok(response);

@@ -1,7 +1,6 @@
 using FirmAdvanceDemo.Enums;
-using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
 using Newtonsoft.Json;
+using System.ComponentModel.DataAnnotations;
 
 namespace FirmAdvanceDemo.Models.DTO
 {
@@ -31,6 +30,6 @@ namespace FirmAdvanceDemo.Models.DTO
         /// Punch Type
         /// </summary>
         [JsonProperty("h01104")]
-        public EnmPunchType H01F04 { get; set; }
+        public EnmPunchType H01F03 { get; set; }
     }
 }

@@ -2,13 +2,14 @@ using FirmAdvanceDemo.Utitlity;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http.Controllers;
+using System.Web.Http.Filters;
 
 namespace FirmAdvanceDemo.Auth
 {
     /// <summary>
     /// Attribute to authenticate an accesss token
     /// </summary>
-    public class AccessTokenAuthenticationAttribute : BearerAuthenticationAttribute
+    public class AccessTokenAuthenticationAttribute : AuthorizationFilterAttribute
     {
         /// <summary>
         /// Method to perform authentication on access-token

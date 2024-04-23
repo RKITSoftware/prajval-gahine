@@ -4,15 +4,28 @@ using System.Data;
 
 namespace FirmAdvanceDemo.DB
 {
+    /// <summary>
+    /// Provides methods for interacting with the PSN01 table in the database.
+    /// </summary>
     public class DBPSN01Context
     {
+        /// <summary>
+        /// The MySqlConnection used for database operations.
+        /// </summary>
         private readonly MySqlConnection _connection;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DBPSN01Context"/> class.
+        /// </summary>
         public DBPSN01Context()
         {
             _connection = MysqlDbConnector.Connection;
         }
 
+        /// <summary>
+        /// Fetches all position records.
+        /// </summary>
+        /// <returns>A DataTable containing all position records.</returns>
         public DataTable FetchPosition()
         {
             DataTable dtPSN01 = new DataTable();
@@ -43,7 +56,11 @@ namespace FirmAdvanceDemo.DB
             return dtPSN01;
         }
 
-
+        /// <summary>
+        /// Fetches a specific position record by its ID.
+        /// </summary>
+        /// <param name="positionId">The ID of the position record to fetch.</param>
+        /// <returns>A DataTable containing the position record with the specified ID.</returns>
         public DataTable FetchPosition(int positionId)
         {
             DataTable dtPosition;

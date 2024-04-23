@@ -1,23 +1,32 @@
 ﻿using FirmAdvanceDemo.Connection;
-using FirmAdvanceDemo.Models.POCO;
 using MySql.Data.MySqlClient;
-using ServiceStack.OrmLite;
 using System;
 using System.Data;
 using static FirmAdvanceDemo.Utitlity.Constants;
 
 namespace FirmAdvanceDemo.DB
 {
+    /// <summary>
+    /// Provides methods for interacting with the SLY01 table in the database.
+    /// </summary>
     public class DBSLY01Context
     {
+        /// <summary>
+        /// The MySqlConnection used for database operations.
+        /// </summary>
         private readonly MySqlConnection _connection;
+
         public DBSLY01Context()
         {
             _connection = MysqlDbConnector.Connection;
         }
 
-        public MySqlConnection Connection => _connection;
-
+        /// <summary>
+        /// Fetches unpaid work hours for employees based on the last credit date.
+        /// </summary>
+        /// <param name="lastCreditDate">The last credit date to consider for unpaid work hours calculation.</param>
+        /// <returns>A DataTable containing the EmployeeId, WorkHours, PositionId, and MonthlySalary of employees with unpaid work hours.
+        /// </returns>
         public DataTable FetchUnpaidWorkHours(DateTime lastCreditDate)
         {
             DataTable dtEmployeeWorkHour;
@@ -26,38 +35,38 @@ namespace FirmAdvanceDemo.DB
 
             string query = string.Format(@"
                                         SELECT
-                                            EmployeeId,
-                                            WorkHours,
-                                            n01f01 AS PositionId,
-                                            n01f04 AS MontlhySalary
+	                                        EmployeeId,
+	                                        WorkHours,
+	                                        n01f01 AS PositionId,
+	                                        n01f04 AS MontlhySalary
                                         FROM
-                                            emp01 INNER JOIN (
-                                                                SELECT
-                                                                    d01f02 AS EmployeeId,
-                                                                    SUM(d01f04) AS WorkHours,
-                                                                FROM
-                                                                    atd01
-                                                                WHERE
-                                                                    DATE(d01f03) > '{0}' AND
-                                                                    DATE(d01f03) < '{1}'
-                                                                GORUP BY d01f02
-                                                            ) AS EmployeeWorkHour ON emp01.p01f01 = EmployeeWorkHour.EmployeeId
-                                                INNER JOIN psn01 ON psn01.n01f01",
+	                                        emp01 INNER JOIN (
+						                                        SELECT
+							                                        d01f02 AS EmployeeId,
+							                                        SUM(d01f04) AS WorkHours
+						                                        FROM
+							                                        atd01
+						                                        WHERE
+							                                        DATE(d01f03) > '{0}' AND
+							                                        DATE(d01f03) < '{1}'
+						                                        GROUP BY d01f02
+					                                        ) AS EmployeeWorkHour ON emp01.p01f01 = EmployeeWorkHour.EmployeeId
+		                                        INNER JOIN psn01 ON psn01.n01f01 = emp01.p01f06;",
                                         lastCreditDate.ToString(GlobalDateFormat),
                                         DateTime.Now.ToString(GlobalDateFormat));
 
-            cmd = new MySqlCommand(query, Connection);
+            cmd = new MySqlCommand(query, _connection);
             adapter = new MySqlDataAdapter(cmd);
             dtEmployeeWorkHour = new DataTable();
 
-            Connection.Open();
+            _connection.Open();
             try
             {
                 adapter.Fill(dtEmployeeWorkHour);
             }
             finally
             {
-                Connection.Close();
+                _connection.Close();
             }
             return dtEmployeeWorkHour;
         }

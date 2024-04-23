@@ -4,18 +4,35 @@ using System.Data;
 
 namespace FirmAdvanceDemo.DB
 {
+    /// <summary>
+    /// Provides methods for interacting with the EMP01 table in the database.
+    /// </summary>
     public class DBEMP01Context
     {
+        /// <summary>
+        /// The MySqlConnection used for database operations.
+        /// </summary>
         private readonly MySqlConnection _connection;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DBEMP01Context"/> class.
+        /// </summary>
         public DBEMP01Context()
         {
             _connection = MysqlDbConnector.Connection;
         }
 
+        /// <summary>
+        /// Gets the MySqlConnection used for database operations.
+        /// </summary>
         public MySqlConnection Connection => _connection;
 
-        public DataTable FetchEmployee(int employeeID )
+        /// <summary>
+        /// Fetches the employee record with the specified employee ID.
+        /// </summary>
+        /// <param name="employeeID">The employee ID.</param>
+        /// <returns>A DataTable containing the employee record.</returns>
+        public DataTable FetchEmployee(int employeeID)
         {
             DataTable dtEmployee = new DataTable();
 
@@ -54,6 +71,10 @@ namespace FirmAdvanceDemo.DB
             return dtEmployee;
         }
 
+        /// <summary>
+        /// Fetches all employee records.
+        /// </summary>
+        /// <returns>A DataTable containing all employee records.</returns>
         public DataTable FetchEmployee()
         {
             DataTable dtEmployee = new DataTable();

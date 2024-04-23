@@ -1,18 +1,10 @@
-using ServiceStack.DataAnnotations;
-
 namespace FirmAdvanceDemo.Enums
 {
     /// <summary>
     /// Represnt current status of leave. None value is used to get all types of leaves
     /// </summary>
-    [EnumAsChar]
     public enum EnmLeaveStatus
     {
-        /// <summary>
-        /// None
-        /// </summary>
-        N,
-
         /// <summary>
         /// Pending
         /// </summary>
@@ -31,13 +23,17 @@ namespace FirmAdvanceDemo.Enums
         /// <summary>
         /// Expired
         /// </summary>
-        E
+        E,
+
+        /// <summary>
+        /// All
+        /// </summary>
+        X,
     }
 
     /// <summary>
     /// Represnt type of punch
     /// </summary>
-    [EnumAsChar]
     public enum EnmPunchType : byte
     {
         /// <summary>
@@ -69,7 +65,6 @@ namespace FirmAdvanceDemo.Enums
     /// <summary>
     /// Represent type of role of user
     /// </summary>
-    [EnumAsChar]
     public enum EnmRole
     {
         /// <summary>
@@ -83,7 +78,6 @@ namespace FirmAdvanceDemo.Enums
         E = 'E'
     }
 
-    [EnumAsChar]
     public enum EnmGender : byte
     {
         /// <summary>

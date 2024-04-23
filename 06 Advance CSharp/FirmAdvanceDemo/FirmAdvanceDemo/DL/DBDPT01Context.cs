@@ -4,15 +4,28 @@ using System.Data;
 
 namespace FirmAdvanceDemo.DB
 {
+    /// <summary>
+    /// Provides methods for interacting with the DPT01 table in the database.
+    /// </summary>
     public class DBDPT01Context
     {
+        /// <summary>
+        /// The MySqlConnection used for database operations.
+        /// </summary>
         private readonly MySqlConnection _connection;
 
+        /// <summary>
+        /// Initializes a new instance of the DBDPT01Context class.
+        /// </summary>
         public DBDPT01Context()
         {
             _connection = MysqlDbConnector.Connection;
         }
 
+        /// <summary>
+        /// Fetches all department records.
+        /// </summary>
+        /// <returns>A DataTable containing all department records.</returns>
         public DataTable FetchDepartment()
         {
             DataTable dtDPT01 = new DataTable();
@@ -38,7 +51,11 @@ namespace FirmAdvanceDemo.DB
             return dtDPT01;
         }
 
-
+        /// <summary>
+        /// Fetches the department record with the specified department ID.
+        /// </summary>
+        /// <param name="departmentId">The department ID.</param>
+        /// <returns>A DataTable containing the department record.</returns>
         public DataTable FetchDepartment(int departmentId)
         {
             DataTable dtDPT01 = new DataTable();

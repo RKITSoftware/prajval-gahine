@@ -1,4 +1,3 @@
-using FirmAdvanceDemo.BL;
 using FirmAdvanceDemo.Utitlity;
 using System;
 using System.Net;
@@ -40,7 +39,7 @@ namespace FirmAdvanceDemo.Auth
                     string username = username_password[0];
                     string password = username_password[1];
 
-                    bool isValid = ValidateUser.Login(username, password);
+                    bool isValid = GeneralUtility.Login(username, password);
 
                     if (isValid)
                     {

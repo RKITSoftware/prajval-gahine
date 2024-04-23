@@ -6,15 +6,30 @@ using static FirmAdvanceDemo.Utitlity.Constants;
 
 namespace FirmAdvanceDemo.DB
 {
+    /// <summary>
+    /// Provides methods for interacting with the ATD01 table in the database.
+    /// </summary>
     public class DBATD01Context
     {
+        /// <summary>
+        /// The MySqlConnection used for database operations.
+        /// </summary>
         private readonly MySqlConnection _connection;
 
+        /// <summary>
+        /// Initializes a new instance of the DBATD01Context class.
+        /// </summary>
         public DBATD01Context()
         {
             _connection = MysqlDbConnector.Connection;
         }
 
+        /// <summary>
+        /// Fetches attendance records for a specified year and month.
+        /// </summary>
+        /// <param name="year">The year.</param>
+        /// <param name="month">The month.</param>
+        /// <returns>A DataTable containing the attendance records.</returns>
         public DataTable FetchAttendanceByMonthYear(int year, int month)
         {
             DataTable dtAttendance;
@@ -48,6 +63,10 @@ namespace FirmAdvanceDemo.DB
             return dtAttendance;
         }
 
+        /// <summary>
+        /// Fetches attendance records for today's date.
+        /// </summary>
+        /// <returns>A DataTable containing the attendance records.</returns>
         public DataTable FetchAttendanceForToday()
         {
             DataTable dtAttendance;
@@ -82,6 +101,13 @@ namespace FirmAdvanceDemo.DB
             return dtAttendance;
         }
 
+        /// <summary>
+        /// Fetches attendance records for a specified employee ID, year, and month.
+        /// </summary>
+        /// <param name="employeeId">The employee ID.</param>
+        /// <param name="year">The year.</param>
+        /// <param name="month">The month.</param>
+        /// <returns>A DataTable containing the attendance records.</returns>
         public DataTable FetchAttendanceByEmployeeIdAndMonthYear(int employeeId, int year, int month)
         {
             DataTable dtAttendance;
@@ -119,6 +145,12 @@ namespace FirmAdvanceDemo.DB
             return dtAttendance;
         }
 
+
+        /// <summary>
+        /// Retrieves attendance records for a specified employee ID.
+        /// </summary>
+        /// <param name="employeeId">The employee ID.</param>
+        /// <returns>A DataTable containing the attendance records.</returns>
         public DataTable RetrieveAttendanceByEmployeeId(int employeeId)
         {
             DataTable dtAttendance;
@@ -152,6 +184,10 @@ namespace FirmAdvanceDemo.DB
             return dtAttendance;
         }
 
+        /// <summary>
+        /// Fetches all attendance records.
+        /// </summary>
+        /// <returns>A DataTable containing all attendance records.</returns>
         public DataTable FetchAttendance()
         {
             DataTable dtAttendance = new DataTable();
@@ -179,7 +215,11 @@ namespace FirmAdvanceDemo.DB
             return dtAttendance;
         }
 
-
+        /// <summary>
+        /// Fetches the attendance record with the specified attendance ID.
+        /// </summary>
+        /// <param name="attendanceId">The attendance ID.</param>
+        /// <returns>A DataTable containing the attendance record.</returns>
         public DataTable FetchAttendance(int attendanceId)
         {
             DataTable dtAttendance = new DataTable();

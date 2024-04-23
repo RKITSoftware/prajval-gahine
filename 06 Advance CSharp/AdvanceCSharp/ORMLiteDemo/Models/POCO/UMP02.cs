@@ -1,7 +1,9 @@
+using ORMLiteDemo.Models.POCO;
+using ServiceStack;
 using ServiceStack.DataAnnotations;
 using System;
 
-namespace ORMLiteDemo.Models.POCO
+namespace FirmAdvanceDemo.Models.POCO
 {
     /// <summary>
     /// User-Employee mapping POCO model
@@ -12,24 +14,27 @@ namespace ORMLiteDemo.Models.POCO
         /// <summary>
         /// UMP02 record Id
         /// </summary>
-        [PrimaryKey]
         [AutoIncrement]
+        [PrimaryKey]
         public int P02F01 { get; set; }
 
         /// <summary>
         /// User Id (Foreign key)
         /// </summary>
+        [ForeignKey(typeof(USR01), OnDelete = "CASCADE")]
         public int P02F02 { get; set; }
 
         /// <summary>
         /// Employee Id (Foreign key)
         /// </summary>
+        [ForeignKey(typeof(EMP01), OnDelete = "CASCADE")]
         public int P02F03 { get; set; }
 
         /// <summary>
         /// UserEmployee creation datetime
         /// </summary>
         [IgnoreOnUpdate]
+        [ValidateNotNull]
         public DateTime P02F04 { get; set; }
 
         /// <summary>

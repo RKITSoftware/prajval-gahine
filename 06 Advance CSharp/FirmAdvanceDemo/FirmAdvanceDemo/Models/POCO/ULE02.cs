@@ -1,4 +1,3 @@
-using FirmAdvanceDemo.Enums;
 using ServiceStack.DataAnnotations;
 using System;
 

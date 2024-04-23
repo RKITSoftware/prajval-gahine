@@ -26,6 +26,8 @@ namespace FirmAdvanceDemo.Controllers
 
         [HttpGet]
         [Route("")]
+        [AccessTokenAuthentication]
+        [BasicAuthorization(Roles = "A")]
         public IHttpActionResult GetDepartment()
         {
             Response response = _objBLDPT01Handler.RetrieveDepartment();
@@ -34,6 +36,8 @@ namespace FirmAdvanceDemo.Controllers
 
         [HttpGet]
         [Route("{departmentId}")]
+        [AccessTokenAuthentication]
+        [BasicAuthorization(Roles = "A,E")]
         public IHttpActionResult GetDepartment(int departmentId)
         {
             Response response = _objBLDPT01Handler.RetrieveDepartment(departmentId);
@@ -43,7 +47,7 @@ namespace FirmAdvanceDemo.Controllers
         [HttpPost]
         [Route("")]
         [AccessTokenAuthentication]
-        [BasicAuthorization(Roles = "admin")]
+        [BasicAuthorization(Roles = "A")]
         public IHttpActionResult PostDepartment(DTODPT01 objDTODPT01)
         {
             Response response;
@@ -63,6 +67,8 @@ namespace FirmAdvanceDemo.Controllers
 
         [HttpPut]
         [Route("")]
+        [AccessTokenAuthentication]
+        [BasicAuthorization(Roles = "A")]
         public IHttpActionResult PutDepartment(DTODPT01 objDTODPT01)
         {
             Response response;
@@ -82,6 +88,8 @@ namespace FirmAdvanceDemo.Controllers
 
         [HttpDelete]
         [Route("{departmentId}")]
+        [AccessTokenAuthentication]
+        [BasicAuthorization(Roles = "A")]
         public IHttpActionResult DeleteDepartment(int departmentId)
         {
             Response response = _objBLDPT01Handler.ValidateDelete(departmentId);

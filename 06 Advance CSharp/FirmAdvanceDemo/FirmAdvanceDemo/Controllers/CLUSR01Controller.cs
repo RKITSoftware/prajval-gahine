@@ -3,9 +3,7 @@ using FirmAdvanceDemo.BL;
 using FirmAdvanceDemo.Enums;
 using FirmAdvanceDemo.Models.DTO;
 using FirmAdvanceDemo.Utitlity;
-using Newtonsoft.Json.Linq;
 using System.Web.Http;
-using System.Web.Security;
 
 namespace FirmAdvanceDemo.Controllers
 {
@@ -68,7 +66,7 @@ namespace FirmAdvanceDemo.Controllers
         }
 
         [HttpPatch]
-        [Route("{id}")]
+        [Route("")]
         [AccessTokenAuthentication]
         [BasicAuthorization(Roles = "A")]
         public IHttpActionResult Patch(DTOUSR01 objDTOUSR01)
@@ -82,16 +80,16 @@ namespace FirmAdvanceDemo.Controllers
                 response = _objBLUSR01Handler.Validate();
                 if (!response.IsError)
                 {
-                    _objBLUSR01Handler.Save();
+                    response = _objBLUSR01Handler.Save();
                 }
             }
-            return Ok();
+            return Ok(response);
         }
 
         [HttpDelete]
         [Route("{userID}")]
         [AccessTokenAuthentication]
-        [BasicAuthorization(Roles = "A,E")]
+        [BasicAuthorization(Roles = "A")]
         public IHttpActionResult Delete(int userID)
         {
             Response response = _objBLUSR01Handler.ValidateDelete(userID);

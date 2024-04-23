@@ -9,8 +9,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.Net;
 using System.Web;
-using System.Web.Security;
-using System.Web.UI.WebControls;
 using static FirmAdvanceDemo.Utitlity.Constants;
 
 namespace FirmAdvanceDemo.BL
@@ -221,7 +219,7 @@ namespace FirmAdvanceDemo.BL
 
             using (IDbConnection db = _dbFactory.OpenDbConnection())
             {
-                using (IDbTransaction txn = db.BeginTransaction())
+                using (IDbTransaction txn = db.OpenTransaction())
                 {
                     try
                     {

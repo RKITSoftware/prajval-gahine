@@ -170,6 +170,9 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Content\SwaggerScript.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <Compile Include="Global.asax.cs" />
     <Compile Include="InitializeDB.cs" />
     <Compile Include="App_Start\SwaggerConfig.cs" />
@@ -177,9 +180,7 @@
     <Compile Include="Auth\AccessTokenAuthenticationAttribute.cs" />
     <Compile Include="Auth\BasicAuthenticationAttribute.cs" />
     <Compile Include="Auth\BasicAuthorizationAttribute.cs" />
-    <Compile Include="Auth\BearerAuthenticationAttribute.cs" />
     <Compile Include="Auth\RefreshTokenAuthenticationAttribute.cs" />
-    <Compile Include="Auth\ValidateUser.cs" />
     <Compile Include="BL\BLATD01Handler.cs" />
     <Compile Include="BL\BLDownload.cs" />
     <Compile Include="BL\BLDPT01Handler.cs" />
@@ -224,7 +225,6 @@
     <Compile Include="Utitlity\GeneralHandler.cs" />
     <Compile Include="Utitlity\GeneralUtility.cs" />
     <Compile Include="Utitlity\Response.cs" />
-    <Compile Include="Utitlity\ResponseWrapper.cs" />
     <Compile Include="Models\DTO\DTOATD01.cs" />
     <Compile Include="Models\DTO\DTODPT01.cs" />
     <Compile Include="Models\DTO\DTOEMP01.cs" />
@@ -235,8 +235,6 @@
     <Compile Include="Models\DTO\DTOSLY01.cs" />
     <Compile Include="Models\DTO\DTOUMP01.cs" />
     <Compile Include="Models\DTO\DTOUSR01.cs" />
-    <Compile Include="Models\DTO\IDTOEMP01.cs" />
-    <Compile Include="Models\DTO\IDTOUSR01.cs" />
     <Compile Include="Models\POCO\ATD01.cs" />
     <Compile Include="Models\POCO\DPT01.cs" />
     <Compile Include="Models\POCO\EMP01.cs" />

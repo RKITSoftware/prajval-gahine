@@ -1,3 +1,4 @@
+using FirmAdvanceDemo.Auth;
 using FirmAdvanceDemo.BL;
 using FirmAdvanceDemo.Utitlity;
 using System;
@@ -24,20 +25,22 @@ namespace FirmAdvanceDemo.Controllers
         }
 
         [HttpGet]
-        [Route("salaryslip/{id}")]
-        public IHttpActionResult GetSalarySlipCsv(int id, string start, string end)
+        [Route("salaryslip/{employeeID}")]
+        [AccessTokenAuthentication]
+        [BasicAuthorization(Roles = "E")]
+        public IHttpActionResult GetSalarySlipCsv(int employeeID, DateTime start, DateTime end)
         {
             Response statusInfo = _objBLDownload.DownloadSalarySlip(
-                id,
-                DateTime.ParseExact(start, "yyyy-MM-dd", null),
-                DateTime.ParseExact(end, "yyyy-MM-dd", null)
+                employeeID,
+                start,
+                end
                 );
 
             HttpResponse response = HttpContext.Current.Response;
 
             response.Clear();
             response.AppendHeader("Content-Type", "text/csv");
-            response.AppendHeader("Content-Disposition", $"attachment;filename=salary-slip-{id}-{start}TO{end}.csv;");
+            response.AppendHeader("Content-Disposition", $"attachment;filename=salary-slip-{employeeID}-{start}TO{end}.csv;");
 
             string csvContent = (string)statusInfo.Data;
             response.BinaryWrite(Encoding.UTF8.GetBytes(csvContent));

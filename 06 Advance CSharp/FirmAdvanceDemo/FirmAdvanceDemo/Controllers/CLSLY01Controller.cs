@@ -1,3 +1,4 @@
+using FirmAdvanceDemo.Auth;
 using FirmAdvanceDemo.BL;
 using FirmAdvanceDemo.Utitlity;
 using System.Web.Http;
@@ -22,6 +23,8 @@ namespace FirmAdvanceDemo.Controllers
 
         [HttpPost]
         [Route("credit")]
+        [AccessTokenAuthentication]
+        [BasicAuthorization(Roles = "A")]
         public IHttpActionResult CreditSalary()
         {
             Response response = _objBLSLY01Handler.CreditSalary();

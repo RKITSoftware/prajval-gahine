@@ -1,23 +1,34 @@
 ﻿
 using FirmAdvanceDemo.Connection;
 using MySql.Data.MySqlClient;
-using Org.BouncyCastle.Tls;
-using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Text;
 
 namespace FirmAdvanceDemo.Utitlity
 {
+    /// <summary>
+    /// Provides methods for handling general database context operations.
+    /// </summary>
     public class GeneralContext
     {
+        /// <summary>
+        /// The MySqlConnection used for database operations.
+        /// </summary>
         private static readonly MySqlConnection _connection;
 
+        /// <summary>
+        /// Initializes the GeneralContext class.
+        /// </summary>
         static GeneralContext()
         {
             _connection = MysqlDbConnector.Connection;
         }
 
+        /// <summary>
+        /// Fetches the roles associated with a user ID.
+        /// </summary>
+        /// <param name="userID">The user ID.</param>
+        /// <returns>An array of role names associated with the user ID.</returns>
         public static string[] FetchRolesByUserID(int userID)
         {
             string[] lstUserRole;

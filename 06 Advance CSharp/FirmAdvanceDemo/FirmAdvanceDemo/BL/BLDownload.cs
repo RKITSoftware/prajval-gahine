@@ -24,7 +24,7 @@ namespace FirmAdvanceDemo.BL
 
                 List<SLY01> lstSalary = db.Select<SLY01>(sqlExp);
 
-                string csvContent = GeneralUtility.ConvertToCSV<SLY01>(lstSalary, typeof(SLY01));
+                string csvContent = GeneralUtility.ConvertToCSV<SLY01>(lstSalary);
 
 
                 return new Response

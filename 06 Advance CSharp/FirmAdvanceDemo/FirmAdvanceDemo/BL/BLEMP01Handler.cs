@@ -59,8 +59,11 @@ namespace FirmAdvanceDemo.BL
             Response response = new Response();
 
             DTOUSR01 objDTOUSR01 = objDTOUMP.ObjDTOUSR01;
-            DTOEMP01 dTOEMP01 = objDTOUMP.ObjDTOEMP01;
+            DTOEMP01 objDTOEMP01 = objDTOUMP.ObjDTOEMP01;
 
+            // only admin can perform add and this is handled using authorization
+            // attribute on POST method
+            /*
             if(Operation == EnmOperation.A && !GeneralUtility.IsAdmin())
             {
                 response.IsError = true;
@@ -69,63 +72,77 @@ namespace FirmAdvanceDemo.BL
 
                 return response;
             }
-            
-            // edit operation must be done by admin or valid employee
+            */
+
+            // edit operation must be done by admin or authorized employee
+            // this is also handled in PUT using ValidateAccess method
+            /*
             if(Operation == EnmOperation.E && !GeneralUtility.IsAdmin() && !GeneralUtility.IsValidEmployee(dTOEMP01.P01F01))
             {
                 response.IsError = true;
                 response.HttpStatusCode = HttpStatusCode.Conflict;
-                response.Message = "Operation not allowed: Only administrators can perform this action on valid employees.";
+                response.Message = $"You are not authorized to access employee {dTOEMP01.P01F01}.";
 
                 return response;
             }
+            */
 
-            if (response.IsError)
+            _objBLUSR01Handler = new BLUSR01Handler();
+
+            _objBLUSR01Handler.Operation = Operation;
+            response = _objBLUSR01Handler.Prevalidate(objDTOUSR01);
+
+            if (!response.IsError)
             {
-                _objBLUSR01Handler = new BLUSR01Handler();
-
-                _objBLUSR01Handler.Operation = Operation;
-                response = _objBLUSR01Handler.Prevalidate(objDTOUSR01);
-
-                if (!response.IsError)
+                // check if position ID exists in db (for A and E both)
+                int positionId = objDTOEMP01.P01F06;
+                int positionCount;
+                using (IDbConnection db = _dbFactory.OpenDbConnection())
                 {
-                    // check if position ID exists in db (for A and E both)
-                    int positionId = dTOEMP01.P01F06;
-                    int positionCount;
+                    positionCount = (int)db.Count<PSN01>(position => position.N01F01 == positionId);
+                }
+                if (positionCount == 0)
+                {
+                    response.IsError = true;
+                    response.HttpStatusCode = HttpStatusCode.NotFound;
+                    response.Message = $"Position not found with {positionId}";
+
+                    return response;
+                }
+
+                // in case of E, check employee ID already exists?
+                if (Operation == EnmOperation.E)
+                {
+                    int employeeID = objDTOEMP01.P01F01;
+                    int employeeCount;
                     using (IDbConnection db = _dbFactory.OpenDbConnection())
                     {
-                        positionCount = (int)db.Count<PSN01>(position => position.N01F01 == positionId);
+                        employeeCount = (int)db.Count<EMP01>(emp01 => emp01.P01F01 == employeeID);
                     }
-                    if (positionCount == 0)
+
+                    if (employeeCount == 0)
                     {
                         response.IsError = true;
                         response.HttpStatusCode = HttpStatusCode.NotFound;
-                        response.Message = $"Position not found with {positionId}";
+                        response.Message = $"Employeem {employeeID} not found.";
 
                         return response;
                     }
 
-                    // in case of E, check employee ID already exists?
-                    if (Operation == EnmOperation.E)
+                    // check if given mapping (userID-employeeID) is correct
+                    employeeID = GeneralHandler.RetrieveEmployeeIDByUserID(objDTOUSR01.R01F01);
+
+                    if (employeeID != objDTOEMP01.P01F01)
                     {
-                        int employeeId = dTOEMP01.P01F01;
-                        int employeeCount;
-                        using (IDbConnection db = _dbFactory.OpenDbConnection())
-                        {
-                            employeeCount = (int)db.Count<EMP01>(emp01 => emp01.P01F01 == employeeId);
-                        }
+                        response.IsError = true;
+                        response.HttpStatusCode = HttpStatusCode.Conflict;
+                        response.Message = $"The employee ID retrieved for the user ID does not match the employee ID provided in the request.";
 
-                        if (employeeCount == 0)
-                        {
-                            response.IsError = true;
-                            response.HttpStatusCode = HttpStatusCode.NotFound;
-                            response.Message = $"Employee not found with id: {employeeId}";
-
-                            return response;
-                        }
+                        return response;
                     }
                 }
             }
+
             return response;
         }
 
@@ -151,7 +168,7 @@ namespace FirmAdvanceDemo.BL
             }
             else
             {
-                _objEMP01.P01F07 = DateTime.Now;
+                _objEMP01.P01F08 = DateTime.Now;
             }
         }
 
@@ -178,7 +195,7 @@ namespace FirmAdvanceDemo.BL
                 if (Operation == EnmOperation.A)
                 {
                     int userId;
-                    int employeeId;
+                    int employeeID;
                     using (IDbTransaction tnx = db.OpenTransaction())
                     {
                         try
@@ -212,13 +229,13 @@ namespace FirmAdvanceDemo.BL
                             db.InsertAll<ULE02>(lstUserRole);
 
                             // save employee
-                            employeeId = (int)db.Insert(_objEMP01, selectIdentity: true);
+                            employeeID = (int)db.Insert(_objEMP01, selectIdentity: true);
 
                             // save user employee id's
                             UMP02 objUMP02 = new UMP02()
                             {
                                 P02F02 = userId,
-                                P02F03 = employeeId,
+                                P02F03 = employeeID,
                             };
                             db.Insert<UMP02>(objUMP02);
 
@@ -231,7 +248,7 @@ namespace FirmAdvanceDemo.BL
                         }
                     }
                     response.HttpStatusCode = HttpStatusCode.OK;
-                    response.Message = $"Employee created with user-id: {userId} and employee-id: {employeeId}.";
+                    response.Message = $"Employee created with user-id: {userId} and employee-id: {employeeID}.";
                     return response;
                 }
                 else
@@ -250,16 +267,16 @@ namespace FirmAdvanceDemo.BL
             }
         }
 
-        public Response RetrieveEmployee(int employeeId)
+        public Response RetrieveEmployee(int employeeID)
         {
             Response response = new Response();
-            DataTable dtEmployee = _context.FetchEmployee(employeeId);
+            DataTable dtEmployee = _context.FetchEmployee(employeeID);
 
             if (dtEmployee.Rows.Count == 0)
             {
                 response.IsError = true;
                 response.HttpStatusCode = HttpStatusCode.NotFound;
-                response.Message = $"No employee found with id: {employeeId}";
+                response.Message = $"No employee found with id: {employeeID}";
                 return response;
             }
             response.HttpStatusCode = HttpStatusCode.OK;

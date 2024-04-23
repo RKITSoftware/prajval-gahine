@@ -4,15 +4,29 @@ using System.Data;
 
 namespace FirmAdvanceDemo.DB
 {
+    /// <summary>
+    /// Provides methods for interacting with the RLE01 table in the database.
+    /// </summary>
     public class DBRLE01Context
     {
+        /// <summary>
+        /// The MySqlConnection used for database operations.
+        /// </summary>
         private readonly MySqlConnection _connection;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DBRLE01Context"/> class.
+        /// </summary>
 
         public DBRLE01Context()
         {
             _connection = MysqlDbConnector.Connection;
         }
 
+        /// <summary>
+        /// Fetches all role records.
+        /// </summary>
+        /// <returns>A DataTable containing all role records.</returns>
         public DataTable FetchRole()
         {
             DataTable dtPSN01 = new DataTable();
@@ -39,7 +53,11 @@ namespace FirmAdvanceDemo.DB
             return dtPSN01;
         }
 
-
+        /// <summary>
+        /// Fetches a specific role record by its ID.
+        /// </summary>
+        /// <param name="roleId">The ID of the role record to fetch.</param>
+        /// <returns>A DataTable containing the role record with the specified ID.</returns>
         public DataTable FetchRole(int roleId)
         {
             DataTable dtRole;

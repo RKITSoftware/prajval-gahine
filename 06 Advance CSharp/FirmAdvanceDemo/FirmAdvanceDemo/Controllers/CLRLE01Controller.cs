@@ -1,10 +1,8 @@
+using FirmAdvanceDemo.Auth;
 using FirmAdvanceDemo.BL;
-using FirmAdvanceDemo.DB;
 using FirmAdvanceDemo.Enums;
 using FirmAdvanceDemo.Models.DTO;
-using FirmAdvanceDemo.Models.POCO;
 using FirmAdvanceDemo.Utitlity;
-using Newtonsoft.Json.Linq;
 using System.Web.Http;
 
 namespace FirmAdvanceDemo.Controllers
@@ -12,8 +10,6 @@ namespace FirmAdvanceDemo.Controllers
     [RoutePrefix("api/role")]
     public class CLRLE01Controller : ApiController
     {
-
-
         /// <summary>
         /// Instance of BLRole
         /// </summary>
@@ -29,6 +25,8 @@ namespace FirmAdvanceDemo.Controllers
 
         [HttpGet]
         [Route("")]
+        [AccessTokenAuthentication]
+        [BasicAuthorization(Roles = "A")]
         public IHttpActionResult GetRole()
         {
             Response response = _objBLRLE01Handler.RetrieveRole();
@@ -37,6 +35,8 @@ namespace FirmAdvanceDemo.Controllers
 
         [HttpGet]
         [Route("{id}")]
+        [AccessTokenAuthentication]
+        [BasicAuthorization(Roles = "A")]
         public IHttpActionResult GetRole(int id)
         {
             Response response = _objBLRLE01Handler.RetrieveRole(id);
@@ -45,6 +45,8 @@ namespace FirmAdvanceDemo.Controllers
 
         [HttpPost]
         [Route("")]
+        [AccessTokenAuthentication]
+        [BasicAuthorization(Roles = "A")]
         public IHttpActionResult PostRole(DTORLE01 objDTORLE01)
         {
             Response response;
@@ -66,7 +68,9 @@ namespace FirmAdvanceDemo.Controllers
         }
 
         [HttpPatch]
-        [Route("{id}")]
+        [Route("")]
+        [AccessTokenAuthentication]
+        [BasicAuthorization(Roles = "A")]
         public IHttpActionResult PatchRole(DTORLE01 objDTORLE01)
         {
             Response response;
@@ -89,10 +93,12 @@ namespace FirmAdvanceDemo.Controllers
 
         [HttpDelete]
         [Route("{roleID}")]
+        [AccessTokenAuthentication]
+        [BasicAuthorization(Roles = "A")]
         public IHttpActionResult DeleteRole(int roleID)
         {
             Response response = _objBLRLE01Handler.ValidateDelete(roleID);
-            if(!response.IsError)
+            if (!response.IsError)
             {
                 response = _objBLRLE01Handler.Delete(roleID);
             }

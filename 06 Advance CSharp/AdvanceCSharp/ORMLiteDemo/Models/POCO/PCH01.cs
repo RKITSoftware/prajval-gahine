@@ -1,4 +1,5 @@
 using ORMLiteDemo.Enums;
+using ServiceStack;
 using ServiceStack.DataAnnotations;
 using System;
 
@@ -12,19 +13,20 @@ namespace ORMLiteDemo.Models.POCO
         /// <summary>
         /// Punch Id
         /// </summary>
-        [PrimaryKey]
         [AutoIncrement]
+        [PrimaryKey]
         public int P01F01 { get; set; }
 
         /// <summary>
         /// Employee Id
         /// </summary>
+        [ForeignKey(typeof(EMP01), OnDelete = "CASCADE")]
         public int H01F02 { get; set; }
 
         /// <summary>
         /// Punch Type
         /// </summary>
-        [IgnoreOnInsert]
+        [ValidateNotNull]
         [Default(typeof(EnmPunchType), "'U'")]
         public EnmPunchType H01F03 { get; set; }
 
@@ -32,6 +34,7 @@ namespace ORMLiteDemo.Models.POCO
         /// Punch creation datetime
         /// </summary>
         [IgnoreOnUpdate]
+        [ValidateNotNull]
         public DateTime H01F04 { get; set; }
 
         /// <summary>

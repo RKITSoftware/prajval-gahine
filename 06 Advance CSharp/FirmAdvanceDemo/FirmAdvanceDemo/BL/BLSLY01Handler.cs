@@ -1,5 +1,4 @@
 using FirmAdvanceDemo.DB;
-using FirmAdvanceDemo.Models.DTO;
 using FirmAdvanceDemo.Models.POCO;
 using FirmAdvanceDemo.Utitlity;
 using ServiceStack.OrmLite;
@@ -48,7 +47,7 @@ namespace FirmAdvanceDemo.BL
 
             // if month same as current then error "Salary already credited for current month".
             DateTime now = DateTime.Now;
-            if(lastCreditDate.Year == now.Year && lastCreditDate.Month == now.Month)
+            if (lastCreditDate.Year == now.Year && lastCreditDate.Month == now.Month)
             {
                 response.IsError = true;
                 response.HttpStatusCode = HttpStatusCode.Conflict;
@@ -59,7 +58,7 @@ namespace FirmAdvanceDemo.BL
 
             // from attendance table fetch attendances from [last credit salary date] till [yesterday] and aggragte sum on workhour for each employeeId filtered.
             DataTable dtEmployeeWorkHour = _dBSLY01Context.FetchUnpaidWorkHours(lastCreditDate);
-            if(dtEmployeeWorkHour.Rows.Count == 0)
+            if (dtEmployeeWorkHour.Rows.Count == 0)
             {
                 response.IsError = true;
                 response.HttpStatusCode = HttpStatusCode.NotFound;
@@ -81,7 +80,7 @@ namespace FirmAdvanceDemo.BL
                         db.InsertAll<SLY01>(lstSalary);
                         STG01 objSTG01 = new STG01()
                         {
-                            G01F01 = 1,
+                            G01F01 = 0,
                             G01F02 = now.Date.AddDays(-1),
                             G01F04 = now
                         };
@@ -107,20 +106,23 @@ namespace FirmAdvanceDemo.BL
             double totalHoursInCurrentMonth = DateTime.DaysInMonth(now.Year, now.Month) * 24;
             List<SLY01> lstSalary = new List<SLY01>(dtEmployeeWorkHour.Rows.Count);
 
-            for(int i = 0; i < lstSalary.Count; i++)
+
+            for (int i = 0; i < dtEmployeeWorkHour.Rows.Count; i++)
             {
                 DataRow row = dtEmployeeWorkHour.Rows[i];
 
-                lstSalary[i].Y01F02 = (int)row["EmployeeId"];
-                lstSalary[i].Y01F05 = now;
-
                 // calculate salary using workhour and monthly salary
-                double monthlySalary = (double)row["MonthlySalary"];
+                double monthlySalary = (double)row["MontlhySalary"];
                 double workHours = (double)row["WorkHours"];
                 double salaryAmount = (workHours / totalHoursInCurrentMonth) * monthlySalary;
 
-                lstSalary[i].Y01F03 = salaryAmount;
-                lstSalary[i].Y01F04 = (int)row["PositionId"];
+                lstSalary.Add(new SLY01
+                {
+                    Y01F02 = (int)row["EmployeeID"],
+                    Y01F03 = salaryAmount,
+                    Y01F04 = (int)row["PositionID"],
+                    Y01F05 = now,
+                });
             }
 
             return lstSalary;

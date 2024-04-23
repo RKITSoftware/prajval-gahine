@@ -1,4 +1,4 @@
-﻿using FirmAdvanceDemo.Models.POCO;
+﻿using ORMLiteDemo.Models.POCO;
 using ORMLiteDemo.Enums;
 using ORMLiteDemo.Models.POCO;
 using ServiceStack.Data;
@@ -9,6 +9,7 @@ using System.Configuration;
 using System.Data;
 using System.Security.Cryptography;
 using System.Text;
+using FirmAdvanceDemo.Models.POCO;
 
 namespace ORMLiteDemo
 {
