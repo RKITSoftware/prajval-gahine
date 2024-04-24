@@ -9,19 +9,19 @@ using System.Web.Http.Filters;
 namespace FirmAdvanceDemo.Auth
 {
     /// <summary>
-    /// Attribute to authenticate a refresh token
+    /// Attribute to authenticate a refresh token.
     /// </summary>
     public class RefreshTokenAuthenticationAttribute : AuthorizationFilterAttribute
     {
         /// <summary>
-        /// Method to perform authentication on refresh-token
+        /// Performs authentication on a refresh token.
         /// </summary>
-        /// <param name="actionContext">context of current action</param>
+        /// <param name="actionContext">The context of the current action.</param>
         public override void OnAuthorization(HttpActionContext actionContext)
         {
             Response response;
 
-            // access encrypted refresh token from cookie and decrypt it
+            // Access encrypted refresh token from cookie and decrypt it.
             CookieHeaderValue cookie = actionContext.Request.Headers.GetCookies("refresh-token").FirstOrDefault<CookieHeaderValue>();
             string encryptedRefreshToken = cookie["refresh-token"].Value;
 

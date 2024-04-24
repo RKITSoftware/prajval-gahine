@@ -147,7 +147,7 @@ namespace FirmAdvanceDemo.Controllers
 
             if (!response.IsError)
             {
-                response = _objBLAttendance.RetrieveAttendanceByEmployeeIdAndMonthYear(employeeId, date.Month, date.Year);
+                response = _objBLAttendance.RetrieveAttendanceByEmployeeIdAndMonthYear(employeeId, date.Year, date.Month);
             }
             return Ok(response);
         }

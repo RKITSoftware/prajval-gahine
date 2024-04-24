@@ -1,9 +1,12 @@
 ﻿using FirmAdvanceDemo.Connection;
 using FirmAdvanceDemo.Enums;
 using FirmAdvanceDemo.Models.POCO;
+using FirmAdvanceDemo.Utility;
 using MySql.Data.MySqlClient;
+using MySqlX.XDevAPI.Common;
 using System;
 using System.Data;
+using System.Data.SqlClient;
 using static FirmAdvanceDemo.Utility.Constants;
 
 namespace FirmAdvanceDemo.DB
@@ -42,10 +45,10 @@ namespace FirmAdvanceDemo.DB
                                         FROM
                                             lve02
                                         WHERE
-                                            e02f02 == {0} AND
-                                            ( '{1}' >= e02f03 AND '{1}' <= ADDDATE(e02f03, e02f04 - 1) ) OR
-                                            ( '{2}' >= e01f03 AND '{2}' <= ADDDATE(e01f03, e01f04 - 1) ) OR
-                                            ( '{1}' <= e01f04 AND '{2}' >= ADDDATE(e01f03, e01f04 - 1) )",
+                                            e02f02 = {0} AND
+                                            (( '{1}' >= e02f03 AND '{1}' <= ADDDATE(e02f03, e02f04 - 1) ) OR
+                                            ( '{2}' >= e02f03 AND '{2}' <= ADDDATE(e02f03, e02f04 - 1) ) OR
+                                            ( '{1}' <= e02f04 AND '{2}' >= ADDDATE(e02f03, e02f04 - 1) ))",
                                             objLVE02.E02F02,
                                             objLVE02.E02F03.ToString(GlobalDateFormat),
                                             leaveEndDate.ToString(GlobalDateFormat));
@@ -53,22 +56,18 @@ namespace FirmAdvanceDemo.DB
             MySqlCommand cmd = new MySqlCommand(query, _connection);
 
             _connection.Open();
+
+            long leaveConflictCount;
             try
             {
-
-                int conflictCount = (int)cmd.ExecuteScalar();
-
-                if (conflictCount > 0)
-                {
-                    return false;
-                }
+                leaveConflictCount = (long)cmd.ExecuteScalar();
             }
             finally
             {
                 _connection.Close();
             }
 
-            return true;
+            return leaveConflictCount == 0;
         }
 
         /// <summary>
@@ -91,18 +90,11 @@ namespace FirmAdvanceDemo.DB
                                     FROM
                                         lve02");
 
-            MySqlCommand cmd = new MySqlCommand(query, _connection);
-            MySqlDataAdapter adapter = new MySqlDataAdapter(cmd);
-            try
-            {
-                _connection.Open();
-                dtLeave = new DataTable();
-                adapter.Fill(dtLeave);
-            }
-            finally
-            {
-                _connection.Close();
-            }
+            MySqlDataAdapter adapter = new MySqlDataAdapter(query, _connection);
+
+            dtLeave = new DataTable();
+            adapter.Fill(dtLeave);
+
             return dtLeave;
         }
 
@@ -294,7 +286,7 @@ namespace FirmAdvanceDemo.DB
                                     FROM
                                         lve02
                                     WHERE
-                                        DATE(e01f03) = '{0}'",
+                                        DATE(e02f03) = '{0}'",
                                         date.ToString(GlobalDateFormat));
 
             MySqlCommand cmd = new MySqlCommand(query, _connection);
@@ -322,7 +314,8 @@ namespace FirmAdvanceDemo.DB
         public DataTable FetchLeaveByEmployeeAndMonthYear(int employeeId, int year, int month)
         {
             DataTable dtLeave;
-
+            DateTime startDate = new DateTime(year, month, 1);
+            DateTime endDate = new DateTime(year, month, DateTime.DaysInMonth(year, month));
             string query = string.Format(@"
                                     SELECT
                                         e02f01 AS E02101,
@@ -336,11 +329,14 @@ namespace FirmAdvanceDemo.DB
                                         lve02
                                     WHERE
                                         e02f02 = {0} AND
-                                        YEAR(e02f03) = {1} AND
-                                        MONTH(e02f03) = {2}",
+                                        (
+                                            (e02f03 >= '{1}' AND e02f03 <= '{2}') OR
+                                            (ADDDATE(e02f03, e02f04 - 1) >= '{1}' AND ADDDATE(e02f03, e02f04 - 1) <= '{2}') OR
+                                            (e02f03 < '{1}' AND ADDDATE(e02f03, e02f04 - 1) > '{2}')
+                                        )",
                                         employeeId,
-                                        year,
-                                        month);
+                                        startDate.ToString(Constants.GlobalDateFormat),
+                                        endDate.ToString(Constants.GlobalDateFormat));
 
             MySqlCommand cmd = new MySqlCommand(query, _connection);
             MySqlDataAdapter adapter = new MySqlDataAdapter(cmd);
@@ -383,6 +379,85 @@ namespace FirmAdvanceDemo.DB
                                         YEAR(e02f03) = {1}",
                                         employeeId,
                                         year);
+
+            MySqlCommand cmd = new MySqlCommand(query, _connection);
+            MySqlDataAdapter adapter = new MySqlDataAdapter(cmd);
+            try
+            {
+                _connection.Open();
+                dtLeave = new DataTable();
+                adapter.Fill(dtLeave);
+            }
+            finally
+            {
+                _connection.Close();
+            }
+            return dtLeave;
+        }
+
+        public DataTable FetchLeaveGeneral(int employeeID, int year = 0, int month = 0, int day = 0)
+        {
+            string employeeIDWhere = string.Empty;
+            string dateWhere = string.Empty;
+
+            if(employeeID != 0)
+            {
+                employeeIDWhere = string.Format(@"
+                                    e02f02 = {0}
+                                    ",
+                                    employeeID);
+            }
+
+            if (day != 0)
+            {
+                DateTime date = new DateTime(year, month, day);
+                dateWhere = string.Format(@"
+                                    ( '{0}' >= e02f03 AND '{0}' ADDDATE(e02f03, e02f04 - 1) )",
+                                    date.ToString(Constants.GlobalDateFormat));
+            }
+            else if (year != 0)
+            {
+                string startDate = string.Empty;
+                string endDate = string.Empty;
+                if(month != 0)
+                {
+                    startDate = string.Format("{0}-{1}-01", year);
+                    endDate = string.Format("{0}-{1}-{2}", year, month, DateTime.DaysInMonth(year, month));
+                }
+                else
+                {
+                    startDate = string.Format("{0}-01-01", year);
+                    endDate = string.Format("{0}-12-31", year);
+                }
+                
+
+                dateWhere = string.Format(@"
+                                    (
+                                            (e02f03 >= '{0}' AND e02f03 <= '{1}') OR
+                                            (ADDDATE(e02f03, e02f04 - 1) >= '{0}' AND ADDDATE(e02f03, e02f04 - 1) <= '{1}') OR
+                                            (e02f03 < '{0}' AND ADDDATE(e02f03, e02f04 - 1) > '{1}')
+                                    )",
+                                    startDate,
+                                    endDate);
+            }
+            DataTable dtLeave;
+
+            string query = string.Format(@"
+                                    SELECT
+                                        e02f01 AS E02101,
+                                        e02f02 AS E02102,
+                                        e02f03 AS E02103,
+                                        e02f04 AS E02104,
+                                        e02f05 AS E02105,
+                                        e02f06 AS E02106,
+                                        e02f07 AS E02107
+                                    FROM
+                                        lve02
+                                    WHERE
+                                        {0} AND
+                                        {1}",
+                                        employeeIDWhere,
+                                        dateWhere);
 
             MySqlCommand cmd = new MySqlCommand(query, _connection);
             MySqlDataAdapter adapter = new MySqlDataAdapter(cmd);

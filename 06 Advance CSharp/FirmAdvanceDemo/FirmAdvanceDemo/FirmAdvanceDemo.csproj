@@ -170,11 +170,10 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Content\SwaggerScript.js">
+    <EmbeddedResource Include="Swagger\Content\SwaggerScript.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <Compile Include="Global.asax.cs" />
-    <Compile Include="InitializeDB.cs" />
     <Compile Include="App_Start\SwaggerConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Auth\AccessTokenAuthenticationAttribute.cs" />
@@ -204,7 +203,7 @@
     <Compile Include="Controllers\CLRLE01Controller.cs" />
     <Compile Include="Controllers\CLSLY01Controller.cs" />
     <Compile Include="Controllers\CLUSR01Controller.cs" />
-    <Compile Include="Controllers\DefaultController.cs" />
+    <Compile Include="Controllers\SwaggerUIController.cs" />
     <Compile Include="DL\DBATD01Context.cs" />
     <Compile Include="DL\DBDPT01Context.cs" />
     <Compile Include="DL\DBEMP01Context.cs" />
@@ -216,11 +215,12 @@
     <Compile Include="DL\DBUSR01Context.cs" />
     <Compile Include="Models\DTO\DataAnnotations\InMultipleOfAttribute.cs" />
     <Compile Include="Models\DTO\DataAnnotations\LessThanCurrentDateTimeAttribute.cs" />
+    <Compile Include="Models\DTO\FIlters\ValidateModelAttribute.cs" />
     <Compile Include="Utility\Constants.cs" />
     <Compile Include="Utility\FirmEnums.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SwaggerRequirements\AccessTokenAuthRequirements.cs" />
-    <Compile Include="SwaggerRequirements\BasicAuthRequirements.cs" />
+    <Compile Include="Swagger\AccessTokenAuthRequirements.cs" />
+    <Compile Include="Swagger\BasicAuthRequirements.cs" />
     <Compile Include="Utility\GeneralContext.cs" />
     <Compile Include="Utility\GeneralHandler.cs" />
     <Compile Include="Utility\GeneralUtility.cs" />

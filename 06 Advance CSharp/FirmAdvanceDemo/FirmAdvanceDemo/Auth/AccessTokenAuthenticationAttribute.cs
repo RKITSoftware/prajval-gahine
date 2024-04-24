@@ -7,14 +7,14 @@ using System.Web.Http.Filters;
 namespace FirmAdvanceDemo.Auth
 {
     /// <summary>
-    /// Attribute to authenticate an accesss token
+    /// Attribute to authenticate an access token.
     /// </summary>
     public class AccessTokenAuthenticationAttribute : AuthorizationFilterAttribute
     {
         /// <summary>
-        /// Method to perform authentication on access-token
+        /// Performs authentication on an access token.
         /// </summary>
-        /// <param name="actionContext">context of current action</param>
+        /// <param name="actionContext">The context of the current action.</param>
         public override void OnAuthorization(HttpActionContext actionContext)
         {
             Response response;

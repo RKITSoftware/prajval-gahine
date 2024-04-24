@@ -31,7 +31,7 @@ namespace FirmAdvanceDemo.Models.DTO
         /// </summary>
         [JsonProperty("e02104")]
         [Required(ErrorMessage = "Leave date must be selected.")]
-        public DateTime E02F04 { get; set; }
+        public DateTime E02F03 { get; set; }
 
         /// <summary>
         /// No. of leaves from Leave Date
@@ -39,19 +39,19 @@ namespace FirmAdvanceDemo.Models.DTO
         [JsonProperty("e02105")]
         [Range(1, 60, ErrorMessage = "No. of leave must be in range 1 to 60.")]
         [Required(ErrorMessage = "No. of leaves cannot be empty.")]
-        public int E02F05 { get; set; }
+        public int E02F04 { get; set; }
 
         /// <summary>
         /// Reason for leave
         /// </summary>
         [JsonProperty("e02106")]
         [Required(ErrorMessage = "Reason of leave cannot be empty.")]
-        public string E02F06 { get; set; }
+        public string E02F05 { get; set; }
 
         /// <summary>
         /// Leave status
         /// </summary>
         [JsonProperty("e02107")]
-        public EnmLeaveStatus E02F07 { get; set; }
+        public EnmLeaveStatus E02F06 { get; set; }
     }
 }

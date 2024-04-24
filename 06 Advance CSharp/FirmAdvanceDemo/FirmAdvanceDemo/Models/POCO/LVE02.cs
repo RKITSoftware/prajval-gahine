@@ -22,7 +22,7 @@ namespace FirmAdvanceDemo.Models.POCO
         public int E02F02 { get; set; }
 
         /// <summary>
-        /// Leave Datetime
+        /// Leave Date
         /// </summary>
         [IgnoreOnUpdate]
         public DateTime E02F03 { get; set; }

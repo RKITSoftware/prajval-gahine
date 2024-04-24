@@ -8,21 +8,23 @@ using System.Linq;
 using System.Security.Claims;
 using System.Web;
 using System.Web.Http;
+using System.Web.Http.Description;
 
 namespace FirmAdvanceDemo.Controllers
 {
     /// <summary>
-    /// Controller for handling default API endpoints and retrieving user-related information.
+    /// Controller for handling SwaggerUI API endpoints and retrieving user-related information.
     /// </summary>
-    public class DefaultController : ApiController
+    [ApiExplorerSettings(IgnoreApi = true)]
+    [RoutePrefix("api/swaggerui-support")]
+    public class SwaggerUIController : ApiController
     {
-
         private IDbConnectionFactory _dfFactory;
 
         /// <summary>
-        /// Initializes a new instance of the DefaultController class.
+        /// Initializes a new instance of the SwaggerUIController class.
         /// </summary>
-        public DefaultController()
+        public SwaggerUIController()
         {
             _dfFactory = OrmliteDbConnector.DbFactory;
         }
@@ -32,7 +34,7 @@ namespace FirmAdvanceDemo.Controllers
         /// </summary>
         /// <returns>HTTP response containing the application information.</returns>
         [HttpGet]
-        [Route("api/data/getdata")]
+        [Route("appinfo")]
         public IHttpActionResult GetAppInfo()
         {
             return Ok("Welcome to FirmAdvanceDemo");
@@ -44,7 +46,7 @@ namespace FirmAdvanceDemo.Controllers
         /// <returns>Object containing the username of the authenticated user.</returns>
         [HttpGet]
         [AccessTokenAuthentication]
-        [Route("api/data/getUsername")]
+        [Route("username")]
         public object GetUsername()
         {
             ClaimsIdentity claimsIdentity = (ClaimsIdentity)HttpContext.Current.User.Identity;
@@ -65,7 +67,7 @@ namespace FirmAdvanceDemo.Controllers
         /// <returns>Object containing the roles associated with the authenticated user.</returns>
         [HttpGet]
         [AccessTokenAuthentication]
-        [Route("api/data/getroles")]
+        [Route("roles")]
         public object GetRoles()
         {
             ClaimsIdentity claimsIdentity = (ClaimsIdentity)HttpContext.Current.User.Identity;

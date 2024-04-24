@@ -13,10 +13,14 @@ using System.Web.Http.Filters;
 namespace FirmAdvanceDemo.Auth
 {
     /// <summary>
-    /// Attribute to perform user authentication based on username ad password
+    /// Attribute to perform user authentication based on username and password.
     /// </summary>
     public class BasicAuthenticationAttribute : AuthorizationFilterAttribute
     {
+        /// <summary>
+        /// Performs basic authentication based on the Authorization header.
+        /// </summary>
+        /// <param name="actionContext">The HTTP action context.</param>
         public override void OnAuthorization(HttpActionContext actionContext)
         {
             Response response = new Response();

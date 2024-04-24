@@ -122,7 +122,7 @@ namespace FirmAdvanceDemo.DB
                                 FROM
                                     atd01
                                 WHERE
-                                    d01f02 = {0}
+                                    d01f02 = {0} AND
                                     YEAR(d01f03) = {1} AND
                                     MONTH(d01f03) = {2}",
                             employeeId,
@@ -227,8 +227,8 @@ namespace FirmAdvanceDemo.DB
             string query = string.Format(
                             @"SELECT
                                 d01f01 AS D01101, 
-                                d01f02 AS D01102
-                                d01f03 AS D01103
+                                d01f02 AS D01102,
+                                d01f03 AS D01103,
                                 d01f04 AS D01104
                             FROM atd01
                                 WHERE d01f01 = {0};", attendanceId);

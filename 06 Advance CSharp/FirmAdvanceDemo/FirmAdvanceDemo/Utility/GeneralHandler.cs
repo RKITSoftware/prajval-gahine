@@ -66,7 +66,7 @@ namespace FirmAdvanceDemo.Utility
             string username = string.Empty;
             using (IDbConnection db = _dbFactory.OpenDbConnection())
             {
-                username = db.Scalar<USR01, string>(user => user.R01F01 == userID);
+                username = db.Scalar<USR01, string>(user => user.R01F02, user => user.R01F01 == userID);
             }
 
             return username;

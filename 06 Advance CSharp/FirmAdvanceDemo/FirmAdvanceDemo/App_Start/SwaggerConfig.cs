@@ -1,5 +1,5 @@
 using FirmAdvanceDemo;
-using FirmAdvanceDemo.SwaggerRequirements;
+using FirmAdvanceDemo.Swagger;
 using Swashbuckle.Application;
 using System.Web.Http;
 using WebActivatorEx;
@@ -144,7 +144,7 @@ namespace FirmAdvanceDemo
                         // enum type. Swashbuckle will honor this change out-of-the-box. However, if you use a different
                         // approach to serialize enums as strings, you can also force Swashbuckle to describe them as strings.
                         //
-                        //c.DescribeAllEnumsAsStrings();
+                        c.DescribeAllEnumsAsStrings();
 
                         // Similar to Schema filters, Swashbuckle also supports Operation and Document filters:
                         //
@@ -196,7 +196,7 @@ namespace FirmAdvanceDemo
                         // has loaded. The file must be included in your project as an "Embedded Resource", and then the resource's
                         // "Logical Name" is passed to the method as shown above.
                         //
-                        c.InjectJavaScript(thisAssembly, "FirmAdvanceDemo.Content.SwaggerScript.js");
+                        c.InjectJavaScript(thisAssembly, "FirmAdvanceDemo.Swagger.Content.SwaggerScript.js");
 
                         // The swagger-ui renders boolean data types as a dropdown. By default, it provides "true" and "false"
                         // strings as the possible choices. You can use this option to change these to something else,

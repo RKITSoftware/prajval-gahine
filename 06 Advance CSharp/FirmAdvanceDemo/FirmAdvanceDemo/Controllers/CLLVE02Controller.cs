@@ -2,6 +2,7 @@ using FirmAdvanceDemo.Auth;
 using FirmAdvanceDemo.BL;
 using FirmAdvanceDemo.Enums;
 using FirmAdvanceDemo.Models.DTO;
+using FirmAdvanceDemo.Models.DTO.FIlters;
 using FirmAdvanceDemo.Utility;
 using System;
 using System.Web;
@@ -45,15 +46,16 @@ namespace FirmAdvanceDemo.Controllers
         /// <summary>
         /// Action method to retrieve a specific leave entry by ID. Requires Admin role.
         /// </summary>
-        /// <param name="leaveId">The ID of the leave entry to retrieve.</param>
+        /// <param name="leaveID">The ID of the leave entry to retrieve.</param>
         /// <returns>HTTP response containing leave information.</returns>
         [HttpGet]
         [Route("{leaveId}")]
         [AccessTokenAuthentication]
-        [BasicAuthorization(Roles = "A")]
-        public IHttpActionResult GetLeave(int leaveId)
+        [BasicAuthorization(Roles = "A,E")]
+        public IHttpActionResult GetLeave(int leaveID)
         {
-            Response response = _objBLLVE02Handler.RetrieveLeave(leaveId);
+            Response response = _objBLLVE02Handler.ValidateEmployeeLeave(leaveID);
+            response = _objBLLVE02Handler.RetrieveLeave(leaveID);
             return Ok(response);
         }
 
@@ -284,18 +286,23 @@ namespace FirmAdvanceDemo.Controllers
         [Route("")]
         [AccessTokenAuthentication]
         [BasicAuthorization(Roles = "E")]
+        [ValidateModel]
         public IHttpActionResult PostLeave(DTOLVE02 objDTOLVE02)
         {
             Response response;
-            _objBLLVE02Handler.Operation = EnmOperation.A;
-            response = _objBLLVE02Handler.Prevalidate(objDTOLVE02);
+            response = GeneralUtility.ValidateAccess(objDTOLVE02.E02F02);
             if (!response.IsError)
             {
-                _objBLLVE02Handler.Presave(objDTOLVE02);
-                response = _objBLLVE02Handler.Validate();
+                _objBLLVE02Handler.Operation = EnmOperation.A;
+                response = _objBLLVE02Handler.Prevalidate(objDTOLVE02);
                 if (!response.IsError)
                 {
-                    response = _objBLLVE02Handler.Save();
+                    _objBLLVE02Handler.Presave(objDTOLVE02);
+                    response = _objBLLVE02Handler.Validate();
+                    if (!response.IsError)
+                    {
+                        response = _objBLLVE02Handler.Save();
+                    }
                 }
             }
             return Ok(response);

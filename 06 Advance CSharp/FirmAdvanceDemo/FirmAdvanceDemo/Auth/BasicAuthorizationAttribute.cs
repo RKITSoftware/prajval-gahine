@@ -7,10 +7,14 @@ using System.Web.Http.Controllers;
 namespace FirmAdvanceDemo.Auth
 {
     /// <summary>
-    /// Attribute to perform authorization for an api hit on which this attribute is used
+    /// Attribute to perform authorization for an API hit on which this attribute is used.
     /// </summary>
     public class BasicAuthorizationAttribute : AuthorizeAttribute
     {
+        /// <summary>
+        /// Handles the unauthorized request by either allowing it or returning a forbidden status code.
+        /// </summary>
+        /// <param name="actionContext">The HTTP action context.</param>
         protected override void HandleUnauthorizedRequest(HttpActionContext actionContext)
         {
             if (HttpContext.Current.User.Identity.IsAuthenticated)
@@ -19,7 +23,7 @@ namespace FirmAdvanceDemo.Auth
             }
             else
             {
-                // user role was forbidden
+                // User role was forbidden.
                 actionContext.Response = new HttpResponseMessage(HttpStatusCode.Forbidden);
             }
         }

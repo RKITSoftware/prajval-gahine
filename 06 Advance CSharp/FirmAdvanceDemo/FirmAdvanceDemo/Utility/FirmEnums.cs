@@ -8,27 +8,27 @@ namespace FirmAdvanceDemo.Enums
         /// <summary>
         /// Pending
         /// </summary>
-        P,
+        P = 'P',
 
         /// <summary>
         /// Approved
         /// </summary>
-        A,
+        A = 'A',
 
         /// <summary>
         /// Rejected
         /// </summary>
-        R,
+        R = 'R',
 
         /// <summary>
         /// Expired
         /// </summary>
-        E,
+        E = 'E',
 
         /// <summary>
         /// All
         /// </summary>
-        X,
+        X = 'X',
     }
 
     /// <summary>

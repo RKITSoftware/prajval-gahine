@@ -18,11 +18,6 @@ namespace FirmAdvanceDemo
             //    defaults: new { ID = RouteParameter.Optional }
             //);
 
-            string ConnString = ConfigurationManager.ConnectionStrings["firmadvance378"].ConnectionString;
-            System.Diagnostics.Debug.WriteLine(ConnString);
-
-            //InitializeDB.Init();
-
             GlobalConfiguration.Configuration.Formatters
                 .Remove(GlobalConfiguration.Configuration.Formatters.XmlFormatter);
         }

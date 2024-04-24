@@ -7,7 +7,7 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using System.Web.Http.Filters;
 
-namespace FirmAdvanceDemo.SwaggerRequirements
+namespace FirmAdvanceDemo.Swagger
 {
     /// <summary>
     /// Represents an operation filter for applying access token authentication requirements in Swagger documentation.

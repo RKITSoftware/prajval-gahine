@@ -14,25 +14,37 @@ using static FirmAdvanceDemo.Utility.Constants;
 namespace FirmAdvanceDemo.BL
 {
     /// <summary>
-    /// Business logic class for Attendance - defines all props and methods to support Attendance controller
+    /// Handles business logic for ATD01 operations.
     /// </summary>
     public class BLATD01Handler
     {
         /// <summary>
-        /// Instance of ATD01 model
+        /// The ATD01 object.
         /// </summary>
         private ATD01 _objATD01;
 
+        /// <summary>
+        /// The OrmLiteConnectionFactory object.
+        /// </summary>
         private readonly OrmLiteConnectionFactory _dbFactory;
 
+        /// <summary>
+        /// The DBATD01Context object.
+        /// </summary>
         private readonly DBATD01Context _objDBATD01Context;
 
+        /// <summary>
+        /// The DBPCH01Context object.
+        /// </summary>
         private DBPCH01Context _objDBPCH01Context;
 
+        /// <summary>
+        /// The operation to be performed.
+        /// </summary>
         public EnmOperation Operation { get; set; }
 
         /// <summary>
-        /// Default constructor for BLAttendance, initializes ATD01 instance
+        /// Initializes a new instance of the BLATD01Handler class.
         /// </summary>
         public BLATD01Handler()
         {
@@ -42,9 +54,9 @@ namespace FirmAdvanceDemo.BL
         }
 
         /// <summary>
-        /// Method to convert DTOATD01 instance to ATD01 instance
+        /// Converts DTOATD01 DTO model to ATD01 POCO model
         /// </summary>
-        /// <param name="objDTOATD01">Instance of DTOATD01</param>
+        /// <param name="objDTOATD01">The DTO object.</param>
         public void Presave(DTOATD01 objDTOATD01)
         {
             _objATD01 = objDTOATD01.ConvertModel<ATD01>();
@@ -60,10 +72,10 @@ namespace FirmAdvanceDemo.BL
         }
 
         /// <summary>
-        /// Method to fetch all attendances of an employee
+        /// Retrieves attendance records by employee ID.
         /// </summary>
-        /// <param name="employeeId">Employee Id</param>
-        /// <returns>ResponseStatusInfo instance containing lst_of_attendance, null if any exception is thrown</returns>
+        /// <param name="employeeId">The employee ID.</param>
+        /// <returns>The response object.</returns>
         public Response RetrieveAttendanceByEmployeeId(int employeeId)
         {
             Response response = new Response();
@@ -84,11 +96,11 @@ namespace FirmAdvanceDemo.BL
         }
 
         /// <summary>
-        /// Method to fetch all attendance of specified month-year
+        /// Retrieves attendance records by month and year.
         /// </summary>
-        /// <param name="month">Attendance Month</param>
-        /// <param name="year">Attendance Year</param>
-        /// <returns>ResponseStatusInfo instance containing lst_of_attendance, null if any exception is thrown</returns>
+        /// <param name="year">The year.</param>
+        /// <param name="month">The month.</param>
+        /// <returns>The response object.</returns>
         public Response RetrieveAttendanceByMonthYear(int year, int month)
         {
             Response response = new Response();
@@ -109,9 +121,9 @@ namespace FirmAdvanceDemo.BL
         }
 
         /// <summary>
-        /// Method to fetch all todays attendance
+        /// Retrieves attendance records for today.
         /// </summary>
-        /// <returns>ResponseStatusInfo instance containing lst_of_attendance, null if any exception is thrown</returns>
+        /// <returns>The response object.</returns>
         public Response RetrieveAttendanceForToday()
         {
             Response response = new Response();
@@ -133,12 +145,12 @@ namespace FirmAdvanceDemo.BL
         }
 
         /// <summary>
-        /// Method to fetch attendance by employee ID and month-year
+        /// Retrieves attendance records by employee ID, year, and month.
         /// </summary>
-        /// <param name="employeeId">Employee Id</param>
-        /// <param name="month">Month</param>
-        /// <param name="year">Year</param>
-        /// <returns>ResponseStatusInfo instance containing lst_of_attendance, null if any exception is thrown</returns>
+        /// <param name="employeeId">The employee ID.</param>
+        /// <param name="year">The year.</param>
+        /// <param name="month">The month.</param>
+        /// <returns>The response object.</returns>
         public Response RetrieveAttendanceByEmployeeIdAndMonthYear(int employeeId, int year, int month)
         {
             Response response = new Response();
@@ -159,6 +171,11 @@ namespace FirmAdvanceDemo.BL
             return response;
         }
 
+        /// <summary>
+        /// Prevalidates the DTO object.
+        /// </summary>
+        /// <param name="objDTOATD01">The DTO object.</param>
+        /// <returns>The response object.</returns>
         public Response Prevalidate(DTOATD01 objDTOATD01)
         {
             Response response = new Response();
@@ -195,6 +212,11 @@ namespace FirmAdvanceDemo.BL
             return response;
         }
 
+        /// <summary>
+        /// Processes end of day punches for a given date.
+        /// </summary>
+        /// <param name="date">The date.</param>
+        /// <returns>The response object.</returns>
         public Response ProcessEndOfDayPunches(DateTime date)
         {
             Response response = new Response();
@@ -240,6 +262,10 @@ namespace FirmAdvanceDemo.BL
             return response;
         }
 
+        /// <summary>
+        /// Updates the punch type based on certain criteria.
+        /// </summary>
+        /// <param name="lstPunch">The list of punches to process.</param>
         private void UpdatePunchType(List<PCH01> lstPunch)
         {
             MarkMistakenlyPunch(lstPunch);
@@ -247,13 +273,12 @@ namespace FirmAdvanceDemo.BL
             MarkInOutPunch(lstPunch);
         }
 
+        /// <summary>
+        /// Marks punches that are mistakenly recorded.
+        /// </summary>
+        /// <param name="lstPunch">The list of punches to process.</param>
         private void MarkMistakenlyPunch(List<PCH01> lstPunch)
         {
-            if (lstPunch == null || lstPunch.Count == 0 || lstPunch.Count == 1)
-            {
-                return;
-            }
-
             TimeSpan timeBuffer = new TimeSpan(0, 0, 10);    // 1 minute buffer
             for (int i = 0; i < lstPunch.Count; i++)
             {
@@ -268,6 +293,10 @@ namespace FirmAdvanceDemo.BL
             }
         }
 
+        /// <summary>
+        /// Marks punches that are ambiguous or unclear.
+        /// </summary>
+        /// <param name="lstPunch">The list of punches to process.</param>
         private void MarkAmbiguousPunch(List<PCH01> lstPunch)
         {
             if (lstPunch == null || lstPunch.Count == 0)
@@ -322,6 +351,10 @@ namespace FirmAdvanceDemo.BL
             }
         }
 
+        /// <summary>
+        /// Marks punches as In/Out based on certain criteria.
+        /// </summary>
+        /// <param name="lstPunch">The list of punches to process.</param>
         private void MarkInOutPunch(List<PCH01> lstPunch)
         {
             if (lstPunch == null || lstPunch.Count == 0)
@@ -351,6 +384,11 @@ namespace FirmAdvanceDemo.BL
             }
         }
 
+        /// <summary>
+        /// Computes attendance records based on the list of punches.
+        /// </summary>
+        /// <param name="lstPunch">The list of punches to process.</param>
+        /// <returns>The computed attendance records.</returns>
         private List<ATD01> ComputeAttendance(List<PCH01> lstPunch)
         {
             if (lstPunch == null || lstPunch.Count == 0 || lstPunch.Count == 1)
@@ -401,6 +439,11 @@ namespace FirmAdvanceDemo.BL
             }
             return lstAttendance;
         }
+
+        /// <summary>
+        /// Retrieves attendance records.
+        /// </summary>
+        /// <returns>The response object.</returns>
         public Response RetrieveAttendance()
         {
             Response response = new Response();
@@ -418,6 +461,11 @@ namespace FirmAdvanceDemo.BL
             return response;
         }
 
+        /// <summary>
+        /// Retrieves attendance records by ID.
+        /// </summary>
+        /// <param name="attendanceID">The attendance ID.</param>
+        /// <returns>The response object.</returns>
         public Response RetrieveAttendance(int attendanceID)
         {
             Response response = new Response();
@@ -435,6 +483,10 @@ namespace FirmAdvanceDemo.BL
             return response;
         }
 
+        /// <summary>
+        /// Validates the ATD01 POCO model for insert or update.
+        /// </summary>
+        /// <returns>The response object.</returns>
         public Response Validate()
         {
             Response response = new Response();
@@ -442,6 +494,10 @@ namespace FirmAdvanceDemo.BL
             return response;
         }
 
+        /// <summary>
+        /// Saves the ATD01 POCO model for insert or update.
+        /// </summary>
+        /// <returns>The response object.</returns>
         public Response Save()
         {
             Response response = new Response();
@@ -466,6 +522,11 @@ namespace FirmAdvanceDemo.BL
             return response;
         }
 
+        /// <summary>
+        /// Validates attendance deletion.
+        /// </summary>
+        /// <param name="attendanceID">The attendance ID.</param>
+        /// <returns>The response object.</returns>
         public Response ValidateDelete(int attendanceID)
         {
             Response response = new Response();
@@ -484,6 +545,11 @@ namespace FirmAdvanceDemo.BL
             return response;
         }
 
+        /// <summary>
+        /// Deletes attendance records.
+        /// </summary>
+        /// <param name="attendanceID">The attendance ID.</param>
+        /// <returns>The response object.</returns>
         public Response Delete(int attendanceID)
         {
             Response response = new Response();

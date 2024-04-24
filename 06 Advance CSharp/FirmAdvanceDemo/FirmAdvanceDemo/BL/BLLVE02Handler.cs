@@ -90,23 +90,6 @@ namespace FirmAdvanceDemo.BL
 
                     return response;
                 }
-
-                // if employee is editing,
-                // then he cannot edit non-pending status leave
-                EnmLeaveStatus leaveStatus;
-                using (IDbConnection db = _dbFactory.OpenDbConnection())
-                {
-                    leaveStatus = db.Scalar<LVE02, EnmLeaveStatus>(leave => leave.E02F01 == objDTOLVE02.E02F01);
-                }
-
-                if (leaveStatus != EnmLeaveStatus.P)
-                {
-                    response.IsError = true;
-                    response.HttpStatusCode = HttpStatusCode.Conflict;
-                    response.Message = $"Leave {objDTOLVE02.E02F01} is not in pending state.";
-
-                    return response;
-                }
             }
 
             return response;
@@ -152,6 +135,25 @@ namespace FirmAdvanceDemo.BL
         {
             Response response = new Response();
 
+            // if employee is editing,
+            // then he cannot edit non-pending status leave
+            if(Operation == EnmOperation.E)
+            {
+                EnmLeaveStatus leaveStatus;
+                using (IDbConnection db = _dbFactory.OpenDbConnection())
+                {
+                    leaveStatus = db.Scalar<LVE02, EnmLeaveStatus>(leave => leave.E02F06 , leave => leave.E02F01 == _objLVE02.E02F01);
+                }
+
+                if (leaveStatus != EnmLeaveStatus.P)
+                {
+                    response.IsError = true;
+                    response.HttpStatusCode = HttpStatusCode.Conflict;
+                    response.Message = $"Leave {_objLVE02.E02F01} is not in pending state.";
+
+                    return response;
+                }
+            }
             // nothing to validate as of now
             return response;
         }
@@ -710,7 +712,8 @@ namespace FirmAdvanceDemo.BL
         public Response RetrieveLeaveByEmployeeAndMonthYear(int employeeId, int year, int month)
         {
             Response response = new Response();
-            DataTable dtLeave = _objDBLVE02Context.FetchLeaveByEmployeeAndMonthYear(employeeId, year, month);
+            //DataTable dtLeave = _objDBLVE02Context.FetchLeaveByEmployeeAndMonthYear(employeeId, year, month);
+            DataTable dtLeave = _objDBLVE02Context.FetchLeaveGeneral(employeeId, year, month);
             if (dtLeave.Rows.Count == 0)
             {
                 response.IsError = true;
@@ -746,6 +749,31 @@ namespace FirmAdvanceDemo.BL
             response.HttpStatusCode = HttpStatusCode.OK;
             response.Data = dtLeave;
 
+            return response;
+        }
+
+        public Response ValidateEmployeeLeave(int leaveID)
+        {
+            // check if leave exists
+            // if yes then get employee id
+            // then compare it with employee id in items
+
+            Response response = new Response();
+            int employeeID;
+            using (IDbConnection db = _dbFactory.OpenDbConnection())
+            {
+                employeeID = db.Scalar<LVE02, int>(leave => leave.E02F02, leave => leave.E02F01 == leaveID);
+            }
+
+            if(employeeID == 0)
+            {
+                response.IsError = true;
+                response.HttpStatusCode = HttpStatusCode.NotFound;
+                response.Message = $"Leave {leaveID} not found.";
+
+                return response;
+            }
+            response = GeneralUtility.ValidateAccess(employeeID);
             return response;
         }
     }

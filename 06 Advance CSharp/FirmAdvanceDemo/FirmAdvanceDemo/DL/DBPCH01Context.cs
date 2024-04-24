@@ -7,7 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using static FirmAdvanceDemo.Utility.Constants;
+using FirmAdvanceDemo.Utility;
 
 namespace FirmAdvanceDemo.DB
 {
@@ -52,7 +52,7 @@ namespace FirmAdvanceDemo.DB
                                     ORDER BY
                                         h01f02, h01f04",
                                         EnmPunchType.U,
-                                        date.ToString(GlobalDateFormat));
+                                        date.ToString(Constants.GlobalDateFormat));
 
             try
             {

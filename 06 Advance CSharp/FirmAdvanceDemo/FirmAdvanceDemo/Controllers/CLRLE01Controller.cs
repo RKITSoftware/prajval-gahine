@@ -51,7 +51,7 @@ namespace FirmAdvanceDemo.Controllers
         [BasicAuthorization(Roles = "A")]
         public IHttpActionResult GetRole(int roleID)
         {
-            Response response = _objBLRLE01Handler.RetrieveRole(id);
+            Response response = _objBLRLE01Handler.RetrieveRole(roleID);
             return Ok(response);
         }
 
