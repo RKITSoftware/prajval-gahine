@@ -1,5 +1,5 @@
 using FirmAdvanceDemo.Auth;
-using FirmAdvanceDemo.Utitlity;
+using FirmAdvanceDemo.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,14 +12,17 @@ using System.Web.Http;
 
 namespace FirmAdvanceDemo.Controllers
 {
+    /// <summary>
+    /// Controller for handling authentication-related operations.
+    /// </summary>
     public class CLAuthController : ApiController
     {
         /// <summary>
-        /// Non action method to generate a jwt based on header and payload
+        /// Generates a JSON Web Token (JWT) based on the header and payload.
         /// </summary>
-        /// <param name="header">Jwt Header</param>
-        /// <param name="payload">Jwt Payload</param>
-        /// <returns></returns>
+        /// <param name="header">JWT Header</param>
+        /// <param name="payload">JWT Payload</param>
+        /// <returns>The generated JWT</returns>
         [NonAction]
         public string GenerateJWT(string header, string payload)
         {
@@ -34,6 +37,9 @@ namespace FirmAdvanceDemo.Controllers
             return $"{headerEncoded}.{payloadEncoded}.{digest}";
         }
 
+        /// <summary>
+        /// Retrieves a refresh token for the authenticated user.
+        /// </summary>
         [HttpGet]
         [Route("api/getrefreshtoken")]
         [BasicAuthentication]
@@ -53,7 +59,7 @@ namespace FirmAdvanceDemo.Controllers
             // encrypt the refresh token
             string encryptedRefreshToken = GeneralUtility.AesEncrypt(refreshToken, null);
 
-            // set the refreshtoken in cookie
+            // set the refresh token in cookie
             HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, "refresh-token");
             CookieHeaderValue cookie = new CookieHeaderValue("refresh-token", encryptedRefreshToken)
             {
@@ -66,7 +72,9 @@ namespace FirmAdvanceDemo.Controllers
             return response;
         }
 
-
+        /// <summary>
+        /// Retrieves an access token for the authenticated user.
+        /// </summary>
         [HttpGet]
         [Route("api/gettoken")]
         [RefreshTokenAuthentication]

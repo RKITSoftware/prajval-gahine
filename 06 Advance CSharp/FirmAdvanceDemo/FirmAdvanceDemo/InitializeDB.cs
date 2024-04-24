@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
-using static FirmAdvanceDemo.Utitlity.GeneralUtility;
+using static FirmAdvanceDemo.Utility.GeneralUtility;
 
 namespace FirmAdvanceDemo
 {

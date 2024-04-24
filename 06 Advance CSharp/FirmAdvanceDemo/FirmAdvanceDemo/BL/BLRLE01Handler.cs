@@ -2,7 +2,7 @@
 using FirmAdvanceDemo.Enums;
 using FirmAdvanceDemo.Models.DTO;
 using FirmAdvanceDemo.Models.POCO;
-using FirmAdvanceDemo.Utitlity;
+using FirmAdvanceDemo.Utility;
 using ServiceStack.OrmLite;
 using System;
 using System.Data;
@@ -10,16 +10,34 @@ using System.Net;
 
 namespace FirmAdvanceDemo.BL
 {
-
+    /// <summary>
+    /// Handles business logic related to role operations.
+    /// </summary>
     public class BLRLE01Handler
     {
         /// <summary>
-        /// Ormlite Connection Factory instance from Connection class - that represent a connection with a particular database
+        /// OrmLite Connection Factory instance representing a connection with a particular database.
         /// </summary>
         private readonly OrmLiteConnectionFactory _dbFactory;
 
+        /// <summary>
+        /// Context for Role handler.
+        /// </summary>
         private readonly DBRLE01Context _objDBRLE01Context;
 
+        /// <summary>
+        /// Instance of RLE01 model.
+        /// </summary>
+        private RLE01 _objRLE01;
+
+        /// <summary>
+        /// Gets or sets the operation type for role handling.
+        /// </summary>
+        public EnmOperation Operation { get; internal set; }
+
+        /// <summary>
+        /// Default constructor for BLRLE01Handler.
+        /// </summary>  
         public BLRLE01Handler()
         {
             _dbFactory = OrmliteDbConnector.DbFactory;
@@ -28,13 +46,10 @@ namespace FirmAdvanceDemo.BL
         }
 
         /// <summary>
-        /// Instance of RLE01 model
+        /// Validates the provided DTORLE01 instance before processing.
         /// </summary>
-        private RLE01 _objRLE01;
-
-        public EnmOperation Operation { get; internal set; }
-
-
+        /// <param name="objDTORLE01">DTORLE01 instance containing role data.</param>
+        /// <returns>A response indicating the validation result.</returns>
         public Response Prevalidate(DTORLE01 objDTORLE01)
         {
             Response response = new Response();
@@ -60,9 +75,9 @@ namespace FirmAdvanceDemo.BL
         }
 
         /// <summary>
-        /// Method to convert DTORLE01 instance to RLE01 instance
+        /// Sets the data for the role before saving it.
         /// </summary>
-        /// <param name="objDTORLE01">Instance of DTORLE01</param>
+        /// <param name="objDTORLE01">DTORLE01 instance containing role data.</param>
         public void Presave(DTORLE01 objDTORLE01)
         {
             _objRLE01 = objDTORLE01.ConvertModel<RLE01>();
@@ -78,6 +93,10 @@ namespace FirmAdvanceDemo.BL
             }
         }
 
+        /// <summary>
+        /// Validates the role data before saving.
+        /// </summary>
+        /// <returns>A response indicating the validation result.</returns>
         public Response Validate()
         {
             Response response = new Response();
@@ -85,19 +104,23 @@ namespace FirmAdvanceDemo.BL
             return response;
         }
 
+        /// <summary>
+        /// Saves the role data.
+        /// </summary>
+        /// <returns>A response indicating the outcome of the save operation.</returns>
         public Response Save()
         {
             Response response = new Response();
 
             if (Operation == EnmOperation.A)
             {
-                int roleId;
+                int roleID;
                 using (IDbConnection db = _dbFactory.OpenDbConnection())
                 {
-                    roleId = (int)db.Insert<RLE01>(_objRLE01, selectIdentity: true);
+                    roleID = (int)db.Insert<RLE01>(_objRLE01, selectIdentity: true);
                 }
                 response.HttpStatusCode = HttpStatusCode.OK;
-                response.Message = $"Role {roleId} created.";
+                response.Message = $"Role {roleID} created.";
 
                 return response;
             }
@@ -114,39 +137,53 @@ namespace FirmAdvanceDemo.BL
             }
         }
 
-        public Response ValidateDelete(int roleId)
+        /// <summary>
+        /// Validates the deletion of a role by ID.
+        /// </summary>
+        /// <param name="roleID">The ID of the role to be deleted.</param>
+        /// <returns>A response indicating the validation result.</returns>
+        public Response ValidateDelete(int roleID)
         {
             Response response = new Response();
             int roleCount;
             using (IDbConnection db = _dbFactory.OpenDbConnection())
             {
-                roleCount = (int)db.Count<RLE01>(role => role.E01F01 == roleId);
+                roleCount = (int)db.Count<RLE01>(role => role.E01F01 == roleID);
             }
 
             if (roleCount == 0)
             {
                 response.IsError = true;
                 response.HttpStatusCode = HttpStatusCode.NotFound;
-                response.Message = $"Role {roleId} not found.";
+                response.Message = $"Role {roleID} not found.";
 
                 return response;
             }
             return response;
         }
 
-        public Response Delete(int roleId)
+        /// <summary>
+        /// Deletes a role by ID.
+        /// </summary>
+        /// <param name="roleID">The ID of the role to be deleted.</param>
+        /// <returns>A response indicating the outcome of the delete operation.</returns>
+        public Response Delete(int roleID)
         {
             Response response = new Response();
             using (IDbConnection db = _dbFactory.OpenDbConnection())
             {
-                db.DeleteById<RLE01>(roleId);
+                db.DeleteById<RLE01>(roleID);
             }
             response.HttpStatusCode = HttpStatusCode.OK;
-            response.Message = $"Role {roleId} deleted.";
+            response.Message = $"Role {roleID} deleted.";
 
             return response;
         }
 
+        /// <summary>
+        /// Retrieves all roles.
+        /// </summary>
+        /// <returns>A response containing the retrieved role data.</returns>
         public Response RetrieveRole()
         {
             Response response = new Response();
@@ -164,16 +201,21 @@ namespace FirmAdvanceDemo.BL
             return response;
         }
 
-        public Response RetrieveRole(int roleId)
+        /// <summary>
+        /// Retrieves a specific role by ID.
+        /// </summary>
+        /// <param name="roleID">The ID of the role to retrieve.</param>
+        /// <returns>A response containing the retrieved role data.</returns>
+        public Response RetrieveRole(int roleID)
         {
             Response response = new Response();
-            DataTable dtRole = _objDBRLE01Context.FetchRole(roleId);
+            DataTable dtRole = _objDBRLE01Context.FetchRole(roleID);
 
             if (dtRole.Rows.Count == 0)
             {
                 response.IsError = true;
                 response.HttpStatusCode = HttpStatusCode.NotFound;
-                response.Message = $"Role {roleId} not found.";
+                response.Message = $"Role {roleID} not found.";
 
                 return response;
             }

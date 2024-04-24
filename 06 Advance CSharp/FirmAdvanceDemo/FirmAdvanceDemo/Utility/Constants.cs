@@ -1,4 +1,4 @@
-﻿namespace FirmAdvanceDemo.Utitlity
+﻿namespace FirmAdvanceDemo.Utility
 {
     /// <summary>
     /// Provides constant values used throughout the application.

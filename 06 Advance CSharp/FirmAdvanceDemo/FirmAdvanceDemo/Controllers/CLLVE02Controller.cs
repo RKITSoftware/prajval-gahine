@@ -2,29 +2,36 @@ using FirmAdvanceDemo.Auth;
 using FirmAdvanceDemo.BL;
 using FirmAdvanceDemo.Enums;
 using FirmAdvanceDemo.Models.DTO;
-using FirmAdvanceDemo.Utitlity;
+using FirmAdvanceDemo.Utility;
 using System;
 using System.Web;
 using System.Web.Http;
 
 namespace FirmAdvanceDemo.Controllers
 {
+    /// <summary>
+    /// Controller for managing leave operations.
+    /// </summary>
     [RoutePrefix("api/leave")]
     public class CLLVE02Controller : ApiController
     {
         /// <summary>
-        /// Instance of BLLeave
+        /// Instance of BLLVE02Handler.
         /// </summary>
         private readonly BLLVE02Handler _objBLLVE02Handler;
 
         /// <summary>
-        /// Default constructor for CLLeaveController
+        /// Default constructor for CLLeaveController.
         /// </summary>
         public CLLVE02Controller()
         {
             _objBLLVE02Handler = new BLLVE02Handler();
         }
 
+        /// <summary>
+        /// Action method to retrieve all leave entries. Requires Admin role.
+        /// </summary>
+        /// <returns>HTTP response containing leave information.</returns>
         [HttpGet]
         [Route("")]
         [AccessTokenAuthentication]
@@ -35,6 +42,11 @@ namespace FirmAdvanceDemo.Controllers
             return Ok(response);
         }
 
+        /// <summary>
+        /// Action method to retrieve a specific leave entry by ID. Requires Admin role.
+        /// </summary>
+        /// <param name="leaveId">The ID of the leave entry to retrieve.</param>
+        /// <returns>HTTP response containing leave information.</returns>
         [HttpGet]
         [Route("{leaveId}")]
         [AccessTokenAuthentication]
@@ -45,6 +57,11 @@ namespace FirmAdvanceDemo.Controllers
             return Ok(response);
         }
 
+        /// <summary>
+        /// Action method to retrieve leave entries by status. Requires Admin role.
+        /// </summary>
+        /// <param name="leaveStatus">The status of leave entries to retrieve.</param>
+        /// <returns>HTTP response containing leave information.</returns>
         [HttpGet]
         [Route("status/{leaveStatus}")]
         [AccessTokenAuthentication]
@@ -55,6 +72,11 @@ namespace FirmAdvanceDemo.Controllers
             return Ok(response);
         }
 
+        /// <summary>
+        /// Action method to retrieve leave entries by employee ID. Requires Admin role.
+        /// </summary>
+        /// <param name="employeeID">The ID of the employee whose leave entries to retrieve.</param>
+        /// <returns>HTTP response containing leave information.</returns>
         [HttpGet]
         [Route("employee/{employeeID}")]
         [AccessTokenAuthentication]
@@ -65,6 +87,10 @@ namespace FirmAdvanceDemo.Controllers
             return Ok(response);
         }
 
+        /// <summary>
+        /// Action method to retrieve leave entries by current employee's ID. Requires Employee role.
+        /// </summary>
+        /// <returns>HTTP response containing leave information.</returns>
         [HttpGet]
         [Route("employee")]
         [AccessTokenAuthentication]
@@ -76,6 +102,13 @@ namespace FirmAdvanceDemo.Controllers
             return Ok(response);
         }
 
+        /// <summary>
+        /// Action method to retrieve leave entries by employee ID, year, and month. Requires Admin role.
+        /// </summary>
+        /// <param name="employeeID">The ID of the employee whose leave entries to retrieve.</param>
+        /// <param name="year">The year for which leave entries are requested.</param>
+        /// <param name="month">The month for which leave entries are requested.</param>
+        /// <returns>HTTP response containing leave information.</returns>
         [HttpGet]
         [Route("employee/{employeeID}/monthly")]
         [AccessTokenAuthentication]
@@ -86,6 +119,12 @@ namespace FirmAdvanceDemo.Controllers
             return Ok(response);
         }
 
+        /// <summary>
+        /// Action method to retrieve leave entries by current employee's ID, year, and month. Requires Employee role.
+        /// </summary>
+        /// <param name="year">The year for which leave entries are requested.</param>
+        /// <param name="month">The month for which leave entries are requested.</param>
+        /// <returns>HTTP response containing leave information.</returns>
         [HttpGet]
         [Route("employee/monthly")]
         [AccessTokenAuthentication]
@@ -97,6 +136,12 @@ namespace FirmAdvanceDemo.Controllers
             return Ok(response);
         }
 
+        /// <summary>
+        /// Action method to retrieve leave entries by employee ID and year. Requires Admin role.
+        /// </summary>
+        /// <param name="employeeID">The ID of the employee whose leave entries to retrieve.</param>
+        /// <param name="year">The year for which leave entries are requested.</param>
+        /// <returns>HTTP response containing leave information.</returns>
         [HttpGet]
         [Route("employee/{employeeID}/yearly")]
         [AccessTokenAuthentication]
@@ -107,6 +152,11 @@ namespace FirmAdvanceDemo.Controllers
             return Ok(response);
         }
 
+        /// <summary>
+        /// Action method to retrieve leave entries by current employee's ID and year. Requires Employee role.
+        /// </summary>
+        /// <param name="year">The year for which leave entries are requested.</param>
+        /// <returns>HTTP response containing leave information.</returns>
         [HttpGet]
         [Route("employee/yearly")]
         [AccessTokenAuthentication]
@@ -118,6 +168,11 @@ namespace FirmAdvanceDemo.Controllers
             return Ok(response);
         }
 
+        /// <summary>
+        /// Action method to retrieve leave entries by employee ID for the current year. Requires Admin role.
+        /// </summary>
+        /// <param name="employeeID">The ID of the employee whose leave entries to retrieve.</param>
+        /// <returns>HTTP response containing leave information.</returns>
         [HttpGet]
         [Route("employee/{employeeID}/current-year")]
         [AccessTokenAuthentication]
@@ -128,6 +183,10 @@ namespace FirmAdvanceDemo.Controllers
             return Ok(response);
         }
 
+        /// <summary>
+        /// Action method to retrieve leave entries by current employee's ID for the current year. Requires Employee role.
+        /// </summary>
+        /// <returns>HTTP response containing leave information.</returns>
         [HttpGet]
         [Route("employee/current-year")]
         [AccessTokenAuthentication]
@@ -139,6 +198,11 @@ namespace FirmAdvanceDemo.Controllers
             return Ok(response);
         }
 
+        /// <summary>
+        /// Action method to retrieve leave entries by employee ID for the current month. Requires Admin role.
+        /// </summary>
+        /// <param name="employeeID">The ID of the employee whose leave entries to retrieve.</param>
+        /// <returns>HTTP response containing leave information.</returns>
         [HttpGet]
         [Route("employee/{employeeID}/current-month")]
         [AccessTokenAuthentication]
@@ -150,6 +214,10 @@ namespace FirmAdvanceDemo.Controllers
             return Ok(response);
         }
 
+        /// <summary>
+        /// Action method to retrieve leave entries by current employee's ID for the current month. Requires Employee role.
+        /// </summary>
+        /// <returns>HTTP response containing leave information.</returns>
         [HttpGet]
         [Route("employee/current-month")]
         [AccessTokenAuthentication]
@@ -162,6 +230,12 @@ namespace FirmAdvanceDemo.Controllers
             return Ok(response);
         }
 
+        /// <summary>
+        /// Action method to retrieve leave entries by year and month. Requires Admin role.
+        /// </summary>
+        /// <param name="year">The year for which leave entries are requested.</param>
+        /// <param name="month">The month for which leave entries are requested.</param>
+        /// <returns>HTTP response containing leave information.</returns>
         [HttpGet]
         [Route("monthly")]
         [AccessTokenAuthentication]
@@ -172,6 +246,11 @@ namespace FirmAdvanceDemo.Controllers
             return Ok(response);
         }
 
+        /// <summary>
+        /// Action method to retrieve leave entries by date. Requires Admin role.
+        /// </summary>
+        /// <param name="date">The date for which leave entries are requested.</param>
+        /// <returns>HTTP response containing leave information.</returns>
         [HttpGet]
         [Route("date/{date}")]
         [AccessTokenAuthentication]
@@ -182,6 +261,10 @@ namespace FirmAdvanceDemo.Controllers
             return Ok(response);
         }
 
+        /// <summary>
+        /// Action method to retrieve leave entries for today's date. Requires Admin role.
+        /// </summary>
+        /// <returns>HTTP response containing leave information.</returns>
         [HttpGet]
         [Route("today")]
         [AccessTokenAuthentication]
@@ -192,6 +275,11 @@ namespace FirmAdvanceDemo.Controllers
             return Ok(response);
         }
 
+        /// <summary>
+        /// Action method to create a new leave entry. Requires Employee role.
+        /// </summary>
+        /// <param name="objDTOLVE02">DTO object containing leave details.</param>
+        /// <returns>HTTP response indicating the result of the operation.</returns>
         [HttpPost]
         [Route("")]
         [AccessTokenAuthentication]
@@ -213,6 +301,11 @@ namespace FirmAdvanceDemo.Controllers
             return Ok(response);
         }
 
+        /// <summary>
+        /// Action method to update a leave entry. Requires Admin or Employee role.
+        /// </summary>
+        /// <param name="objDTOLVE02">DTO object containing leave details.</param>
+        /// <returns>HTTP response indicating the result of the operation.</returns>
         [HttpPut]
         [Route("")]
         [AccessTokenAuthentication]
@@ -239,6 +332,11 @@ namespace FirmAdvanceDemo.Controllers
             return Ok(response);
         }
 
+        /// <summary>
+        /// Action method to delete a leave entry. Requires Admin or Employee role.
+        /// </summary>
+        /// <param name="leaveId">The ID of the leave to delete.</param>
+        /// <returns>HTTP response indicating the result of the operation.</returns>
         [HttpDelete]
         [Route("{leaveId}")]
         [AccessTokenAuthentication]

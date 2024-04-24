@@ -2,27 +2,34 @@ using FirmAdvanceDemo.Auth;
 using FirmAdvanceDemo.BL;
 using FirmAdvanceDemo.Enums;
 using FirmAdvanceDemo.Models.DTO;
-using FirmAdvanceDemo.Utitlity;
+using FirmAdvanceDemo.Utility;
 using System.Web.Http;
 
 namespace FirmAdvanceDemo.Controllers
 {
+    /// <summary>
+    /// Controller for managing position operations, such as retrieving, adding, updating, and deleting positions.
+    /// </summary>
     [RoutePrefix("api/position")]
     public class CLPSN01Controller : ApiController
     {
         /// <summary>
-        /// Instance of BLPosition
+        /// Instance of the position handler for managing position operations.
         /// </summary>
         private readonly BLPSN01Handler _objBLPSN01Handler;
 
         /// <summary>
-        /// Default constructor for CLPositionController
+        /// Initializes a new instance of the CLPSN01Controller class.
         /// </summary>
         public CLPSN01Controller()
         {
             _objBLPSN01Handler = new BLPSN01Handler();
         }
 
+        /// <summary>
+        /// Retrieves all positions.
+        /// </summary>
+        /// <returns>HTTP response containing the retrieved positions.</returns>
         [HttpGet]
         [Route("")]
         [AccessTokenAuthentication]
@@ -33,6 +40,11 @@ namespace FirmAdvanceDemo.Controllers
             return Ok(response);
         }
 
+        /// <summary>
+        /// Retrieves a specific position by its ID.
+        /// </summary>
+        /// <param name="id">The ID of the position to retrieve.</param>
+        /// <returns>HTTP response containing the retrieved position.</returns>
         [HttpGet]
         [Route("{id}")]
         [AccessTokenAuthentication]
@@ -43,6 +55,11 @@ namespace FirmAdvanceDemo.Controllers
             return Ok(response);
         }
 
+        /// <summary>
+        /// Adds a new position.
+        /// </summary>
+        /// <param name="objDTOPSN01">DTO containing the details of the position to add.</param>
+        /// <returns>HTTP response indicating the success or failure of the operation.</returns>
         [HttpPost]
         [Route("")]
         [AccessTokenAuthentication]
@@ -67,6 +84,11 @@ namespace FirmAdvanceDemo.Controllers
             return Ok(response);
         }
 
+        /// <summary>
+        /// Updates an existing position.
+        /// </summary>
+        /// <param name="objDTOPSN01">DTO containing the updated details of the position.</param>
+        /// <returns>HTTP response indicating the success or failure of the operation.</returns>
         [HttpPut]
         [Route("")]
         [AccessTokenAuthentication]
@@ -91,6 +113,11 @@ namespace FirmAdvanceDemo.Controllers
             return Ok(response);
         }
 
+        /// <summary>
+        /// Deletes a position by its ID.
+        /// </summary>
+        /// <param name="positionId">The ID of the position to delete.</param>
+        /// <returns>HTTP response indicating the success or failure of the operation.</returns>
         [HttpDelete]
         [Route("{positionId}")]
         [AccessTokenAuthentication]

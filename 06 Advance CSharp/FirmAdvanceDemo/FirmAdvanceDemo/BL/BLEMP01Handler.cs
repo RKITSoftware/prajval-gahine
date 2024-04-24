@@ -2,46 +2,50 @@ using FirmAdvanceDemo.DB;
 using FirmAdvanceDemo.Enums;
 using FirmAdvanceDemo.Models.DTO;
 using FirmAdvanceDemo.Models.POCO;
-using FirmAdvanceDemo.Utitlity;
+using FirmAdvanceDemo.Utility;
 using ServiceStack.OrmLite;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Net;
-using static FirmAdvanceDemo.Utitlity.GeneralUtility;
+using static FirmAdvanceDemo.Utility.GeneralUtility;
 
 namespace FirmAdvanceDemo.BL
 {
+    /// <summary>
+    /// Handles business logic related to employee operations.
+    /// </summary>
     public class BLEMP01Handler
     {
-
+        /// <summary>
+        /// Factory for creating OrmLite database connections.
+        /// </summary>
         private readonly OrmLiteConnectionFactory _dbFactory;
 
         /// <summary>
-        /// Instance of EMP01 model
+        /// Instance of EMP01 POCO model.
         /// </summary>
-        private EMP01 _objEMP01;
 
+        private EMP01 _objEMP01;
+        /// <summary>
+        /// Context for Employee handler.
+        /// </summary>
+        private readonly DBEMP01Context _context;
+
+        /// <summary>
+        /// Gets or sets the operation type for employee handling.
+        /// </summary>
         public EnmOperation Operation { get; set; }
 
         /// <summary>
-        /// Instance of BLUser
+        /// Instance of BLUSR01Handler
         /// </summary>
         private BLUSR01Handler _objBLUSR01Handler;
 
-        public BLEMP01Handler(BLUSR01Handler objBLUSR01Handler)
-        {
-            _objBLUSR01Handler = objBLUSR01Handler;
-        }
-
-        private readonly DBEMP01Context _context;
-
-        public BLEMP01Handler(DBEMP01Context context)
-        {
-            _context = context;
-        }
-
+        /// <summary>
+        /// Default constructor for BLEMP01Handler.
+        /// </summary>
         public BLEMP01Handler()
         {
             _dbFactory = OrmliteDbConnector.DbFactory;
@@ -49,11 +53,10 @@ namespace FirmAdvanceDemo.BL
         }
 
         /// <summary>
-        /// Method to validate DTOUMP instance
+        /// Method to validate the provided DTOUMP01 instance before processing.
         /// </summary>
-        /// <param name="objDTOUMP">instance of DTOUMP</param>
-        /// <param name="operation">Operation to perform</param>
-        /// <returns>True if instance of DTOUMP is in valid format, else false</returns>
+        /// <param name="objDTOUMP">DTOUMP01 instance containing user and employee data.</param>
+        /// <returns>A response indicating the validation result.</returns>
         public Response Prevalidate(DTOUMP01 objDTOUMP)
         {
             Response response = new Response();
@@ -147,9 +150,9 @@ namespace FirmAdvanceDemo.BL
         }
 
         /// <summary>
-        /// Method to convert DTOEMP01 instance to EMP01 instance
+        /// Sets the data for the employee before saving it.
         /// </summary>
-        /// <param name="objDTOEMP01">Instance of DTOEMP01</param>
+        /// <param name="objUSREMP">DTO containing user and employee data.</param>
         public void Presave(DTOUMP01 objUSREMP)
         {
             // presave USR01
@@ -173,9 +176,9 @@ namespace FirmAdvanceDemo.BL
         }
 
         /// <summary>
-        /// Method to validate the EMP01 instance
+        /// Validates the employee data before saving.
         /// </summary>
-        /// <returns>True if EMP01 instance is valid else false</returns>
+        /// <returns>A response indicating the validation result.</returns>
         public Response Validate()
         {
             Response response = _objBLUSR01Handler.Validate();
@@ -184,8 +187,9 @@ namespace FirmAdvanceDemo.BL
         }
 
         /// <summary>
-        /// Method to create or update a record of emp01 table in DB
+        /// Saves the employee data.
         /// </summary>
+        /// <returns>A response indicating the outcome of the save operation.</returns>
         public Response Save()
         {
             Response response = new Response();
@@ -267,6 +271,11 @@ namespace FirmAdvanceDemo.BL
             }
         }
 
+        /// <summary>
+        /// Retrieves an employee with the specified employee ID.
+        /// </summary>
+        /// <param name="employeeID">The ID of the employee to retrieve.</param>
+        /// <returns>A response containing the retrieved employee data.</returns>
         public Response RetrieveEmployee(int employeeID)
         {
             Response response = new Response();
@@ -284,6 +293,10 @@ namespace FirmAdvanceDemo.BL
             return response;
         }
 
+        /// <summary>
+        /// Retrieves all employees.
+        /// </summary>
+        /// <returns>A response containing the retrieved employee data.</returns>
         public Response RetrieveEmployee()
         {
             Response response = new Response();

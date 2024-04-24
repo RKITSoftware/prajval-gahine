@@ -17,7 +17,7 @@ using System.Text;
 using System.Threading;
 using System.Web;
 
-namespace FirmAdvanceDemo.Utitlity
+namespace FirmAdvanceDemo.Utility
 {
     /// <summary>
     /// Provides general utility operations such as authentication, encryption, and data conversion.

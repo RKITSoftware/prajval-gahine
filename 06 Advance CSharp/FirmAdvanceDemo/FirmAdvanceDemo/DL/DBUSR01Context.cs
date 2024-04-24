@@ -4,6 +4,9 @@ using System.Data;
 
 namespace FirmAdvanceDemo.DB
 {
+    /// <summary>
+    /// Provides database operations related to the 'usr01' table.
+    /// </summary>
     public class DBUSR01Context
     {
         /// <summary>
@@ -11,14 +14,19 @@ namespace FirmAdvanceDemo.DB
         /// </summary>
         private readonly MySqlConnection _connection;
 
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DBUSR01Context"/> class.
+        /// </summary>
         public DBUSR01Context()
         {
             _connection = MysqlDbConnector.Connection;
         }
 
-        public MySqlConnection Connection => _connection;
-
+        /// <summary>
+        /// Fetches user data from the 'usr01' table based on the provided userID.
+        /// </summary>
+        /// <param name="userID">The ID of the user to fetch.</param>
+        /// <returns>A DataTable containing user data.</returns>
         public DataTable FetchUser(int userID)
         {
             DataTable dtUser = new DataTable();
@@ -35,23 +43,27 @@ namespace FirmAdvanceDemo.DB
                                 WHERE
                                     r01f01 = {0}", userID);
 
-            MySqlCommand cmd = new MySqlCommand(query, Connection);
+            MySqlCommand cmd = new MySqlCommand(query, _connection);
 
             MySqlDataAdapter adapter = new MySqlDataAdapter(cmd);
 
             try
             {
-                Connection.Open();
+                _connection.Open();
                 adapter.Fill(dtUser);
             }
             finally
             {
-                Connection.Close();
+                _connection.Close();
             }
 
             return dtUser;
         }
 
+        /// <summary>
+        /// Fetches all user data from the 'usr01' table.
+        /// </summary>
+        /// <returns>A DataTable containing all user data.</returns>
         public DataTable FetchUser()
         {
             DataTable dtUser = new DataTable();
@@ -66,18 +78,18 @@ namespace FirmAdvanceDemo.DB
                                 FROM
                                     usr01");
 
-            MySqlCommand cmd = new MySqlCommand(query, Connection);
+            MySqlCommand cmd = new MySqlCommand(query, _connection);
 
             MySqlDataAdapter adapter = new MySqlDataAdapter(cmd);
 
             try
             {
-                Connection.Open();
+                _connection.Open();
                 adapter.Fill(dtUser);
             }
             finally
             {
-                Connection.Close();
+                _connection.Close();
             }
 
             return dtUser;

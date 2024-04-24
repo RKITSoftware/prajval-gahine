@@ -2,7 +2,7 @@
 using MySql.Data.MySqlClient;
 using System;
 using System.Data;
-using static FirmAdvanceDemo.Utitlity.Constants;
+using static FirmAdvanceDemo.Utility.Constants;
 
 namespace FirmAdvanceDemo.DB
 {

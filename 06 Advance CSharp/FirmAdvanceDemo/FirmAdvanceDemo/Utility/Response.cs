@@ -1,6 +1,6 @@
 using System.Net;
 
-namespace FirmAdvanceDemo.Utitlity
+namespace FirmAdvanceDemo.Utility
 {
     /// <summary>
     /// Class whose instance respresent a response result

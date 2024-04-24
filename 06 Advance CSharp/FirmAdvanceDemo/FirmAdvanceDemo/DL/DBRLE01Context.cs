@@ -56,9 +56,9 @@ namespace FirmAdvanceDemo.DB
         /// <summary>
         /// Fetches a specific role record by its ID.
         /// </summary>
-        /// <param name="roleId">The ID of the role record to fetch.</param>
+        /// <param name="roleID">The ID of the role record to fetch.</param>
         /// <returns>A DataTable containing the role record with the specified ID.</returns>
-        public DataTable FetchRole(int roleId)
+        public DataTable FetchRole(int roleID)
         {
             DataTable dtRole;
 
@@ -70,7 +70,7 @@ namespace FirmAdvanceDemo.DB
                                 rle01
                             WHERE
                                 e01f01 = {0}",
-                                roleId);
+                                roleID);
 
             MySqlCommand cmd = new MySqlCommand(query, _connection);
 

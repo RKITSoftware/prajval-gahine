@@ -2,7 +2,7 @@ using FirmAdvanceDemo.DB;
 using FirmAdvanceDemo.Enums;
 using FirmAdvanceDemo.Models.DTO;
 using FirmAdvanceDemo.Models.POCO;
-using FirmAdvanceDemo.Utitlity;
+using FirmAdvanceDemo.Utility;
 using ServiceStack.OrmLite;
 using System;
 using System.Data;
@@ -10,15 +10,24 @@ using System.Net;
 
 namespace FirmAdvanceDemo.BL
 {
+    /// <summary>
+    /// Handles business logic related to position operations.
+    /// </summary>
     public class BLPSN01Handler
     {
         /// <summary>
-        /// Ormlite Connection Factory instance from Connection class - that represent a connection with a particular database
+        /// OrmLite Connection Factory instance representing a connection with a particular database.
         /// </summary>
         private readonly OrmLiteConnectionFactory _dbFactory;
 
+        /// <summary>
+        /// Context for Position handler.
+        /// </summary>
         private readonly DBPSN01Context _objDBPSN01Context;
 
+        /// <summary>
+        /// Default constructor for BLPSN01Handler.
+        /// </summary>
         public BLPSN01Handler()
         {
             _dbFactory = OrmliteDbConnector.DbFactory;
@@ -27,13 +36,20 @@ namespace FirmAdvanceDemo.BL
         }
 
         /// <summary>
-        /// Instance of PSN01 model
+        /// Instance of PSN01 model.
         /// </summary>
         private PSN01 _objPSN01;
 
+        /// <summary>
+        /// Gets or sets the operation type for position handling.
+        /// </summary>  
         public EnmOperation Operation { get; internal set; }
 
-
+        /// <summary>
+        /// Validates the provided DTOPSN01 instance before processing.
+        /// </summary>
+        /// <param name="objDTOPSN01">DTOPSN01 instance containing position data.</param>
+        /// <returns>A response indicating the validation result.</returns>
         public Response Prevalidate(DTOPSN01 objDTOPSN01)
         {
             Response response = new Response();
@@ -76,9 +92,9 @@ namespace FirmAdvanceDemo.BL
         }
 
         /// <summary>
-        /// Method to convert DTOPSN01 instance to PSN01 instance
+        /// Sets the data for the position before saving it.
         /// </summary>
-        /// <param name="objDTOPSN01">Instance of DTOPSN01</param>
+        /// <param name="objDTOPSN01">DTOPSN01 instance containing position data.</param>
         public void Presave(DTOPSN01 objDTOPSN01)
         {
             _objPSN01 = objDTOPSN01.ConvertModel<PSN01>();
@@ -94,6 +110,10 @@ namespace FirmAdvanceDemo.BL
             }
         }
 
+        /// <summary>
+        /// Validates the position data before saving.
+        /// </summary>
+        /// <returns>A response indicating the validation result.</returns>
         public Response Validate()
         {
             Response response = new Response();
@@ -101,19 +121,23 @@ namespace FirmAdvanceDemo.BL
             return response;
         }
 
+        /// <summary>
+        /// Saves the position data.
+        /// </summary>
+        /// <returns>A response indicating the outcome of the save operation.</returns>
         public Response Save()
         {
             Response response = new Response();
 
             if (Operation == EnmOperation.A)
             {
-                int positionId;
+                int positionID;
                 using (IDbConnection db = _dbFactory.OpenDbConnection())
                 {
-                    positionId = (int)db.Insert<PSN01>(_objPSN01, selectIdentity: true);
+                    positionID = (int)db.Insert<PSN01>(_objPSN01, selectIdentity: true);
                 }
                 response.HttpStatusCode = HttpStatusCode.OK;
-                response.Message = $"Position {positionId} created.";
+                response.Message = $"Position {positionID} created.";
 
                 return response;
             }
@@ -130,39 +154,53 @@ namespace FirmAdvanceDemo.BL
             }
         }
 
-        public Response ValidateDelete(int positionId)
+        /// <summary>
+        /// Validates the deletion of a position by ID.
+        /// </summary>
+        /// <param name="positionID">The ID of the position to be deleted.</param>
+        /// <returns>A response indicating the validation result.</returns>
+        public Response ValidateDelete(int positionID)
         {
             Response response = new Response();
             int positionCount;
             using (IDbConnection db = _dbFactory.OpenDbConnection())
             {
-                positionCount = (int)db.Count<PSN01>(position => position.N01F01 == positionId);
+                positionCount = (int)db.Count<PSN01>(position => position.N01F01 == positionID);
             }
 
             if (positionCount == 0)
             {
                 response.IsError = true;
                 response.HttpStatusCode = HttpStatusCode.NotFound;
-                response.Message = $"Position {positionId} not found.";
+                response.Message = $"Position {positionID} not found.";
 
                 return response;
             }
             return response;
         }
 
-        public Response Delete(int positionId)
+        /// <summary>
+        /// Deletes a position by ID.
+        /// </summary>
+        /// <param name="positionID">The ID of the position to be deleted.</param>
+        /// <returns>A response indicating the outcome of the delete operation.</returns>
+        public Response Delete(int positionID)
         {
             Response response = new Response();
             using (IDbConnection db = _dbFactory.OpenDbConnection())
             {
-                db.DeleteById<PSN01>(positionId);
+                db.DeleteById<PSN01>(positionID);
             }
             response.HttpStatusCode = HttpStatusCode.OK;
-            response.Message = $"Position {positionId} deleted.";
+            response.Message = $"Position {positionID} deleted.";
 
             return response;
         }
 
+        /// <summary>
+        /// Retrieves all positions.
+        /// </summary>
+        /// <returns>A response containing the retrieved position data.</returns>
         public Response RetrievePosition()
         {
             Response response = new Response();
@@ -180,16 +218,16 @@ namespace FirmAdvanceDemo.BL
             return response;
         }
 
-        public Response RetrievePosition(int positionId)
+        public Response RetrievePosition(int positionID)
         {
             Response response = new Response();
-            DataTable dtPosition = _objDBPSN01Context.FetchPosition(positionId);
+            DataTable dtPosition = _objDBPSN01Context.FetchPosition(positionID);
 
             if (dtPosition.Rows.Count == 0)
             {
                 response.IsError = true;
                 response.HttpStatusCode = HttpStatusCode.NotFound;
-                response.Message = $"Position {positionId} not found.";
+                response.Message = $"Position {positionID} not found.";
 
                 return response;
             }

@@ -2,35 +2,44 @@ using FirmAdvanceDemo.DB;
 using FirmAdvanceDemo.Enums;
 using FirmAdvanceDemo.Models.DTO;
 using FirmAdvanceDemo.Models.POCO;
-using FirmAdvanceDemo.Utitlity;
+using FirmAdvanceDemo.Utility;
 using ServiceStack.OrmLite;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Net;
-using static FirmAdvanceDemo.Utitlity.Constants;
+using static FirmAdvanceDemo.Utility.Constants;
 
 namespace FirmAdvanceDemo.BL
 {
     /// <summary>
-    /// Business logic class for Leave - defines all props and methods to support Leave controller
+    /// Handles business logic related to Leave operations.
     /// </summary>
     public class BLLVE02Handler
     {
         /// <summary>
-        /// Instance of LVE02 model
+        /// Instance of LVE02 model.
         /// </summary>
         private LVE02 _objLVE02;
 
+        /// <summary>
+        /// Factory for creating OrmLite database connections.
+        /// </summary>
         private readonly OrmLiteConnectionFactory _dbFactory;
 
+        /// <summary>
+        /// Context for Leave handler.
+        /// </summary>
         private readonly DBLVE02Context _objDBLVE02Context;
 
+        /// <summary>
+        /// Operation type for Leave handling.
+        /// </summary>
         public EnmOperation Operation;
 
         /// <summary>
-        /// Default constructor for BLLeave, initializes LVE02 instance
+        /// Default constructor for BLLVE02Handler.
         /// </summary>
         public BLLVE02Handler()
         {
@@ -38,6 +47,11 @@ namespace FirmAdvanceDemo.BL
             _objDBLVE02Context = new DBLVE02Context();
         }
 
+        /// <summary>
+        /// Method to validate the provided DTOLVE02 instance before processing.
+        /// </summary>
+        /// <param name="objDTOLVE02">DTOLVE02 instance containing leave data.</param>
+        /// <returns>A response indicating the validation result.</returns>
         public Response Prevalidate(DTOLVE02 objDTOLVE02)
         {
             Response response = new Response();
@@ -99,9 +113,9 @@ namespace FirmAdvanceDemo.BL
         }
 
         /// <summary>
-        /// Method to convert DTOLVE02 instance to LVE02 instance
+        /// Method to convert DTOLVE02 instance to LVE02 instance.
         /// </summary>
-        /// <param name="objDTOLVE02">Instance of DTOLVE02</param>
+        /// <param name="objDTOLVE02">Instance of DTOLVE02.</param>
         public void Presave(DTOLVE02 objDTOLVE02)
         {
             _objLVE02 = objDTOLVE02.ConvertModel<LVE02>();
@@ -130,6 +144,10 @@ namespace FirmAdvanceDemo.BL
             }
         }
 
+        /// <summary>
+        /// Validates the leave data before saving.
+        /// </summary>
+        /// <returns>A response indicating the validation result.</returns>
         public Response Validate()
         {
             Response response = new Response();
@@ -138,6 +156,10 @@ namespace FirmAdvanceDemo.BL
             return response;
         }
 
+        /// <summary>
+        /// Saves the leave data.
+        /// </summary>
+        /// <returns>A response indicating the outcome of the save operation.</returns>
         public Response Save()
         {
             Response response = new Response();
@@ -177,14 +199,13 @@ namespace FirmAdvanceDemo.BL
         }
 
         //check378 - get leave by leave status
-
         /// <summary>
-        /// Method to get leave count of an employee (employee id) and the month-year
+        /// Method to get leave count of an employee for a specific month-year.
         /// </summary>
-        /// <param name="EmployeeId">Employee id</param>
-        /// <param name="month">Leave Month</param>
-        /// <param name="year">Leave Year</param>
-        /// <returns>ResponseStatusInfo instance containing leave count, null when an exception occurs</returns>
+        /// <param name="EmployeeId">Employee ID.</param>
+        /// <param name="month">Leave month.</param>
+        /// <param name="year">Leave year.</param>
+        /// <returns>A response containing the leave count.</returns>
         public Response GetLeaveCountByEmployeeIdAnMonthYear(int EmployeeId, int month, int year)
         {
             try
@@ -227,10 +248,10 @@ namespace FirmAdvanceDemo.BL
         }
 
         /// <summary>
-        /// Method to fetch all leave of specified employee (by employee id)
+        /// Method to fetch all leave of specified employee (by employee id).
         /// </summary>
-        /// <param name="EmployeeId">Employee Id</param>
-        /// <returns>ResponseStatusInfo instance containing list_of_leaves, null when an exception occurs</returns>
+        /// <param name="EmployeeId">Employee ID.</param>
+        /// <returns>A response containing the list of leaves.</returns>
         public Response FetchLeaveByEmployeeId(int EmployeeId)
         {
             try
@@ -258,11 +279,11 @@ namespace FirmAdvanceDemo.BL
         }
 
         /// <summary>
-        /// Method to fetch leave by month-year of leave
+        /// Method to fetch leave by month-year of leave.
         /// </summary>
-        /// <param name="month">Leave Month</param>
-        /// <param name="year">Leave Year</param>
-        /// <returns>ResponseStatusInfo instance containing list_of_leaves, null when an exception occurs                                                                                                         </returns>
+        /// <param name="month">Leave month.</param>
+        /// <param name="year">Leave year.</param>
+        /// <returns>A response containing the list of leaves.</returns>                                                                 </returns>
         public Response FetchLeaveByMonthYear(int month, int year)
         {
             try
@@ -302,19 +323,12 @@ namespace FirmAdvanceDemo.BL
         }
 
         /// <summary>
-        /// Method to fetch leaves on specified date
+        /// Method to fetch leave of an employee for a specific month-year.
         /// </summary>
-        /// <param name="date">Date for which leaves are to be fetched</param>
-        /// <returns>ResponseStatusInfo instance containing list_of_leaves, null when an exception occurs</returns>
-
-
-        /// <summary>
-        /// Method to fetch leave of an employee for month-year
-        /// </summary>
-        /// <param name="EmployeeId">Employee Id</param>
-        /// <param name="month">Leave Month</param>
-        /// <param name="year">Year month</param>
-        /// <returns></returns>
+        /// <param name="EmployeeId">Employee ID.</param>
+        /// <param name="month">Leave month.</param>
+        /// <param name="year">Leave year.</param>
+        /// <returns>A response containing the leave data.</returns>
         public Response FetchLeaveByEmployeeIdAndMonthYear(int EmployeeId, int month, int year)
         {
             try
@@ -355,10 +369,10 @@ namespace FirmAdvanceDemo.BL
         }
 
         /// <summary>
-        /// Method to fetch leave of employee for current month
+        /// Method to fetch leave of employee for the current month.
         /// </summary>
-        /// <param name="EmployeeId">Employee Id</param>
-        /// <returns>ResponseStatusInfo instance containing list_of_leaves, null when an exception occurs</returns>
+        /// <param name="EmployeeId">Employee ID.</param>
+        /// <returns>A response containing the list of leaves.</returns>
         public Response FetchLeaveByEmployeeIdForCurrentMonth(int EmployeeId)
         {
             try
@@ -400,11 +414,11 @@ namespace FirmAdvanceDemo.BL
         }
 
         /// <summary>
-        /// Method to udpate leave status
+        /// Method to update leave status.
         /// </summary>
-        /// <param name="leaveID">Leave Id</param>
-        /// <param name="toChange">Leave Status to change</param>
-        /// <returns>ResponseStatusInfo instance containing null</returns>
+        /// <param name="leaveID">Leave ID.</param>
+        /// <param name="toChange">Leave Status to change.</param>
+        /// <returns>A response indicating the outcome of the update operation.</returns>
         public Response UpdateLeaveStatus(int leaveID, EnmLeaveStatus toChange)
         {
             try
@@ -485,6 +499,10 @@ namespace FirmAdvanceDemo.BL
             }
         }
 
+        /// <summary>
+        /// Method to retrieve all leave records.
+        /// </summary>
+        /// <returns>A response containing the retrieved leave data.</returns>
         public Response RetrieveLeave()
         {
             Response response = new Response();
@@ -503,6 +521,11 @@ namespace FirmAdvanceDemo.BL
             return response;
         }
 
+        /// <summary>
+        /// Method to retrieve a specific leave record by its ID.
+        /// </summary>
+        /// <param name="leaveID">Leave ID.</param>
+        /// <returns>A response containing the retrieved leave data.</returns>
         public Response RetrieveLeave(int leaveID)
         {
             Response response = new Response();
@@ -521,6 +544,11 @@ namespace FirmAdvanceDemo.BL
             return response;
         }
 
+        /// <summary>
+        /// Method to retrieve leave records by their status.
+        /// </summary>
+        /// <param name="leaveStatus">Leave Status.</param>
+        /// <returns>A response containing the retrieved leave data.</returns>
         public Response RetrieveLeaveByStatus(EnmLeaveStatus leaveStatus)
         {
             Response response = new Response();
@@ -539,6 +567,11 @@ namespace FirmAdvanceDemo.BL
             return response;
         }
 
+        /// <summary>
+        /// Method to retrieve leave records for a specific employee.
+        /// </summary>
+        /// <param name="employeeId">Employee ID.</param>
+        /// <returns>A response containing the retrieved leave data.</returns>
         public Response RetrieveLeaveByEmployee(int employeeId)
         {
             Response response = new Response();
@@ -557,6 +590,11 @@ namespace FirmAdvanceDemo.BL
             return response;
         }
 
+        /// <summary>
+        /// Method to validate leave deletion.
+        /// </summary>
+        /// <param name="leaveID">Leave ID.</param>
+        /// <returns>A response indicating the validation result.</returns>
         public Response ValidateDelete(int leaveID)
         {
             Response response = new Response();
@@ -595,6 +633,11 @@ namespace FirmAdvanceDemo.BL
             return response;
         }
 
+        /// <summary>
+        /// Method to delete a leave record.
+        /// </summary>
+        /// <param name="leaveID">Leave ID.</param>
+        /// <returns>A response indicating the outcome of the delete operation.</returns>
         public Response Delete(int leaveID)
         {
             Response response = new Response();
@@ -610,6 +653,12 @@ namespace FirmAdvanceDemo.BL
             return response;
         }
 
+        /// <summary>
+        /// Method to retrieve leave records for a specific month and year.
+        /// </summary>
+        /// <param name="year">Year.</param>
+        /// <param name="month">Month.</param>
+        /// <returns>A response containing the retrieved leave data.</returns>
         public Response RetrieveLeaveByMonthYear(int year, int month)
         {
             Response response = new Response();
@@ -628,6 +677,11 @@ namespace FirmAdvanceDemo.BL
             return response;
         }
 
+        /// <summary>
+        /// Method to retrieve leave records for a specific date.
+        /// </summary>
+        /// <param name="date">Date.</param>
+        /// <returns>A response containing the retrieved leave data.</returns>
         public Response RetrieveLeaveByDate(DateTime date)
         {
             Response response = new Response();
@@ -646,6 +700,13 @@ namespace FirmAdvanceDemo.BL
             return response;
         }
 
+        /// <summary>
+        /// Method to retrieve leave records for a specific employee and month-year.
+        /// </summary>
+        /// <param name="employeeId">Employee ID.</param>
+        /// <param name="year">Year.</param>
+        /// <param name="month">Month.</param>
+        /// <returns>A response containing the retrieved leave data.</returns>
         public Response RetrieveLeaveByEmployeeAndMonthYear(int employeeId, int year, int month)
         {
             Response response = new Response();
@@ -664,6 +725,12 @@ namespace FirmAdvanceDemo.BL
             return response;
         }
 
+        /// <summary>
+        /// Method to retrieve leave records for a specific employee and year.
+        /// </summary>
+        /// <param name="employeeId">Employee ID.</param>
+        /// <param name="year">Year.</param>
+        /// <returns>A response containing the retrieved leave data.</returns>
         public Response RetrieveLeaveByEmployeeAnYear(int employeeId, int year)
         {
             Response response = new Response();

@@ -2,14 +2,14 @@ using FirmAdvanceDemo.DB;
 using FirmAdvanceDemo.Enums;
 using FirmAdvanceDemo.Models.DTO;
 using FirmAdvanceDemo.Models.POCO;
-using FirmAdvanceDemo.Utitlity;
+using FirmAdvanceDemo.Utility;
 using ServiceStack.OrmLite;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Net;
 using System.Web;
-using static FirmAdvanceDemo.Utitlity.Constants;
+using static FirmAdvanceDemo.Utility.Constants;
 
 namespace FirmAdvanceDemo.BL
 {

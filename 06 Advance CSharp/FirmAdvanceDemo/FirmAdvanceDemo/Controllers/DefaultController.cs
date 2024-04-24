@@ -11,14 +11,26 @@ using System.Web.Http;
 
 namespace FirmAdvanceDemo.Controllers
 {
+    /// <summary>
+    /// Controller for handling default API endpoints and retrieving user-related information.
+    /// </summary>
     public class DefaultController : ApiController
     {
+
         private IDbConnectionFactory _dfFactory;
+
+        /// <summary>
+        /// Initializes a new instance of the DefaultController class.
+        /// </summary>
         public DefaultController()
         {
             _dfFactory = OrmliteDbConnector.DbFactory;
         }
 
+        /// <summary>
+        /// Retrieves application information.
+        /// </summary>
+        /// <returns>HTTP response containing the application information.</returns>
         [HttpGet]
         [Route("api/data/getdata")]
         public IHttpActionResult GetAppInfo()
@@ -26,6 +38,10 @@ namespace FirmAdvanceDemo.Controllers
             return Ok("Welcome to FirmAdvanceDemo");
         }
 
+        /// <summary>
+        /// Retrieves the username of the currently authenticated user.
+        /// </summary>
+        /// <returns>Object containing the username of the authenticated user.</returns>
         [HttpGet]
         [AccessTokenAuthentication]
         [Route("api/data/getUsername")]
@@ -43,6 +59,10 @@ namespace FirmAdvanceDemo.Controllers
             return new { username = username };
         }
 
+        /// <summary>
+        /// Retrieves the roles associated with the currently authenticated user.
+        /// </summary>
+        /// <returns>Object containing the roles associated with the authenticated user.</returns>
         [HttpGet]
         [AccessTokenAuthentication]
         [Route("api/data/getroles")]

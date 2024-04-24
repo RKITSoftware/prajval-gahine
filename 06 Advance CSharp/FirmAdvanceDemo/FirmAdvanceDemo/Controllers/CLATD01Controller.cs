@@ -2,32 +2,36 @@ using FirmAdvanceDemo.Auth;
 using FirmAdvanceDemo.BL;
 using FirmAdvanceDemo.Enums;
 using FirmAdvanceDemo.Models.DTO;
-using FirmAdvanceDemo.Utitlity;
+using FirmAdvanceDemo.Utility;
 using System;
 using System.Web.Http;
 
 namespace FirmAdvanceDemo.Controllers
 {
+    /// <summary>
+    /// Controller for managing attendance-related operations.
+    /// </summary>
     [RoutePrefix("api/attendance")]
     public class CLATD01Controller : ApiController
     {
         /// <summary>
-        /// Instance of BLAttendance
+        /// Instance of BLATD01Handler for handling attendance business logic.
         /// </summary>
         private readonly BLATD01Handler _objBLAttendance;
 
         /// <summary>
-        /// Default constructor for CLAttendanceController
+        /// Default constructor for CLATD01Controller.
         /// </summary>
+
         public CLATD01Controller()
         {
             _objBLAttendance = new BLATD01Handler();
         }
 
         /// <summary>
-        /// Action method to get all attendances of employees'
+        /// Action method to retrieve all attendances of employees. Requires Admin role.
         /// </summary>
-        /// <returns>Instance of type IHttpActionResult</returns>
+        /// <returns>HTTP response indicating the result of the operation.</returns>
         [HttpGet]
         [Route("")]
         [AccessTokenAuthentication]
@@ -39,10 +43,10 @@ namespace FirmAdvanceDemo.Controllers
         }
 
         /// <summary>
-        /// Action method to get an employee's attendances
+        /// Action method to retrieve an employee's attendance. Requires Admin role.
         /// </summary>
-        /// <param name="id">Employee Id</param>
-        /// <returns>Instance of type IHttpActionResult</returns>
+        /// <param name="attendanceID">The ID of the attendance to retrieve.</param>
+        /// <returns>HTTP response indicating the result of the operation.</returns>
         [HttpGet]
         [Route("{attendanceID}")]
         [AccessTokenAuthentication]
@@ -53,6 +57,11 @@ namespace FirmAdvanceDemo.Controllers
             return Ok(response);
         }
 
+        /// <summary>
+        /// Action method to retrieve an employee's attendance by employee ID. Requires Admin or Employee role.
+        /// </summary>
+        /// <param name="employeeId">Employee Id</param>
+        /// <returns>Instance of type IHttpActionResult</returns>
         [HttpGet]
         [Route("employee/{employeeId}")]
         [AccessTokenAuthentication]
@@ -69,11 +78,11 @@ namespace FirmAdvanceDemo.Controllers
         }
 
         /// <summary>
-        /// Action method to get all employees attendances by month-year
+        /// Action method to retrieve attendances by month and year. Requires Admin role.
         /// </summary>
-        /// <param name="month">Attendance Month</param>
         /// <param name="year">Attendance Year</param>
-        /// <returns>Instance of type IHttpActionResult</returns>
+        /// <param name="month">Attendance Month</param>
+        /// <returns>HTTP response indicating the result of the operation.</returns>
         [HttpGet]
         [Route("monthly")]
         [AccessTokenAuthentication]
@@ -85,9 +94,9 @@ namespace FirmAdvanceDemo.Controllers
         }
 
         /// <summary>
-        /// Action method to get today's attendances of all employees
+        /// Action method to retrieve today's attendances of all employees. Requires Admin role.
         /// </summary>
-        /// <returns>Instance of type IHttpActionResult</returns>
+        /// <returns>HTTP response indicating the result of the operation.</returns>
         [HttpGet]
         [Route("today")]
         [AccessTokenAuthentication]
@@ -99,12 +108,12 @@ namespace FirmAdvanceDemo.Controllers
         }
 
         /// <summary>
-        /// Action method to get attendances by employee ID and month-year
+        /// Action method to retrieve attendances by employee ID and month-year. Requires Admin or Employee role.
         /// </summary>
         /// <param name="employeeId">Employee Id</param>
-        /// <param name="month">Attendance Month</param>
         /// <param name="year">Attendance Year</param>
-        /// <returns>Instance of type IHttpActionResult</returns>
+        /// <param name="month">Attendance Month</param>
+        /// <returns>HTTP response indicating the result of the operation.</returns>
         [HttpGet]
         [Route("employee/{employeeId}/{year}/{month}")]
         [AccessTokenAuthentication]
@@ -121,10 +130,10 @@ namespace FirmAdvanceDemo.Controllers
         }
 
         /// <summary>
-        /// Action method to get all attendances by employee ID an current month 
+        /// Action method to retrieve all attendances by employee ID for the current month. Requires Admin or Employee role.
         /// </summary>
         /// <param name="employeeId">Employee Id</param>
-        /// <returns>Instance of type IHttpActionResult</returns>
+        /// <returns>HTTP response indicating the result of the operation.</returns>
         [HttpGet]
         [Route("employee/{employeeId}/current-month")]
         [AccessTokenAuthentication]
@@ -144,11 +153,10 @@ namespace FirmAdvanceDemo.Controllers
         }
 
         /// <summary>
-        /// Action method to post an attednace for an employee
+        /// Action method to post an attendance for an employee. Requires Admin role.
         /// </summary>
-        /// <param name="id">Employee Id</param>
-        /// <param name="dayWorkHour">Day work hour</param>
-        /// <returns>Instance of type IHttpActionResult</returns>
+        /// <param name="objDTOATD01">Attendance data to be posted.</param>
+        /// <returns>HTTP response indicating the result of the operation.</returns>
         [HttpPost]
         [Route("")]
         [AccessTokenAuthentication]
@@ -172,17 +180,17 @@ namespace FirmAdvanceDemo.Controllers
         }
 
         /// <summary>
-        /// Action method to update an attendance
+        /// Action method to update an attendance. Requires Admin role.
         /// </summary>
-        /// <param name="id">Attendance Id</param>
-        /// <param name="toUpdateJson">Attendance data to update in json format</param>
-        /// <returns>Instance of type IHttpActionResult</returns>
+        /// <param name="objDTOATD01">Attendance data to be updated.</param>
+        /// <returns>HTTP response indicating the result of the operation.</returns>
         [HttpPut]
         [Route("")]
         [AccessTokenAuthentication]
         [BasicAuthorization(Roles = "A")]
         public IHttpActionResult PatchAttendance(DTOATD01 objDTOATD01)
         {
+            // Update an attendance
             Response response;
             _objBLAttendance.Operation = EnmOperation.E;
             response = _objBLAttendance.Prevalidate(objDTOATD01);
@@ -199,17 +207,17 @@ namespace FirmAdvanceDemo.Controllers
         }
 
         /// <summary>
-        /// Action method to delete an attendance
+        /// Action method to delete an attendance. Requires Admin role.
         /// </summary>
-        /// <param name="id">Attendance Id</param>
-        /// <returns>Instance of type IHttpActionResult</returns>
+        /// <param name="attendanceID">Attendance Id</param>
+        /// <returns>HTTP response indicating the result of the operation.</returns>
         [HttpDelete]
         [Route("{attendanceID}")]
         [AccessTokenAuthentication]
         [BasicAuthorization(Roles = "A")]
         public IHttpActionResult DeleteAttendance(int attendanceID)
         {
-
+            // Delete an attendance
             Response response = _objBLAttendance.ValidateDelete(attendanceID);
             if (!response.IsError)
             {
@@ -218,21 +226,24 @@ namespace FirmAdvanceDemo.Controllers
             return Ok(response);
         }
 
-
+        /// <summary>
+        /// Action method to evaluate end-of-day punches. Requires Admin role.
+        /// </summary>
+        /// <param name="date">Date for which to evaluate end-of-day punches.</param>
+        /// <returns>HTTP response indicating the result of the operation.</returns>
         [HttpPost]
         [Route("evaluate-eod-punches")]
         [AccessTokenAuthentication]
         [BasicAuthorization(Roles = "A")]
         public IHttpActionResult EvaluateEndOfDayPunches(DateTime date)
         {
-            // check378 - check if model state is invalid when we donot pass date in query string
+            // Evaluate end-of-day punches
             if (!ModelState.IsValid)
             {
                 date = DateTime.Now;
             }
 
             Response response = _objBLAttendance.ProcessEndOfDayPunches(date);
-
             return Ok(response);
         }
     }

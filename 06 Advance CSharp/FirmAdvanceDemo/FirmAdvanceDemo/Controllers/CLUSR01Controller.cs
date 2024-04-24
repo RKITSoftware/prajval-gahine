@@ -2,28 +2,34 @@ using FirmAdvanceDemo.Auth;
 using FirmAdvanceDemo.BL;
 using FirmAdvanceDemo.Enums;
 using FirmAdvanceDemo.Models.DTO;
-using FirmAdvanceDemo.Utitlity;
+using FirmAdvanceDemo.Utility;
 using System.Web.Http;
 
 namespace FirmAdvanceDemo.Controllers
 {
+    /// <summary>
+    /// Controller for managing user operations, such as retrieving, creating, updating, and deleting users.
+    /// </summary>
     [RoutePrefix("api/user")]
-    //[AccessTokenAuthentication]
     public class CLUSR01Controller : ApiController
     {
         /// <summary>
-        /// Instance of BLUser
+        /// Instance of the user handler for managing user-related operations.
         /// </summary>
         private readonly BLUSR01Handler _objBLUSR01Handler;
 
         /// <summary>
-        /// Default constructor for CLUserController
+        /// Initializes a new instance of the CLUSR01Controller class.
         /// </summary>
         public CLUSR01Controller()
         {
             _objBLUSR01Handler = new BLUSR01Handler();
         }
 
+        /// <summary>
+        /// Retrieves all users.
+        /// </summary>
+        /// <returns>HTTP response containing the retrieved users.</returns>
         [HttpGet]
         [Route("")]
         [AccessTokenAuthentication]
@@ -34,6 +40,11 @@ namespace FirmAdvanceDemo.Controllers
             return Ok(response);
         }
 
+        /// <summary>
+        /// Retrieves a user by their ID.
+        /// </summary>
+        /// <param name="userID">The ID of the user to retrieve.</param>
+        /// <returns>HTTP response containing the retrieved user.</returns>
         [HttpGet]
         [Route("{userID}")]
         [AccessTokenAuthentication]
@@ -44,6 +55,11 @@ namespace FirmAdvanceDemo.Controllers
             return Ok(response);
         }
 
+        /// <summary>
+        /// Creates a new user.
+        /// </summary>
+        /// <param name="objDTOUSR01">The DTO representing the user to be created.</param>
+        /// <returns>HTTP response indicating the success or failure of the operation.</returns>
         [HttpPost]
         [Route("")]
         [AccessTokenAuthentication]
@@ -65,6 +81,11 @@ namespace FirmAdvanceDemo.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Updates an existing user.
+        /// </summary>
+        /// <param name="objDTOUSR01">The DTO representing the updated user data.</param>
+        /// <returns>HTTP response indicating the success or failure of the operation.</returns>
         [HttpPatch]
         [Route("")]
         [AccessTokenAuthentication]
@@ -86,6 +107,11 @@ namespace FirmAdvanceDemo.Controllers
             return Ok(response);
         }
 
+        /// <summary>
+        /// Deletes a user by their ID.
+        /// </summary>
+        /// <param name="userID">The ID of the user to delete.</param>
+        /// <returns>HTTP response indicating the success or failure of the operation.</returns>
         [HttpDelete]
         [Route("{userID}")]
         [AccessTokenAuthentication]

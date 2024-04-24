@@ -7,7 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using static FirmAdvanceDemo.Utitlity.Constants;
+using static FirmAdvanceDemo.Utility.Constants;
 
 namespace FirmAdvanceDemo.DB
 {

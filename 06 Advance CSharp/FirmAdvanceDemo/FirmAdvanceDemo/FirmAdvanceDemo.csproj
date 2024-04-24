@@ -216,15 +216,15 @@
     <Compile Include="DL\DBUSR01Context.cs" />
     <Compile Include="Models\DTO\DataAnnotations\InMultipleOfAttribute.cs" />
     <Compile Include="Models\DTO\DataAnnotations\LessThanCurrentDateTimeAttribute.cs" />
-    <Compile Include="Utitlity\Constants.cs" />
-    <Compile Include="Utitlity\FirmEnums.cs" />
+    <Compile Include="Utility\Constants.cs" />
+    <Compile Include="Utility\FirmEnums.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SwaggerRequirements\AccessTokenAuthRequirements.cs" />
     <Compile Include="SwaggerRequirements\BasicAuthRequirements.cs" />
-    <Compile Include="Utitlity\GeneralContext.cs" />
-    <Compile Include="Utitlity\GeneralHandler.cs" />
-    <Compile Include="Utitlity\GeneralUtility.cs" />
-    <Compile Include="Utitlity\Response.cs" />
+    <Compile Include="Utility\GeneralContext.cs" />
+    <Compile Include="Utility\GeneralHandler.cs" />
+    <Compile Include="Utility\GeneralUtility.cs" />
+    <Compile Include="Utility\Response.cs" />
     <Compile Include="Models\DTO\DTOATD01.cs" />
     <Compile Include="Models\DTO\DTODPT01.cs" />
     <Compile Include="Models\DTO\DTOEMP01.cs" />
@@ -259,7 +259,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Enums\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

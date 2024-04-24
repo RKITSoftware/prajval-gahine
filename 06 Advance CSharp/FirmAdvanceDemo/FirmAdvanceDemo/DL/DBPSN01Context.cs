@@ -59,9 +59,9 @@ namespace FirmAdvanceDemo.DB
         /// <summary>
         /// Fetches a specific position record by its ID.
         /// </summary>
-        /// <param name="positionId">The ID of the position record to fetch.</param>
+        /// <param name="positionID">The ID of the position record to fetch.</param>
         /// <returns>A DataTable containing the position record with the specified ID.</returns>
-        public DataTable FetchPosition(int positionId)
+        public DataTable FetchPosition(int positionID)
         {
             DataTable dtPosition;
 
@@ -77,7 +77,7 @@ namespace FirmAdvanceDemo.DB
                                 psn01
                             WHERE
                                 n01f01 = {0}",
-                                positionId);
+                                positionID);
 
             MySqlCommand cmd = new MySqlCommand(query, _connection);
 

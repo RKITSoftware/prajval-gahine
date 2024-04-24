@@ -2,7 +2,7 @@ using FirmAdvanceDemo.DB;
 using FirmAdvanceDemo.Enums;
 using FirmAdvanceDemo.Models.DTO;
 using FirmAdvanceDemo.Models.POCO;
-using FirmAdvanceDemo.Utitlity;
+using FirmAdvanceDemo.Utility;
 using ServiceStack.OrmLite;
 using System;
 using System.Data;
@@ -12,21 +12,33 @@ using System.Web;
 
 namespace FirmAdvanceDemo.BL
 {
+    /// <summary>
+    /// Handles business logic related to punch operations.
+    /// </summary>
     public class BLPCH01Handler
     {
         /// <summary>
-        /// Instance of PCH01 model
+        /// Instance of PCH01 model.
         /// </summary>
         private PCH01 _objPCH01;
 
+        /// <summary>
+        /// Context for Punch handler.
+        /// </summary>
         private readonly DBPCH01Context _objDBPCH01Context;
 
+        /// <summary>
+        /// Factory for creating OrmLite database connections.
+        /// </summary>
         private readonly OrmLiteConnectionFactory _dbFactory;
 
+        /// <summary>
+        /// Gets or sets the operation type for punch handling.
+        /// </summary>
         public EnmOperation Operation { get; set; }
 
         /// <summary>
-        /// Default constructor for BLPunch, initializes PCH01 instance
+        /// Default constructor for BLPCH01Handler.
         /// </summary>
         public BLPCH01Handler()
         {
@@ -34,6 +46,11 @@ namespace FirmAdvanceDemo.BL
             _objDBPCH01Context = new DBPCH01Context();
         }
 
+        /// <summary>
+        /// Validates the provided DTOPCH01 instance before processing.
+        /// </summary>
+        /// <param name="objDTOPCH01">DTOPCH01 instance containing punch data.</param>
+        /// <returns>A response indicating the validation result.</returns> 
         public Response Prevalidate(DTOPCH01 objDTOPCH01)
         {
             Response response = new Response();
@@ -79,9 +96,9 @@ namespace FirmAdvanceDemo.BL
         }
 
         /// <summary>
-        /// Method to convert DTOPCH01 instance to PCH01 instance
+        /// Sets the data for the punch before saving it.
         /// </summary>
-        /// <param name="objDTOPCH01">Instance of DTOPCH01</param>
+        /// <param name="objDTOPCH01">DTOPCH01 instance containing punch data.</param>
         public void Presave(DTOPCH01 objDTOPCH01)
         {
             _objPCH01 = objDTOPCH01.ConvertModel<PCH01>();
@@ -99,9 +116,9 @@ namespace FirmAdvanceDemo.BL
         }
 
         /// <summary>
-        /// Method to validate the PCH01 instance
+        /// Validates the punch data before saving.
         /// </summary>
-        /// <returns>True if PCH01 instance is valid else false</returns>
+        /// <returns>A response indicating the validation result.</returns>
         public Response Validate()
         {
             Response response = new Response();
@@ -109,6 +126,10 @@ namespace FirmAdvanceDemo.BL
             return response;
         }
 
+        /// <summary>
+        /// Saves the punch data.
+        /// </summary>
+        /// <returns>A response indicating the outcome of the save operation.</returns>
         public Response Save()
         {
             Response response = new Response();
@@ -136,6 +157,10 @@ namespace FirmAdvanceDemo.BL
             }
         }
 
+        /// <summary>
+        /// Retrieves punch records.
+        /// </summary>
+        /// <returns>A response containing the retrieved punch data.</returns>
         public Response RetrievePunch()
         {
             Response response = new Response();
@@ -153,6 +178,11 @@ namespace FirmAdvanceDemo.BL
             return response;
         }
 
+        /// <summary>
+        /// Retrieves a specific punch record by punch ID.
+        /// </summary>
+        /// <param name="punchId">The ID of the punch record to retrieve.</param>
+        /// <returns>A response containing the retrieved punch data.</returns>
         public Response RetrievePunch(int punchId)
         {
             Response response = new Response();

@@ -2,7 +2,7 @@ using FirmAdvanceDemo.DB;
 using FirmAdvanceDemo.Enums;
 using FirmAdvanceDemo.Models.DTO;
 using FirmAdvanceDemo.Models.POCO;
-using FirmAdvanceDemo.Utitlity;
+using FirmAdvanceDemo.Utility;
 using ServiceStack;
 using ServiceStack.OrmLite;
 using System;
@@ -11,32 +11,42 @@ using System.Configuration;
 using System.Data;
 using System.Linq;
 using System.Net;
-using static FirmAdvanceDemo.Utitlity.GeneralUtility;
+using static FirmAdvanceDemo.Utility.GeneralUtility;
 
 namespace FirmAdvanceDemo.BL
 {
     /// <summary>
-    /// Business logic class for User - defines all props and methods to suppor User controller
+    /// Handles business logic related to user operations.
     /// </summary>
     public class BLUSR01Handler
     {
         /// <summary>
-        /// Instance of USR01 model
+        /// Instance of USR01 model representing user data.
         /// </summary>
         public USR01 ObjUSR01 { get; set; }
 
         /// <summary>
-        /// List of Roles
+        /// List of user roles.
         /// </summary>
         public List<EnmRole> LstRole { get; set; }
 
+        /// <summary>
+        /// Gets or sets the operation type for user handling.
+        /// </summary>
         public EnmOperation Operation { get; set; }
+
+        /// <summary>
+        /// OrmLite Connection Factory instance representing a connection with a particular database.
+        /// </summary>
         private readonly OrmLiteConnectionFactory _dbFactory;
 
+        /// <summary>
+        /// Context for User handler.
+        /// </summary>
         private readonly DBUSR01Context _dbUSR01Context;
 
         /// <summary>
-        /// Default constructor for BLUser
+        /// Default constructor for BLUSR01Handler.
         /// </summary>
         public BLUSR01Handler()
         {
@@ -45,12 +55,10 @@ namespace FirmAdvanceDemo.BL
         }
 
         /// <summary>
-        /// Method to prevalidate instance of DTOUMP ( user portion)
+        /// Prevalidates an instance of DTOUSR01 (user portion).
         /// </summary>
-        /// <param name="objUSR01">instance of DTOUMP</param>
-        /// <param name="role">role of user</param>
-        /// <param name="operation">operation to perform</param>
-        /// <returns></returns>
+        /// <param name="objDTOUSR01">Instance of DTOUSR01 containing user data.</param>
+        /// <returns>A response indicating the validation result.</returns>
         public Response Prevalidate(DTOUSR01 objDTOUSR01)
         {
             Response response = new Response();
@@ -75,9 +83,9 @@ namespace FirmAdvanceDemo.BL
         }
 
         /// <summary>
-        /// Method to convert DTOUSR01 instance to USR01 instance
+        /// Converts DTOUSR01 instance to USR01 instance.
         /// </summary>
-        /// <param name="objDTOUSR01">Instance of DTOUSR01</param>
+        /// <param name="objDTOUSR01">Instance of DTOUSR01 containing user data.</param>
         public void Presave(DTOUSR01 objDTOUSR01)
         {
             LstRole = objDTOUSR01.R01X06;
@@ -100,9 +108,9 @@ namespace FirmAdvanceDemo.BL
         }
 
         /// <summary>
-        /// Method to validate the USR01 instance
+        /// Validates the USR01 instance.
         /// </summary>
-        /// <returns>True if USR01 instance is valid else false</returns>
+        /// <returns>A response indicating the validation result.</returns>
         public Response Validate()
         {
             Response response = new Response();
@@ -127,10 +135,10 @@ namespace FirmAdvanceDemo.BL
         }
 
         /// <summary>
-        /// Method to fetch user roles using userID
+        /// Fetches user roles using userID.
         /// </summary>
-        /// <param name="userID">User id</param>
-        /// <returns>ResponseStatusInfo instance containing userID if successful or null if any exception</returns>
+        /// <param name="userID">The ID of the user.</param>
+        /// <returns>A response containing the user's roles if successful.</returns>
         public Response FetchUserRolesByuserID(int userID)
         {
             try
@@ -163,6 +171,11 @@ namespace FirmAdvanceDemo.BL
             }
         }
 
+        /// <summary>
+        /// Retrieves a user with the specified user ID.
+        /// </summary>
+        /// <param name="userID">The ID of the user to retrieve.</param>
+        /// <returns>A response containing the retrieved user data.</returns>
         public Response RetrieveUser(int userID)
         {
             Response response = new Response();
@@ -180,6 +193,10 @@ namespace FirmAdvanceDemo.BL
             return response;
         }
 
+        /// <summary>
+        /// Retrieves all users.
+        /// </summary>
+        /// <returns>A response containing the retrieved user data.</returns>
         public Response RetrieveUser()
         {
             Response response = new Response();
@@ -197,6 +214,10 @@ namespace FirmAdvanceDemo.BL
             return response;
         }
 
+        /// <summary>
+        /// Saves the user data.
+        /// </summary>
+        /// <returns>A response indicating the outcome of the save operation.</returns>
         public Response Save()
         {
             Response response = new Response();
@@ -246,6 +267,11 @@ namespace FirmAdvanceDemo.BL
             return response;
         }
 
+        /// <summary>
+        /// Validates the deletion of a user.
+        /// </summary>
+        /// <param name="userID">The ID of the user to be deleted.</param>
+        /// <returns>A response indicating the validation result.</returns>
         public Response ValidateDelete(int userID)
         {
             Response response = new Response();
@@ -266,6 +292,11 @@ namespace FirmAdvanceDemo.BL
             return response;
         }
 
+        /// <summary>
+        /// Deletes a user with the specified user ID.
+        /// </summary>
+        /// <param name="userID">The ID of the user to delete.</param>
+        /// <returns>A response indicating the outcome of the deletion operation.</returns>
         public Response Delete(int userID)
         {
             Response response = new Response();

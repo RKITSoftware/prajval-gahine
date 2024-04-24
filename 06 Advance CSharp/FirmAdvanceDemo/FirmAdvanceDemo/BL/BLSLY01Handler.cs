@@ -1,6 +1,6 @@
 using FirmAdvanceDemo.DB;
 using FirmAdvanceDemo.Models.POCO;
-using FirmAdvanceDemo.Utitlity;
+using FirmAdvanceDemo.Utility;
 using ServiceStack.OrmLite;
 using System;
 using System.Collections.Generic;
@@ -10,19 +10,28 @@ using System.Net;
 namespace FirmAdvanceDemo.BL
 {
     /// <summary>
-    /// Business logic class for Salary - defines all props and methods to suppor Salary controller
+    /// Handles business logic related to salary operations.
     /// </summary>
     public class BLSLY01Handler
     {
         /// <summary>
-        /// Instance of SLY01 model
+        /// Instance of SLY01 model.
         /// </summary>
         private readonly SLY01 _objSLY01;
 
+        /// <summary>
+        /// Context for Salary handler.
+        /// </summary>
         private readonly DBSLY01Context _dBSLY01Context;
 
-        protected readonly OrmLiteConnectionFactory _dbFactory;
+        /// <summary>
+        /// OrmLite Connection Factory instance representing a connection with a particular database.
+        /// </summary>
+        private readonly OrmLiteConnectionFactory _dbFactory;
 
+        /// <summary>
+        /// Default constructor for BLSLY01Handler.
+        /// </summary>
         public BLSLY01Handler()
         {
             _dbFactory = OrmliteDbConnector.DbFactory;
@@ -31,9 +40,9 @@ namespace FirmAdvanceDemo.BL
         }
 
         /// <summary>
-        /// Method to credit employees salary based on their attendance from last_salary_credit_date <= date < current_date
+        /// Credits employees' salary based on their attendance from last_salary_credit_date to current_date.
         /// </summary>
-        /// <returns>ResponseStatusInfo instance containing data as null>/returns>
+        /// <returns>A response indicating the outcome of the credit operation.</returns>
         public Response CreditSalary()
         {
             Response response = new Response();
@@ -100,6 +109,11 @@ namespace FirmAdvanceDemo.BL
             return response;
         }
 
+        /// <summary>
+        /// Converts employee work hour data from DataTable to a list of SLY01 instances.
+        /// </summary>
+        /// <param name="dtEmployeeWorkHour">DataTable containing employee work hour data.</param>
+        /// <returns>A list of SLY01 instances representing the converted employee work hour data.</returns>
         private List<SLY01> EmployeeWorkHourToSLY01(DataTable dtEmployeeWorkHour)
         {
             DateTime now = DateTime.Now;

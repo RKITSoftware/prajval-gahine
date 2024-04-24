@@ -4,7 +4,7 @@ using MySql.Data.MySqlClient;
 using System.Data;
 using System.Linq;
 
-namespace FirmAdvanceDemo.Utitlity
+namespace FirmAdvanceDemo.Utility
 {
     /// <summary>
     /// Provides methods for handling general database context operations.

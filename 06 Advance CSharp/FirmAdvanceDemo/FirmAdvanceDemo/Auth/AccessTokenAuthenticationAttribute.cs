@@ -1,4 +1,4 @@
-using FirmAdvanceDemo.Utitlity;
+using FirmAdvanceDemo.Utility;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http.Controllers;

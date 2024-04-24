@@ -4,7 +4,7 @@ using ServiceStack.Data;
 using ServiceStack.OrmLite;
 using System.Data;
 
-namespace FirmAdvanceDemo.Utitlity
+namespace FirmAdvanceDemo.Utility
 {
     /// <summary>
     /// Provides methods for handling general database operations.
