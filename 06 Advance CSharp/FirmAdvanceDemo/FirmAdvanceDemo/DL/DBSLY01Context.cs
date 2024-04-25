@@ -53,7 +53,8 @@ namespace FirmAdvanceDemo.DB
 							                                        atd01
 						                                        WHERE
 							                                        DATE(d01f03) > '{0}' AND
-							                                        DATE(d01f03) < '{1}'
+							                                        DATE(d01f03) < '{1}' AND
+                                                                    d01f07 = 0
 						                                        GROUP BY d01f02
 					                                        ) AS EmployeeWorkHour ON emp01.p01f01 = EmployeeWorkHour.EmployeeId
 		                                        INNER JOIN psn01 ON psn01.n01f01 = emp01.p01f06;",

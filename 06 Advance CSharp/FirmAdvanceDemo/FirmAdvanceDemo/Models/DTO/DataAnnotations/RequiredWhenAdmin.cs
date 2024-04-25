@@ -1,12 +1,13 @@
-﻿using System;
+﻿using FirmAdvanceDemo.Utility;
+using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Web;
 
 namespace FirmAdvanceDemo.Models.DTO.DataAnnotations
 {
-    /// <summary>
-    /// Custom validation attribute to validate if a DateTime value is less than or equal to the current date.
-    /// </summary>
-    public class LessThanCurrentDateTimeAttribute : ValidationAttribute
+    public class RequiredWhenAdmin : ValidationAttribute
     {
         /// <summary>
         /// Determines whether the specified value is valid.
@@ -15,9 +16,11 @@ namespace FirmAdvanceDemo.Models.DTO.DataAnnotations
         /// <returns>True if the value is valid; otherwise, false.</returns>
         public override bool IsValid(object value)
         {
-            if(value == null) return true;  // punch admin or employee post difference
-            DateTime d = Convert.ToDateTime(value);
-            return d <= DateTime.Now.Date;
+            if(GeneralUtility.IsAdmin() && value == null)
+            {
+                return false;
+            }
+            return true;
         }
     }
 }

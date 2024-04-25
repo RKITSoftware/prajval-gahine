@@ -1,7 +1,5 @@
 using FirmAdvanceDemo.Auth;
 using FirmAdvanceDemo.BL;
-using FirmAdvanceDemo.Enums;
-using FirmAdvanceDemo.Models.DTO;
 using FirmAdvanceDemo.Utility;
 using System;
 using System.Web.Http;
@@ -153,60 +151,6 @@ namespace FirmAdvanceDemo.Controllers
         }
 
         /// <summary>
-        /// Action method to post an attendance for an employee. Requires Admin role.
-        /// </summary>
-        /// <param name="objDTOATD01">Attendance data to be posted.</param>
-        /// <returns>HTTP response indicating the result of the operation.</returns>
-        [HttpPost]
-        [Route("")]
-        [AccessTokenAuthentication]
-        [BasicAuthorization(Roles = "A")]
-        [Obsolete]
-        public IHttpActionResult PostAttendance(DTOATD01 objDTOATD01)
-        {
-            Response response;
-            _objBLAttendance.Operation = EnmOperation.A;
-            response = _objBLAttendance.Prevalidate(objDTOATD01);
-            if (!response.IsError)
-            {
-                _objBLAttendance.Presave(objDTOATD01);
-                response = _objBLAttendance.Validate();
-                if (!response.IsError)
-                {
-                    _objBLAttendance.Save();
-                }
-            }
-            return Ok(response);
-        }
-
-        /// <summary>
-        /// Action method to update an attendance. Requires Admin role.
-        /// </summary>
-        /// <param name="objDTOATD01">Attendance data to be updated.</param>
-        /// <returns>HTTP response indicating the result of the operation.</returns>
-        [HttpPut]
-        [Route("")]
-        [AccessTokenAuthentication]
-        [BasicAuthorization(Roles = "A")]
-        public IHttpActionResult PatchAttendance(DTOATD01 objDTOATD01)
-        {
-            // Update an attendance
-            Response response;
-            _objBLAttendance.Operation = EnmOperation.E;
-            response = _objBLAttendance.Prevalidate(objDTOATD01);
-            if (!response.IsError)
-            {
-                _objBLAttendance.Presave(objDTOATD01);
-                response = _objBLAttendance.Validate();
-                if (!response.IsError)
-                {
-                    _objBLAttendance.Save();
-                }
-            }
-            return Ok(response);
-        }
-
-        /// <summary>
         /// Action method to delete an attendance. Requires Admin role.
         /// </summary>
         /// <param name="attendanceID">Attendance Id</param>
@@ -232,18 +176,39 @@ namespace FirmAdvanceDemo.Controllers
         /// <param name="date">Date for which to evaluate end-of-day punches.</param>
         /// <returns>HTTP response indicating the result of the operation.</returns>
         [HttpPost]
+        [Route("evaluate-eod-punches/today")]
+        [AccessTokenAuthentication]
+        [BasicAuthorization(Roles = "A")]
+        public IHttpActionResult ProcessEoDPunchesForToday()
+        {
+            Response response;
+            _objBLAttendance.PresaveEoDPunchesForAttendance(DateTime.Now);
+            response = _objBLAttendance.ValidateEoDPunchesForAttendance();
+            if (!response.IsError)
+            {
+                response = _objBLAttendance.SaveAttendance();
+            }
+            return Ok(response);
+        }
+
+        /// <summary>
+        /// Action method to evaluate end-of-day punches. Requires Admin role.
+        /// </summary>
+        /// <param name="date">Date for which to evaluate end-of-day punches.</param>
+        /// <returns>HTTP response indicating the result of the operation.</returns>
+        [HttpPost]
         [Route("evaluate-eod-punches")]
         [AccessTokenAuthentication]
         [BasicAuthorization(Roles = "A")]
-        public IHttpActionResult EvaluateEndOfDayPunches(DateTime date)
+        public IHttpActionResult ProcessEoDPunchesForDate(DateTime date)
         {
-            // Evaluate end-of-day punches
-            if (!ModelState.IsValid)
+            Response response;
+            _objBLAttendance.PresaveEoDPunchesForAttendance(date);
+            response = _objBLAttendance.ValidateEoDPunchesForAttendance();
+            if (!response.IsError)
             {
-                date = DateTime.Now;
+                response = _objBLAttendance.SaveAttendance();
             }
-
-            Response response = _objBLAttendance.ProcessEndOfDayPunches(date);
             return Ok(response);
         }
     }

@@ -40,5 +40,10 @@ namespace FirmAdvanceDemo.Models.POCO
         /// </summary>
         [IgnoreOnInsert]
         public DateTime? D01F06 { get; set; }
+
+        /// <summary>
+        /// Attendance considered in attendance ?
+        /// </summary>
+        public bool D01F07 { get; set; }
     }
 }

@@ -18,13 +18,12 @@ namespace FirmAdvanceDemo.Models.POCO
         /// <summary>
         /// Employee Id
         /// </summary>
+        [IgnoreOnUpdate]
         public int H01F02 { get; set; }
 
         /// <summary>
         /// Punch Type
         /// </summary>
-        [IgnoreOnInsert]
-        [Default(typeof(EnmPunchType), "'U'")]
         public EnmPunchType H01F03 { get; set; }
 
         /// <summary>
@@ -38,5 +37,10 @@ namespace FirmAdvanceDemo.Models.POCO
         /// </summary>
         [IgnoreOnInsert]
         public DateTime? H01F05 { get; set; }
+
+        /// <summary>
+        /// Punch considered in attendance ?
+        /// </summary>
+        public bool H01F06 { get; set; }
     }
 }

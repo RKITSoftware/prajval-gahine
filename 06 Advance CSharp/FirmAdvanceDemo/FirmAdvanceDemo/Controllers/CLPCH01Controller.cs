@@ -3,7 +3,10 @@ using FirmAdvanceDemo.BL;
 using FirmAdvanceDemo.Enums;
 using FirmAdvanceDemo.Models.DTO;
 using FirmAdvanceDemo.Utility;
+using Org.BouncyCastle.Crypto.Engines;
+using System;
 using System.Web.Http;
+using System.Web.Security;
 
 namespace FirmAdvanceDemo.Controllers
 {
@@ -33,8 +36,8 @@ namespace FirmAdvanceDemo.Controllers
         /// <returns>HTTP response indicating the success or failure of the punch submission.</returns>
         [HttpPost]
         [Route("")]
-        //[AccessTokenAuthentication]
-        //[BasicAuthorization(Roles = "E")]
+        [AccessTokenAuthentication]
+        [BasicAuthorization(Roles = "E")]
         public IHttpActionResult PostPunch(DTOPCH01 objDTOPCH01)
         {
             // Validate if the user has access to submit punch for the given employee
@@ -58,6 +61,53 @@ namespace FirmAdvanceDemo.Controllers
                         response = _objBLPCH01Handler.Save();
                     }
                 }
+            }
+            return Ok(response);
+        }
+
+        [HttpPost]
+        [Route("virtual")]
+        [AccessTokenAuthentication]
+        [BasicAuthorization(Roles = "A")]
+        public IHttpActionResult PostVirtualPunch(DTOPCH01 objDTOPCH01)
+        {
+            Response response;
+
+            response = _objBLPCH01Handler.PrevalidateVirtualPunch(objDTOPCH01);
+
+            if (!response.IsError)
+            {
+                _objBLPCH01Handler.PresaveVirtualPunch(objDTOPCH01);
+                response = _objBLPCH01Handler.Validate();
+                if (!response.IsError)
+                {
+                    response = _objBLPCH01Handler.SaveVirtualPunch();
+                }
+            }
+            return Ok(response);
+        }
+
+        [HttpGet]
+        [Route("ambiguous")]
+        [AccessTokenAuthentication]
+        [BasicAuthorization(Roles = "A")]
+        public IHttpActionResult GetAmbiguousPunchByDate(DateTime date)
+        {
+            Response response = _objBLPCH01Handler.RetrieveAmbiguousPunch(date);
+            return Ok(response);
+        }
+
+        [HttpGet]
+        [Route("employee/{employeeID}")]
+        [AccessTokenAuthentication]
+        [BasicAuthorization(Roles = "E, A")]
+        public IHttpActionResult GetPunchForEmployeeByMonth(int employeeID, int year, int month)
+        {
+            Response response;
+            response = GeneralUtility.ValidateAccess(employeeID);
+            if(!response.IsError)
+            {
+                response = _objBLPCH01Handler.RetrievePunchForEmployeeByMonth(employeeID, year, month);
             }
             return Ok(response);
         }

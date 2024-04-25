@@ -215,6 +215,7 @@
     <Compile Include="DL\DBUSR01Context.cs" />
     <Compile Include="Models\DTO\DataAnnotations\InMultipleOfAttribute.cs" />
     <Compile Include="Models\DTO\DataAnnotations\LessThanCurrentDateTimeAttribute.cs" />
+    <Compile Include="Models\DTO\DataAnnotations\RequiredWhenAdmin.cs" />
     <Compile Include="Models\DTO\FIlters\ValidateModelAttribute.cs" />
     <Compile Include="Utility\Constants.cs" />
     <Compile Include="Utility\FirmEnums.cs" />

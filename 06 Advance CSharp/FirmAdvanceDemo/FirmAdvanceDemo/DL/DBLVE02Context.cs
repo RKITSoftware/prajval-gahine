@@ -3,10 +3,8 @@ using FirmAdvanceDemo.Enums;
 using FirmAdvanceDemo.Models.POCO;
 using FirmAdvanceDemo.Utility;
 using MySql.Data.MySqlClient;
-using MySqlX.XDevAPI.Common;
 using System;
 using System.Data;
-using System.Data.SqlClient;
 using static FirmAdvanceDemo.Utility.Constants;
 
 namespace FirmAdvanceDemo.DB
@@ -148,7 +146,7 @@ namespace FirmAdvanceDemo.DB
 
             string where = string.Empty;
 
-            if(leaveStatus != EnmLeaveStatus.X)
+            if (leaveStatus != EnmLeaveStatus.X)
             {
                 where = string.Format(@"
                                 WHERE
@@ -400,7 +398,7 @@ namespace FirmAdvanceDemo.DB
             string employeeIDWhere = string.Empty;
             string dateWhere = string.Empty;
 
-            if(employeeID != 0)
+            if (employeeID != 0)
             {
                 employeeIDWhere = string.Format(@"
                                     e02f02 = {0}
@@ -419,9 +417,9 @@ namespace FirmAdvanceDemo.DB
             {
                 string startDate = string.Empty;
                 string endDate = string.Empty;
-                if(month != 0)
+                if (month != 0)
                 {
-                    startDate = string.Format("{0}-{1}-01", year);
+                    startDate = string.Format("{0}-{1}-01", year, month);
                     endDate = string.Format("{0}-{1}-{2}", year, month, DateTime.DaysInMonth(year, month));
                 }
                 else
@@ -429,7 +427,7 @@ namespace FirmAdvanceDemo.DB
                     startDate = string.Format("{0}-01-01", year);
                     endDate = string.Format("{0}-12-31", year);
                 }
-                
+
 
                 dateWhere = string.Format(@"
                                     (

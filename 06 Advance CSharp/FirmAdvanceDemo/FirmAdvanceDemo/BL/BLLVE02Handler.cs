@@ -137,12 +137,12 @@ namespace FirmAdvanceDemo.BL
 
             // if employee is editing,
             // then he cannot edit non-pending status leave
-            if(Operation == EnmOperation.E)
+            if (Operation == EnmOperation.E)
             {
                 EnmLeaveStatus leaveStatus;
                 using (IDbConnection db = _dbFactory.OpenDbConnection())
                 {
-                    leaveStatus = db.Scalar<LVE02, EnmLeaveStatus>(leave => leave.E02F06 , leave => leave.E02F01 == _objLVE02.E02F01);
+                    leaveStatus = db.Scalar<LVE02, EnmLeaveStatus>(leave => leave.E02F06, leave => leave.E02F01 == _objLVE02.E02F01);
                 }
 
                 if (leaveStatus != EnmLeaveStatus.P)
@@ -765,7 +765,7 @@ namespace FirmAdvanceDemo.BL
                 employeeID = db.Scalar<LVE02, int>(leave => leave.E02F02, leave => leave.E02F01 == leaveID);
             }
 
-            if(employeeID == 0)
+            if (employeeID == 0)
             {
                 response.IsError = true;
                 response.HttpStatusCode = HttpStatusCode.NotFound;

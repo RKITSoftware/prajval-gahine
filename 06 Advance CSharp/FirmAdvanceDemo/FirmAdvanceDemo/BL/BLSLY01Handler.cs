@@ -2,6 +2,7 @@ using FirmAdvanceDemo.DB;
 using FirmAdvanceDemo.Models.POCO;
 using FirmAdvanceDemo.Utility;
 using ServiceStack.OrmLite;
+using ServiceStack.OrmLite.Dapper;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -87,6 +88,21 @@ namespace FirmAdvanceDemo.BL
                     try
                     {
                         db.InsertAll<SLY01>(lstSalary);
+
+                        // query to update salaried attendance
+                        string query = string.Format(@"
+                                    UPDATE
+                                        atd01
+                                    SET
+                                        d01f07 = 1
+                                    WHERE
+                                        d01f03 > '{0}' AND
+                                        d01f03 < '{1}'
+                                    ",
+                                    lastCreditDate.ToString(Constants.GlobalDateFormat),
+                                    DateTime.Now.ToString(Constants.GlobalDateFormat));
+                        db.ExecuteNonQuery(query);
+
                         STG01 objSTG01 = new STG01()
                         {
                             G01F01 = 0,
