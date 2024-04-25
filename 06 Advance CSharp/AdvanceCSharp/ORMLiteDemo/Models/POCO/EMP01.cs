@@ -1,6 +1,8 @@
 using ServiceStack;
 using ServiceStack.DataAnnotations;
 using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ORMLiteDemo.Models.POCO
 {
@@ -38,12 +40,13 @@ namespace ORMLiteDemo.Models.POCO
         /// Employee Date of Birth
         /// </summary>
         [ValidateNotNull]
+        [Column(TypeName = "DATE")]
         public DateTime P01F05 { get; set; }
 
         /// <summary>
         /// Position Id (Foreign key)
         /// </summary>
-        [ForeignKey(typeof(PSN01), OnDelete = "CASCADE")]
+        [ServiceStack.DataAnnotations.ForeignKey(typeof(PSN01), OnDelete = "CASCADE")]
         public int P01F06 { get; set; }
 
         /// <summary>

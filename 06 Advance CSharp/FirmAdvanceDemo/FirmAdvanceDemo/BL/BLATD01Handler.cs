@@ -224,7 +224,7 @@ namespace FirmAdvanceDemo.BL
             _objDBPCH01Context = new DBPCH01Context();  // initalize DBPCH01Context
 
             // get list of unprocessed punches
-            List<PCH01> lstPunch = _objDBPCH01Context.GetUnprocessedPunchesForDate(DateTime.Now);
+            List<PCH01> lstPunch = _objDBPCH01Context.GetUnprocessedPunchesForDate(date);
 
             if (lstPunch.Count == 0)
             {

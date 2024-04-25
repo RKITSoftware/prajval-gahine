@@ -15,7 +15,7 @@ namespace ORMLiteDemo.Models.POCO
         /// </summary>
         [AutoIncrement]
         [PrimaryKey]
-        public int P01F01 { get; set; }
+        public int H01F01 { get; set; }
 
         /// <summary>
         /// Employee Id

@@ -4,6 +4,7 @@ using ServiceStack.OrmLite;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Net;
 
 namespace FirmAdvanceDemo.BL
 {
@@ -48,7 +49,7 @@ namespace FirmAdvanceDemo.BL
                 return new Response
                 {
                     IsError = true,
-                    Message = $"Salary Slip of Employee Id {EmployeeId} from {start:dd-MM-yyyy} to {end:dd-MM-yyyy}",
+                    HttpStatusCode = HttpStatusCode.OK,
                     Data = csvContent
                 };
             }

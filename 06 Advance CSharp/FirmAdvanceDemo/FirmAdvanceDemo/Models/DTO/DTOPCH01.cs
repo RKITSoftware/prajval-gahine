@@ -29,7 +29,7 @@ namespace FirmAdvanceDemo.Models.DTO
         /// <summary>
         /// Punch Type
         /// </summary>
-        [JsonProperty("h01104")]
+        [JsonProperty("h01103")]
         public EnmPunchType H01F03 { get; set; }
     }
 }

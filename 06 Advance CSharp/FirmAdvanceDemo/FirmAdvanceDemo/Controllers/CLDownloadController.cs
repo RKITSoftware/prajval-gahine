@@ -55,7 +55,7 @@ namespace FirmAdvanceDemo.Controllers
 
             string csvContent = (string)statusInfo.Data;
             response.BinaryWrite(Encoding.UTF8.GetBytes(csvContent));
-            return Ok(response);
+            return Ok();
         }
     }
 }

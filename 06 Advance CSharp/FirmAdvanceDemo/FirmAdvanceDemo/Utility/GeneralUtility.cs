@@ -329,9 +329,10 @@ namespace FirmAdvanceDemo.Utility
                 foreach (PropertyInfo prop in props)
                 {
                     string data = null;
-                    if (prop.PropertyType == typeof(DateTime))
+                    if (prop.PropertyType == typeof(DateTime) || prop.PropertyType == typeof(DateTime?))
                     {
-                        data = ((DateTime)prop.GetValue(resource, null)).ToString("dd-MM-yyyy");
+                        DateTime? dt = ((DateTime?)prop.GetValue(resource, null));
+                        data = dt?.ToString(Constants.GlobalDateFormat);
                     }
                     else
                     {
@@ -343,6 +344,22 @@ namespace FirmAdvanceDemo.Utility
                 csvBody += row;
             });
             return $"{csvHeaders}{csvBody}";
+        }
+
+        public static int MonthTotalHoursWithoutWeekends(int year, int month)
+        {
+            DateTime date = new DateTime(year, month, 1);
+            int lastDay = DateTime.DaysInMonth(year, month);
+            int hours = 0;
+            for (int i = 0; i < lastDay; i++)
+            {
+                if (date.DayOfWeek != DayOfWeek.Saturday && date.DayOfWeek != DayOfWeek.Sunday)
+                {
+                    hours += 8;
+                }
+                date = date.AddDays(1);
+            }
+            return hours;
         }
     }
 }

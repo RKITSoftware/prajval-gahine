@@ -33,8 +33,8 @@ namespace FirmAdvanceDemo.Controllers
         /// <returns>HTTP response indicating the success or failure of the punch submission.</returns>
         [HttpPost]
         [Route("")]
-        [AccessTokenAuthentication]
-        [BasicAuthorization(Roles = "E")]
+        //[AccessTokenAuthentication]
+        //[BasicAuthorization(Roles = "E")]
         public IHttpActionResult PostPunch(DTOPCH01 objDTOPCH01)
         {
             // Validate if the user has access to submit punch for the given employee

@@ -43,7 +43,12 @@ namespace FirmAdvanceDemo.DB
 	                                        emp01 INNER JOIN (
 						                                        SELECT
 							                                        d01f02 AS EmployeeId,
-							                                        SUM(d01f04) AS WorkHours
+							                                        SUM(
+                                                                        CASE
+                                                                            WHEN d01f04 > 8 THEN 8
+                                                                            ELSE d01f04
+                                                                        END
+                                                                    ) AS WorkHours
 						                                        FROM
 							                                        atd01
 						                                        WHERE

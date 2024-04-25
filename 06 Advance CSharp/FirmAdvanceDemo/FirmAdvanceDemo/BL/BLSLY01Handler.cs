@@ -56,7 +56,7 @@ namespace FirmAdvanceDemo.BL
 
             // if month same as current then error "Salary already credited for current month".
             DateTime now = DateTime.Now;
-            if (lastCreditDate.Year == now.Year && lastCreditDate.Month == now.Month)
+            if (now.Date <= lastCreditDate)
             {
                 response.IsError = true;
                 response.HttpStatusCode = HttpStatusCode.Conflict;
@@ -117,7 +117,7 @@ namespace FirmAdvanceDemo.BL
         private List<SLY01> EmployeeWorkHourToSLY01(DataTable dtEmployeeWorkHour)
         {
             DateTime now = DateTime.Now;
-            double totalHoursInCurrentMonth = DateTime.DaysInMonth(now.Year, now.Month) * 24;
+            int totalHoursInCurrentMonth = GeneralUtility.MonthTotalHoursWithoutWeekends(now.Year, now.Month);
             List<SLY01> lstSalary = new List<SLY01>(dtEmployeeWorkHour.Rows.Count);
 
 
