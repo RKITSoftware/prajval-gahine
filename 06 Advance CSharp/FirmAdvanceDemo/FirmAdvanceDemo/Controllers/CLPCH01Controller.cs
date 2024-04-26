@@ -3,10 +3,8 @@ using FirmAdvanceDemo.BL;
 using FirmAdvanceDemo.Enums;
 using FirmAdvanceDemo.Models.DTO;
 using FirmAdvanceDemo.Utility;
-using Org.BouncyCastle.Crypto.Engines;
 using System;
 using System.Web.Http;
-using System.Web.Security;
 
 namespace FirmAdvanceDemo.Controllers
 {
@@ -91,7 +89,7 @@ namespace FirmAdvanceDemo.Controllers
         [Route("ambiguous")]
         [AccessTokenAuthentication]
         [BasicAuthorization(Roles = "A")]
-        public IHttpActionResult GetAmbiguousPunchByDate(DateTime date)
+        public IHttpActionResult GetAmbiguousPunchForDate(DateTime date)
         {
             Response response = _objBLPCH01Handler.RetrieveAmbiguousPunch(date);
             return Ok(response);
@@ -105,9 +103,25 @@ namespace FirmAdvanceDemo.Controllers
         {
             Response response;
             response = GeneralUtility.ValidateAccess(employeeID);
-            if(!response.IsError)
+            if (!response.IsError)
             {
                 response = _objBLPCH01Handler.RetrievePunchForEmployeeByMonth(employeeID, year, month);
+            }
+            return Ok(response);
+        }
+
+        [HttpPut]
+        [Route("process-unprocessed-punches")]
+        [AccessTokenAuthentication]
+        [BasicAuthorization(Roles = "A")]
+        public IHttpActionResult ProcessUprocessedPunchsForDate(DateTime date)
+        {
+            Response response;
+            _objBLPCH01Handler.PresaveProcessUnprocessPunchesForDate(date);
+            response = _objBLPCH01Handler.ValidateProcessedPunches();
+            if (!response.IsError)
+            {
+                response = _objBLPCH01Handler.SaveProcessedPunches();
             }
             return Ok(response);
         }

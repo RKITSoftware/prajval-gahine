@@ -8,7 +8,6 @@ using ServiceStack.OrmLite.Dapper;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Drawing;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -37,14 +36,14 @@ namespace FirmAdvanceDemo.BL
 
         private List<PCH01> _lstAmbigousPunch;
 
-        private class PunchProcessingData
+        private struct PunchProcessingData
         {
             public DateTime dateOfPunch;
             public List<PCH01> LstAllPunch;
             public List<PCH01> LstInOutPunch;
         }
 
-        private PunchProcessingData _punchProcessData;
+        private PunchProcessingData _punchProcessingData;
 
         /// <summary>
         /// Gets or sets the operation type for punch handling.
@@ -155,35 +154,55 @@ namespace FirmAdvanceDemo.BL
                 {
                     punch.H01F03 = EnmPunchType.I;
                 }
+                punch.H01F05 = DateTime.Now;
                 isEmployeePunchIn = !isEmployeePunchIn;
             }
         }
 
-
-
-
-        public void PresaveEoDPunches(DateTime date)
-        {
-            _punchProcessData = new PunchProcessingData
-            {
-                dateOfPunch = date,
-                LstAllPunch = GetUnprocessedPunchesForDate(date)
-            };
-            UpdateAllPunchType();
-        }
-
-        public Response SavePunchType()
+        public Response SaveVirtualPunch()
         {
             Response response = new Response();
             using (IDbConnection db = _dbFactory.OpenDbConnection())
             {
-                using (IDbTransaction txn = db.OpenTransaction())
-                {
-                    db.UpdateAll<PCH01>(_punchProcessData.LstAllPunch);
-                }
+                db.SaveAll<PCH01>(_lstAmbigousPunch);
             }
             response.HttpStatusCode = HttpStatusCode.OK;
-            response.Message = $"Punch type updated for date: {_punchProcessData.dateOfPunch.ToString(Constants.GlobalDateFormat)}";
+            response.Message = $"Ambiguous punches resolved for employee {_objPCH01.H01F02} for {_objPCH01.H01F04.ToString(Constants.GlobalDateFormat)}";
+            return response;
+        }
+
+
+        public void PresaveProcessUnprocessPunchesForDate(DateTime date)
+        {
+            _punchProcessingData = new PunchProcessingData
+            {
+                dateOfPunch = date,
+                LstAllPunch = GetUnprocessedPunchesForDate(date)
+            };
+            ProcessUnprocessedPunches();
+        }
+
+        public Response ValidateProcessedPunches()
+        {
+            Response response = new Response();
+            if (_punchProcessingData.LstAllPunch.Count == 0)
+            {
+                response.IsError = true;
+                response.HttpStatusCode = HttpStatusCode.NotFound;
+                response.Message = $"No unprocessed punch found for date {_punchProcessingData.dateOfPunch.ToString(Constants.GlobalDateFormat)}.";
+            }
+            return response;
+        }
+
+        public Response SaveProcessedPunches()
+        {
+            Response response = new Response();
+            using (IDbConnection db = _dbFactory.OpenDbConnection())
+            {
+                db.UpdateAll<PCH01>(_punchProcessingData.LstAllPunch);
+            }
+            response.HttpStatusCode = HttpStatusCode.OK;
+            response.Message = $"Punch type updated for date: {_punchProcessingData.dateOfPunch.ToString(Constants.GlobalDateFormat)}.";
             return response;
         }
 
@@ -218,7 +237,7 @@ namespace FirmAdvanceDemo.BL
         /// Updates the punch type based on certain criteria.
         /// </summary>
         /// <param name="lstPCH01">The list of punches to process.</param>
-        private void UpdateAllPunchType()
+        private void ProcessUnprocessedPunches()
         {
             MarkMistakenlyPunch();
             MarkAmbiguousPunch();
@@ -231,7 +250,7 @@ namespace FirmAdvanceDemo.BL
         /// <param name="_lstPCH01">The list of punches to process.</param>
         private void MarkMistakenlyPunch()
         {
-            List<PCH01> lstAllPunch = _punchProcessData.LstAllPunch;
+            List<PCH01> lstAllPunch = _punchProcessingData.LstAllPunch;
             TimeSpan timeBuffer = new TimeSpan(0, 0, 10);    // 10 second buffer
             int size = lstAllPunch.Count;
             for (int i = 0; i < size - 1; i++)
@@ -241,6 +260,7 @@ namespace FirmAdvanceDemo.BL
                 if (currPunch.H01F02 == nextPunch.H01F02 && nextPunch.H01F04.Subtract(currPunch.H01F04) <= timeBuffer)
                 {
                     currPunch.H01F03 = EnmPunchType.M;
+                    currPunch.H01F05 = DateTime.Now;
                 }
             }
         }
@@ -251,7 +271,7 @@ namespace FirmAdvanceDemo.BL
         /// <param name="_lstPCH01">The list of punches to process.</param>
         private void MarkAmbiguousPunch()
         {
-            List<PCH01> lstAllPunch = _punchProcessData.LstAllPunch;
+            List<PCH01> lstAllPunch = _punchProcessingData.LstAllPunch;
             int startIndex = 0;
             int endIndex = 0;
             int size = lstAllPunch.Count;
@@ -276,6 +296,7 @@ namespace FirmAdvanceDemo.BL
                             if (lstAllPunch[j].H01F03 == EnmPunchType.U)
                             {
                                 lstAllPunch[j].H01F03 = EnmPunchType.A;
+                                lstAllPunch[j].H01F05 = DateTime.Now;
                             }
                         }
                     }
@@ -296,7 +317,7 @@ namespace FirmAdvanceDemo.BL
         /// <param name="_lstPCH01">The list of punches to process.</param>
         private void MarkInOutPunch()
         {
-            List<PCH01> lstAllPunch = _punchProcessData.LstAllPunch;
+            List<PCH01> lstAllPunch = _punchProcessingData.LstAllPunch;
 
             bool isEmployeePunchIn = false;
             foreach (PCH01 punch in lstAllPunch)
@@ -311,29 +332,12 @@ namespace FirmAdvanceDemo.BL
                     {
                         punch.H01F03 = EnmPunchType.I;
                     }
-                    punch.H01F06 = true;
+                    punch.H01F05 = DateTime.Now;
                     isEmployeePunchIn = !isEmployeePunchIn;
                 }
             }
         }
 
-
-
-        public Response SaveVirtualPunch()
-        {
-            Response response = new Response();
-            using (IDbConnection db = _dbFactory.OpenDbConnection())
-            {
-                using (IDbTransaction tnx = db.OpenTransaction())
-                {
-                    db.Insert()
-                }
-                    db.SaveAll<PCH01>(_lstAmbigousPunch);
-            }
-            response.HttpStatusCode = HttpStatusCode.OK;
-            response.Message = $"Ambiguous punches resolved for employee {_objPCH01.H01F02} for {_objPCH01.H01F04.ToString(Constants.GlobalDateFormat)}";
-            return response;
-        }
 
         /// <summary>
         /// Validates the punch data before saving.
@@ -474,12 +478,12 @@ namespace FirmAdvanceDemo.BL
                                         objDTOPCH01.H01F02,
                                         objDTOPCH01.H01F04?.ToString(Constants.GlobalDateFormat),
                                         EnmPunchType.A);
-                using(IDbConnection db = _dbFactory.OpenDbConnection())
+                using (IDbConnection db = _dbFactory.OpenDbConnection())
                 {
                     isAmbigous = db.Scalar<int>(query) > 0;
                 }
 
-                if(!isAmbigous)
+                if (!isAmbigous)
                 {
                     response.IsError = true;
                     response.HttpStatusCode = HttpStatusCode.Conflict;

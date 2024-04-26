@@ -1,6 +1,8 @@
 using FirmAdvanceDemo.Auth;
 using FirmAdvanceDemo.BL;
 using FirmAdvanceDemo.Utility;
+using System;
+using System.Web;
 using System.Web.Http;
 
 namespace FirmAdvanceDemo.Controllers
@@ -34,7 +36,44 @@ namespace FirmAdvanceDemo.Controllers
         [BasicAuthorization(Roles = "A")]
         public IHttpActionResult CreditSalary()
         {
-            Response response = _objBLSLY01Handler.CreditSalary();
+            Response response;
+            _objBLSLY01Handler.PresaveUnSalariedAttendance();
+            response = _objBLSLY01Handler.ValidateUnSalariedAttendance();
+            if (!response.IsError)
+            {
+                response = _objBLSLY01Handler.SaveSalaries();
+            }
+            return Ok(response);
+        }
+
+        /// <summary>
+        /// Action method to download salary slip as a CSV file for a specific employee within a date range. Requires Employee role.
+        /// </summary>
+        /// <param name="employeeID">Employee ID</param>
+        /// <param name="startDate">Start date of the salary slip</param>
+        /// <param name="endDate">End date of the salary slip</param>
+        /// <returns>HTTP response indicating the result of the operation.</returns>
+        [HttpGet]
+        [Route("download/{employeeID}")]
+        [AccessTokenAuthentication]
+        [BasicAuthorization(Roles = "E")]
+        public IHttpActionResult GetSalarySlipCsv(int employeeID, DateTime startDate, DateTime endDate)
+        {
+
+            Response response = _objBLSLY01Handler.DownloadSalarySlip(employeeID, startDate, endDate);
+
+            if (!response.IsError)
+            {
+                HttpResponse httpResponse = HttpContext.Current.Response;
+
+                httpResponse.Clear();
+                httpResponse.AppendHeader("Content-Type", "text/csv");
+                httpResponse.AppendHeader("Content-Disposition", $"attachment;filename=salary-slip-{employeeID}-{startDate:yyyyMMdd}To{endDate:yyyyMMdd}.csv;");
+
+                httpResponse.BinaryWrite((byte[])response.Data);
+
+                return Ok();
+            }
             return Ok(response);
         }
     }

@@ -3,32 +3,32 @@ namespace FirmAdvanceDemo.Enums
     /// <summary>
     /// Represnt current status of leave. None value is used to get all types of leaves
     /// </summary>
-    public enum EnmLeaveStatus
+    public enum EnmLeaveStatus : byte
     {
         /// <summary>
         /// Pending
         /// </summary>
-        P = 'P',
+        P,
 
         /// <summary>
         /// Approved
         /// </summary>
-        A = 'A',
+        A,
 
         /// <summary>
         /// Rejected
         /// </summary>
-        R = 'R',
+        R,
 
         /// <summary>
         /// Expired
         /// </summary>
-        E = 'E',
+        E,
 
         /// <summary>
-        /// All
+        /// Historic
         /// </summary>
-        X = 'X',
+        H,
     }
 
     /// <summary>
@@ -65,17 +65,17 @@ namespace FirmAdvanceDemo.Enums
     /// <summary>
     /// Represent type of role of user
     /// </summary>
-    public enum EnmRole
+    public enum EnmRole : byte
     {
         /// <summary>
         /// Admin
         /// </summary>
-        A = 'A',
+        A,
 
         /// <summary>
         /// Employee
         /// </summary>
-        E = 'E'
+        E
     }
 
     public enum EnmGender : byte

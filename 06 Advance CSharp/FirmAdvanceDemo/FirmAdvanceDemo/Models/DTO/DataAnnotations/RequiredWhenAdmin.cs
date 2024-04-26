@@ -1,9 +1,5 @@
 ﻿using FirmAdvanceDemo.Utility;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
 
 namespace FirmAdvanceDemo.Models.DTO.DataAnnotations
 {
@@ -16,7 +12,7 @@ namespace FirmAdvanceDemo.Models.DTO.DataAnnotations
         /// <returns>True if the value is valid; otherwise, false.</returns>
         public override bool IsValid(object value)
         {
-            if(GeneralUtility.IsAdmin() && value == null)
+            if (GeneralUtility.IsAdmin() && value == null)
             {
                 return false;
             }

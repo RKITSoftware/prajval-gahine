@@ -181,7 +181,6 @@
     <Compile Include="Auth\BasicAuthorizationAttribute.cs" />
     <Compile Include="Auth\RefreshTokenAuthenticationAttribute.cs" />
     <Compile Include="BL\BLATD01Handler.cs" />
-    <Compile Include="BL\BLDownload.cs" />
     <Compile Include="BL\BLDPT01Handler.cs" />
     <Compile Include="BL\BLEMP01Handler.cs" />
     <Compile Include="BL\BLLVE02Handler.cs" />
@@ -194,7 +193,6 @@
     <Compile Include="Connection\OrmliteDbConnector.cs" />
     <Compile Include="Controllers\CLATD01Controller.cs" />
     <Compile Include="Controllers\CLAuthController.cs" />
-    <Compile Include="Controllers\CLDownloadController.cs" />
     <Compile Include="Controllers\CLDPT01Controller.cs" />
     <Compile Include="Controllers\CLEMP01Controller.cs" />
     <Compile Include="Controllers\CLLVE02Controller.cs" />

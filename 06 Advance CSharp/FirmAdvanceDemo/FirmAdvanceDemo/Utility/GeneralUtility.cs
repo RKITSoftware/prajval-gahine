@@ -3,7 +3,6 @@ using Newtonsoft.Json.Linq;
 using ServiceStack;
 using ServiceStack.OrmLite;
 using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.IO;
@@ -308,44 +307,33 @@ namespace FirmAdvanceDemo.Utility
         /// <param name="lstResource">The list of objects to convert.</param>
         /// <param name="resourceType">The type of the objects in the list.</param>
         /// <returns>A CSV string representing the list of objects.</returns>
-        public static string ConvertToCSV<T>(List<T> lstResource)
+        public static byte[] ConvertToCSV(DataTable dt)
         {
-            Type resourceType = typeof(T);
-            string csvContent = string.Empty;
+            StringBuilder csvBuilder = new StringBuilder();
 
-            // get resource's all public and instance props
-            PropertyInfo[] props = resourceType.GetProperties(BindingFlags.Public | BindingFlags.Instance);
+            string[] lstHeader = dt.Columns.Cast<DataColumn>()
+                .Select(header => header.ColumnName).ToArray();
 
-            // add those props Name as csv header
-            List<string> lstCsvHeader = props.Select(prop => prop.Name).ToList<string>();
-            string csvHeaders = string.Join(",", lstCsvHeader) + "\n";
-            string csvBody = string.Empty;
+            csvBuilder.Append(lstHeader.Join(","));
+            csvBuilder.Append("\n");
 
-            // create a memory stream
-            List<string> lstRowData = null;
-            lstResource.ForEach(resource =>
+            foreach (DataRow dr in dt.Rows)
             {
-                lstRowData = new List<string>(props.Length);
-                foreach (PropertyInfo prop in props)
-                {
-                    string data = null;
-                    if (prop.PropertyType == typeof(DateTime) || prop.PropertyType == typeof(DateTime?))
-                    {
-                        DateTime? dt = ((DateTime?)prop.GetValue(resource, null));
-                        data = dt?.ToString(Constants.GlobalDateFormat);
-                    }
-                    else
-                    {
-                        data = prop.GetValue(resource, null).ToString();
-                    }
-                    lstRowData.Add(data);
-                }
-                string row = string.Join(",", lstRowData) + "\n";
-                csvBody += row;
-            });
-            return $"{csvHeaders}{csvBody}";
+                string[] lstField = dr.ItemArray.Select(field => field.ToString())
+                    .ToArray();
+                csvBuilder.Append(lstField.Join(","));
+                csvBuilder.Append("\n");
+            }
+
+            return Encoding.UTF8.GetBytes(csvBuilder.ToString());
         }
 
+        /// <summary>
+        /// Calculates the total number of working hours in a month excluding weekends.
+        /// </summary>
+        /// <param name="year">The year of the month.</param>
+        /// <param name="month">The month.</param>
+        /// <returns>The total number of working hours in the month excluding weekends.</returns>
         public static int MonthTotalHoursWithoutWeekends(int year, int month)
         {
             DateTime date = new DateTime(year, month, 1);

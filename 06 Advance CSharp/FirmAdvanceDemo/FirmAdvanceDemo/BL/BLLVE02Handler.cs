@@ -5,7 +5,6 @@ using FirmAdvanceDemo.Models.POCO;
 using FirmAdvanceDemo.Utility;
 using ServiceStack.OrmLite;
 using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Net;
@@ -90,6 +89,9 @@ namespace FirmAdvanceDemo.BL
 
                     return response;
                 }
+
+                // leave can only be edited when its status is pending
+                if(objDTOLVE02.E02F03 <= )
             }
 
             return response;
@@ -102,27 +104,23 @@ namespace FirmAdvanceDemo.BL
         public void Presave(DTOLVE02 objDTOLVE02)
         {
             _objLVE02 = objDTOLVE02.ConvertModel<LVE02>();
-
-            // set employeeID in case of employee is accessing
-            if (!GeneralUtility.IsAdmin())
-            {
-                _objLVE02.E02F02 = GeneralUtility.GetEmployeeIDFromItems();
-            }
-
+            DateTime now = DateTime.Now;
+            
             if (Operation == EnmOperation.A)
             {
                 _objLVE02.E02F01 = 0;
-                _objLVE02.E02F03 = _objLVE02.E02F03.Date;
-                _objLVE02.E02F06 = EnmLeaveStatus.P;
+                if (_objLVE02.E02F03 <= now)
+                {
+                    _objLVE02.E02F06 = EnmLeaveStatus.H;
+                }
+                else
+                {
+                    _objLVE02.E02F06 = EnmLeaveStatus.P;
+                }
                 _objLVE02.E02F07 = DateTime.Now;
             }
             else
             {
-                // if employee is editing then override status to P
-                if (!GeneralUtility.IsAdmin())
-                {
-                    _objLVE02.E02F06 = EnmLeaveStatus.P;
-                }
                 _objLVE02.E02F08 = DateTime.Now;
             }
         }
@@ -135,25 +133,6 @@ namespace FirmAdvanceDemo.BL
         {
             Response response = new Response();
 
-            // if employee is editing,
-            // then he cannot edit non-pending status leave
-            if (Operation == EnmOperation.E)
-            {
-                EnmLeaveStatus leaveStatus;
-                using (IDbConnection db = _dbFactory.OpenDbConnection())
-                {
-                    leaveStatus = db.Scalar<LVE02, EnmLeaveStatus>(leave => leave.E02F06, leave => leave.E02F01 == _objLVE02.E02F01);
-                }
-
-                if (leaveStatus != EnmLeaveStatus.P)
-                {
-                    response.IsError = true;
-                    response.HttpStatusCode = HttpStatusCode.Conflict;
-                    response.Message = $"Leave {_objLVE02.E02F01} is not in pending state.";
-
-                    return response;
-                }
-            }
             // nothing to validate as of now
             return response;
         }
@@ -235,172 +214,6 @@ namespace FirmAdvanceDemo.BL
                         IsError = true,
                         Message = $"Leave count for employee with employeeId: {EmployeeId} for monht/year: {month}/{year}",
                         Data = new { LeaveCount = leaveCount }
-                    };
-                }
-            }
-            catch (Exception ex)
-            {
-                return new Response()
-                {
-                    IsError = false,
-                    Message = ex.Message,
-                    Data = null
-                };
-            }
-        }
-
-        /// <summary>
-        /// Method to fetch all leave of specified employee (by employee id).
-        /// </summary>
-        /// <param name="EmployeeId">Employee ID.</param>
-        /// <returns>A response containing the list of leaves.</returns>
-        public Response FetchLeaveByEmployeeId(int EmployeeId)
-        {
-            try
-            {
-                using (IDbConnection db = _dbFactory.OpenDbConnection())
-                {
-                    List<LVE02> lstLeaveByEmployeeId = db.Select<LVE02>(Leave => Leave.E02F02 == EmployeeId);
-                    return new Response()
-                    {
-                        IsError = true,
-                        Message = $"Leave list of employee with employeeId: {EmployeeId}",
-                        Data = lstLeaveByEmployeeId
-                    };
-                }
-            }
-            catch (Exception ex)
-            {
-                return new Response()
-                {
-                    IsError = false,
-                    Message = ex.Message,
-                    Data = null
-                };
-            }
-        }
-
-        /// <summary>
-        /// Method to fetch leave by month-year of leave.
-        /// </summary>
-        /// <param name="month">Leave month.</param>
-        /// <param name="year">Leave year.</param>
-        /// <returns>A response containing the list of leaves.</returns>                                                                 </returns>
-        public Response FetchLeaveByMonthYear(int month, int year)
-        {
-            try
-            {
-                using (IDbConnection db = _dbFactory.OpenDbConnection())
-                {
-                    DateTime MonthFirstDate = new DateTime(year, month, 1);
-                    DateTime MonthLastDate = new DateTime(year, month, DateTime.DaysInMonth(year, month));
-
-                    SqlExpression<LVE02> sqlExp = db.From<LVE02>().
-                        Where(l => l.E02F06 == EnmLeaveStatus.A)
-                        .And(l => l.E02F03 >= MonthFirstDate && l.E02F03 <= MonthLastDate)
-                        .Or(
-                            "adddate(E01F04, INTERVAL (E01F05 - 1) DAY) >= {0} AND adddate(E01F04, INTERVAL (E01F05 - 1) DAY) <= {1}",
-                            MonthFirstDate.ToString("yyyy-MM-dd"),
-                            MonthLastDate.ToString("yyyy-MM-dd")
-                        );
-
-                    List<LVE02> lstLeaveByMonthYear = db.Select<LVE02>(sqlExp);
-                    return new Response()
-                    {
-                        IsError = true,
-                        Message = $"Leave list of employees for month/year: {month}/{year}",
-                        Data = lstLeaveByMonthYear
-                    };
-                }
-            }
-            catch (Exception ex)
-            {
-                return new Response()
-                {
-                    IsError = false,
-                    Message = ex.Message,
-                    Data = null
-                };
-            }
-        }
-
-        /// <summary>
-        /// Method to fetch leave of an employee for a specific month-year.
-        /// </summary>
-        /// <param name="EmployeeId">Employee ID.</param>
-        /// <param name="month">Leave month.</param>
-        /// <param name="year">Leave year.</param>
-        /// <returns>A response containing the leave data.</returns>
-        public Response FetchLeaveByEmployeeIdAndMonthYear(int EmployeeId, int month, int year)
-        {
-            try
-            {
-                using (IDbConnection db = _dbFactory.OpenDbConnection())
-                {
-                    DateTime MonthFirstDate = new DateTime(year, month, 1);
-                    DateTime MonthLastDate = new DateTime(year, month, DateTime.DaysInMonth(year, month));
-
-                    SqlExpression<LVE02> sqlExp = db.From<LVE02>()
-                        .Where(leave => leave.E02F02 == EmployeeId)
-                        .And(l => l.E02F06 == EnmLeaveStatus.A)
-                        .And(l => l.E02F03 >= MonthFirstDate && l.E02F03 <= MonthLastDate)
-                        .Or(
-                            "adddate(E01F04, INTERVAL (E01F05 - 1) DAY) >= {0} AND adddate(E01F04, INTERVAL (E01F05 - 1) DAY) <= {1}",
-                            MonthFirstDate.ToString("yyyy-MM-dd"),
-                            MonthLastDate.ToString("yyyy-MM-dd")
-                        );
-
-                    List<LVE02> lstLeaveByEmployeeIdAndMonthYear = db.Select<LVE02>(sqlExp);
-                    return new Response()
-                    {
-                        IsError = true,
-                        Message = $"Leave list of Employee with employeeId: {EmployeeId} for month/year: {month}/{year}",
-                        Data = lstLeaveByEmployeeIdAndMonthYear
-                    };
-                }
-            }
-            catch (Exception ex)
-            {
-                return new Response()
-                {
-                    IsError = false,
-                    Message = ex.Message,
-                    Data = null
-                };
-            }
-        }
-
-        /// <summary>
-        /// Method to fetch leave of employee for the current month.
-        /// </summary>
-        /// <param name="EmployeeId">Employee ID.</param>
-        /// <returns>A response containing the list of leaves.</returns>
-        public Response FetchLeaveByEmployeeIdForCurrentMonth(int EmployeeId)
-        {
-            try
-            {
-                using (IDbConnection db = _dbFactory.OpenDbConnection())
-                {
-                    DateTime CurrentDate = DateTime.Now;
-                    DateTime CurrentMonthFirstDate = new DateTime(CurrentDate.Year, CurrentDate.Month, 1);
-                    DateTime CurrentMonthLastDate = new DateTime(CurrentDate.Year, CurrentDate.Month, DateTime.DaysInMonth(CurrentDate.Year, CurrentDate.Month));
-
-                    SqlExpression<LVE02> sqlExp = db.From<LVE02>()
-                        .Where(Leave => Leave.E02F02 == EmployeeId)
-                        .And(l => l.E02F06 == EnmLeaveStatus.A)
-                        .And(l => l.E02F03 >= CurrentMonthFirstDate && l.E02F03 <= CurrentMonthLastDate)
-                        .Or(
-                            "adddate(E01F04, INTERVAL (E01F05 - 1) DAY) >= {0} AND adddate(E01F04, INTERVAL (E01F05 - 1) DAY) <= {1}",
-                            CurrentMonthFirstDate.ToString("yyyy-MM-dd"),
-                            CurrentMonthLastDate.ToString("yyyy-MM-dd")
-                        );
-
-                    List<LVE02> lstLeaveByEmployeeIdForCurrentMonth = db.Select<LVE02>(sqlExp);
-                    return new Response()
-                    {
-                        IsError = true,
-                        Message = $"Leave list of Employee with employeeId: {EmployeeId} for current month",
-                        Data = lstLeaveByEmployeeIdForCurrentMonth
                     };
                 }
             }
@@ -501,6 +314,8 @@ namespace FirmAdvanceDemo.BL
             }
         }
 
+        public Response
+
         /// <summary>
         /// Method to retrieve all leave records.
         /// </summary>
@@ -592,6 +407,129 @@ namespace FirmAdvanceDemo.BL
             return response;
         }
 
+
+        /// <summary>
+        /// Method to retrieve leave records for a specific month and year.
+        /// </summary>
+        /// <param name="year">Year.</param>
+        /// <param name="month">Month.</param>
+        /// <returns>A response containing the retrieved leave data.</returns>
+        public Response RetrieveLeaveByMonthYear(int year, int month)
+        {
+            Response response = new Response();
+            DataTable dtLeave = _objDBLVE02Context.FetchLeaveByMonthYear(year, month);
+            if (dtLeave.Rows.Count == 0)
+            {
+                response.IsError = true;
+                response.HttpStatusCode = HttpStatusCode.NotFound;
+                response.Message = $"No leaves found for month: {year}/{month}.";
+
+                return response;
+            }
+            response.HttpStatusCode = HttpStatusCode.OK;
+            response.Data = dtLeave;
+
+            return response;
+        }
+
+        /// <summary>
+        /// Method to retrieve leave records for a specific date.
+        /// </summary>
+        /// <param name="date">Date.</param>
+        /// <returns>A response containing the retrieved leave data.</returns>
+        public Response RetrieveLeaveForDate(DateTime date)
+        {
+            Response response = new Response();
+            DataTable dtLeave = _objDBLVE02Context.FetchLeaveForDate(date);
+            if (dtLeave.Rows.Count == 0)
+            {
+                response.IsError = true;
+                response.HttpStatusCode = HttpStatusCode.NotFound;
+                response.Message = $"No leaves found for date: {date.ToString(GlobalDateFormat)}.";
+
+                return response;
+            }
+            response.HttpStatusCode = HttpStatusCode.OK;
+            response.Data = dtLeave;
+
+            return response;
+        }
+
+        /// <summary>
+        /// Method to retrieve leave records for a specific employee and month-year.
+        /// </summary>
+        /// <param name="employeeId">Employee ID.</param>
+        /// <param name="year">Year.</param>
+        /// <param name="month">Month.</param>
+        /// <returns>A response containing the retrieved leave data.</returns>
+        public Response RetrieveLeaveByEmployeeAndMonthYear(int employeeId, int year, int month)
+        {
+            Response response = new Response();
+            //DataTable dtLeave = _objDBLVE02Context.FetchLeaveByEmployeeAndMonthYear(employeeId, year, month);
+            DataTable dtLeave = _objDBLVE02Context.FetchLeaveGeneral(employeeId, year, month);
+            if (dtLeave.Rows.Count == 0)
+            {
+                response.IsError = true;
+                response.HttpStatusCode = HttpStatusCode.NotFound;
+                response.Message = $"No leaves found for employee {employeeId} for {year}/{month}.";
+
+                return response;
+            }
+            response.HttpStatusCode = HttpStatusCode.OK;
+            response.Data = dtLeave;
+
+            return response;
+        }
+
+        /// <summary>
+        /// Method to retrieve leave records for a specific employee and year.
+        /// </summary>
+        /// <param name="employeeID">Employee ID.</param>
+        /// <param name="year">Year.</param>
+        /// <returns>A response containing the retrieved leave data.</returns>
+        public Response RetrieveLeaveByEmployeeAndYear(int employeeID, int year)
+        {
+            Response response = new Response();
+            DataTable dtLeave = _objDBLVE02Context.FetchLeaveByEmployeeAndMonth(employeeID, year);
+            if (dtLeave.Rows.Count == 0)
+            {
+                response.IsError = true;
+                response.HttpStatusCode = HttpStatusCode.NotFound;
+                response.Message = $"No leaves found for employee {employeeID} for {year}.";
+
+                return response;
+            }
+            response.HttpStatusCode = HttpStatusCode.OK;
+            response.Data = dtLeave;
+
+            return response;
+        }
+
+        public Response ValidateEmployeeLeave(int leaveID)
+        {
+            // check if leave exists
+            // if yes then get employee id
+            // then compare it with employee id in items
+
+            Response response = new Response();
+            int employeeID;
+            using (IDbConnection db = _dbFactory.OpenDbConnection())
+            {
+                employeeID = db.Scalar<LVE02, int>(leave => leave.E02F02, leave => leave.E02F01 == leaveID);
+            }
+
+            if (employeeID == 0)
+            {
+                response.IsError = true;
+                response.HttpStatusCode = HttpStatusCode.NotFound;
+                response.Message = $"Leave {leaveID} not found.";
+
+                return response;
+            }
+            response = GeneralUtility.ValidateAccess(employeeID);
+            return response;
+        }
+
         /// <summary>
         /// Method to validate leave deletion.
         /// </summary>
@@ -655,117 +593,27 @@ namespace FirmAdvanceDemo.BL
             return response;
         }
 
-        /// <summary>
-        /// Method to retrieve leave records for a specific month and year.
-        /// </summary>
-        /// <param name="year">Year.</param>
-        /// <param name="month">Month.</param>
-        /// <returns>A response containing the retrieved leave data.</returns>
-        public Response RetrieveLeaveByMonthYear(int year, int month)
+        public Response ValidateUpdateLeaveStatus(int leaveID, EnmLeaveStatus toLeaveStatus)
         {
             Response response = new Response();
-            DataTable dtLeave = _objDBLVE02Context.FetchLeaveByMonthYear(year, month);
-            if (dtLeave.Rows.Count == 0)
+
+            // check if toLeaveStatus is
+            if (toLeaveStatus == EnmLeaveStatus.P)
             {
                 response.IsError = true;
-                response.HttpStatusCode = HttpStatusCode.NotFound;
-                response.Message = $"No leaves found for month: {year}/{month}.";
+                response.HttpStatusCode = HttpStatusCode.BadRequest;
+                response.Message = "Leave request cannot be reverted to pending status.";
 
                 return response;
             }
-            response.HttpStatusCode = HttpStatusCode.OK;
-            response.Data = dtLeave;
 
-            return response;
-        }
-
-        /// <summary>
-        /// Method to retrieve leave records for a specific date.
-        /// </summary>
-        /// <param name="date">Date.</param>
-        /// <returns>A response containing the retrieved leave data.</returns>
-        public Response RetrieveLeaveByDate(DateTime date)
-        {
-            Response response = new Response();
-            DataTable dtLeave = _objDBLVE02Context.FetchLeaveByDate(date);
-            if (dtLeave.Rows.Count == 0)
-            {
-                response.IsError = true;
-                response.HttpStatusCode = HttpStatusCode.NotFound;
-                response.Message = $"No leaves found for date: {date.ToString(GlobalDateFormat)}.";
-
-                return response;
-            }
-            response.HttpStatusCode = HttpStatusCode.OK;
-            response.Data = dtLeave;
-
-            return response;
-        }
-
-        /// <summary>
-        /// Method to retrieve leave records for a specific employee and month-year.
-        /// </summary>
-        /// <param name="employeeId">Employee ID.</param>
-        /// <param name="year">Year.</param>
-        /// <param name="month">Month.</param>
-        /// <returns>A response containing the retrieved leave data.</returns>
-        public Response RetrieveLeaveByEmployeeAndMonthYear(int employeeId, int year, int month)
-        {
-            Response response = new Response();
-            //DataTable dtLeave = _objDBLVE02Context.FetchLeaveByEmployeeAndMonthYear(employeeId, year, month);
-            DataTable dtLeave = _objDBLVE02Context.FetchLeaveGeneral(employeeId, year, month);
-            if (dtLeave.Rows.Count == 0)
-            {
-                response.IsError = true;
-                response.HttpStatusCode = HttpStatusCode.NotFound;
-                response.Message = $"No leaves found for employee {employeeId} for {year}/{month}.";
-
-                return response;
-            }
-            response.HttpStatusCode = HttpStatusCode.OK;
-            response.Data = dtLeave;
-
-            return response;
-        }
-
-        /// <summary>
-        /// Method to retrieve leave records for a specific employee and year.
-        /// </summary>
-        /// <param name="employeeId">Employee ID.</param>
-        /// <param name="year">Year.</param>
-        /// <returns>A response containing the retrieved leave data.</returns>
-        public Response RetrieveLeaveByEmployeeAnYear(int employeeId, int year)
-        {
-            Response response = new Response();
-            DataTable dtLeave = _objDBLVE02Context.FetchLeaveByEmployeeAndMonth(employeeId, year);
-            if (dtLeave.Rows.Count == 0)
-            {
-                response.IsError = true;
-                response.HttpStatusCode = HttpStatusCode.NotFound;
-                response.Message = $"No leaves found for employee {employeeId} for {year}.";
-
-                return response;
-            }
-            response.HttpStatusCode = HttpStatusCode.OK;
-            response.Data = dtLeave;
-
-            return response;
-        }
-
-        public Response ValidateEmployeeLeave(int leaveID)
-        {
-            // check if leave exists
-            // if yes then get employee id
-            // then compare it with employee id in items
-
-            Response response = new Response();
-            int employeeID;
+            // check if leave exists ?
+            bool isLeaveExists;
             using (IDbConnection db = _dbFactory.OpenDbConnection())
             {
-                employeeID = db.Scalar<LVE02, int>(leave => leave.E02F02, leave => leave.E02F01 == leaveID);
+                isLeaveExists = db.Exists<LVE02>(new { e02f01 = leaveID });
             }
-
-            if (employeeID == 0)
+            if (!isLeaveExists)
             {
                 response.IsError = true;
                 response.HttpStatusCode = HttpStatusCode.NotFound;
@@ -773,7 +621,34 @@ namespace FirmAdvanceDemo.BL
 
                 return response;
             }
-            response = GeneralUtility.ValidateAccess(employeeID);
+
+            // check if existing leave status is not historic
+            EnmLeaveStatus leaveStatus;
+            using (IDbConnection db = _dbFactory.OpenDbConnection())
+            {
+                leaveStatus = db.Scalar<LVE02, EnmLeaveStatus>(leave => leave.E02F06, leave => leave.E02F01 == leaveID);
+            }
+
+            if (leaveStatus == EnmLeaveStatus.H)
+            {
+                response.IsError = true;
+                response.HttpStatusCode = HttpStatusCode.BadRequest;
+                response.Message = $"Leave status cannot be changed for historical records.";
+
+                return response;
+            }
+            return response;
+        }
+
+        public Response SaveLeaveStatus(int leaveID, EnmLeaveStatus toLeaveStatus)
+        {
+            Response response = new Response();
+            using (IDbConnection db = _dbFactory.OpenDbConnection())
+            {
+                db.Update<LVE02>(new { e02f06 = toLeaveStatus }, where: leave => leave.E02F01 == leaveID);
+            }
+            response.HttpStatusCode = HttpStatusCode.OK;
+            response.Message = $"Leave {leaveID} status updated {toLeaveStatus}.";
             return response;
         }
     }

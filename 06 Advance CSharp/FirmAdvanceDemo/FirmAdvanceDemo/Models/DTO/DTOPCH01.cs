@@ -1,8 +1,8 @@
 using FirmAdvanceDemo.Enums;
-using Newtonsoft.Json;
-using System.ComponentModel.DataAnnotations;
 using FirmAdvanceDemo.Models.DTO.DataAnnotations;
+using Newtonsoft.Json;
 using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace FirmAdvanceDemo.Models.DTO
 {

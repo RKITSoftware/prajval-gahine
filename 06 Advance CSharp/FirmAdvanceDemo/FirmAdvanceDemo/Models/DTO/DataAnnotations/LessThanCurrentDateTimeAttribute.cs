@@ -15,7 +15,7 @@ namespace FirmAdvanceDemo.Models.DTO.DataAnnotations
         /// <returns>True if the value is valid; otherwise, false.</returns>
         public override bool IsValid(object value)
         {
-            if(value == null) return true;  // punch admin or employee post difference
+            if (value == null) return true;  // punch admin or employee post difference
             DateTime d = Convert.ToDateTime(value);
             return d <= DateTime.Now.Date;
         }

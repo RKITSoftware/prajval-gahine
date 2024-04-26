@@ -268,7 +268,7 @@ namespace FirmAdvanceDemo.DB
         /// </summary>
         /// <param name="date">The date of the leave records.</param>
         /// <returns>A DataTable containing the leave records for the specified date.</returns>
-        public DataTable FetchLeaveByDate(DateTime date)
+        public DataTable FetchLeaveForDate(DateTime date)
         {
             DataTable dtLeave;
 
@@ -415,8 +415,8 @@ namespace FirmAdvanceDemo.DB
             }
             else if (year != 0)
             {
-                string startDate = string.Empty;
-                string endDate = string.Empty;
+                string startDate;
+                string endDate;
                 if (month != 0)
                 {
                     startDate = string.Format("{0}-{1}-01", year, month);

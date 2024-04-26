@@ -2,7 +2,6 @@ using FirmAdvanceDemo.DB;
 using FirmAdvanceDemo.Models.POCO;
 using FirmAdvanceDemo.Utility;
 using ServiceStack.OrmLite;
-using ServiceStack.OrmLite.Dapper;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -16,11 +15,6 @@ namespace FirmAdvanceDemo.BL
     public class BLSLY01Handler
     {
         /// <summary>
-        /// Instance of SLY01 model.
-        /// </summary>
-        private readonly SLY01 _objSLY01;
-
-        /// <summary>
         /// Context for Salary handler.
         /// </summary>
         private readonly DBSLY01Context _dBSLY01Context;
@@ -30,6 +24,21 @@ namespace FirmAdvanceDemo.BL
         /// </summary>
         private readonly OrmLiteConnectionFactory _dbFactory;
 
+        private struct SalaryProcessingData
+        {
+            /// <summary>
+            /// DataTable containing employee work hours until yesterday.
+            /// </summary>
+            public DataTable DtEmployeeWorkHoursUntilYesterday;
+
+            /// <summary>
+            /// DataTable containing employee work hours until yesterday.
+            /// </summary>
+            public List<SLY01> LstToBePaidSalary;
+        }
+
+        private SalaryProcessingData _objProcessSalaryData;
+
         /// <summary>
         /// Default constructor for BLSLY01Handler.
         /// </summary>
@@ -37,57 +46,52 @@ namespace FirmAdvanceDemo.BL
         {
             _dbFactory = OrmliteDbConnector.DbFactory;
             _dBSLY01Context = new DBSLY01Context();
-            _objSLY01 = new SLY01();
         }
 
         /// <summary>
-        /// Credits employees' salary based on their attendance from last_salary_credit_date to current_date.
+        /// Pre-saves unsalaried attendance records.
         /// </summary>
-        /// <returns>A response indicating the outcome of the credit operation.</returns>
-        public Response CreditSalary()
+        public void PresaveUnSalariedAttendance()
         {
-            Response response = new Response();
+            _objProcessSalaryData = new SalaryProcessingData();
+            _objProcessSalaryData.DtEmployeeWorkHoursUntilYesterday = _dBSLY01Context.FetchUnpaidWorkHours();
+            _objProcessSalaryData.LstToBePaidSalary = ProcessDtEmployeeWorkHour();
+        }
 
-            // get [last credit salary date]
-            DateTime lastCreditDate;
-            using (IDbConnection db = _dbFactory.OpenDbConnection())
-            {
-                lastCreditDate = db.Scalar<STG01, DateTime>(salary => salary.G01F02);
-            }
-
-            // if month same as current then error "Salary already credited for current month".
-            DateTime now = DateTime.Now;
-            if (now.Date <= lastCreditDate)
-            {
-                response.IsError = true;
-                response.HttpStatusCode = HttpStatusCode.Conflict;
-                response.Message = "Salary for the current month has already been processed.";
-
-                return response;
-            }
-
-            // from attendance table fetch attendances from [last credit salary date] till [yesterday] and aggragte sum on workhour for each employeeId filtered.
-            DataTable dtEmployeeWorkHour = _dBSLY01Context.FetchUnpaidWorkHours(lastCreditDate);
-            if (dtEmployeeWorkHour.Rows.Count == 0)
+        /// <summary>
+        /// Validates unsalaried attendance records.
+        /// </summary>
+        /// <returns>A response indicating the validation result.</returns>
+        public Response ValidateUnSalariedAttendance()
+        {
+            Response response = new Utility.Response();
+            if (_objProcessSalaryData.DtEmployeeWorkHoursUntilYesterday.Rows.Count == 0)
             {
                 response.IsError = true;
                 response.HttpStatusCode = HttpStatusCode.NotFound;
-                response.Message = "Unable to process salary: no work hours recorded for the employee.";
+                response.Message = $"No pending salaries.";
 
                 return response;
             }
-            // now u have employee id and their workhour.
+            return response;
+        }
 
-            List<SLY01> lstSalary = EmployeeWorkHourToSLY01(dtEmployeeWorkHour);
+        /// <summary>
+        /// Saves salaries for employees.
+        /// </summary>
+        /// <returns>A response indicating the save result.</returns>
+        public Response SaveSalaries()
+        {
+            Response response = new Response();
+            DateTime now = DateTime.Now;
 
-            // now insert into sly01 table accordingly and update setting table by modifying lst credit date
             using (IDbConnection db = _dbFactory.OpenDbConnection())
             {
                 using (IDbTransaction txn = db.OpenTransaction())
                 {
                     try
                     {
-                        db.InsertAll<SLY01>(lstSalary);
+                        db.InsertAll<SLY01>(_objProcessSalaryData.LstToBePaidSalary);
 
                         // query to update salaried attendance
                         string query = string.Format(@"
@@ -96,10 +100,8 @@ namespace FirmAdvanceDemo.BL
                                     SET
                                         d01f07 = 1
                                     WHERE
-                                        d01f03 > '{0}' AND
-                                        d01f03 < '{1}'
-                                    ",
-                                    lastCreditDate.ToString(Constants.GlobalDateFormat),
+                                        d01f07 = 0 AND
+                                        d01f03 < '{0}'",
                                     DateTime.Now.ToString(Constants.GlobalDateFormat));
                         db.ExecuteNonQuery(query);
 
@@ -110,6 +112,7 @@ namespace FirmAdvanceDemo.BL
                             G01F04 = now
                         };
                         db.Update<STG01>(objSTG01);
+
                         txn.Commit();
                     }
                     catch
@@ -120,26 +123,23 @@ namespace FirmAdvanceDemo.BL
             }
 
             response.HttpStatusCode = HttpStatusCode.OK;
-            response.Message = "Salary Credited";
-
+            response.Message = $"Salaries credited till date {now.ToString(Constants.GlobalDateFormat)}.";
             return response;
         }
 
         /// <summary>
         /// Converts employee work hour data from DataTable to a list of SLY01 instances.
         /// </summary>
-        /// <param name="dtEmployeeWorkHour">DataTable containing employee work hour data.</param>
         /// <returns>A list of SLY01 instances representing the converted employee work hour data.</returns>
-        private List<SLY01> EmployeeWorkHourToSLY01(DataTable dtEmployeeWorkHour)
+        private List<SLY01> ProcessDtEmployeeWorkHour()
         {
             DateTime now = DateTime.Now;
             int totalHoursInCurrentMonth = GeneralUtility.MonthTotalHoursWithoutWeekends(now.Year, now.Month);
-            List<SLY01> lstSalary = new List<SLY01>(dtEmployeeWorkHour.Rows.Count);
+            List<SLY01> lstSalary = new List<SLY01>(_objProcessSalaryData.DtEmployeeWorkHoursUntilYesterday.Rows.Count);
 
-
-            for (int i = 0; i < dtEmployeeWorkHour.Rows.Count; i++)
+            for (int i = 0; i < _objProcessSalaryData.DtEmployeeWorkHoursUntilYesterday.Rows.Count; i++)
             {
-                DataRow row = dtEmployeeWorkHour.Rows[i];
+                DataRow row = _objProcessSalaryData.DtEmployeeWorkHoursUntilYesterday.Rows[i];
 
                 // calculate salary using workhour and monthly salary
                 double monthlySalary = (double)row["MontlhySalary"];
@@ -156,6 +156,32 @@ namespace FirmAdvanceDemo.BL
             }
 
             return lstSalary;
+        }
+
+        /// <summary>
+        /// Converts a DataTable to a CSV byte array.
+        /// </summary>
+        /// <param name="dt">The DataTable to convert.</param>
+        /// <returns>A byte array representing the CSV data.</returns>
+        public Response DownloadSalarySlip(int EmployeeId, DateTime start, DateTime end)
+        {
+            Response response = new Response();
+
+            DataTable dtSalary = _dBSLY01Context.FetchSalaryByEmployeeForDateRange(EmployeeId, start, end);
+
+            if (dtSalary.Rows.Count == 0)
+            {
+                response.IsError = true;
+                response.HttpStatusCode = HttpStatusCode.NotFound;
+                response.Message = $"No salary record found for employee {EmployeeId}";
+                return response;
+            }
+
+            byte[] salaryCSV = GeneralUtility.ConvertToCSV(dtSalary);
+
+            response.HttpStatusCode = HttpStatusCode.OK;
+            response.Data = salaryCSV;
+            return response;
         }
     }
 }

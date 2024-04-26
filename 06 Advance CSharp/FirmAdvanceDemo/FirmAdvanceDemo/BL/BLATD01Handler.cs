@@ -28,15 +28,14 @@ namespace FirmAdvanceDemo.BL
         /// </summary>
         private readonly DBATD01Context _objDBATD01Context;
 
-        private class AttendanceData
+        private struct AttendanceProcessingData
         {
             public DateTime dateOfAttendance;
-            public List<PCH01> LstAllPunch;
-            public List<PCH01> LstInOutPunch;
+            public List<PCH01> LstInOutPunchesForDate;
             public List<ATD01> LstAttendance;
         }
 
-        private AttendanceData _attendanceData;
+        private AttendanceProcessingData _attendanceProcessingData;
 
         /// <summary>
         /// The operation to be performed.
@@ -152,26 +151,22 @@ namespace FirmAdvanceDemo.BL
             return response;
         }
 
-        public void PresaveEoDPunchesForAttendance(DateTime date)
+        public void PresaveEoDPunchesForDate(DateTime date)
         {
-            _attendanceData = new AttendanceData
-            {
-                dateOfAttendance = date,
-                LstAllPunch = GetUnprocessedPunchesForDate(date)
-            };
-            UpdateAllPunchType();
-            _attendanceData.LstInOutPunch = FilterInOutPunches();
-            _attendanceData.LstAttendance = ComputeAttendanceFromInOutPunch();
+            _attendanceProcessingData = new AttendanceProcessingData();
+            _attendanceProcessingData.dateOfAttendance = date;
+            _attendanceProcessingData.LstInOutPunchesForDate = GetInOutPunchesForDate(date);
+            _attendanceProcessingData.LstAttendance = ComputeAttendanceFromInOutPunch();
         }
 
-        public Response ValidateEoDPunchesForAttendance()
+        public Response ValidateEoDAttendance()
         {
             Response response = new Response();
-            if (_attendanceData.LstAttendance.Count == 0)
+            if (_attendanceProcessingData.LstAttendance.Count == 0)
             {
                 response.IsError = true;
                 response.HttpStatusCode = HttpStatusCode.NotFound;
-                response.Message = $"No attendance generated for date {_attendanceData.dateOfAttendance.ToString(Constants.GlobalDateFormat)}";
+                response.Message = $"No attendance generated for date {_attendanceProcessingData.dateOfAttendance.ToString(Constants.GlobalDateFormat)}.";
             }
             return response;
         }
@@ -185,8 +180,8 @@ namespace FirmAdvanceDemo.BL
                 {
                     try
                     {
-                        db.UpdateAll<PCH01>(_attendanceData.LstAllPunch);
-                        db.InsertAll<ATD01>(_attendanceData.LstAttendance);
+                        db.UpdateAll<PCH01>(_attendanceProcessingData.LstInOutPunchesForDate);
+                        db.InsertAll<ATD01>(_attendanceProcessingData.LstAttendance);
                         txn.Commit();
                     }
                     catch
@@ -197,11 +192,11 @@ namespace FirmAdvanceDemo.BL
                 }
             }
             response.HttpStatusCode = HttpStatusCode.OK;
-            response.Message = $"Attendance evaluated for date: {_attendanceData.dateOfAttendance.ToString(GlobalDateFormat)}";
+            response.Message = $"Attendance evaluated for date: {_attendanceProcessingData.dateOfAttendance.ToString(GlobalDateFormat)}";
             return response;
         }
 
-        private List<PCH01> GetUnprocessedPunchesForDate(DateTime date)
+        private List<PCH01> GetInOutPunchesForDate(DateTime date)
         {
             List<PCH01> lstPunch;
             string query = string.Format(@"
@@ -213,12 +208,13 @@ namespace FirmAdvanceDemo.BL
                                     FROM
                                         pch01
                                     WHERE
-                                        h01f03 = '{0}' AND
-                                        Date(h01f04) = '{1}' AND
+                                        (h01f03 = '{0}' OR h01f03 = '{1}') AND
+                                        Date(h01f04) = '{2}' AND
                                         h01f06 = 0
                                     ORDER BY
                                         h01f02, h01f04",
-                                        EnmPunchType.U,
+                                        EnmPunchType.I,
+                                        EnmPunchType.O,
                                         date.ToString(Constants.GlobalDateFormat));
 
             using (IDbConnection db = _dbFactory.OpenDbConnection())
@@ -229,127 +225,16 @@ namespace FirmAdvanceDemo.BL
         }
 
         /// <summary>
-        /// Updates the punch type based on certain criteria.
-        /// </summary>
-        /// <param name="lstPCH01">The list of punches to process.</param>
-        private void UpdateAllPunchType()
-        {
-            MarkMistakenlyPunch();
-            MarkAmbiguousPunch();
-            MarkInOutPunch();
-        }
-
-        private List<PCH01> FilterInOutPunches()
-        {
-            List<PCH01> lstInOutPunch;
-            lstInOutPunch = _attendanceData.LstAllPunch.Where(punch => punch.H01F03 == EnmPunchType.I || punch.H01F03 == EnmPunchType.O)
-                .ToList();
-            return lstInOutPunch;
-        }
-
-        /// <summary>
-        /// Marks punches that are mistakenly recorded.
-        /// </summary>
-        /// <param name="_lstPCH01">The list of punches to process.</param>
-        private void MarkMistakenlyPunch()
-        {
-            List<PCH01> lstAllPunch = _attendanceData.LstAllPunch;
-            TimeSpan timeBuffer = new TimeSpan(0, 0, 10);    // 10 second buffer
-            int size = lstAllPunch.Count;
-            for (int i = 0; i < size - 1; i++)
-            {
-                PCH01 currPunch = lstAllPunch[i];
-                PCH01 nextPunch = lstAllPunch[i + 1];
-                if (currPunch.H01F02 == nextPunch.H01F02 && nextPunch.H01F04.Subtract(currPunch.H01F04) <= timeBuffer)
-                {
-                    currPunch.H01F03 = EnmPunchType.M;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Marks punches that are ambiguous or unclear.
-        /// </summary>
-        /// <param name="_lstPCH01">The list of punches to process.</param>
-        private void MarkAmbiguousPunch()
-        {
-            List<PCH01> lstAllPunch = _attendanceData.LstAllPunch;
-            int startIndex = 0;
-            int endIndex = 0;
-            int size = lstAllPunch.Count;
-            int uPunchForEmployeeCount = 0;
-
-            for (int i = 0; i < size; i++)
-            {
-                PCH01 currPunch = lstAllPunch[i];
-                PCH01 nextPunch = (i + 1 >= size) ? null : lstAllPunch?[i + 1];
-
-                if (currPunch.H01F03 == EnmPunchType.U)
-                {
-                    uPunchForEmployeeCount++;
-                }
-
-                if (nextPunch == null || currPunch.H01F02 != nextPunch.H01F02)
-                {
-                    if (uPunchForEmployeeCount % 2 != 0)
-                    {
-                        for (int j = startIndex; j <= endIndex; j++)
-                        {
-                            if (lstAllPunch[j].H01F03 == EnmPunchType.U)
-                            {
-                                lstAllPunch[j].H01F03 = EnmPunchType.A;
-                            }
-                        }
-                    }
-                    uPunchForEmployeeCount = 0;
-                    startIndex = i + 1;
-                    endIndex = startIndex;
-                }
-                else
-                {
-                    endIndex++;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Marks punches as In/Out based on certain criteria.
-        /// </summary>
-        /// <param name="_lstPCH01">The list of punches to process.</param>
-        private void MarkInOutPunch()
-        {
-            List<PCH01> lstAllPunch = _attendanceData.LstAllPunch;
-
-            bool isEmployeePunchIn = false;
-            foreach (PCH01 punch in lstAllPunch)
-            {
-                if (punch.H01F03 == EnmPunchType.U)
-                {
-                    if (isEmployeePunchIn)
-                    {
-                        punch.H01F03 = EnmPunchType.O;
-                    }
-                    else
-                    {
-                        punch.H01F03 = EnmPunchType.I;
-                    }
-                    punch.H01F06 = true;
-                    isEmployeePunchIn = !isEmployeePunchIn;
-                }
-            }
-        }
-
-        /// <summary>
         /// Computes attendance records based on the list of punches.
         /// </summary>
         /// <param name="_lstInOutPCH01">The list of punches to process.</param>
         /// <returns>The computed attendance records.</returns>
         private List<ATD01> ComputeAttendanceFromInOutPunch()
         {
-            List<PCH01> lstInOutPunch = _attendanceData.LstInOutPunch;
-            List<ATD01> lstAttendance = new List<ATD01>();
+            DateTime now = DateTime.Now;
 
-            DateTime now = DateTime.Now;    // current datetime
+            List<PCH01> lstInOutPunch = _attendanceProcessingData.LstInOutPunchesForDate;
+            List<ATD01> lstAttendance = new List<ATD01>();
 
             double tempWorkHour = 0;
             int size = lstInOutPunch.Count;
@@ -366,12 +251,19 @@ namespace FirmAdvanceDemo.BL
                     lstAttendance.Add(new ATD01
                     {
                         D01F02 = lstInOutPunch[i].H01F02,
-                        D01F03 = _attendanceData.dateOfAttendance,
+                        D01F03 = _attendanceProcessingData.dateOfAttendance,
                         D01F04 = tempWorkHour,
                         D01F05 = now
                     });
                     tempWorkHour = 0;
                 }
+
+                // update both in out as considered in attendance
+                lstInOutPunch[i].H01F05 = now;
+                lstInOutPunch[i + 1].H01F05 = now;
+
+                lstInOutPunch[i].H01F06 = true;
+                lstInOutPunch[i + 1].H01F06 = true;
             }
             return lstAttendance;
         }

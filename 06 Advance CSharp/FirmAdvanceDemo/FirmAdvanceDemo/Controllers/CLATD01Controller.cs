@@ -182,8 +182,8 @@ namespace FirmAdvanceDemo.Controllers
         public IHttpActionResult ProcessEoDPunchesForToday()
         {
             Response response;
-            _objBLAttendance.PresaveEoDPunchesForAttendance(DateTime.Now);
-            response = _objBLAttendance.ValidateEoDPunchesForAttendance();
+            _objBLAttendance.PresaveEoDPunchesForDate(DateTime.Now);
+            response = _objBLAttendance.ValidateEoDAttendance();
             if (!response.IsError)
             {
                 response = _objBLAttendance.SaveAttendance();
@@ -203,8 +203,8 @@ namespace FirmAdvanceDemo.Controllers
         public IHttpActionResult ProcessEoDPunchesForDate(DateTime date)
         {
             Response response;
-            _objBLAttendance.PresaveEoDPunchesForAttendance(date);
-            response = _objBLAttendance.ValidateEoDPunchesForAttendance();
+            _objBLAttendance.PresaveEoDPunchesForDate(date);
+            response = _objBLAttendance.ValidateEoDAttendance();
             if (!response.IsError)
             {
                 response = _objBLAttendance.SaveAttendance();
