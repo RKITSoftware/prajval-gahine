@@ -28,7 +28,7 @@ namespace FirmAdvanceDemo.DB
         /// <param name="lastCreditDate">The last credit date to consider for unpaid work hours calculation.</param>
         /// <returns>A DataTable containing the EmployeeId, WorkHours, PositionId, and MonthlySalary of employees with unpaid work hours.
         /// </returns>
-        public DataTable FetchUnpaidWorkHours()
+        public DataTable FetchUnpaidWorkHours(DateTime uptoCreditDate)
         {
             DataTable dtEmployeeWorkHour;
             MySqlCommand cmd;
@@ -46,7 +46,7 @@ namespace FirmAdvanceDemo.DB
 							                                        d01f02 AS EmployeeId,
 							                                        SUM(
                                                                         CASE
-                                                                            WHEN d01f04 > THEN 8
+                                                                            WHEN d01f04 > 8 THEN 8
                                                                             ELSE d01f04
                                                                         END
                                                                     ) AS WorkHours
@@ -54,25 +54,18 @@ namespace FirmAdvanceDemo.DB
 							                                        atd01
 						                                        WHERE
 							                                        DATE(d01f03) < '{0}' AND
-                                                                    d01f07 = 0
+                                                                    d01f05 = 0
 						                                        GROUP BY d01f02
 					                                        ) AS EmployeeWorkHour ON emp01.p01f01 = EmployeeWorkHour.EmployeeId
 		                                        INNER JOIN psn01 ON psn01.n01f01 = emp01.p01f06;",
-                                        DateTime.Now.ToString(GlobalDateFormat));
+                                        uptoCreditDate.ToString(GlobalDateFormat));
 
             cmd = new MySqlCommand(query, _connection);
             adapter = new MySqlDataAdapter(cmd);
-            dtEmployeeWorkHour = new DataTable();
 
-            _connection.Open();
-            try
-            {
-                adapter.Fill(dtEmployeeWorkHour);
-            }
-            finally
-            {
-                _connection.Close();
-            }
+            dtEmployeeWorkHour = new DataTable();
+            adapter.Fill(dtEmployeeWorkHour);
+
             return dtEmployeeWorkHour;
         }
 
@@ -83,15 +76,17 @@ namespace FirmAdvanceDemo.DB
                                     SELECT
                                         y01f01 AS 'Salary ID',
                                         y01f02 AS 'Employee ID',
+                                        CONCAT(p01f02, ' ', p01f03) AS 'Employee Name',
                                         y01f03 AS 'Amount',
-                                        y01f04 AS 'Position ID',
-                                        y01f05 AS 'Credited At'
+                                        DATE_FORMAT(y01f04,'%Y-%M') as 'Salary Month',
+                                        n01f02 AS 'Position',
+                                        y01f06 AS 'Credited At'
                                     FROM
-                                        sly01
+                                        sly01 INNER JOIN psn01 ON y01f05 = n01f01 INNER JOIN emp01 ON y01f02 = p01f01
                                     WHERE
                                         y01f02 = {0} AND
-                                        DATE(y01f05) >= '{1}' AND
-                                        DATE(y01f05) <= '{2}'",
+                                        DATE(y01f04) >= '{1}' AND
+                                        DATE(y01f04) <= '{2}'",
                                         employeeID,
                                         startDate.ToString(Constants.GlobalDateFormat),
                                         endDate.ToString(Constants.GlobalDateFormat));

@@ -28,14 +28,14 @@ namespace FirmAdvanceDemo.BL
         /// </summary>
         private readonly DBATD01Context _objDBATD01Context;
 
-        private struct AttendanceProcessingData
+        public struct AttendanceProcessingData
         {
             public DateTime dateOfAttendance;
             public List<PCH01> LstInOutPunchesForDate;
             public List<ATD01> LstAttendance;
         }
 
-        private AttendanceProcessingData _attendanceProcessingData;
+        public AttendanceProcessingData _attendanceProcessingData;
 
         /// <summary>
         /// The operation to be performed.
@@ -192,11 +192,11 @@ namespace FirmAdvanceDemo.BL
                 }
             }
             response.HttpStatusCode = HttpStatusCode.OK;
-            response.Message = $"Attendance evaluated for date: {_attendanceProcessingData.dateOfAttendance.ToString(GlobalDateFormat)}";
+            response.Message = $"Attendance evaluated for date: {_attendanceProcessingData.dateOfAttendance.ToString(GlobalDateFormat)}.";
             return response;
         }
 
-        private List<PCH01> GetInOutPunchesForDate(DateTime date)
+        public List<PCH01> GetInOutPunchesForDate(DateTime date)
         {
             List<PCH01> lstPunch;
             string query = string.Format(@"
@@ -208,14 +208,15 @@ namespace FirmAdvanceDemo.BL
                                     FROM
                                         pch01
                                     WHERE
-                                        (h01f03 = '{0}' OR h01f03 = '{1}') AND
-                                        Date(h01f04) = '{2}' AND
-                                        h01f06 = 0
+                                        (h01f04 = '{0}' OR h01f04 = '{1}') AND
+                                        Date(h01f03) = '{2}' AND
+                                        h01f05 = 0
                                     ORDER BY
-                                        h01f02, h01f04",
+                                        h01f02, h01f03",
                                         EnmPunchType.I,
                                         EnmPunchType.O,
                                         date.ToString(Constants.GlobalDateFormat));
+
 
             using (IDbConnection db = _dbFactory.OpenDbConnection())
             {
@@ -229,7 +230,7 @@ namespace FirmAdvanceDemo.BL
         /// </summary>
         /// <param name="_lstInOutPCH01">The list of punches to process.</param>
         /// <returns>The computed attendance records.</returns>
-        private List<ATD01> ComputeAttendanceFromInOutPunch()
+        public List<ATD01> ComputeAttendanceFromInOutPunch()
         {
             DateTime now = DateTime.Now;
 
@@ -240,8 +241,8 @@ namespace FirmAdvanceDemo.BL
             int size = lstInOutPunch.Count;
             for (int i = 0; i < size; i += 2)
             {
-                DateTime punchInTime = lstInOutPunch[i].H01F06;
-                DateTime punchOutTime = lstInOutPunch[i + 1].H01F06;
+                DateTime punchInTime = lstInOutPunch[i].H01F03;
+                DateTime punchOutTime = lstInOutPunch[i + 1].H01F03;
                 TimeSpan timeDiff = punchOutTime.Subtract(punchInTime);
 
                 tempWorkHour += timeDiff.TotalHours;
@@ -251,7 +252,8 @@ namespace FirmAdvanceDemo.BL
                     lstAttendance.Add(new ATD01
                     {
                         D01F02 = lstInOutPunch[i].H01F02,
-                        D01F03 = _attendanceProcessingData.dateOfAttendance,
+                        //D01F03 = _attendanceProcessingData.dateOfAttendance,
+                        D01F03 = lstInOutPunch[i].H01F03.Date,
                         D01F04 = tempWorkHour,
                         D01F06 = now
                     });

@@ -95,9 +95,9 @@ namespace FirmAdvanceDemo.DB
                                 pch01
                             WHERE
                                 h01f02 = {0} AND
-                                YEAR(h01f04) = {1} AND
-                                MONTH(h01f04) = {2} AND
-                                h01f03 != '{3}'",
+                                YEAR(h01f03) = {1} AND
+                                MONTH(h01f03) = {2} AND
+                                h01f04 != '{3}'",
                             employeeID,
                             year,
                             month,
@@ -126,8 +126,10 @@ namespace FirmAdvanceDemo.DB
                             FROM
                                 pch01
                             WHERE
-                                DATE(h01f04) = '{0}' AND
-                                h01f03 = '{1}'",
+                                DATE(h01f03) = '{0}' AND
+                                h01f04 = '{1}'
+                            ORDER BY
+                                h01f02, h01f03",
                             date.ToString(Constants.GlobalDateFormat),
                             EnmPunchType.A);
 

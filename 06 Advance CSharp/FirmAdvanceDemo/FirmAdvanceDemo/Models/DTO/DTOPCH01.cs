@@ -28,16 +28,10 @@ namespace FirmAdvanceDemo.Models.DTO
         public int H01F02 { get; set; }
 
         /// <summary>
-        /// Punch Type
+        /// Datetime of Punch
         /// </summary>
         [JsonProperty("h01103")]
-        public EnmPunchType H01F03 { get; set; }
-
-        /// <summary>
-        /// Punch datetime
-        /// </summary>
-        [JsonProperty("h01104")]
         [RequiredWhenAdmin(ErrorMessage = "Punch datetime field cannot be empty.")]
-        public DateTime? H01F04 { get; set; }
+        public DateTime H01F03 { get; set; }
     }
 }

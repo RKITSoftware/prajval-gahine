@@ -36,14 +36,14 @@ namespace FirmAdvanceDemo.BL
 
         private List<PCH01> _lstAmbigousPunch;
 
-        private struct PunchProcessingData
+        public struct PunchProcessingData
         {
             public DateTime dateOfPunch;
             public List<PCH01> LstAllPunch;
             public List<PCH01> LstInOutPunch;
         }
 
-        private PunchProcessingData _punchProcessingData;
+        public PunchProcessingData _punchProcessingData;
 
         /// <summary>
         /// Gets or sets the operation type for punch handling.
@@ -81,7 +81,7 @@ namespace FirmAdvanceDemo.BL
             {
                 response.IsError = true;
                 response.HttpStatusCode = HttpStatusCode.NotFound;
-                response.Message = $"Employee not found with id: {employeeId}";
+                response.Message = $"Employee not found with id: {employeeId}.";
 
                 return response;
             }
@@ -94,24 +94,27 @@ namespace FirmAdvanceDemo.BL
         /// <param name="objDTOPCH01">DTOPCH01 instance containing punch data.</param>
         public void Presave(DTOPCH01 objDTOPCH01)
         {
+            DateTime now = DateTime.Now;
             _objPCH01 = objDTOPCH01.ConvertModel<PCH01>();
             if (Operation == EnmOperation.A)
             {
                 _objPCH01.H01F01 = 0;
                 _objPCH01.H01F02 = (int)HttpContext.Current.Items["employeeID"];
+                _objPCH01.H01F03 = now;
                 _objPCH01.H01F04 = EnmPunchType.U;
-                _objPCH01.H01F06 = DateTime.Now;
+                _objPCH01.H01F06 = now;
             }
             else
             {
-                _objPCH01.H01F07 = DateTime.Now;
+                _objPCH01.H01F07 = now;
             }
         }
 
         public void PresaveVirtualPunch(DTOPCH01 objDTOPCH01)
         {
             _objPCH01 = objDTOPCH01.ConvertModel<PCH01>();
-            objDTOPCH01.H01F03 = EnmPunchType.A;
+            _objPCH01.H01F04 = EnmPunchType.A;
+            _objPCH01.H01F06 = DateTime.Now;
 
             string query = string.Format(@"
                                         SELECT
@@ -122,12 +125,12 @@ namespace FirmAdvanceDemo.BL
                                             pch01
                                         WHERE
                                             h01f02 = {0} AND
-                                            DATE(h01f04) = '{1}' AND
-                                            h01f03 = '{2}'
+                                            DATE(h01f03) = '{1}' AND
+                                            h01f04 = '{2}'
                                         ORDER BY
                                             h01f03",
                                         _objPCH01.H01F02,
-                                        _objPCH01.H01F06.ToString(Constants.GlobalDateFormat),
+                                        _objPCH01.H01F03.ToString(Constants.GlobalDateFormat),
                                         EnmPunchType.A);
 
             using (IDbConnection db = _dbFactory.OpenDbConnection())
@@ -137,7 +140,7 @@ namespace FirmAdvanceDemo.BL
 
             // insert the incoming punch poco to the above sorted list
             _lstAmbigousPunch.Add(_objPCH01);
-            _lstAmbigousPunch.Sort((x, y) => DateTime.Compare(x.H01F06, y.H01F06));
+            _lstAmbigousPunch.Sort((x, y) => DateTime.Compare(x.H01F03, y.H01F03));
             MarkAmbiguousAsInOutPunch(_lstAmbigousPunch);
         }
 
@@ -167,7 +170,7 @@ namespace FirmAdvanceDemo.BL
                 db.SaveAll<PCH01>(_lstAmbigousPunch);
             }
             response.HttpStatusCode = HttpStatusCode.OK;
-            response.Message = $"Ambiguous punches resolved for employee {_objPCH01.H01F02} for {_objPCH01.H01F06.ToString(Constants.GlobalDateFormat)}";
+            response.Message = $"Ambiguous punches resolved for employee {_objPCH01.H01F02} for {_objPCH01.H01F03.ToString(Constants.GlobalDateFormat)}";
             return response;
         }
 
@@ -218,11 +221,11 @@ namespace FirmAdvanceDemo.BL
                                     FROM
                                         pch01
                                     WHERE
-                                        h01f03 = '{0}' AND
-                                        Date(h01f04) = '{1}' AND
-                                        h01f06 = 0
+                                        h01f04 = '{0}' AND
+                                        Date(h01f03) = '{1}' AND
+                                        h01f05 = 0
                                     ORDER BY
-                                        h01f02, h01f04",
+                                        h01f02, h01f03",
                                         EnmPunchType.U,
                                         date.ToString(Constants.GlobalDateFormat));
 
@@ -237,7 +240,7 @@ namespace FirmAdvanceDemo.BL
         /// Updates the punch type based on certain criteria.
         /// </summary>
         /// <param name="lstPCH01">The list of punches to process.</param>
-        private void ProcessUnprocessedPunches()
+        public void ProcessUnprocessedPunches()
         {
             MarkMistakenlyPunch();
             MarkAmbiguousPunch();
@@ -257,7 +260,7 @@ namespace FirmAdvanceDemo.BL
             {
                 PCH01 currPunch = lstAllPunch[i];
                 PCH01 nextPunch = lstAllPunch[i + 1];
-                if (currPunch.H01F02 == nextPunch.H01F02 && nextPunch.H01F06.Subtract(currPunch.H01F06) <= timeBuffer)
+                if (currPunch.H01F02 == nextPunch.H01F02 && nextPunch.H01F03.Subtract(currPunch.H01F03) <= timeBuffer)
                 {
                     currPunch.H01F04 = EnmPunchType.M;
                     currPunch.H01F07 = DateTime.Now;
@@ -472,11 +475,11 @@ namespace FirmAdvanceDemo.BL
                                             pch01
                                         WHERE
                                             h01f02 = {0} AND
-                                            DATE(h01f04) = '{1}' AND
-                                            h01f03 = '{2}'
+                                            DATE(h01f03) = '{1}' AND
+                                            h01f04 = '{2}'
                                         ",
                                         objDTOPCH01.H01F02,
-                                        objDTOPCH01.H01F04?.ToString(Constants.GlobalDateFormat),
+                                        objDTOPCH01.H01F03.ToString(Constants.GlobalDateFormat),
                                         EnmPunchType.A);
                 using (IDbConnection db = _dbFactory.OpenDbConnection())
                 {
@@ -487,7 +490,7 @@ namespace FirmAdvanceDemo.BL
                 {
                     response.IsError = true;
                     response.HttpStatusCode = HttpStatusCode.Conflict;
-                    response.Message = $"Employee {objDTOPCH01.H01F02} donot have any ambiguous punch for {objDTOPCH01.H01F04?.ToString(Constants.GlobalDateFormat)}";
+                    response.Message = $"Employee {objDTOPCH01.H01F02} donot have any ambiguous punch for {objDTOPCH01.H01F03.ToString(Constants.GlobalDateFormat)}";
 
                     return response;
                 }

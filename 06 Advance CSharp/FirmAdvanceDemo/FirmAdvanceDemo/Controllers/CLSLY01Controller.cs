@@ -34,10 +34,10 @@ namespace FirmAdvanceDemo.Controllers
         [Route("credit")]
         [AccessTokenAuthentication]
         [BasicAuthorization(Roles = "A")]
-        public IHttpActionResult CreditSalary()
+        public IHttpActionResult CreditSalary(int year, int month)
         {
             Response response;
-            _objBLSLY01Handler.PresaveUnSalariedAttendance();
+            _objBLSLY01Handler.PresaveUnSalariedAttendance(year, month);
             response = _objBLSLY01Handler.ValidateUnSalariedAttendance();
             if (!response.IsError)
             {
@@ -60,19 +60,54 @@ namespace FirmAdvanceDemo.Controllers
         public IHttpActionResult GetSalarySlipCsv(int employeeID, DateTime startDate, DateTime endDate)
         {
 
-            Response response = _objBLSLY01Handler.DownloadSalarySlip(employeeID, startDate, endDate);
-
+            Response response = GeneralUtility.ValidateAccess(employeeID);
             if (!response.IsError)
             {
-                HttpResponse httpResponse = HttpContext.Current.Response;
+                response = _objBLSLY01Handler.DownloadSalarySlip(employeeID, startDate, endDate);
 
-                httpResponse.Clear();
-                httpResponse.AppendHeader("Content-Type", "text/csv");
-                httpResponse.AppendHeader("Content-Disposition", $"attachment;filename=salary-slip-{employeeID}-{startDate:yyyyMMdd}To{endDate:yyyyMMdd}.csv;");
+                if (!response.IsError)
+                {
+                    HttpResponse httpResponse = HttpContext.Current.Response;
 
-                httpResponse.BinaryWrite((byte[])response.Data);
+                    httpResponse.Clear();
+                    httpResponse.AppendHeader("Content-Type", "text/csv");
+                    httpResponse.AppendHeader("Content-Disposition", $"attachment;filename=salary-slip-{employeeID}-{startDate:yyyyMMdd}To{endDate:yyyyMMdd}.csv;");
 
-                return Ok();
+                    httpResponse.BinaryWrite((byte[])response.Data);
+
+                    return Ok();
+                }
+            }
+            return Ok(response);
+        }
+
+        [HttpGet]
+        [Route("download/month-range/{employeeID}")]
+        [AccessTokenAuthentication]
+        [BasicAuthorization(Roles = "E")]
+        public IHttpActionResult GetSalarySlipCsv(int employeeID, int startYear, int startMonth, int endYear, int endMonth)
+        {
+
+            Response response = GeneralUtility.ValidateAccess(employeeID);
+            if (!response.IsError)
+            {
+                DateTime startDate = new DateTime(startYear, startMonth, 1);
+                DateTime endDate = new DateTime(endYear, endMonth, 1);
+
+                response = _objBLSLY01Handler.DownloadSalarySlip(employeeID, startDate, endDate);
+
+                if (!response.IsError)
+                {
+                    HttpResponse httpResponse = HttpContext.Current.Response;
+
+                    httpResponse.Clear();
+                    httpResponse.AppendHeader("Content-Type", "text/csv");
+                    httpResponse.AppendHeader("Content-Disposition", $"attachment;filename=salary-slip-{employeeID}-{startDate:yyyyMMdd}To{endDate:yyyyMMdd}.csv;");
+
+                    httpResponse.BinaryWrite((byte[])response.Data);
+
+                    return Ok();
+                }
             }
             return Ok(response);
         }

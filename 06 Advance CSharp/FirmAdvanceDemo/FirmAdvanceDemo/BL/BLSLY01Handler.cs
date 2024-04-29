@@ -26,6 +26,8 @@ namespace FirmAdvanceDemo.BL
 
         private struct SalaryProcessingData
         {
+            public DateTime UptoCreditDate;
+
             /// <summary>
             /// DataTable containing employee work hours until yesterday.
             /// </summary>
@@ -51,10 +53,11 @@ namespace FirmAdvanceDemo.BL
         /// <summary>
         /// Pre-saves unsalaried attendance records.
         /// </summary>
-        public void PresaveUnSalariedAttendance()
+        public void PresaveUnSalariedAttendance(int year, int month)
         {
             _objProcessSalaryData = new SalaryProcessingData();
-            _objProcessSalaryData.DtEmployeeWorkHoursUntilYesterday = _dBSLY01Context.FetchUnpaidWorkHours();
+            _objProcessSalaryData.UptoCreditDate = new DateTime(year, month, DateTime.DaysInMonth(year, month));
+            _objProcessSalaryData.DtEmployeeWorkHoursUntilYesterday = _dBSLY01Context.FetchUnpaidWorkHours(_objProcessSalaryData.UptoCreditDate);
             _objProcessSalaryData.LstToBePaidSalary = ProcessDtEmployeeWorkHour();
         }
 
@@ -98,17 +101,19 @@ namespace FirmAdvanceDemo.BL
                                     UPDATE
                                         atd01
                                     SET
-                                        d01f07 = 1
+                                        d01f05 = 1,
+                                        d01f07 = '{1}'
                                     WHERE
-                                        d01f07 = 0 AND
-                                        d01f03 < '{0}'",
-                                    DateTime.Now.ToString(Constants.GlobalDateFormat));
+                                        d01f05 = 0 AND
+                                        d01f03 <= '{0}'",
+                                    _objProcessSalaryData.UptoCreditDate.ToString(Constants.GlobalDateFormat),
+                                    DateTime.Now.ToString(Constants.GlobalDateTimeFormat));
                         db.ExecuteNonQuery(query);
 
                         STG01 objSTG01 = new STG01()
                         {
                             G01F01 = 0,
-                            G01F02 = now.Date.AddDays(-1),
+                            G01F02 = _objProcessSalaryData.UptoCreditDate,
                             G01F04 = now
                         };
                         db.Update<STG01>(objSTG01);
@@ -123,7 +128,7 @@ namespace FirmAdvanceDemo.BL
             }
 
             response.HttpStatusCode = HttpStatusCode.OK;
-            response.Message = $"Salaries credited till date {now.ToString(Constants.GlobalDateFormat)}.";
+            response.Message = $"Salaries credited till date {_objProcessSalaryData.UptoCreditDate.ToString(Constants.GlobalDateFormat)}.";
             return response;
         }
 
@@ -150,6 +155,7 @@ namespace FirmAdvanceDemo.BL
                 {
                     Y01F02 = (int)row["EmployeeID"],
                     Y01F03 = salaryAmount,
+                    Y01F04 = _objProcessSalaryData.UptoCreditDate,
                     Y01F05 = (int)row["PositionID"],
                     Y01F06 = now,
                 });

@@ -5,6 +5,7 @@ using FirmAdvanceDemo.Utility;
 using MySql.Data.MySqlClient;
 using System;
 using System.Data;
+using System.Runtime.InteropServices.ComTypes;
 using static FirmAdvanceDemo.Utility.Constants;
 
 namespace FirmAdvanceDemo.DB
@@ -19,7 +20,7 @@ namespace FirmAdvanceDemo.DB
         /// </summary>
         private readonly MySqlConnection _connection;
 
-        private string _baseSelectQuery = @"
+        private readonly string _baseSelectQuery = @"
                                     SELECT
                                         e02f01 AS E02101,
                                         e02f02 AS E02102,
@@ -35,9 +36,10 @@ namespace FirmAdvanceDemo.DB
         /// <summary>
         /// Initializes a new instance of the <see cref="DBLVE02Context"/> class.
         /// </summary>
-        public DBLVE02Context()
+        public DBLVE02Context(string baseSelectQuery = null)
         {
             _connection = MysqlDbConnector.Connection;
+            _baseSelectQuery = baseSelectQuery;
         }
 
         /// <summary>
@@ -57,12 +59,25 @@ namespace FirmAdvanceDemo.DB
                                             lve02
                                         WHERE
                                             e02f02 = {0} AND
-                                            (( '{1}' >= e02f03 AND '{1}' <= ADDDATE(e02f03, e02f04 - 1) ) OR
-                                            ( '{2}' >= e02f03 AND '{2}' <= ADDDATE(e02f03, e02f04 - 1) ) OR
-                                            ( '{1}' <= e02f04 AND '{2}' >= ADDDATE(e02f03, e02f04 - 1) ))",
+                                            (
+                                                ( '{1}' >= e02f03 AND '{1}' <= ADDDATE(e02f03, e02f04 - 1) ) OR
+                                                ( '{2}' >= e02f03 AND '{2}' <= ADDDATE(e02f03, e02f04 - 1) ) OR
+                                                ( '{1}' <= e02f04 AND '{2}' >= ADDDATE(e02f03, e02f04 - 1) )
+                                            )",
                                             objLVE02.E02F02,
                                             objLVE02.E02F03.ToString(GlobalDateFormat),
                                             leaveEndDate.ToString(GlobalDateFormat));
+
+
+            //string where = string.Format(@"
+            //                        WHERE
+            //                            (
+            //                                (e02f03 >= '{0}' AND e02f03 <= '{1}') OR
+            //                                (ADDDATE(e02f03, e02f04 - 1) >= '{0}' AND ADDDATE(e02f03, e02f04 - 1) <= '{1}') OR
+            //                                (e02f03 < '{0}' AND ADDDATE(e02f03, e02f04 - 1) > '{1}')
+            //                            )",
+            //            startDate,
+            //            endDate);
 
             MySqlCommand cmd = new MySqlCommand(query, _connection);
 
@@ -180,16 +195,23 @@ namespace FirmAdvanceDemo.DB
         /// <param name="year">The year of the leave records.</param>
         /// <param name="month">The month of the leave records.</param>
         /// <returns>A DataTable containing the leave records for the specified month and year.</returns>
-        public DataTable FetchLeaveByMonthYear(int year, int month)
+        public DataTable FetchLeaveByMonth(int year, int month)
         {
             DataTable dtLeave;
 
+            string startDate = string.Format("{0}-{1}-01", year, month);
+            string endDate = string.Format("{0}-{1}-{2}", year, month, DateTime.DaysInMonth(year, month));
+
+
             string where = string.Format(@"
                                     WHERE
-                                        YEAR(e02f03) = {0} AND
-                                        MONTH(e02f03) = {1}",
-                                    year,
-                                    month);
+                                        (
+                                            (e02f03 >= '{0}' AND e02f03 <= '{1}') OR
+                                            (ADDDATE(e02f03, e02f04 - 1) >= '{0}' AND ADDDATE(e02f03, e02f04 - 1) <= '{1}') OR
+                                            (e02f03 < '{0}' AND ADDDATE(e02f03, e02f04 - 1) > '{1}')
+                                        )",
+                                    startDate,
+                                    endDate);
 
             string query = string.Format(_baseSelectQuery, where);
 
@@ -213,7 +235,8 @@ namespace FirmAdvanceDemo.DB
 
             string where = string.Format(@"
                                     WHERE
-                                        DATE(e02f03) = '{0}'",
+                                        '{0}' >= DATE(e02f03) AND
+                                        '{0}' <= ADDDATE(e02f03, e02f04 - 1)",
                                     date.ToString(Constants.GlobalDateFormat));
 
             string query = string.Format(_baseSelectQuery, where);
@@ -234,7 +257,7 @@ namespace FirmAdvanceDemo.DB
         /// <param name="year">The year of the leave records.</param>
         /// <param name="month">The month of the leave records.</param>
         /// <returns>A DataTable containing the leave records for the specified employee, month, and year.</returns>
-        public DataTable FetchLeaveByEmployeeAndMonthYear(int employeeId, int year, int month)
+        public DataTable FetchLeaveByEmployeeAndMonth(int employeeId, int year, int month)
         {
             DataTable dtLeave;
             string startDate = string.Format("{0}-{1}-01", year, month);
@@ -272,19 +295,27 @@ namespace FirmAdvanceDemo.DB
         /// <summary>
         /// Fetches leave records for a specific employee and year.
         /// </summary>
-        /// <param name="employeeId">The ID of the employee.</param>
+        /// <param name="employeeID">The ID of the employee.</param>
         /// <param name="year">The year of the leave records.</param>
         /// <returns>A DataTable containing the leave records for the specified employee and year.</returns>
-        public DataTable FetchLeaveByEmployeeAndMonth(int employeeId, int year)
+        public DataTable FetchLeaveByEmployeeAndYear(int employeeID, int year)
         {
             DataTable dtLeave;
 
+            string startDate = string.Format("{0}-01-01", year);
+            string endDate = string.Format("{0}-12-31", year);
+
             string where = string.Format(@"
                                     WHERE
-                                        e02f02 = {0} AND
-                                        YEAR(e02f03) = {1}",
-                                    employeeId,
-                                    year);
+                                        e01f02 = {0} AND
+                                        (
+                                            (e02f03 >= '{1}' AND e02f03 <= '{2}') OR
+                                            (ADDDATE(e02f03, e02f04 - 1) >= '{1}' AND ADDDATE(e02f03, e02f04 - 1) <= '{2}') OR
+                                            (e02f03 < '{1}' AND ADDDATE(e02f03, e02f04 - 1) > '{2}')
+                                        )",
+                                        employeeID,
+                                        startDate,
+                                        endDate);
 
             string query = string.Format(_baseSelectQuery, where);
 
@@ -320,7 +351,7 @@ namespace FirmAdvanceDemo.DB
             {
                 DateTime date = new DateTime(year, month, day);
                 dateWhere = string.Format(@"
-                                    ( '{0}' >= e02f03 AND '{0}' ADDDATE(e02f03, e02f04 - 1) )",
+                                    ( '{0}' >= e02f03 AND '{0}' <= ADDDATE(e02f03, e02f04 - 1) )",
                                     date.ToString(Constants.GlobalDateFormat));
             }
             else if (year != 0)

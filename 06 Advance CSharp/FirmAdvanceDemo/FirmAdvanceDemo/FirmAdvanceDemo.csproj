@@ -216,6 +216,8 @@
     <Compile Include="Models\DTO\DataAnnotations\LessThanCurrentDateTimeAttribute.cs" />
     <Compile Include="Models\DTO\DataAnnotations\RequiredWhenAdmin.cs" />
     <Compile Include="Models\DTO\FIlters\ValidateModelAttribute.cs" />
+    <Compile Include="Test\ComputeAttendance.cs" />
+    <Compile Include="Test\PostAMonthPunch.cs" />
     <Compile Include="Utility\Constants.cs" />
     <Compile Include="Utility\FirmEnums.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -5,9 +5,12 @@ using FirmAdvanceDemo.Models.POCO;
 using FirmAdvanceDemo.Utility;
 using ServiceStack.OrmLite;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Net;
+using System.Security.Claims;
+using System.Web;
 using static FirmAdvanceDemo.Utility.Constants;
 
 namespace FirmAdvanceDemo.BL
@@ -404,7 +407,7 @@ namespace FirmAdvanceDemo.BL
         public Response RetrieveLeaveByMonthYear(int year, int month)
         {
             Response response = new Response();
-            DataTable dtLeave = _objDBLVE02Context.FetchLeaveByMonthYear(year, month);
+            DataTable dtLeave = _objDBLVE02Context.FetchLeaveByMonth(year, month);
             if (dtLeave.Rows.Count == 0)
             {
                 response.IsError = true;
@@ -477,7 +480,7 @@ namespace FirmAdvanceDemo.BL
         public Response RetrieveLeaveByEmployeeAndYear(int employeeID, int year)
         {
             Response response = new Response();
-            DataTable dtLeave = _objDBLVE02Context.FetchLeaveByEmployeeAndMonth(employeeID, year);
+            DataTable dtLeave = _objDBLVE02Context.FetchLeaveByEmployeeAndYear(employeeID, year);
             if (dtLeave.Rows.Count == 0)
             {
                 response.IsError = true;
@@ -630,10 +633,17 @@ namespace FirmAdvanceDemo.BL
         public Response SaveLeaveStatus(int leaveID, EnmLeaveStatus toLeaveStatus)
         {
             Response response = new Response();
+
+            IEnumerable<Claim> claims = ((ClaimsIdentity)HttpContext.Current.User.Identity).Claims;
+            // get user ID from identity
+            int userID = int.Parse(claims.Where(c => c.Type == "userID")
+                   .Select(c => c.Value).SingleOrDefault());
+
             using (IDbConnection db = _dbFactory.OpenDbConnection())
             {
-                db.Update<LVE02>(new { e02f06 = toLeaveStatus }, where: leave => leave.E02F01 == leaveID);
+                db.Update<LVE02>(new { e02f06 = toLeaveStatus,  e02f07 = userID }, where: leave => leave.E02F01 == leaveID);
             }
+
             response.HttpStatusCode = HttpStatusCode.OK;
             response.Message = $"Leave {leaveID} status updated to {toLeaveStatus}.";
             return response;
