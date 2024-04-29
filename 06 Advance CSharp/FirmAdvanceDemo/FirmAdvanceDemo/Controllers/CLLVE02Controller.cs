@@ -247,7 +247,7 @@ namespace FirmAdvanceDemo.Controllers
         [HttpPut]
         [Route("")]
         [AccessTokenAuthentication]
-        [BasicAuthorization(Roles = "A,E")]
+        [BasicAuthorization(Roles = "E")]
         public IHttpActionResult PutLeave(DTOLVE02 objDTOLVE02)
         {
             Response response;

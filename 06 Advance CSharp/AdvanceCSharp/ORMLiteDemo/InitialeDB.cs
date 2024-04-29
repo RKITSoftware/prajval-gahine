@@ -63,7 +63,7 @@ WHERE
 
                     // create and initiate stg01 table
                     db.CreateTableIfNotExists<STG01>();
-                    db.Insert<STG01>(new STG01() { G01F02 = now, G01F03 = now});
+                    db.Insert<STG01>(new STG01() { G01F02 = DateTime.MinValue, G01F03 = now});
 
                     // create and initiate rle01 table
                     db.CreateTableIfNotExists<RLE01>();
@@ -139,31 +139,32 @@ WHERE
                     db.CreateTableIfNotExists<SLY01>();
                     db.CreateTableIfNotExists<PCH01>();
                     // Service Stack free qouta limit reached
+                    
 
-                    db.ExecuteNonQuery(@"
-CREATE TABLE `ATD01` 
-(
-  `D01F01` INT(11) PRIMARY KEY AUTO_INCREMENT, 
-  `D01F02` INT(11) NOT NULL, 
-  `D01F03` DATE NOT NULL, 
-  `D01F04` DOUBLE NOT NULL, 
-  `D01F05` DATETIME NOT NULL, 
-  `D01F06` DATETIME NULL 
-)");
+//                    db.ExecuteNonQuery(@"
+//CREATE TABLE `ATD01` 
+//(
+//  `D01F01` INT(11) PRIMARY KEY AUTO_INCREMENT, 
+//  `D01F02` INT(11) NOT NULL, 
+//  `D01F03` DATE NOT NULL, 
+//  `D01F04` DOUBLE NOT NULL, 
+//  `D01F05` DATETIME NOT NULL, 
+//  `D01F06` DATETIME NULL 
+//)");
          
 
-                    db.ExecuteNonQuery(@"
-CREATE TABLE `LVE02` 
-(
-  `E02F01` INT(11) PRIMARY KEY AUTO_INCREMENT, 
-  `E02F02` INT(11) NOT NULL, 
-  `E02F03` DATE NOT NULL, 
-  `E02F04` INT(11) NOT NULL, 
-  `E02F05` VARCHAR(255) NULL, 
-  `E02F06` CHAR(1) NOT NULL, 
-  `E02F07` DATETIME NOT NULL, 
-  `E02F08` DATETIME NULL 
-)");
+//                    db.ExecuteNonQuery(@"
+//CREATE TABLE `LVE02` 
+//(
+//  `E02F01` INT(11) PRIMARY KEY AUTO_INCREMENT, 
+//  `E02F02` INT(11) NOT NULL, 
+//  `E02F03` DATE NOT NULL, 
+//  `E02F04` INT(11) NOT NULL, 
+//  `E02F05` VARCHAR(255) NULL, 
+//  `E02F06` CHAR(1) NOT NULL, 
+//  `E02F07` DATETIME NOT NULL, 
+//  `E02F08` DATETIME NULL 
+//)");
                 }
             }
         }

@@ -56,44 +56,38 @@ namespace FirmAdvanceDemo.BL
             Response response = new Response();
 
             // check employee ID in either A or E
-            int employeeId = objDTOLVE02.E02F02;
-            int employeeCount;
+            bool isEmployeeExists;
             using (IDbConnection db = _dbFactory.OpenDbConnection())
             {
-                employeeCount = (int)db.Count<EMP01>(employee => employee.P01F01 == employeeId);
+                isEmployeeExists = db.Exists<EMP01>(new { e01f01 = objDTOLVE02.E02F02 });
             }
 
-            if (employeeCount == 0)
+            if (!isEmployeeExists)
             {
                 response.IsError = true;
                 response.HttpStatusCode = HttpStatusCode.NotFound;
-                response.Message = $"Employee not found with id: {employeeId}";
+                response.Message = $"Employee not found with id: {objDTOLVE02.E02F02}";
 
                 return response;
             }
 
-            // check leave ID in case of E
             if (Operation == EnmOperation.E)
             {
-                int leaveID = objDTOLVE02.E02F01;
-                int leaveCount;
+                // check leave ID in case of E
+                bool isLeaveExists;
                 using (IDbConnection db = _dbFactory.OpenDbConnection())
                 {
-                    leaveCount = (int)db.Count<LVE02>(leave => leave.E02F01 == leaveID);
+                    isLeaveExists = db.Exists<LVE02>(new { e02f01 = objDTOLVE02.E02F01 });
                 }
-                if (leaveCount == 0)
+                if (!isLeaveExists)
                 {
                     response.IsError = true;
                     response.HttpStatusCode = HttpStatusCode.NotFound;
-                    response.Message = $"Leave not found for id: {leaveID}";
+                    response.Message = $"Leave not found for id: {objDTOLVE02.E02F01}";
 
                     return response;
                 }
-
-                // leave can only be edited when its status is pending
-                if(objDTOLVE02.E02F03 <= )
             }
-
             return response;
         }
 
@@ -117,11 +111,11 @@ namespace FirmAdvanceDemo.BL
                 {
                     _objLVE02.E02F06 = EnmLeaveStatus.P;
                 }
-                _objLVE02.E02F07 = DateTime.Now;
+                _objLVE02.E02F08 = DateTime.Now;
             }
             else
             {
-                _objLVE02.E02F08 = DateTime.Now;
+                _objLVE02.E02F09 = DateTime.Now;
             }
         }
 
@@ -132,8 +126,46 @@ namespace FirmAdvanceDemo.BL
         public Response Validate()
         {
             Response response = new Response();
+            
+            if(Operation == EnmOperation.E)
+            {
+                LVE02 objLVE02Existsing;
 
-            // nothing to validate as of now
+                using (IDbConnection db = _dbFactory.OpenDbConnection())
+                {
+                    objLVE02Existsing = db.SingleById<LVE02>(_objLVE02.E02F01);
+                }
+
+                // leave can only be edited when its status is pending
+                if (objLVE02Existsing.E02F06 != EnmLeaveStatus.P)
+                {
+                    response.IsError = true;
+                    response.HttpStatusCode = HttpStatusCode.Forbidden;
+                    response.Message = $"Leave {_objLVE02.E02F01} is not in pending state.";
+
+                    return response;
+                }
+
+                // furture leave date must be greater than or equal to current date
+                if (objLVE02Existsing.E02F06 == EnmLeaveStatus.P && _objLVE02.E02F03 < DateTime.Now)
+                {
+                    response.IsError = true;
+                    response.HttpStatusCode = HttpStatusCode.Forbidden;
+                    response.Message = $"A future leave cannot be dated less than current date.";
+
+                    return response;
+                }
+
+                // historic leave date must be less than or equal to creation date
+                if(objLVE02Existsing.E02F06 == EnmLeaveStatus.H && _objLVE02.E02F03 >= objLVE02Existsing.E02F08)
+                {
+                    response.IsError = true;
+                    response.HttpStatusCode = HttpStatusCode.Forbidden;
+                    response.Message = $"A historic leave cannot be dated more than it's creation date.";
+
+                    return response;
+                }
+            }
             return response;
         }
 
@@ -228,93 +260,48 @@ namespace FirmAdvanceDemo.BL
             }
         }
 
-        /// <summary>
-        /// Method to update leave status.
-        /// </summary>
-        /// <param name="leaveID">Leave ID.</param>
-        /// <param name="toChange">Leave Status to change.</param>
-        /// <returns>A response indicating the outcome of the update operation.</returns>
-        public Response UpdateLeaveStatus(int leaveID, EnmLeaveStatus toChange)
+        public Response PrevalidateUpdateLeaveStatus(int leaveID, EnmLeaveStatus toLeaveStatus)
         {
-            try
+            Response response = new Response();
+            if(toLeaveStatus != EnmLeaveStatus.A || toLeaveStatus != EnmLeaveStatus.R)
             {
-                using (IDbConnection db = _dbFactory.OpenDbConnection())
-                {
-                    // get leave date and check if it is >= today
-                    DateTime CurrentDate = DateTime.Today;
+                response.IsError = true;
+                response.HttpStatusCode = HttpStatusCode.Forbidden;
+                response.Message = $"Update leave status must be Approve or Reject.";
 
-                    LVE02 leave = db.SingleById<LVE02>(leaveID);
-                    if (leave == null)
-                    {
-                        throw new Exception($"No leave exists with leave id: {leaveID}");
-                    }
-                    if (leave.E02F06 == toChange)
-                    {
-                        throw new Exception($"Leave with leave id: {leaveID} already {toChange}");
-                    }
-                    if (leave.E02F06 == EnmLeaveStatus.E)
-                    {
-                        throw new Exception($"Leave with leave id: {leaveID} expired cannot approve");
-                    }
-                    if (leave.E02F06 == EnmLeaveStatus.P && leave.E02F03 < CurrentDate)
-                    {
-                        toChange = EnmLeaveStatus.E;
-                    }
-                    db.Update<LVE02>(new { E01F07 = toChange }, l => l.E02F02 == leaveID);
-                }
-
-                return new Response()
-                {
-                    IsError = true,
-                    Message = $"Leave {toChange} for leaveID: {leaveID}",
-                    Data = null
-                };
+                return response;
             }
-            catch (Exception ex)
+
+            bool isLeaveExists;
+            using (IDbConnection db = _dbFactory.OpenDbConnection())
             {
-                return new Response()
-                {
-                    IsError = false,
-                    Message = ex.Message,
-                    Data = null
-                };
+                isLeaveExists = db.Exists<LVE02>(new { e02f01 = leaveID });
             }
+            if (!isLeaveExists)
+            {
+                response.IsError = true;
+                response.HttpStatusCode = HttpStatusCode.NotFound;
+                response.Message = $"Leave not found for id: {leaveID}.";
+
+                return response;
+            }
+            return response;
         }
 
-        /// <summary>
-        /// Method to change LeaveStatus to Expired if leave status is pending and it has been expired
-        /// </summary>
-        /// <returns>ResponseStatusInfo instance containing null</returns>
-        public Response UpdateLeavesToExpire()
+        public Response UpdateLeaveStatus(int leaveID, EnmLeaveStatus toLeaveStatus)
         {
-            try
-            {
-                // get leave date and check if it is >= today
-                DateTime CurrentDate = DateTime.Today;
-                using (IDbConnection db = _dbFactory.OpenDbConnection())
-                {
-                    db.Update<LVE02>(new { E01F07 = EnmLeaveStatus.E }, l => l.E02F06 == EnmLeaveStatus.P && l.E02F03 < CurrentDate);
-                }
+            Response response = new Response();
 
-                return new Response()
-                {
-                    IsError = true,
-                    Message = $"Pending leaves before {CurrentDate:yyyy-MM-dd} marked as expired",
-                    Data = null
-                };
-            }
-            catch (Exception ex)
+            using (IDbConnection db = _dbFactory.OpenDbConnection())
             {
-                return new Response()
-                {
-                    IsError = false,
-                    Message = ex.Message,
-                    Data = null
-                };
+                db.Update<LVE02>(new { e02f06 = toLeaveStatus }, where: leave => leave.E02F01 == leaveID);
             }
+
+            response.HttpStatusCode = HttpStatusCode.OK;
+            response.Message = $"Leave {leaveID} updated successfully.";
+
+            return response;
         }
-
-        public Response
 
         /// <summary>
         /// Method to retrieve all leave records.
@@ -648,7 +635,7 @@ namespace FirmAdvanceDemo.BL
                 db.Update<LVE02>(new { e02f06 = toLeaveStatus }, where: leave => leave.E02F01 == leaveID);
             }
             response.HttpStatusCode = HttpStatusCode.OK;
-            response.Message = $"Leave {leaveID} status updated {toLeaveStatus}.";
+            response.Message = $"Leave {leaveID} status updated to {toLeaveStatus}.";
             return response;
         }
     }

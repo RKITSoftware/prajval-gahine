@@ -1,3 +1,4 @@
+using ORMLiteDemo.Enums;
 using ServiceStack;
 using ServiceStack.DataAnnotations;
 using System;
@@ -33,16 +34,22 @@ namespace ORMLiteDemo.Models.POCO
         public double D01F04 { get; set; }
 
         /// <summary>
+        /// Attendance considered in attendance ?
+        /// </summary>
+        [Default(typeof(bool), "0")]
+        public bool D01F05 { get; set; }
+
+        /// <summary>
         /// Attendance creation datetime
         /// </summary>
         [IgnoreOnUpdate]
         [ValidateNotNull]
-        public DateTime D01F05 { get; set; }
+        public DateTime D01F06 { get; set; }
 
         /// <summary>
         /// Attendance last modified datetime
         /// </summary>
         [IgnoreOnInsert]
-        public DateTime? D01F06 { get; set; }
+        public DateTime? D01F07 { get; set; }
     }
 }

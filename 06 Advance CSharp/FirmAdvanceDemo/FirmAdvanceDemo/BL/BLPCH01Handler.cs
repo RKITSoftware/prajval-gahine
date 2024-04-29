@@ -99,12 +99,12 @@ namespace FirmAdvanceDemo.BL
             {
                 _objPCH01.H01F01 = 0;
                 _objPCH01.H01F02 = (int)HttpContext.Current.Items["employeeID"];
-                _objPCH01.H01F03 = EnmPunchType.U;
-                _objPCH01.H01F04 = DateTime.Now;
+                _objPCH01.H01F04 = EnmPunchType.U;
+                _objPCH01.H01F06 = DateTime.Now;
             }
             else
             {
-                _objPCH01.H01F05 = DateTime.Now;
+                _objPCH01.H01F07 = DateTime.Now;
             }
         }
 
@@ -127,7 +127,7 @@ namespace FirmAdvanceDemo.BL
                                         ORDER BY
                                             h01f03",
                                         _objPCH01.H01F02,
-                                        _objPCH01.H01F04.ToString(Constants.GlobalDateFormat),
+                                        _objPCH01.H01F06.ToString(Constants.GlobalDateFormat),
                                         EnmPunchType.A);
 
             using (IDbConnection db = _dbFactory.OpenDbConnection())
@@ -137,7 +137,7 @@ namespace FirmAdvanceDemo.BL
 
             // insert the incoming punch poco to the above sorted list
             _lstAmbigousPunch.Add(_objPCH01);
-            _lstAmbigousPunch.Sort((x, y) => DateTime.Compare(x.H01F04, y.H01F04));
+            _lstAmbigousPunch.Sort((x, y) => DateTime.Compare(x.H01F06, y.H01F06));
             MarkAmbiguousAsInOutPunch(_lstAmbigousPunch);
         }
 
@@ -148,13 +148,13 @@ namespace FirmAdvanceDemo.BL
             {
                 if (isEmployeePunchIn)
                 {
-                    punch.H01F03 = EnmPunchType.O;
+                    punch.H01F04 = EnmPunchType.O;
                 }
                 else
                 {
-                    punch.H01F03 = EnmPunchType.I;
+                    punch.H01F04 = EnmPunchType.I;
                 }
-                punch.H01F05 = DateTime.Now;
+                punch.H01F07 = DateTime.Now;
                 isEmployeePunchIn = !isEmployeePunchIn;
             }
         }
@@ -167,7 +167,7 @@ namespace FirmAdvanceDemo.BL
                 db.SaveAll<PCH01>(_lstAmbigousPunch);
             }
             response.HttpStatusCode = HttpStatusCode.OK;
-            response.Message = $"Ambiguous punches resolved for employee {_objPCH01.H01F02} for {_objPCH01.H01F04.ToString(Constants.GlobalDateFormat)}";
+            response.Message = $"Ambiguous punches resolved for employee {_objPCH01.H01F02} for {_objPCH01.H01F06.ToString(Constants.GlobalDateFormat)}";
             return response;
         }
 
@@ -257,10 +257,10 @@ namespace FirmAdvanceDemo.BL
             {
                 PCH01 currPunch = lstAllPunch[i];
                 PCH01 nextPunch = lstAllPunch[i + 1];
-                if (currPunch.H01F02 == nextPunch.H01F02 && nextPunch.H01F04.Subtract(currPunch.H01F04) <= timeBuffer)
+                if (currPunch.H01F02 == nextPunch.H01F02 && nextPunch.H01F06.Subtract(currPunch.H01F06) <= timeBuffer)
                 {
-                    currPunch.H01F03 = EnmPunchType.M;
-                    currPunch.H01F05 = DateTime.Now;
+                    currPunch.H01F04 = EnmPunchType.M;
+                    currPunch.H01F07 = DateTime.Now;
                 }
             }
         }
@@ -282,7 +282,7 @@ namespace FirmAdvanceDemo.BL
                 PCH01 currPunch = lstAllPunch[i];
                 PCH01 nextPunch = (i + 1 >= size) ? null : lstAllPunch?[i + 1];
 
-                if (currPunch.H01F03 == EnmPunchType.U)
+                if (currPunch.H01F04 == EnmPunchType.U)
                 {
                     uPunchForEmployeeCount++;
                 }
@@ -293,10 +293,10 @@ namespace FirmAdvanceDemo.BL
                     {
                         for (int j = startIndex; j <= endIndex; j++)
                         {
-                            if (lstAllPunch[j].H01F03 == EnmPunchType.U)
+                            if (lstAllPunch[j].H01F04 == EnmPunchType.U)
                             {
-                                lstAllPunch[j].H01F03 = EnmPunchType.A;
-                                lstAllPunch[j].H01F05 = DateTime.Now;
+                                lstAllPunch[j].H01F04 = EnmPunchType.A;
+                                lstAllPunch[j].H01F07 = DateTime.Now;
                             }
                         }
                     }
@@ -322,17 +322,17 @@ namespace FirmAdvanceDemo.BL
             bool isEmployeePunchIn = false;
             foreach (PCH01 punch in lstAllPunch)
             {
-                if (punch.H01F03 == EnmPunchType.U)
+                if (punch.H01F04 == EnmPunchType.U)
                 {
                     if (isEmployeePunchIn)
                     {
-                        punch.H01F03 = EnmPunchType.O;
+                        punch.H01F04 = EnmPunchType.O;
                     }
                     else
                     {
-                        punch.H01F03 = EnmPunchType.I;
+                        punch.H01F04 = EnmPunchType.I;
                     }
-                    punch.H01F05 = DateTime.Now;
+                    punch.H01F07 = DateTime.Now;
                     isEmployeePunchIn = !isEmployeePunchIn;
                 }
             }

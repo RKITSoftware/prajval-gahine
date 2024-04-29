@@ -19,6 +19,19 @@ namespace FirmAdvanceDemo.DB
         /// </summary>
         private readonly MySqlConnection _connection;
 
+        private string _baseSelectQuery = @"
+                                    SELECT
+                                        e02f01 AS E02101,
+                                        e02f02 AS E02102,
+                                        e02f03 AS E02103,
+                                        e02f04 AS E02104,
+                                        e02f05 AS E02105,
+                                        e02f06 AS E02106,
+                                        e02f07 AS E02107
+                                    FROM
+                                        lve02
+                                    {0}";
+
         /// <summary>
         /// Initializes a new instance of the <see cref="DBLVE02Context"/> class.
         /// </summary>
@@ -76,17 +89,7 @@ namespace FirmAdvanceDemo.DB
         {
             DataTable dtLeave;
 
-            string query = string.Format(@"
-                                    SELECT
-                                        e02f01 AS E02101,
-                                        e02f02 AS E02102,
-                                        e02f03 AS E02103,
-                                        e02f04 AS E02104,
-                                        e02f05 AS E02105,
-                                        e02f06 AS E02106,
-                                        e02f07 AS E02107
-                                    FROM
-                                        lve02");
+            string query = string.Format(_baseSelectQuery, string.Empty);
 
             MySqlDataAdapter adapter = new MySqlDataAdapter(query, _connection);
 
@@ -99,39 +102,25 @@ namespace FirmAdvanceDemo.DB
         /// <summary>
         /// Fetches a specific leave record by its ID.
         /// </summary>
-        /// <param name="leaveId">The ID of the leave record to fetch.</param>
+        /// <param name="leaveID">The ID of the leave record to fetch.</param>
         /// <returns>A DataTable containing the leave record.</returns>
-        public DataTable FetchLeave(int leaveId)
+        public DataTable FetchLeave(int leaveID)
         {
             DataTable dtLeave;
 
-            string query = string.Format(@"
-                                    SELECT
-                                        e02f01 AS E02101,
-                                        e02f02 AS E02102,
-                                        e02f03 AS E02103,
-                                        e02f04 AS E02104,
-                                        e02f05 AS E02105,
-                                        e02f06 AS E02106,
-                                        e02f07 AS E02107
-                                    FROM
-                                        lve02
-                                    WHERE
-                                        e02f01 = {0}",
-                                        leaveId);
+            string where = string.Format(@"
+                        WHERE
+                            e02f01 = {0}",
+                            leaveID);
+
+            string query = string.Format(_baseSelectQuery, where);
 
             MySqlCommand cmd = new MySqlCommand(query, _connection);
             MySqlDataAdapter adapter = new MySqlDataAdapter(cmd);
-            try
-            {
-                _connection.Open();
-                dtLeave = new DataTable();
-                adapter.Fill(dtLeave);
-            }
-            finally
-            {
-                _connection.Close();
-            }
+
+            dtLeave = new DataTable();
+            adapter.Fill(dtLeave);
+
             return dtLeave;
         }
 
@@ -144,41 +133,19 @@ namespace FirmAdvanceDemo.DB
         {
             DataTable dtLeave;
 
-            string where = string.Empty;
+            string where = string.Format(@"
+                        WHERE
+                            e02f06 = '{0}'",
+                            leaveStatus);
 
-            if (leaveStatus != EnmLeaveStatus.X)
-            {
-                where = string.Format(@"
-                                WHERE
-                                    e02f06 = '{0}'
-                                ", leaveStatus);
-            }
-
-            string query = string.Format(@"
-                                    SELECT
-                                        e02f01 AS E02101,
-                                        e02f02 AS E02102,
-                                        e02f03 AS E02103,
-                                        e02f04 AS E02104,
-                                        e02f05 AS E02105,
-                                        e02f06 AS E02106,
-                                        e02f07 AS E02107
-                                    FROM
-                                        lve02
-                                    {0}", where);
+            string query = string.Format(_baseSelectQuery, where);
 
             MySqlCommand cmd = new MySqlCommand(query, _connection);
             MySqlDataAdapter adapter = new MySqlDataAdapter(cmd);
-            try
-            {
-                _connection.Open();
-                dtLeave = new DataTable();
-                adapter.Fill(dtLeave);
-            }
-            finally
-            {
-                _connection.Close();
-            }
+
+            dtLeave = new DataTable();
+            adapter.Fill(dtLeave);
+
             return dtLeave;
         }
 
@@ -191,33 +158,19 @@ namespace FirmAdvanceDemo.DB
         {
             DataTable dtLeave;
 
-            string query = string.Format(@"
-                                    SELECT
-                                        e02f01 AS E02101,
-                                        e02f02 AS E02102,
-                                        e02f03 AS E02103,
-                                        e02f04 AS E02104,
-                                        e02f05 AS E02105,
-                                        e02f06 AS E02106,
-                                        e02f07 AS E02107
-                                    FROM
-                                        lve02
-                                    WHERE
-                                        e02f02 = {0}",
-                                        employeeId);
+            string where = string.Format(@"
+                        WHERE
+                            e02f02 = {0}",
+                            employeeId);
+
+            string query = string.Format(_baseSelectQuery, where);
 
             MySqlCommand cmd = new MySqlCommand(query, _connection);
             MySqlDataAdapter adapter = new MySqlDataAdapter(cmd);
-            try
-            {
-                _connection.Open();
-                dtLeave = new DataTable();
-                adapter.Fill(dtLeave);
-            }
-            finally
-            {
-                _connection.Close();
-            }
+
+            dtLeave = new DataTable();
+            adapter.Fill(dtLeave);
+
             return dtLeave;
         }
 
@@ -231,35 +184,21 @@ namespace FirmAdvanceDemo.DB
         {
             DataTable dtLeave;
 
-            string query = string.Format(@"
-                                    SELECT
-                                        e02f01 AS E02101,
-                                        e02f02 AS E02102,
-                                        e02f03 AS E02103,
-                                        e02f04 AS E02104,
-                                        e02f05 AS E02105,
-                                        e02f06 AS E02106,
-                                        e02f07 AS E02107
-                                    FROM
-                                        lve02
+            string where = string.Format(@"
                                     WHERE
                                         YEAR(e02f03) = {0} AND
                                         MONTH(e02f03) = {1}",
-                                        year,
-                                        month);
+                                    year,
+                                    month);
+
+            string query = string.Format(_baseSelectQuery, where);
 
             MySqlCommand cmd = new MySqlCommand(query, _connection);
             MySqlDataAdapter adapter = new MySqlDataAdapter(cmd);
-            try
-            {
-                _connection.Open();
-                dtLeave = new DataTable();
-                adapter.Fill(dtLeave);
-            }
-            finally
-            {
-                _connection.Close();
-            }
+            
+            dtLeave = new DataTable();
+            adapter.Fill(dtLeave);
+
             return dtLeave;
         }
 
@@ -272,33 +211,19 @@ namespace FirmAdvanceDemo.DB
         {
             DataTable dtLeave;
 
-            string query = string.Format(@"
-                                    SELECT
-                                        e02f01 AS E02101,
-                                        e02f02 AS E02102,
-                                        e02f03 AS E02103,
-                                        e02f04 AS E02104,
-                                        e02f05 AS E02105,
-                                        e02f06 AS E02106,
-                                        e02f07 AS E02107
-                                    FROM
-                                        lve02
+            string where = string.Format(@"
                                     WHERE
                                         DATE(e02f03) = '{0}'",
-                                        date.ToString(GlobalDateFormat));
+                                    date.ToString(Constants.GlobalDateFormat));
+
+            string query = string.Format(_baseSelectQuery, where);
 
             MySqlCommand cmd = new MySqlCommand(query, _connection);
             MySqlDataAdapter adapter = new MySqlDataAdapter(cmd);
-            try
-            {
-                _connection.Open();
-                dtLeave = new DataTable();
-                adapter.Fill(dtLeave);
-            }
-            finally
-            {
-                _connection.Close();
-            }
+
+            dtLeave = new DataTable();
+            adapter.Fill(dtLeave);
+
             return dtLeave;
         }
 
@@ -312,19 +237,10 @@ namespace FirmAdvanceDemo.DB
         public DataTable FetchLeaveByEmployeeAndMonthYear(int employeeId, int year, int month)
         {
             DataTable dtLeave;
-            DateTime startDate = new DateTime(year, month, 1);
-            DateTime endDate = new DateTime(year, month, DateTime.DaysInMonth(year, month));
-            string query = string.Format(@"
-                                    SELECT
-                                        e02f01 AS E02101,
-                                        e02f02 AS E02102,
-                                        e02f03 AS E02103,
-                                        e02f04 AS E02104,
-                                        e02f05 AS E02105,
-                                        e02f06 AS E02106,
-                                        e02f07 AS E02107
-                                    FROM
-                                        lve02
+            string startDate = string.Format("{0}-{1}-01", year, month);
+            string endDate = string.Format("{0}-{1}-{2}", year, month, DateTime.DaysInMonth(year, month));
+
+            string where = string.Format(@"
                                     WHERE
                                         e02f02 = {0} AND
                                         (
@@ -332,9 +248,11 @@ namespace FirmAdvanceDemo.DB
                                             (ADDDATE(e02f03, e02f04 - 1) >= '{1}' AND ADDDATE(e02f03, e02f04 - 1) <= '{2}') OR
                                             (e02f03 < '{1}' AND ADDDATE(e02f03, e02f04 - 1) > '{2}')
                                         )",
-                                        employeeId,
-                                        startDate.ToString(Constants.GlobalDateFormat),
-                                        endDate.ToString(Constants.GlobalDateFormat));
+                                    employeeId,
+                                    startDate,
+                                    endDate);
+
+            string query = string.Format(_baseSelectQuery, where);
 
             MySqlCommand cmd = new MySqlCommand(query, _connection);
             MySqlDataAdapter adapter = new MySqlDataAdapter(cmd);
@@ -361,22 +279,14 @@ namespace FirmAdvanceDemo.DB
         {
             DataTable dtLeave;
 
-            string query = string.Format(@"
-                                    SELECT
-                                        e02f01 AS E02101,
-                                        e02f02 AS E02102,
-                                        e02f03 AS E02103,
-                                        e02f04 AS E02104,
-                                        e02f05 AS E02105,
-                                        e02f06 AS E02106,
-                                        e02f07 AS E02107
-                                    FROM
-                                        lve02
+            string where = string.Format(@"
                                     WHERE
                                         e02f02 = {0} AND
                                         YEAR(e02f03) = {1}",
-                                        employeeId,
-                                        year);
+                                    employeeId,
+                                    year);
+
+            string query = string.Format(_baseSelectQuery, where);
 
             MySqlCommand cmd = new MySqlCommand(query, _connection);
             MySqlDataAdapter adapter = new MySqlDataAdapter(cmd);
@@ -438,37 +348,19 @@ namespace FirmAdvanceDemo.DB
                                     startDate,
                                     endDate);
             }
+
             DataTable dtLeave;
 
-            string query = string.Format(@"
-                                    SELECT
-                                        e02f01 AS E02101,
-                                        e02f02 AS E02102,
-                                        e02f03 AS E02103,
-                                        e02f04 AS E02104,
-                                        e02f05 AS E02105,
-                                        e02f06 AS E02106,
-                                        e02f07 AS E02107
-                                    FROM
-                                        lve02
-                                    WHERE
-                                        {0} AND
-                                        {1}",
-                                        employeeIDWhere,
-                                        dateWhere);
+            string where = string.Format("WHERE {0} AND {1}", employeeIDWhere, dateWhere);
+
+            string query = string.Format(_baseSelectQuery, where);
 
             MySqlCommand cmd = new MySqlCommand(query, _connection);
             MySqlDataAdapter adapter = new MySqlDataAdapter(cmd);
-            try
-            {
-                _connection.Open();
-                dtLeave = new DataTable();
-                adapter.Fill(dtLeave);
-            }
-            finally
-            {
-                _connection.Close();
-            }
+            
+            dtLeave = new DataTable();
+            adapter.Fill(dtLeave);
+
             return dtLeave;
         }
     }

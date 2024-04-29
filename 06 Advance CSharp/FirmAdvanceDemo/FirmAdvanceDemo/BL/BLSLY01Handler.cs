@@ -150,8 +150,8 @@ namespace FirmAdvanceDemo.BL
                 {
                     Y01F02 = (int)row["EmployeeID"],
                     Y01F03 = salaryAmount,
-                    Y01F04 = (int)row["PositionID"],
-                    Y01F05 = now,
+                    Y01F05 = (int)row["PositionID"],
+                    Y01F06 = now,
                 });
             }
 

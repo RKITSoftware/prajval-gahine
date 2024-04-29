@@ -240,8 +240,8 @@ namespace FirmAdvanceDemo.BL
             int size = lstInOutPunch.Count;
             for (int i = 0; i < size; i += 2)
             {
-                DateTime punchInTime = lstInOutPunch[i].H01F04;
-                DateTime punchOutTime = lstInOutPunch[i + 1].H01F04;
+                DateTime punchInTime = lstInOutPunch[i].H01F06;
+                DateTime punchOutTime = lstInOutPunch[i + 1].H01F06;
                 TimeSpan timeDiff = punchOutTime.Subtract(punchInTime);
 
                 tempWorkHour += timeDiff.TotalHours;
@@ -253,17 +253,17 @@ namespace FirmAdvanceDemo.BL
                         D01F02 = lstInOutPunch[i].H01F02,
                         D01F03 = _attendanceProcessingData.dateOfAttendance,
                         D01F04 = tempWorkHour,
-                        D01F05 = now
+                        D01F06 = now
                     });
                     tempWorkHour = 0;
                 }
 
                 // update both in out as considered in attendance
-                lstInOutPunch[i].H01F05 = now;
-                lstInOutPunch[i + 1].H01F05 = now;
+                lstInOutPunch[i].H01F07 = now;
+                lstInOutPunch[i + 1].H01F07 = now;
 
-                lstInOutPunch[i].H01F06 = true;
-                lstInOutPunch[i + 1].H01F06 = true;
+                lstInOutPunch[i].H01F05 = true;
+                lstInOutPunch[i + 1].H01F05 = true;
             }
             return lstAttendance;
         }

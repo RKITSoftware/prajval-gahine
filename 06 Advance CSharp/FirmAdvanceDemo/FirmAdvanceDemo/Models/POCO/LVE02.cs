@@ -43,16 +43,22 @@ namespace FirmAdvanceDemo.Models.POCO
         /// </summary>
         public EnmLeaveStatus E02F06 { get; set; }
 
+        ///// <summary>
+        ///  approved by userID
+        /// </summary>
+        [ForeignKey(typeof(USR01), OnDelete = "CASCADE")]
+        public int E02F07 { get; set; }
+
         /// <summary>
         /// Leave creation datetime
         /// </summary>
         [IgnoreOnUpdate]
-        public DateTime E02F07 { get; set; }
+        public DateTime E02F08 { get; set; }
 
         /// <summary>
         /// Leave last modified datetime
         /// </summary>
         [IgnoreOnInsert]
-        public DateTime? E02F08 { get; set; }
+        public DateTime? E02F09 { get; set; }
     }
 }

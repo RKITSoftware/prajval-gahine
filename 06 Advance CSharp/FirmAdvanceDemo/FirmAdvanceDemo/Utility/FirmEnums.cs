@@ -8,7 +8,7 @@ namespace FirmAdvanceDemo.Enums
         /// <summary>
         /// Pending
         /// </summary>
-        P,
+        P = 1,
 
         /// <summary>
         /// Approved
@@ -19,11 +19,6 @@ namespace FirmAdvanceDemo.Enums
         /// Rejected
         /// </summary>
         R,
-
-        /// <summary>
-        /// Expired
-        /// </summary>
-        E,
 
         /// <summary>
         /// Historic

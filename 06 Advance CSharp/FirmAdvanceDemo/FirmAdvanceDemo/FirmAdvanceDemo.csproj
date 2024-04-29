@@ -173,6 +173,9 @@
     <EmbeddedResource Include="Swagger\Content\SwaggerScript.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+    <Compile Include="BL\BLADM00Handler.cs" />
+    <Compile Include="Controllers\CLADM00Controller.cs" />
+    <Compile Include="DL\DBADM00Context.cs" />
     <Compile Include="Global.asax.cs" />
     <Compile Include="App_Start\SwaggerConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
@@ -200,7 +203,6 @@
     <Compile Include="Controllers\CLPSN01Controller.cs" />
     <Compile Include="Controllers\CLRLE01Controller.cs" />
     <Compile Include="Controllers\CLSLY01Controller.cs" />
-    <Compile Include="Controllers\CLUSR01Controller.cs" />
     <Compile Include="Controllers\SwaggerUIController.cs" />
     <Compile Include="DL\DBATD01Context.cs" />
     <Compile Include="DL\DBDPT01Context.cs" />
@@ -210,7 +212,6 @@
     <Compile Include="DL\DBPSN01Context.cs" />
     <Compile Include="DL\DBRLE01Context.cs" />
     <Compile Include="DL\DBSLY01Context.cs" />
-    <Compile Include="DL\DBUSR01Context.cs" />
     <Compile Include="Models\DTO\DataAnnotations\InMultipleOfAttribute.cs" />
     <Compile Include="Models\DTO\DataAnnotations\LessThanCurrentDateTimeAttribute.cs" />
     <Compile Include="Models\DTO\DataAnnotations\RequiredWhenAdmin.cs" />

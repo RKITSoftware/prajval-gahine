@@ -1,6 +1,4 @@
-using FirmAdvanceDemo.Enums;
 using Newtonsoft.Json;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace FirmAdvanceDemo.Models.DTO
@@ -47,12 +45,5 @@ namespace FirmAdvanceDemo.Models.DTO
         [Phone]
         [Required(ErrorMessage = "Phone no. cannot be empty.")]
         public string R01F05 { get; set; }
-
-        /// <summary>
-        /// User roles
-        /// </summary>
-        [JsonProperty("r01106")]
-        [Required(ErrorMessage = "Roles cannot be empty.")]
-        public List<EnmRole> R01X06 { get; set; }
     }
 }

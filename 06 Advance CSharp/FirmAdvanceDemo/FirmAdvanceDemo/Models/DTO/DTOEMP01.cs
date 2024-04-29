@@ -52,5 +52,11 @@ namespace FirmAdvanceDemo.Models.DTO
         [Range(0, int.MaxValue)]
         [Required(ErrorMessage = "Position ID cannot be empty.")]
         public int P01F06 { get; set; }
+
+        /// <summary>
+        /// is admin
+        /// </summary>
+        [JsonProperty("p01107")]
+        public bool P01X07 { get; set; }
     }
 }

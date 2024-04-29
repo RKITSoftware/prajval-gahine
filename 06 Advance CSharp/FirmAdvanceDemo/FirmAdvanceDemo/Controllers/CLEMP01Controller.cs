@@ -83,7 +83,6 @@ namespace FirmAdvanceDemo.Controllers
             if (!response.IsError)
             {
                 _objBLEMP01Handler.Presave(objDTOUMP);
-                response = _objBLEMP01Handler.Validate();
                 if (!response.IsError)
                 {
                     response = _objBLEMP01Handler.Save();
@@ -115,8 +114,7 @@ namespace FirmAdvanceDemo.Controllers
                 if (!response.IsError)
                 {
                     _objBLEMP01Handler.Presave(objDTOUMP);
-                    response = _objBLEMP01Handler.Validate();
-                    if (!response.IsError)
+                    if (!response.IsError)  
                     {
                         response = _objBLEMP01Handler.Save();
                     }

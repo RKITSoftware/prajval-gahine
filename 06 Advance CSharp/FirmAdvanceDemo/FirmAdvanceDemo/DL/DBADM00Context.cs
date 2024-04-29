@@ -2,12 +2,9 @@
 using MySql.Data.MySqlClient;
 using System.Data;
 
-namespace FirmAdvanceDemo.DB
+namespace FirmAdvanceDemo.DL
 {
-    /// <summary>
-    /// Provides database operations related to the 'usr01' table.
-    /// </summary>
-    public class DBUSR01Context
+    public class DBADM00Context
     {
         /// <summary>
         /// The MySqlConnection used for database operations.
@@ -17,7 +14,7 @@ namespace FirmAdvanceDemo.DB
         /// <summary>
         /// Initializes a new instance of the <see cref="DBUSR01Context"/> class.
         /// </summary>
-        public DBUSR01Context()
+        public DBADM00Context()
         {
             _connection = MysqlDbConnector.Connection;
         }
@@ -27,9 +24,9 @@ namespace FirmAdvanceDemo.DB
         /// </summary>
         /// <param name="userID">The ID of the user to fetch.</param>
         /// <returns>A DataTable containing user data.</returns>
-        public DataTable FetchUser(int userID)
+        public DataTable FetchAdmin(int userID)
         {
-            DataTable dtUser = new DataTable();
+            DataTable dtAdmin = new DataTable();
 
             string query = string.Format(
                             @"
@@ -50,23 +47,23 @@ namespace FirmAdvanceDemo.DB
             try
             {
                 _connection.Open();
-                adapter.Fill(dtUser);
+                adapter.Fill(dtAdmin);
             }
             finally
             {
                 _connection.Close();
             }
 
-            return dtUser;
+            return dtAdmin;
         }
 
         /// <summary>
         /// Fetches all user data from the 'usr01' table.
         /// </summary>
         /// <returns>A DataTable containing all user data.</returns>
-        public DataTable FetchUser()
+        public DataTable FetchAdmin()
         {
-            DataTable dtUser = new DataTable();
+            DataTable dtAdmin = new DataTable();
 
             string query = string.Format(
                             @"
@@ -85,14 +82,14 @@ namespace FirmAdvanceDemo.DB
             try
             {
                 _connection.Open();
-                adapter.Fill(dtUser);
+                adapter.Fill(dtAdmin);
             }
             finally
             {
                 _connection.Close();
             }
 
-            return dtUser;
+            return dtAdmin;
         }
     }
 }
