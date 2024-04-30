@@ -7,17 +7,28 @@ using System.Web.Http;
 
 namespace FirmAdvanceDemo.Controllers
 {
+    /// <summary>
+    /// Controller for managing administrative users.
+    /// </summary>
     [Route("api/admin")]
     public class CLADM00Controller : ApiController
     {
 
         private readonly BLADM00Handler _objBLADM00Handler;
 
+        /// <summary>
+        /// Initializes a new instance of the CLADM00Controller class.
+        /// </summary>
         public CLADM00Controller()
         {
             _objBLADM00Handler = new BLADM00Handler();
         }
 
+        /// <summary>
+        /// Adds a new administrative user.
+        /// </summary>
+        /// <param name="objDTOUSR01">The DTO containing the administrative user data.</param>
+        /// <returns>An IHttpActionResult indicating the result of the operation.</returns>
         [HttpPost]
         [Route("")]
         [AccessTokenAuthentication]
@@ -35,6 +46,11 @@ namespace FirmAdvanceDemo.Controllers
             return Ok(response);
         }
 
+        /// <summary>
+        /// Updates an existing administrative user.
+        /// </summary>
+        /// <param name="objDTOUSR01">The DTO containing the updated administrative user data.</param>
+        /// <returns>An IHttpActionResult indicating the result of the operation.</returns>
         [HttpPut]
         [Route("")]
         [AccessTokenAuthentication]
@@ -53,9 +69,9 @@ namespace FirmAdvanceDemo.Controllers
         }
 
         /// <summary>
-        /// Retrieves all users.
+        /// Retrieves all administrative users.
         /// </summary>
-        /// <returns>HTTP response containing the retrieved users.</returns>
+        /// <returns>An IHttpActionResult containing the retrieved administrative user data.</returns>
         [HttpGet]
         [Route("")]
         [AccessTokenAuthentication]
@@ -67,25 +83,25 @@ namespace FirmAdvanceDemo.Controllers
         }
 
         /// <summary>
-        /// Retrieves a user by their ID.
+        /// Retrieves an administrative user by ID.
         /// </summary>
-        /// <param name="userID">The ID of the user to retrieve.</param>
-        /// <returns>HTTP response containing the retrieved user.</returns>
+        /// <param name="userID">The ID of the administrative user to retrieve.</param>
+        /// <returns>An IHttpActionResult containing the retrieved administrative user data.</returns>
         [HttpGet]
         [Route("{userID}")]
         [AccessTokenAuthentication]
         [BasicAuthorization(Roles = "A")]
-        public IHttpActionResult Get(int userID)
+        public IHttpActionResult GetAdmin(int userID)
         {
             Response response = _objBLADM00Handler.RetrieveAdmin(userID);
             return Ok(response);
         }
 
         /// <summary>
-        /// Deletes a user by their ID.
+        /// Deletes an administrative user by ID.
         /// </summary>
-        /// <param name="userID">The ID of the user to delete.</param>
-        /// <returns>HTTP response indicating the success or failure of the operation.</returns>
+        /// <param name="userID">The ID of the administrative user to delete.</param>
+        /// <returns>An IHttpActionResult indicating the result of the operation.</returns>
         [HttpDelete]
         [Route("{userID}")]
         [AccessTokenAuthentication]

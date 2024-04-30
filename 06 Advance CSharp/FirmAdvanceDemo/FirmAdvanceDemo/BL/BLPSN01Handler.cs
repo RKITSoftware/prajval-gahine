@@ -218,6 +218,11 @@ namespace FirmAdvanceDemo.BL
             return response;
         }
 
+        /// <summary>
+        /// Retrieves the position with the specified position ID.
+        /// </summary>
+        /// <param name="positionID">The ID of the position to retrieve.</param>
+        /// <returns>A response containing the retrieved position data.</returns>
         public Response RetrievePosition(int positionID)
         {
             Response response = new Response();

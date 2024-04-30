@@ -44,15 +44,8 @@ namespace FirmAdvanceDemo.DB
 
             MySqlDataAdapter adapter = new MySqlDataAdapter(cmd);
 
-            try
-            {
-                _connection.Open();
-                adapter.Fill(dtPunch);
-            }
-            finally
-            {
-                _connection.Close();
-            }
+            adapter.Fill(dtPunch);
+
             return dtPunch;
         }
 
@@ -81,6 +74,13 @@ namespace FirmAdvanceDemo.DB
             return dtPunch;
         }
 
+        /// <summary>
+        /// Fetches punch data for the specified employee and month.
+        /// </summary>
+        /// <param name="employeeID">The ID of the employee.</param>
+        /// <param name="year">The year of the punch data.</param>
+        /// <param name="month">The month of the punch data.</param>
+        /// <returns>A DataTable containing the fetched punch data.</returns>
         public DataTable FetchPunchForEmployeeByMonth(int employeeID, int year, int month)
         {
             DataTable dtPunch = new DataTable();
@@ -101,7 +101,7 @@ namespace FirmAdvanceDemo.DB
                             employeeID,
                             year,
                             month,
-                            EnmPunchType.M);
+                            EnmPunchType.D);
 
 
             MySqlCommand cmd = new MySqlCommand(query, _connection);
@@ -113,7 +113,12 @@ namespace FirmAdvanceDemo.DB
             return dtPunch;
         }
 
-        internal DataTable FetchAmbiguousPunch(DateTime date)
+        /// <summary>
+        /// Fetches ambiguous punch data for the specified date.
+        /// </summary>
+        /// <param name="date">The date of the ambiguous punch data.</param>
+        /// <returns>A DataTable containing the fetched ambiguous punch data.</returns>
+        public DataTable FetchAmbiguousPunch(DateTime date)
         {
             DataTable dtPunch = new DataTable();
 

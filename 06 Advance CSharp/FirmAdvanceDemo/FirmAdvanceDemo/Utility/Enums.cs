@@ -47,9 +47,9 @@ namespace FirmAdvanceDemo.Enums
         O,
 
         /// <summary>
-        /// Mistaken Punch
+        /// Duplicate Punch
         /// </summary>
-        M,
+        D,
 
         /// <summary>
         /// Ambiguous Punch

@@ -50,16 +50,9 @@ namespace FirmAdvanceDemo.DB
             MySqlCommand cmd = new MySqlCommand(query, _connection);
             MySqlDataAdapter adapter = new MySqlDataAdapter(cmd);
 
-            try
-            {
-                _connection.Open();
-                dtAttendance = new DataTable();
-                adapter.Fill(dtAttendance);
-            }
-            finally
-            {
-                _connection.Close();
-            }
+            dtAttendance = new DataTable();
+            adapter.Fill(dtAttendance);
+
             return dtAttendance;
         }
 
@@ -88,27 +81,20 @@ namespace FirmAdvanceDemo.DB
             MySqlCommand cmd = new MySqlCommand(query, _connection);
             MySqlDataAdapter adapter = new MySqlDataAdapter(cmd);
 
-            try
-            {
-                _connection.Open();
-                dtAttendance = new DataTable();
-                adapter.Fill(dtAttendance);
-            }
-            finally
-            {
-                _connection.Close();
-            }
+            dtAttendance = new DataTable();
+            adapter.Fill(dtAttendance);
+
             return dtAttendance;
         }
 
         /// <summary>
         /// Fetches attendance records for a specified employee ID, year, and month.
         /// </summary>
-        /// <param name="employeeId">The employee ID.</param>
+        /// <param name="employeeID">The employee ID.</param>
         /// <param name="year">The year.</param>
         /// <param name="month">The month.</param>
         /// <returns>A DataTable containing the attendance records.</returns>
-        public DataTable FetchAttendanceByEmployeeIdAndMonthYear(int employeeId, int year, int month)
+        public DataTable FetchAttendanceByemployeeIDAndMonthYear(int employeeID, int year, int month)
         {
             DataTable dtAttendance;
 
@@ -125,23 +111,16 @@ namespace FirmAdvanceDemo.DB
                                     d01f02 = {0} AND
                                     YEAR(d01f03) = {1} AND
                                     MONTH(d01f03) = {2}",
-                            employeeId,
+                            employeeID,
                             year,
                             month);
 
             MySqlCommand cmd = new MySqlCommand(query, _connection);
             MySqlDataAdapter adapter = new MySqlDataAdapter(cmd);
 
-            try
-            {
-                _connection.Open();
-                dtAttendance = new DataTable();
-                adapter.Fill(dtAttendance);
-            }
-            finally
-            {
-                _connection.Close();
-            }
+            dtAttendance = new DataTable();
+            adapter.Fill(dtAttendance);
+
             return dtAttendance;
         }
 
@@ -149,9 +128,9 @@ namespace FirmAdvanceDemo.DB
         /// <summary>
         /// Retrieves attendance records for a specified employee ID.
         /// </summary>
-        /// <param name="employeeId">The employee ID.</param>
+        /// <param name="employeeID">The employee ID.</param>
         /// <returns>A DataTable containing the attendance records.</returns>
-        public DataTable RetrieveAttendanceByEmployeeId(int employeeId)
+        public DataTable RetrieveAttendanceByemployeeID(int employeeID)
         {
             DataTable dtAttendance;
 
@@ -166,21 +145,14 @@ namespace FirmAdvanceDemo.DB
                                     atd01
                                 WHERE
                                     d01f02 = {0}",
-                            employeeId);
+                            employeeID);
 
             MySqlCommand cmd = new MySqlCommand(query, _connection);
             MySqlDataAdapter adapter = new MySqlDataAdapter(cmd);
 
-            try
-            {
-                _connection.Open();
-                dtAttendance = new DataTable();
-                adapter.Fill(dtAttendance);
-            }
-            finally
-            {
-                _connection.Close();
-            }
+            dtAttendance = new DataTable();
+            adapter.Fill(dtAttendance);
+
             return dtAttendance;
         }
 
@@ -203,24 +175,18 @@ namespace FirmAdvanceDemo.DB
 
             MySqlDataAdapter adapter = new MySqlDataAdapter(cmd);
 
-            try
-            {
-                _connection.Open();
-                adapter.Fill(dtAttendance);
-            }
-            finally
-            {
-                _connection.Close();
-            }
+
+            adapter.Fill(dtAttendance);
+
             return dtAttendance;
         }
 
         /// <summary>
         /// Fetches the attendance record with the specified attendance ID.
         /// </summary>
-        /// <param name="attendanceId">The attendance ID.</param>
+        /// <param name="attendanceID">The attendance ID.</param>
         /// <returns>A DataTable containing the attendance record.</returns>
-        public DataTable FetchAttendance(int attendanceId)
+        public DataTable FetchAttendance(int attendanceID)
         {
             DataTable dtAttendance = new DataTable();
 
@@ -231,21 +197,14 @@ namespace FirmAdvanceDemo.DB
                                 d01f03 AS D01103,
                                 d01f04 AS D01104
                             FROM atd01
-                                WHERE d01f01 = {0};", attendanceId);
+                                WHERE d01f01 = {0};", attendanceID);
 
             MySqlCommand cmd = new MySqlCommand(query, _connection);
 
             MySqlDataAdapter adapter = new MySqlDataAdapter(cmd);
 
-            try
-            {
-                _connection.Open();
-                adapter.Fill(dtAttendance);
-            }
-            finally
-            {
-                _connection.Close();
-            }
+            adapter.Fill(dtAttendance);
+
             return dtAttendance;
         }
     }

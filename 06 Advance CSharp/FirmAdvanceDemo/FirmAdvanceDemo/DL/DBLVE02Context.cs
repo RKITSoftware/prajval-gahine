@@ -167,16 +167,16 @@ namespace FirmAdvanceDemo.DB
         /// <summary>
         /// Fetches leave records for a specific employee.
         /// </summary>
-        /// <param name="employeeId">The ID of the employee whose leave records to fetch.</param>
+        /// <param name="employeeID">The ID of the employee whose leave records to fetch.</param>
         /// <returns>A DataTable containing the leave records for the specified employee.</returns>
-        public DataTable FetchLeaveByEmployee(int employeeId)
+        public DataTable FetchLeaveByEmployee(int employeeID)
         {
             DataTable dtLeave;
 
             string where = string.Format(@"
                         WHERE
                             e02f02 = {0}",
-                            employeeId);
+                            employeeID);
 
             string query = string.Format(_baseSelectQuery, where);
 
@@ -253,11 +253,11 @@ namespace FirmAdvanceDemo.DB
         /// <summary>
         /// Fetches leave records for a specific employee, month, and year.
         /// </summary>
-        /// <param name="employeeId">The ID of the employee.</param>
+        /// <param name="employeeID">The ID of the employee.</param>
         /// <param name="year">The year of the leave records.</param>
         /// <param name="month">The month of the leave records.</param>
         /// <returns>A DataTable containing the leave records for the specified employee, month, and year.</returns>
-        public DataTable FetchLeaveByEmployeeAndMonth(int employeeId, int year, int month)
+        public DataTable FetchLeaveByEmployeeAndMonth(int employeeID, int year, int month)
         {
             DataTable dtLeave;
             string startDate = string.Format("{0}-{1}-01", year, month);
@@ -271,7 +271,7 @@ namespace FirmAdvanceDemo.DB
                                             (ADDDATE(e02f03, e02f04 - 1) >= '{1}' AND ADDDATE(e02f03, e02f04 - 1) <= '{2}') OR
                                             (e02f03 < '{1}' AND ADDDATE(e02f03, e02f04 - 1) > '{2}')
                                         )",
-                                    employeeId,
+                                    employeeID,
                                     startDate,
                                     endDate);
 
@@ -279,16 +279,10 @@ namespace FirmAdvanceDemo.DB
 
             MySqlCommand cmd = new MySqlCommand(query, _connection);
             MySqlDataAdapter adapter = new MySqlDataAdapter(cmd);
-            try
-            {
-                _connection.Open();
-                dtLeave = new DataTable();
-                adapter.Fill(dtLeave);
-            }
-            finally
-            {
-                _connection.Close();
-            }
+
+            dtLeave = new DataTable();
+            adapter.Fill(dtLeave);
+
             return dtLeave;
         }
 
@@ -321,19 +315,21 @@ namespace FirmAdvanceDemo.DB
 
             MySqlCommand cmd = new MySqlCommand(query, _connection);
             MySqlDataAdapter adapter = new MySqlDataAdapter(cmd);
-            try
-            {
-                _connection.Open();
-                dtLeave = new DataTable();
-                adapter.Fill(dtLeave);
-            }
-            finally
-            {
-                _connection.Close();
-            }
+
+            dtLeave = new DataTable();
+            adapter.Fill(dtLeave);
+
             return dtLeave;
         }
 
+        /// <summary>
+        /// Fetches leave data using dynamically query for the specified employee, optionally filtered by year, month, and day.
+        /// </summary>
+        /// <param name="employeeID">The ID of the employee.</param>
+        /// <param name="year">The year to filter the leave data (optional).</param>
+        /// <param name="month">The month to filter the leave data (optional).</param>
+        /// <param name="day">The day to filter the leave data (optional).</param>
+        /// <returns>A DataTable containing the fetched leave data.</returns>
         public DataTable FetchLeaveGeneral(int employeeID, int year = 0, int month = 0, int day = 0)
         {
             string employeeIDWhere = string.Empty;

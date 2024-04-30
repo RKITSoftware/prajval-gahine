@@ -36,7 +36,7 @@ namespace FirmAdvanceDemo.Utility
         /// Retrieves the employee ID from the HttpContext Items collection.
         /// </summary>
         /// <returns>The employee ID stored in the Items collection.</returns>
-        public static int GetEmployeeIDFromItems()
+        public static int GetemployeeIDFromItems()
         {
             return (int)HttpContext.Current.Items["employeeID"];
         }
@@ -48,7 +48,7 @@ namespace FirmAdvanceDemo.Utility
         /// <returns>True if the employee ID is authorized; otherwise, false.</returns>
         public static bool IsAuthorizedEmployee(int employeeID)
         {
-            return employeeID == GetEmployeeIDFromItems();
+            return employeeID == GetemployeeIDFromItems();
         }
 
         /// <summary>
@@ -140,7 +140,7 @@ namespace FirmAdvanceDemo.Utility
 
             string username = GeneralHandler.RetrieveUsernameByUserID(userId);
             string[] lstRole = GeneralContext.FetchRolesByUserID(userId);
-            int employeeID = GeneralHandler.RetrieveEmployeeIDByUserID(userId);
+            int employeeID = GeneralHandler.RetrieveemployeeIDByUserID(userId);
 
             GenericIdentity identity = new GenericIdentity(username);
             identity.AddClaim(new Claim("userID", userId.ToString()));
@@ -301,18 +301,22 @@ namespace FirmAdvanceDemo.Utility
         }
 
         /// <summary>
-        /// Converts a list of objects to a CSV (Comma-Separated Values) string based on the properties of the objects.
+        /// Converts a DataTable to a CSV (comma-separated values) byte array.
         /// </summary>
-        /// <typeparam name="T">The type of the objects in the list.</typeparam>
-        /// <param name="lstResource">The list of objects to convert.</param>
-        /// <param name="resourceType">The type of the objects in the list.</param>
-        /// <returns>A CSV string representing the list of objects.</returns>
-        public static byte[] ConvertToCSV(DataTable dt)
+        /// <param name="dt">The DataTable to convert.</param>
+        /// <returns>A byte array representing the CSV data.</returns>
+        public static byte[] ConvertToCSV(DataTable dt, string[] lstMainHeader = null, string[] lstFooter = null)
         {
             StringBuilder csvBuilder = new StringBuilder();
 
+            if(lstMainHeader != null)
+            {
+                csvBuilder.Append(lstMainHeader.Join(","));
+                csvBuilder.Append("\n");
+            }
+
             string[] lstHeader = dt.Columns.Cast<DataColumn>()
-                .Select(header => header.ColumnName).ToArray();
+                .Select(header => header.ColumnName.ToUpper()).ToArray();
 
             csvBuilder.Append(lstHeader.Join(","));
             csvBuilder.Append("\n");
@@ -322,6 +326,12 @@ namespace FirmAdvanceDemo.Utility
                 string[] lstField = dr.ItemArray.Select(field => field.ToString())
                     .ToArray();
                 csvBuilder.Append(lstField.Join(","));
+                csvBuilder.Append("\n");
+            }
+
+            if(lstFooter != null)
+            {
+                csvBuilder.Append(lstFooter.Join(","));
                 csvBuilder.Append("\n");
             }
 

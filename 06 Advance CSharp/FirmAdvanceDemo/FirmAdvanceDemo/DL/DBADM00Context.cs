@@ -12,7 +12,7 @@ namespace FirmAdvanceDemo.DL
         private readonly MySqlConnection _connection;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DBUSR01Context"/> class.
+        /// Initializes a new instance of the <see cref="DBADM00Context"/> class.
         /// </summary>
         public DBADM00Context()
         {
@@ -20,10 +20,10 @@ namespace FirmAdvanceDemo.DL
         }
 
         /// <summary>
-        /// Fetches user data from the 'usr01' table based on the provided userID.
+        /// Fetches admin data from the 'usr01' table based on the provided userID.
         /// </summary>
         /// <param name="userID">The ID of the user to fetch.</param>
-        /// <returns>A DataTable containing user data.</returns>
+        /// <returns>A DataTable containing admin data.</returns>
         public DataTable FetchAdmin(int userID)
         {
             DataTable dtAdmin = new DataTable();
@@ -44,23 +44,16 @@ namespace FirmAdvanceDemo.DL
 
             MySqlDataAdapter adapter = new MySqlDataAdapter(cmd);
 
-            try
-            {
-                _connection.Open();
-                adapter.Fill(dtAdmin);
-            }
-            finally
-            {
-                _connection.Close();
-            }
+
+            adapter.Fill(dtAdmin);
 
             return dtAdmin;
         }
 
         /// <summary>
-        /// Fetches all user data from the 'usr01' table.
+        /// Fetches all admin data from the 'usr01' table.
         /// </summary>
-        /// <returns>A DataTable containing all user data.</returns>
+        /// <returns>A DataTable containing all admin data.</returns>
         public DataTable FetchAdmin()
         {
             DataTable dtAdmin = new DataTable();
@@ -79,16 +72,8 @@ namespace FirmAdvanceDemo.DL
 
             MySqlDataAdapter adapter = new MySqlDataAdapter(cmd);
 
-            try
-            {
-                _connection.Open();
-                adapter.Fill(dtAdmin);
-            }
-            finally
-            {
-                _connection.Close();
-            }
-
+            adapter.Fill(dtAdmin);
+                
             return dtAdmin;
         }
     }

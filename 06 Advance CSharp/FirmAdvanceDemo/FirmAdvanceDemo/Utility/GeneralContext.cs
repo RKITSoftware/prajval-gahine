@@ -54,15 +54,9 @@ namespace FirmAdvanceDemo.Utility
             cmd = new MySqlCommand(query, _connection);
             adapter = new MySqlDataAdapter(cmd);
 
-            _connection.Open();
-            try
-            {
-                adapter.Fill(dtUserRole);
-            }
-            finally
-            {
-                _connection.Close();
-            }
+
+            adapter.Fill(dtUserRole);
+
             lstUserRole = dtUserRole.AsEnumerable().Select(row => (string)row["e01f02"]).ToArray();
             return lstUserRole;
         }

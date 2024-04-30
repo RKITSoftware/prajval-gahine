@@ -34,15 +34,35 @@ namespace FirmAdvanceDemo.BL
         /// </summary>
         private readonly OrmLiteConnectionFactory _dbFactory;
 
+        /// <summary>
+        /// Represents a list of punch entries that are ambiguous and require further processing.
+        /// </summary>
         private List<PCH01> _lstAmbigousPunch;
 
+        /// <summary>
+        /// Represents the data needed for processing punch entries.
+        /// </summary>
         public struct PunchProcessingData
         {
+            /// <summary>
+            /// The date of the punch entries being processed.
+            /// </summary>
             public DateTime dateOfPunch;
+
+            /// <summary>
+            /// The list of all punch entries for the specified date.
+            /// </summary>
             public List<PCH01> LstAllPunch;
+
+            /// <summary>
+            /// The list of in-out punch entries for the specified date.
+            /// </summary>
             public List<PCH01> LstInOutPunch;
         }
 
+        /// <summary>
+        /// The data for processing punch entries.
+        /// </summary>
         public PunchProcessingData _punchProcessingData;
 
         /// <summary>
@@ -69,19 +89,19 @@ namespace FirmAdvanceDemo.BL
             Response response = new Response();
 
             // validate employee id
-            int employeeId = objDTOPCH01.H01F02;
+            int employeeID = objDTOPCH01.H01F02;
             int employeeCount = objDTOPCH01.H01F02;
 
             using (IDbConnection db = _dbFactory.OpenDbConnection())
             {
-                employeeCount = (int)db.Count<EMP01>(employee => employee.P01F01 == employeeId);
+                employeeCount = (int)db.Count<EMP01>(employee => employee.P01F01 == employeeID);
             }
 
             if (employeeCount == 0)
             {
                 response.IsError = true;
                 response.HttpStatusCode = HttpStatusCode.NotFound;
-                response.Message = $"Employee not found with id: {employeeId}.";
+                response.Message = $"Employee not found with id: {employeeID}.";
 
                 return response;
             }
@@ -110,6 +130,10 @@ namespace FirmAdvanceDemo.BL
             }
         }
 
+        /// <summary>
+        /// Prepares a virtual punch entry for saving.
+        /// </summary>
+        /// <param name="objDTOPCH01">The DTO representing the virtual punch entry.</param>
         public void PresaveVirtualPunch(DTOPCH01 objDTOPCH01)
         {
             _objPCH01 = objDTOPCH01.ConvertModel<PCH01>();
@@ -144,6 +168,10 @@ namespace FirmAdvanceDemo.BL
             MarkAmbiguousAsInOutPunch(_lstAmbigousPunch);
         }
 
+        /// <summary>
+        /// Marks ambiguous punch entries as in-out punches.
+        /// </summary>
+        /// <param name="lstAllPunch">The list of all punch entries.</param>
         private void MarkAmbiguousAsInOutPunch(List<PCH01> lstAllPunch)
         {
             bool isEmployeePunchIn = false;
@@ -162,6 +190,10 @@ namespace FirmAdvanceDemo.BL
             }
         }
 
+        /// <summary>
+        /// Saves the virtual punch entry.
+        /// </summary>
+        /// <returns>A response indicating the success of the save operation.</returns>
         public Response SaveVirtualPunch()
         {
             Response response = new Response();
@@ -174,7 +206,10 @@ namespace FirmAdvanceDemo.BL
             return response;
         }
 
-
+        /// <summary>
+        /// Prepares unprocessed punches for processing for the specified date.
+        /// </summary>
+        /// <param name="date">The date of the unprocessed punches.</param>
         public void PresaveProcessUnprocessPunchesForDate(DateTime date)
         {
             _punchProcessingData = new PunchProcessingData
@@ -185,6 +220,10 @@ namespace FirmAdvanceDemo.BL
             ProcessUnprocessedPunches();
         }
 
+        /// <summary>
+        /// Validates the processed punches.
+        /// </summary>
+        /// <returns>A response indicating the validation result.</returns>
         public Response ValidateProcessedPunches()
         {
             Response response = new Response();
@@ -197,6 +236,10 @@ namespace FirmAdvanceDemo.BL
             return response;
         }
 
+        /// <summary>
+        /// Saves the processed punches.
+        /// </summary>
+        /// <returns>A response indicating the success of the save operation.</returns>
         public Response SaveProcessedPunches()
         {
             Response response = new Response();
@@ -209,6 +252,11 @@ namespace FirmAdvanceDemo.BL
             return response;
         }
 
+        /// <summary>
+        /// Retrieves the unprocessed punches for the specified date.
+        /// </summary>
+        /// <param name="date">The date of the unprocessed punches.</param>
+        /// <returns>The list of unprocessed punches for the specified date.</returns>
         private List<PCH01> GetUnprocessedPunchesForDate(DateTime date)
         {
             List<PCH01> lstPunch;
@@ -239,10 +287,9 @@ namespace FirmAdvanceDemo.BL
         /// <summary>
         /// Updates the punch type based on certain criteria.
         /// </summary>
-        /// <param name="lstPCH01">The list of punches to process.</param>
         public void ProcessUnprocessedPunches()
         {
-            MarkMistakenlyPunch();
+            MarkDuplicatePunch();
             MarkAmbiguousPunch();
             MarkInOutPunch();
         }
@@ -250,8 +297,7 @@ namespace FirmAdvanceDemo.BL
         /// <summary>
         /// Marks punches that are mistakenly recorded.
         /// </summary>
-        /// <param name="_lstPCH01">The list of punches to process.</param>
-        private void MarkMistakenlyPunch()
+        private void MarkDuplicatePunch()
         {
             List<PCH01> lstAllPunch = _punchProcessingData.LstAllPunch;
             TimeSpan timeBuffer = new TimeSpan(0, 0, 10);    // 10 second buffer
@@ -262,7 +308,7 @@ namespace FirmAdvanceDemo.BL
                 PCH01 nextPunch = lstAllPunch[i + 1];
                 if (currPunch.H01F02 == nextPunch.H01F02 && nextPunch.H01F03.Subtract(currPunch.H01F03) <= timeBuffer)
                 {
-                    currPunch.H01F04 = EnmPunchType.M;
+                    currPunch.H01F04 = EnmPunchType.D;
                     currPunch.H01F07 = DateTime.Now;
                 }
             }
@@ -271,7 +317,6 @@ namespace FirmAdvanceDemo.BL
         /// <summary>
         /// Marks punches that are ambiguous or unclear.
         /// </summary>
-        /// <param name="_lstPCH01">The list of punches to process.</param>
         private void MarkAmbiguousPunch()
         {
             List<PCH01> lstAllPunch = _punchProcessingData.LstAllPunch;
@@ -317,7 +362,6 @@ namespace FirmAdvanceDemo.BL
         /// <summary>
         /// Marks punches as In/Out based on certain criteria.
         /// </summary>
-        /// <param name="_lstPCH01">The list of punches to process.</param>
         private void MarkInOutPunch()
         {
             List<PCH01> lstAllPunch = _punchProcessingData.LstAllPunch;
@@ -427,6 +471,13 @@ namespace FirmAdvanceDemo.BL
             return response;
         }
 
+        /// <summary>
+        /// Retrieves the punch entries for a specific employee for the specified month and year.
+        /// </summary>
+        /// <param name="employeeID">The ID of the employee.</param>
+        /// <param name="year">The year of the punch entries.</param>
+        /// <param name="month">The month of the punch entries.</param>
+        /// <returns>A response containing the retrieved punch entries.</returns>
         public Response RetrievePunchForEmployeeByMonth(int employeeID, int year, int month)
         {
             Response response = new Response();
@@ -444,6 +495,11 @@ namespace FirmAdvanceDemo.BL
             return response;
         }
 
+        /// <summary>
+        /// Retrieves the ambiguous punch entries for the specified date.
+        /// </summary>
+        /// <param name="date">The date of the ambiguous punch entries.</param>
+        /// <returns>A response containing the retrieved ambiguous punch entries.</returns>
         public Response RetrieveAmbiguousPunch(DateTime date)
         {
             Response response = new Response();
@@ -461,6 +517,11 @@ namespace FirmAdvanceDemo.BL
             return response;
         }
 
+        /// <summary>
+        /// Prevalidates a virtual punch entry before processing.
+        /// </summary>
+        /// <param name="objDTOPCH01">The DTO representing the virtual punch entry.</param>
+        /// <returns>A response indicating the validation result.</returns>
         public Response PrevalidateVirtualPunch(DTOPCH01 objDTOPCH01)
         {
             Response response = Prevalidate(objDTOPCH01);

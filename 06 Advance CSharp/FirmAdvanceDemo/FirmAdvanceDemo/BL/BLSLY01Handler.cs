@@ -2,9 +2,12 @@ using FirmAdvanceDemo.DB;
 using FirmAdvanceDemo.Models.POCO;
 using FirmAdvanceDemo.Utility;
 using ServiceStack.OrmLite;
+using ServiceStack.Text;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Globalization;
+using System.Linq;
 using System.Net;
 
 namespace FirmAdvanceDemo.BL
@@ -24,8 +27,14 @@ namespace FirmAdvanceDemo.BL
         /// </summary>
         private readonly OrmLiteConnectionFactory _dbFactory;
 
+        /// <summary>
+        /// Represents the data needed for processing salary payments.
+        /// </summary>
         private struct SalaryProcessingData
         {
+            /// <summary>
+            /// The date up to which the salary is to be credited.
+            /// </summary>
             public DateTime UptoCreditDate;
 
             /// <summary>
@@ -34,11 +43,14 @@ namespace FirmAdvanceDemo.BL
             public DataTable DtEmployeeWorkHoursUntilYesterday;
 
             /// <summary>
-            /// DataTable containing employee work hours until yesterday.
+            /// List of salary entries to be paid.
             /// </summary>
             public List<SLY01> LstToBePaidSalary;
         }
 
+        /// <summary>
+        /// The data for processing salary payments.
+        /// </summary>
         private SalaryProcessingData _objProcessSalaryData;
 
         /// <summary>
@@ -151,11 +163,13 @@ namespace FirmAdvanceDemo.BL
                 double workHours = (double)row["WorkHours"];
                 double salaryAmount = (workHours / totalHoursInCurrentMonth) * monthlySalary;
 
+
+                DateTime monthStartDate = new DateTime(_objProcessSalaryData.UptoCreditDate.Year, _objProcessSalaryData.UptoCreditDate.Month, 1);
                 lstSalary.Add(new SLY01
                 {
-                    Y01F02 = (int)row["EmployeeID"],
+                    Y01F02 = (int)row["employeeID"],
                     Y01F03 = salaryAmount,
-                    Y01F04 = _objProcessSalaryData.UptoCreditDate,
+                    Y01F04 = monthStartDate,
                     Y01F05 = (int)row["PositionID"],
                     Y01F06 = now,
                 });
@@ -165,25 +179,73 @@ namespace FirmAdvanceDemo.BL
         }
 
         /// <summary>
-        /// Converts a DataTable to a CSV byte array.
+        /// Downloads the salary slip for the specified employee and date range.
         /// </summary>
-        /// <param name="dt">The DataTable to convert.</param>
-        /// <returns>A byte array representing the CSV data.</returns>
-        public Response DownloadSalarySlip(int EmployeeId, DateTime start, DateTime end)
+        /// <param name="employeeID">The ID of the employee.</param>
+        /// <param name="start">The start date of the salary slip period.</param>
+        /// <param name="end">The end date of the salary slip period.</param>
+        /// <returns>A response containing the downloaded salary slip data.</returns>
+        public Response DownloadSalarySlip(int employeeID, DateTime start, DateTime end)
         {
             Response response = new Response();
 
-            DataTable dtSalary = _dBSLY01Context.FetchSalaryByEmployeeForDateRange(EmployeeId, start, end);
+            DataTable dtSalary = _dBSLY01Context.FetchSalaryByEmployeeForDateRange(employeeID, start, end);
 
             if (dtSalary.Rows.Count == 0)
             {
                 response.IsError = true;
                 response.HttpStatusCode = HttpStatusCode.NotFound;
-                response.Message = $"No salary record found for employee {EmployeeId}";
+                response.Message = $"No salary record found for employee {employeeID}";
+                return response;
+            }
+            string employeeFullName = string.Empty;
+            using (IDbConnection db = _dbFactory.OpenDbConnection())
+            {
+                employeeFullName = db.Scalar<EMP01, string>(employee => employee.P01F02 + " " + employee.P01F03, employee => employee.P01F01 == employeeID).ToUpper();
+            }
+            string[] lstMainHeader = new string[] { string.Format("{0} - {1}", employeeID, employeeFullName) };
+
+            string totalAmount = dtSalary.AsEnumerable()
+                .Select(dt => (double)dt["Amount"])
+                .Aggregate(0.0, (acc, curr) => acc + curr).ToString();
+
+            string[] lstFooter = new string[] { "TOTAL", totalAmount };
+            byte[] salaryCSV = GeneralUtility.ConvertToCSV(dtSalary, lstMainHeader, lstFooter);
+
+            response.HttpStatusCode = HttpStatusCode.OK;
+            response.Data = salaryCSV;
+            return response;
+        }
+
+        /// <summary>
+        /// Downloads the salary slip for the specified month.
+        /// </summary>
+        /// <param name="year">The year of specified month.</param>
+        /// <param name="month">The month of salary slip.</param>
+        /// <returns>A response containing the downloaded salary slip data.</returns>
+        public Response DownloadSalarySlipForMonth(int year, int month)
+        {
+            Response response = new Response();
+
+            DataTable dtSalary = _dBSLY01Context.FetchSalaryForMonth(year, month);
+
+            if (dtSalary.Rows.Count == 0)
+            {
+                response.IsError = true;
+                response.HttpStatusCode = HttpStatusCode.NotFound;
+                response.Message = $"No salary record found for {year}/{month}";
                 return response;
             }
 
-            byte[] salaryCSV = GeneralUtility.ConvertToCSV(dtSalary);
+            string[] lstMainHeader = new string[] { string.Format("\"{0}, {1}\"", year, CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(month)) };
+
+            string totalAmount = dtSalary.AsEnumerable()
+                .Select(dt => (double)dt["Amount"])
+                .Aggregate(0.0, (acc, curr) => acc + curr).ToString();
+
+            string[] lstFooter = new string[] { " ", " ", "TOTAL", totalAmount };
+
+            byte[] salaryCSV = GeneralUtility.ConvertToCSV(dtSalary, lstMainHeader, lstFooter);
 
             response.HttpStatusCode = HttpStatusCode.OK;
             response.Data = salaryCSV;

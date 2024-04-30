@@ -17,6 +17,9 @@ namespace FirmAdvanceDemo.DB
         /// </summary>
         private readonly MySqlConnection _connection;
 
+        /// <summary>
+        /// Default constructor for DBSLY01Context
+        /// </summary>
         public DBSLY01Context()
         {
             _connection = MysqlDbConnector.Connection;
@@ -26,7 +29,7 @@ namespace FirmAdvanceDemo.DB
         /// Fetches unpaid work hours for employees based on the last credit date.
         /// </summary>
         /// <param name="lastCreditDate">The last credit date to consider for unpaid work hours calculation.</param>
-        /// <returns>A DataTable containing the EmployeeId, WorkHours, PositionId, and MonthlySalary of employees with unpaid work hours.
+        /// <returns>A DataTable containing the employeeID, WorkHours, PositionId, and MonthlySalary of employees with unpaid work hours.
         /// </returns>
         public DataTable FetchUnpaidWorkHours(DateTime uptoCreditDate)
         {
@@ -36,14 +39,14 @@ namespace FirmAdvanceDemo.DB
 
             string query = string.Format(@"
                                         SELECT
-	                                        EmployeeId,
+	                                        employeeID,
 	                                        WorkHours,
 	                                        n01f01 AS PositionId,
 	                                        n01f04 AS MontlhySalary
                                         FROM
 	                                        emp01 INNER JOIN (
 						                                        SELECT
-							                                        d01f02 AS EmployeeId,
+							                                        d01f02 AS employeeID,
 							                                        SUM(
                                                                         CASE
                                                                             WHEN d01f04 > 8 THEN 8
@@ -56,7 +59,7 @@ namespace FirmAdvanceDemo.DB
 							                                        DATE(d01f03) < '{0}' AND
                                                                     d01f05 = 0
 						                                        GROUP BY d01f02
-					                                        ) AS EmployeeWorkHour ON emp01.p01f01 = EmployeeWorkHour.EmployeeId
+					                                        ) AS EmployeeWorkHour ON emp01.p01f01 = EmployeeWorkHour.employeeID
 		                                        INNER JOIN psn01 ON psn01.n01f01 = emp01.p01f06;",
                                         uptoCreditDate.ToString(GlobalDateFormat));
 
@@ -69,7 +72,14 @@ namespace FirmAdvanceDemo.DB
             return dtEmployeeWorkHour;
         }
 
-        public DataTable FetchSalaryByEmployeeForDateRange(int employeeID, DateTime startDate, DateTime endDate)
+        /// <summary>
+        /// Fetches salary data for the specified employee within the given date range.
+        /// </summary>
+        /// <param name="employeeID">The ID of the employee.</param>
+        /// <param name="startDate">The start date of the salary data range.</param>
+        /// <param name="endDate">The end date of the salary data range.</param>
+        /// <returns>A DataTable containing the fetched salary data.</returns>
+        public DataTable FetchSalaryForMonth(int year, int month)
         {
             DataTable dtSalary = new DataTable();
             string query = string.Format(@"
@@ -78,15 +88,45 @@ namespace FirmAdvanceDemo.DB
                                         y01f02 AS 'Employee ID',
                                         CONCAT(p01f02, ' ', p01f03) AS 'Employee Name',
                                         y01f03 AS 'Amount',
-                                        DATE_FORMAT(y01f04,'%Y-%M') as 'Salary Month',
+                                        n01f02 AS 'Position',
+                                        y01f06 AS 'Credited At'
+                                    FROM
+                                        sly01 INNER JOIN psn01 ON y01f05 = n01f01 INNER JOIN emp01 ON y01f02 = p01f01
+                                    WHERE
+                                        YEAR(y01f04) = {0} AND
+                                        MONTH(y01f04) = {1}",
+                                        year,
+                                        month);
+
+            MySqlCommand cmd = new MySqlCommand(query, _connection);
+            MySqlDataAdapter adapter = new MySqlDataAdapter(cmd);
+            adapter.Fill(dtSalary);
+            return dtSalary;
+        }
+
+        /// <summary>
+        /// Fetches salary data for the specified employee within the given date range.
+        /// </summary>
+        /// <param name="employeeID">The ID of the employee.</param>
+        /// <param name="startDate">The start date of the salary data range.</param>
+        /// <param name="endDate">The end date of the salary data range.</param>
+        /// <returns>A DataTable containing the fetched salary data.</returns>
+        public DataTable FetchSalaryByEmployeeForDateRange(int employeeID, DateTime startDate, DateTime endDate)
+        {
+            DataTable dtSalary = new DataTable();
+            string query = string.Format(@"
+                                    SELECT
+                                        y01f01 AS 'Salary ID',
+                                        y01f03 AS 'Amount',
+                                        DATE_FORMAT(y01f04,'""%Y, %M""') as 'Salary Month',
                                         n01f02 AS 'Position',
                                         y01f06 AS 'Credited At'
                                     FROM
                                         sly01 INNER JOIN psn01 ON y01f05 = n01f01 INNER JOIN emp01 ON y01f02 = p01f01
                                     WHERE
                                         y01f02 = {0} AND
-                                        DATE(y01f04) >= '{1}' AND
-                                        DATE(y01f04) <= '{2}'",
+                                        y01f04 >= '{1}' AND
+                                        y01f04 <= '{2}'",
                                         employeeID,
                                         startDate.ToString(Constants.GlobalDateFormat),
                                         endDate.ToString(Constants.GlobalDateFormat));

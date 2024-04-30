@@ -93,7 +93,7 @@ namespace FirmAdvanceDemo.BL
                     int userID;
                     using (IDbConnection db = _dbFactory.OpenDbConnection())
                     {
-                        userID = db.Scalar<USR01, int>(user => user.R01F01);
+                        userID = db.Scalar<USR01, int>(user => user.R01F01));
                     }
 
                     if (userID != objDTOUSR01.R01F01)

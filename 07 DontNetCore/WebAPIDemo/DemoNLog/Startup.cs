@@ -14,7 +14,7 @@ namespace DemoNLog
         /// Contract for Startup class
         /// </summary>
         public void ConfigureServices(IServiceCollection services)
-        {
+        {   
             services.AddControllers();
             services.AddSwaggerGen();
             services.AddLogging(logging =>

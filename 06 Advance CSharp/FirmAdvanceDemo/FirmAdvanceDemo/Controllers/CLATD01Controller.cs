@@ -1,5 +1,6 @@
 using FirmAdvanceDemo.Auth;
 using FirmAdvanceDemo.BL;
+using FirmAdvanceDemo.Models.DTO.DataAnnotations;
 using FirmAdvanceDemo.Utility;
 using System;
 using System.Web.Http;
@@ -20,7 +21,6 @@ namespace FirmAdvanceDemo.Controllers
         /// <summary>
         /// Default constructor for CLATD01Controller.
         /// </summary>
-
         public CLATD01Controller()
         {
             _objBLAttendance = new BLATD01Handler();
@@ -58,19 +58,19 @@ namespace FirmAdvanceDemo.Controllers
         /// <summary>
         /// Action method to retrieve an employee's attendance by employee ID. Requires Admin or Employee role.
         /// </summary>
-        /// <param name="employeeId">Employee Id</param>
+        /// <param name="employeeID">Employee Id</param>
         /// <returns>Instance of type IHttpActionResult</returns>
         [HttpGet]
-        [Route("employee/{employeeId}")]
+        [Route("employee/{employeeID}")]
         [AccessTokenAuthentication]
         [BasicAuthorization(Roles = "A,E")]
-        public IHttpActionResult GetAttendanceByEmployeeId(int employeeId)
+        public IHttpActionResult GetAttendanceByemployeeID(int employeeID)
         {
             Response response;
-            response = GeneralUtility.ValidateAccess(employeeId);
+            response = GeneralUtility.ValidateAccess(employeeID);
             if (!response.IsError)
             {
-                response = _objBLAttendance.RetrieveAttendanceByEmployeeId(employeeId);
+                response = _objBLAttendance.RetrieveAttendanceByemployeeID(employeeID);
             }
             return Ok(response);
         }
@@ -85,6 +85,7 @@ namespace FirmAdvanceDemo.Controllers
         [Route("monthly")]
         [AccessTokenAuthentication]
         [BasicAuthorization(Roles = "A")]
+        [ValidateMonthYear]
         public IHttpActionResult GetAttendanceByMonthYear(int year, int month)
         {
             Response reponse = _objBLAttendance.RetrieveAttendanceByMonthYear(year, month);
@@ -108,21 +109,22 @@ namespace FirmAdvanceDemo.Controllers
         /// <summary>
         /// Action method to retrieve attendances by employee ID and month-year. Requires Admin or Employee role.
         /// </summary>
-        /// <param name="employeeId">Employee Id</param>
+        /// <param name="employeeID">Employee Id</param>
         /// <param name="year">Attendance Year</param>
         /// <param name="month">Attendance Month</param>
         /// <returns>HTTP response indicating the result of the operation.</returns>
         [HttpGet]
-        [Route("employee/{employeeId}/{year}/{month}")]
+        [Route("employee/{employeeID}/{year}/{month}")]
         [AccessTokenAuthentication]
         [BasicAuthorization(Roles = "A,E")]
-        public IHttpActionResult GetAttendanceByEmployeeIdAndMonthYear(int employeeId, int year, int month)
+        [ValidateMonthYear]
+        public IHttpActionResult GetAttendanceByemployeeIDAndMonthYear(int employeeID, int year, int month)
         {
             Response response;
-            response = GeneralUtility.ValidateAccess(employeeId);
+            response = GeneralUtility.ValidateAccess(employeeID);
             if (!response.IsError)
             {
-                response = _objBLAttendance.RetrieveAttendanceByEmployeeIdAndMonthYear(employeeId, year, month);
+                response = _objBLAttendance.RetrieveAttendanceByemployeeIDAndMonthYear(employeeID, year, month);
             }
             return Ok(response);
         }
@@ -130,22 +132,22 @@ namespace FirmAdvanceDemo.Controllers
         /// <summary>
         /// Action method to retrieve all attendances by employee ID for the current month. Requires Admin or Employee role.
         /// </summary>
-        /// <param name="employeeId">Employee Id</param>
+        /// <param name="employeeID">Employee Id</param>
         /// <returns>HTTP response indicating the result of the operation.</returns>
         [HttpGet]
-        [Route("employee/{employeeId}/current-month")]
+        [Route("employee/{employeeID}/current-month")]
         [AccessTokenAuthentication]
         [BasicAuthorization(Roles = "A,E")]
-        public IHttpActionResult GetAttendanceByEmployeeIdForCurrentMonth(int employeeId)
+        public IHttpActionResult GetAttendanceByemployeeIDForCurrentMonth(int employeeID)
         {
             DateTime date = DateTime.Today;
 
             Response response;
-            response = GeneralUtility.ValidateAccess(employeeId);
+            response = GeneralUtility.ValidateAccess(employeeID);
 
             if (!response.IsError)
             {
-                response = _objBLAttendance.RetrieveAttendanceByEmployeeIdAndMonthYear(employeeId, date.Year, date.Month);
+                response = _objBLAttendance.RetrieveAttendanceByemployeeIDAndMonthYear(employeeID, date.Year, date.Month);
             }
             return Ok(response);
         }

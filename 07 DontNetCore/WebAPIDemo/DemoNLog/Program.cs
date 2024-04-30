@@ -15,7 +15,7 @@ namespace DemoNLog
 
             builder.UseKestrel()
                 .UseStartup<Startup>()
-                //.UseNLog()
+                .UseNLog()
                 .UseConfiguration(configuration);
 
             IWebHost app = builder.Build();

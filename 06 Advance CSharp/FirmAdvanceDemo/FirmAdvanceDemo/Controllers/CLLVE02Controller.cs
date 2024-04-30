@@ -2,6 +2,7 @@ using FirmAdvanceDemo.Auth;
 using FirmAdvanceDemo.BL;
 using FirmAdvanceDemo.Enums;
 using FirmAdvanceDemo.Models.DTO;
+using FirmAdvanceDemo.Models.DTO.DataAnnotations;
 using FirmAdvanceDemo.Models.DTO.FIlters;
 using FirmAdvanceDemo.Utility;
 using System;
@@ -87,6 +88,7 @@ namespace FirmAdvanceDemo.Controllers
         [Route("employee/{employeeID}/monthly")]
         [AccessTokenAuthentication]
         [BasicAuthorization(Roles = "A,E")]
+        [ValidateMonthYear]
         public IHttpActionResult GetLeaveByEmployeeAndMonthYear(int employeeID, int year, int month)
         {
             Response response = GeneralUtility.ValidateAccess(employeeID);
@@ -107,6 +109,7 @@ namespace FirmAdvanceDemo.Controllers
         [Route("employee/{employeeID}/yearly")]
         [AccessTokenAuthentication]
         [BasicAuthorization(Roles = "A,E")]
+        [ValidateMonthYear]
         public IHttpActionResult GetLeaveByEmployeeAndYear(int employeeID, int year)
         {
             Response response = GeneralUtility.ValidateAccess(employeeID);
@@ -167,6 +170,7 @@ namespace FirmAdvanceDemo.Controllers
         [Route("monthly")]
         [AccessTokenAuthentication]
         [BasicAuthorization(Roles = "A")]
+        [ValidateMonthYear]
         public IHttpActionResult GetLeaveByMonthYear(int year, int month)
         {
             Response response = _objBLLVE02Handler.RetrieveLeaveByMonthYear(year, month);
@@ -202,6 +206,11 @@ namespace FirmAdvanceDemo.Controllers
             return Ok(response);
         }
 
+        /// <summary>
+        /// Retrieves leave entries by status.
+        /// </summary>
+        /// <param name="leaveStatus">The status of the leave entries to retrieve.</param>
+        /// <returns>An IHttpActionResult containing the retrieved leave entries.</returns>
         [HttpGet]
         [Route("status/{leaveStatus}")]
         [AccessTokenAuthentication]
@@ -270,6 +279,12 @@ namespace FirmAdvanceDemo.Controllers
             return Ok(response);
         }
 
+        /// <summary>
+        /// Updates the status of a leave entry.
+        /// </summary>
+        /// <param name="leaveID">The ID of the leave entry to update.</param>
+        /// <param name="toLeaveStatus">The new status to update to.</param>
+        /// <returns>An IHttpActionResult indicating the result of the operation.</returns>
         [HttpPatch]
         [Route("status/{leaveStatus}")]
         [AccessTokenAuthentication]

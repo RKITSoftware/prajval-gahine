@@ -90,7 +90,7 @@ namespace FirmAdvanceDemo.BL
                     }
 
                     // check if given mapping (userID-employeeID) is correct
-                    employeeID = GeneralHandler.RetrieveEmployeeIDByUserID(objDTOUSR01.R01F01);
+                    employeeID = GeneralHandler.RetrieveemployeeIDByUserID(objDTOUSR01.R01F01);
 
                     if (employeeID != objDTOEMP01.P01F01)
                     {

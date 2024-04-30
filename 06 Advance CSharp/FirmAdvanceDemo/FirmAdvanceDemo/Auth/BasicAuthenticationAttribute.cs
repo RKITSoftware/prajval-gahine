@@ -50,7 +50,7 @@ namespace FirmAdvanceDemo.Auth
                         // get userID
                         int userID = GeneralHandler.RetrieveUserIdByUsername(username);
 
-                        int employeeID = GeneralHandler.RetrieveEmployeeIDByUserID(userID);
+                        int employeeID = GeneralHandler.RetrieveemployeeIDByUserID(userID);
 
                         GenericIdentity identity = new GenericIdentity(username);
                         identity.AddClaim(new Claim("userID", userID.ToString()));

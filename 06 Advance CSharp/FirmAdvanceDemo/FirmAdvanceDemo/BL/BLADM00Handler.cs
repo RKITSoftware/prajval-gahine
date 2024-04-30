@@ -9,15 +9,28 @@ using System.Net;
 
 namespace FirmAdvanceDemo.BL
 {
+    /// <summary>
+    /// Handles business logic related to administrative operations.
+    /// </summary>
     public class BLADM00Handler : BLUSR01Handler
     {
+        /// <summary>
+        /// The database context for administrative operations.
+        /// </summary>
         private readonly DBADM00Context _objDBADM00Context;
 
+        /// <summary>
+        /// Initializes a new instance of the BLADM00Handler class.
+        /// </summary>
         public BLADM00Handler()
         {
             _objDBADM00Context = new DBADM00Context();
         }
 
+        /// <summary>
+        /// Saves the changes made to the administrative data.
+        /// </summary>
+        /// <returns>A response indicating the success of the operation.</returns>
         public Response Save()
         {
             Response response = new Response();
@@ -70,10 +83,10 @@ namespace FirmAdvanceDemo.BL
         }
 
         /// <summary>
-        /// Retrieves a user with the specified user ID.
+        /// Retrieves a admin with the specified user ID.
         /// </summary>
         /// <param name="userID">The ID of the user to retrieve.</param>
-        /// <returns>A response containing the retrieved user data.</returns>
+        /// <returns>A response containing the retrieved admin data.</returns>
         public Response RetrieveAdmin(int userID)
         {
             Response response = new Response();
@@ -92,9 +105,9 @@ namespace FirmAdvanceDemo.BL
         }
 
         /// <summary>
-        /// Retrieves all users.
+        /// Retrieves all admins.
         /// </summary>
-        /// <returns>A response containing the retrieved user data.</returns>
+        /// <returns>A response containing the retrieved admin data.</returns>
         public Response RetrieveAdmin()
         {
             Response response = new Response();

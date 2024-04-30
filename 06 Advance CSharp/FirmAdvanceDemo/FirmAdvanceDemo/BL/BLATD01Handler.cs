@@ -28,13 +28,30 @@ namespace FirmAdvanceDemo.BL
         /// </summary>
         private readonly DBATD01Context _objDBATD01Context;
 
+        /// <summary>
+        /// Represents the data needed for processing attendance.
+        /// </summary>
         public struct AttendanceProcessingData
         {
+            /// <summary>
+            /// The date for which attendance is being processed.
+            /// </summary>
             public DateTime dateOfAttendance;
+
+            /// <summary>
+            /// The list of punch entries for the specified date.
+            /// </summary>
             public List<PCH01> LstInOutPunchesForDate;
+
+            /// <summary>
+            /// The list of existing attendance entries for the specified date.
+            /// </summary>
             public List<ATD01> LstAttendance;
         }
 
+        /// <summary>
+        /// The data for processing attendance.
+        /// </summary>
         public AttendanceProcessingData _attendanceProcessingData;
 
         /// <summary>
@@ -54,17 +71,17 @@ namespace FirmAdvanceDemo.BL
         /// <summary>
         /// Retrieves attendance records by employee ID.
         /// </summary>
-        /// <param name="employeeId">The employee ID.</param>
+        /// <param name="employeeID">The employee ID.</param>
         /// <returns>The response object.</returns>
-        public Response RetrieveAttendanceByEmployeeId(int employeeId)
+        public Response RetrieveAttendanceByemployeeID(int employeeID)
         {
             Response response = new Response();
-            DataTable dtAttendance = _objDBATD01Context.RetrieveAttendanceByEmployeeId(employeeId);
+            DataTable dtAttendance = _objDBATD01Context.RetrieveAttendanceByemployeeID(employeeID);
             if (dtAttendance.Rows.Count == 0)
             {
                 response.IsError = true;
                 response.HttpStatusCode = HttpStatusCode.NotFound;
-                response.Message = $"No attendance record found for employee: {employeeId}";
+                response.Message = $"No attendance record found for employee: {employeeID}";
 
                 return response;
             }
@@ -127,20 +144,20 @@ namespace FirmAdvanceDemo.BL
         /// <summary>
         /// Retrieves attendance records by employee ID, year, and month.
         /// </summary>
-        /// <param name="employeeId">The employee ID.</param>
+        /// <param name="employeeID">The employee ID.</param>
         /// <param name="year">The year.</param>
         /// <param name="month">The month.</param>
         /// <returns>The response object.</returns>
-        public Response RetrieveAttendanceByEmployeeIdAndMonthYear(int employeeId, int year, int month)
+        public Response RetrieveAttendanceByemployeeIDAndMonthYear(int employeeID, int year, int month)
         {
             Response response = new Response();
 
-            DataTable dtAttendance = _objDBATD01Context.FetchAttendanceByEmployeeIdAndMonthYear(employeeId, year, month);
+            DataTable dtAttendance = _objDBATD01Context.FetchAttendanceByemployeeIDAndMonthYear(employeeID, year, month);
             if (dtAttendance.Rows.Count == 0)
             {
                 response.IsError = true;
                 response.HttpStatusCode = HttpStatusCode.NotFound;
-                response.Message = $"No attendance found for employee: {employeeId} for year/month: {year}/{month}";
+                response.Message = $"No attendance found for employee: {employeeID} for year/month: {year}/{month}";
 
                 return response;
             }
@@ -151,6 +168,10 @@ namespace FirmAdvanceDemo.BL
             return response;
         }
 
+        /// <summary>
+        /// Prepares attendance processing data for the end of day (EoD) punches for the specified date.
+        /// </summary>
+        /// <param name="date">The date for which EoD punches are being processed.</param>
         public void PresaveEoDPunchesForDate(DateTime date)
         {
             _attendanceProcessingData = new AttendanceProcessingData();
@@ -159,6 +180,10 @@ namespace FirmAdvanceDemo.BL
             _attendanceProcessingData.LstAttendance = ComputeAttendanceFromInOutPunch();
         }
 
+        /// <summary>
+        /// Validates the end of day (EoD) attendance data.
+        /// </summary>
+        /// <returns>A response indicating the validation result.</returns>
         public Response ValidateEoDAttendance()
         {
             Response response = new Response();
@@ -171,6 +196,10 @@ namespace FirmAdvanceDemo.BL
             return response;
         }
 
+        /// <summary>
+        /// Saves the computed attendance data.
+        /// </summary>
+        /// <returns>A response indicating the success of the save operation.</returns>
         public Response SaveAttendance()
         {
             Response response = new Response();
@@ -196,6 +225,11 @@ namespace FirmAdvanceDemo.BL
             return response;
         }
 
+        /// <summary>
+        /// Retrieves the list of in-out punches for the specified date.
+        /// </summary>
+        /// <param name="date">The date for which to retrieve punches.</param>
+        /// <returns>The list of in-out punches for the specified date.</returns>
         public List<PCH01> GetInOutPunchesForDate(DateTime date)
         {
             List<PCH01> lstPunch;
@@ -226,10 +260,9 @@ namespace FirmAdvanceDemo.BL
         }
 
         /// <summary>
-        /// Computes attendance records based on the list of punches.
+        /// Computes the attendance data from the in-out punches.
         /// </summary>
-        /// <param name="_lstInOutPCH01">The list of punches to process.</param>
-        /// <returns>The computed attendance records.</returns>
+        /// <returns>The computed attendance data.</returns>
         public List<ATD01> ComputeAttendanceFromInOutPunch()
         {
             DateTime now = DateTime.Now;
@@ -353,52 +386,5 @@ namespace FirmAdvanceDemo.BL
 
             return response;
         }
-        /*
-/// <summary>
-/// Method to fetch all attendance of employee for current month
-/// </summary>
-/// <param name="EmployeeId">Employee id</param>
-/// <returns>ResponseStatusInfo instance containing lst_of_attendance, null if any exception is thrown</returns>
-public ResponseStatusInfo FetchAttendanceByEmployeeIdForCurrentMonth(int EmployeeId)
-{
-try
-{
-using (IDbConnection db = _dbFactory.OpenDbConnection())
-{
-
-DateTime CurrentDate = DateTime.Today;
-
-SqlExpression<ATD01> sqlExp = db.From<ATD01>();
-sqlExp.Where(attendance => attendance.D01F02 == EmployeeId)
-.And(
-"YEAR(D01F03) = {0}",
-CurrentDate.Year
-)
-.And(
-"MONTH(D01F03) = {0}",
-CurrentDate.Month
-);
-
-
-List<ATD01> lstAttendanceByEmployeeIdForCurrentMonth = db.Select<ATD01>(sqlExp);
-return new ResponseStatusInfo()
-{
-IsRequestSuccessful = true,
-Message = $"Attendance list of Employee with employeeId: {EmployeeId} for current month",
-Data = lstAttendanceByEmployeeIdForCurrentMonth
-};
-}
-}
-catch (Exception ex)
-{
-return new ResponseStatusInfo()
-{
-IsRequestSuccessful = false,
-Message = ex.Message,
-Data = null
-};
-}
-}
-*/
     }
 }

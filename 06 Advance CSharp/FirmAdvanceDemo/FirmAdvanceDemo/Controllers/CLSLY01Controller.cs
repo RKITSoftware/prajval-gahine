@@ -1,7 +1,9 @@
 using FirmAdvanceDemo.Auth;
 using FirmAdvanceDemo.BL;
+using FirmAdvanceDemo.Models.DTO.DataAnnotations;
 using FirmAdvanceDemo.Utility;
 using System;
+using System.Globalization;
 using System.Web;
 using System.Web.Http;
 
@@ -34,6 +36,7 @@ namespace FirmAdvanceDemo.Controllers
         [Route("credit")]
         [AccessTokenAuthentication]
         [BasicAuthorization(Roles = "A")]
+        [ValidateMonthYear]
         public IHttpActionResult CreditSalary(int year, int month)
         {
             Response response;
@@ -81,11 +84,21 @@ namespace FirmAdvanceDemo.Controllers
             return Ok(response);
         }
 
+        /// <summary>
+        /// Downloads the salary slips in CSV format for the specified employee and month range.
+        /// </summary>
+        /// <param name="employeeID">The ID of the employee.</param>
+        /// <param name="startYear">The start year of the month range.</param>
+        /// <param name="startMonth">The start month of the month range.</param>
+        /// <param name="endYear">The end year of the month range.</param>
+        /// <param name="endMonth">The end month of the month range.</param>
+        /// <returns>An IHttpActionResult containing the downloaded CSV file.</returns>
         [HttpGet]
         [Route("download/month-range/{employeeID}")]
         [AccessTokenAuthentication]
         [BasicAuthorization(Roles = "E")]
-        public IHttpActionResult GetSalarySlipCsv(int employeeID, int startYear, int startMonth, int endYear, int endMonth)
+        [ValidateMonthYear]
+        public IHttpActionResult GetSalarySlipCsvForMonthRange(int employeeID, int startYear, int startMonth, int endYear, int endMonth)
         {
 
             Response response = GeneralUtility.ValidateAccess(employeeID);
@@ -102,12 +115,42 @@ namespace FirmAdvanceDemo.Controllers
 
                     httpResponse.Clear();
                     httpResponse.AppendHeader("Content-Type", "text/csv");
-                    httpResponse.AppendHeader("Content-Disposition", $"attachment;filename=salary-slip-{employeeID}-{startDate:yyyyMMdd}To{endDate:yyyyMMdd}.csv;");
+                    httpResponse.AppendHeader("Content-Disposition", $"attachment;filename=salary-slip-{employeeID}-{startYear}, {CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(startMonth)}To{endYear}, {CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(endMonth)}.csv;");
 
                     httpResponse.BinaryWrite((byte[])response.Data);
 
                     return Ok();
                 }
+            }
+            return Ok(response);
+        }
+
+        /// <summary>
+        /// Downloads the salary slips in CSV format for the specified month.
+        /// </summary>
+        /// <param name="year">The year of month.</param>
+        /// <param name="month">The month of salary slip.</param>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("download/salary-slip")]
+        [AccessTokenAuthentication]
+        [BasicAuthorization(Roles = "A")]
+        [ValidateMonthYear]
+        public IHttpActionResult GetSalarySlipCsvForMonthRange(int year, int month)
+        {
+            Response response = _objBLSLY01Handler.DownloadSalarySlipForMonth(year, month);
+
+            if (!response.IsError)
+            {
+                HttpResponse httpResponse = HttpContext.Current.Response;
+
+                httpResponse.Clear();
+                httpResponse.AppendHeader("Content-Type", "text/csv");
+                httpResponse.AppendHeader("Content-Disposition", $"attachment;filename=salary-slip-{year}/{month}.csv;");
+
+                httpResponse.BinaryWrite((byte[])response.Data);
+
+                return Ok();
             }
             return Ok(response);
         }

@@ -214,15 +214,14 @@ namespace FirmAdvanceDemo.BL
             }
         }
 
-        //check378 - get leave by leave status
         /// <summary>
         /// Method to get leave count of an employee for a specific month-year.
         /// </summary>
-        /// <param name="EmployeeId">Employee ID.</param>
+        /// <param name="employeeID">Employee ID.</param>
         /// <param name="month">Leave month.</param>
         /// <param name="year">Leave year.</param>
         /// <returns>A response containing the leave count.</returns>
-        public Response GetLeaveCountByEmployeeIdAnMonthYear(int EmployeeId, int month, int year)
+        public Response GetLeaveCountByemployeeIDAnMonthYear(int employeeID, int month, int year)
         {
             try
             {
@@ -232,7 +231,7 @@ namespace FirmAdvanceDemo.BL
                     DateTime MonthLastDate = new DateTime(year, month, DateTime.DaysInMonth(year, month));
 
                     SqlExpression<LVE02> sqlExp = db.From<LVE02>()
-                        .Where(l => l.E02F02 == EmployeeId && l.E02F06 == EnmLeaveStatus.A)
+                        .Where(l => l.E02F02 == employeeID && l.E02F06 == EnmLeaveStatus.A)
                         .And(l => l.E02F03 >= MonthFirstDate && l.E02F03 <= MonthLastDate)
                         .Or(
                             "(ADDDATE(E01F04, INTERVAL (E01F05 - 1) DAY) >= {0} AND ADDDATE(E01F04, INTERVAL (E01F05 - 1) DAY) <= {1})",
@@ -247,7 +246,7 @@ namespace FirmAdvanceDemo.BL
                     return new Response()
                     {
                         IsError = true,
-                        Message = $"Leave count for employee with employeeId: {EmployeeId} for monht/year: {month}/{year}",
+                        Message = $"Leave count for employee with employeeID: {employeeID} for monht/year: {month}/{year}",
                         Data = new { LeaveCount = leaveCount }
                     };
                 }
@@ -263,6 +262,12 @@ namespace FirmAdvanceDemo.BL
             }
         }
 
+        /// <summary>
+        /// Prevalidates the update of the leave status for a specific leave entry.
+        /// </summary>
+        /// <param name="leaveID">The ID of the leave entry to update.</param>
+        /// <param name="toLeaveStatus">The new leave status to update to.</param>
+        /// <returns>A response indicating the validation result.</returns>
         public Response PrevalidateUpdateLeaveStatus(int leaveID, EnmLeaveStatus toLeaveStatus)
         {
             Response response = new Response();
@@ -291,6 +296,12 @@ namespace FirmAdvanceDemo.BL
             return response;
         }
 
+        /// <summary>
+        /// Updates the leave status for a specific leave entry.
+        /// </summary>
+        /// <param name="leaveID">The ID of the leave entry to update.</param>
+        /// <param name="toLeaveStatus">The new leave status to update to.</param>
+        /// <returns>A response indicating the success of the update operation.</returns>
         public Response UpdateLeaveStatus(int leaveID, EnmLeaveStatus toLeaveStatus)
         {
             Response response = new Response();
@@ -377,17 +388,17 @@ namespace FirmAdvanceDemo.BL
         /// <summary>
         /// Method to retrieve leave records for a specific employee.
         /// </summary>
-        /// <param name="employeeId">Employee ID.</param>
+        /// <param name="employeeID">Employee ID.</param>
         /// <returns>A response containing the retrieved leave data.</returns>
-        public Response RetrieveLeaveByEmployee(int employeeId)
+        public Response RetrieveLeaveByEmployee(int employeeID)
         {
             Response response = new Response();
-            DataTable dtLeave = _objDBLVE02Context.FetchLeaveByEmployee(employeeId);
+            DataTable dtLeave = _objDBLVE02Context.FetchLeaveByEmployee(employeeID);
             if (dtLeave.Rows.Count == 0)
             {
                 response.IsError = true;
                 response.HttpStatusCode = HttpStatusCode.NotFound;
-                response.Message = $"No leaves found for employee: {employeeId}";
+                response.Message = $"No leaves found for employee: {employeeID}";
 
                 return response;
             }
@@ -448,20 +459,20 @@ namespace FirmAdvanceDemo.BL
         /// <summary>
         /// Method to retrieve leave records for a specific employee and month-year.
         /// </summary>
-        /// <param name="employeeId">Employee ID.</param>
+        /// <param name="employeeID">Employee ID.</param>
         /// <param name="year">Year.</param>
         /// <param name="month">Month.</param>
         /// <returns>A response containing the retrieved leave data.</returns>
-        public Response RetrieveLeaveByEmployeeAndMonthYear(int employeeId, int year, int month)
+        public Response RetrieveLeaveByEmployeeAndMonthYear(int employeeID, int year, int month)
         {
             Response response = new Response();
-            //DataTable dtLeave = _objDBLVE02Context.FetchLeaveByEmployeeAndMonthYear(employeeId, year, month);
-            DataTable dtLeave = _objDBLVE02Context.FetchLeaveGeneral(employeeId, year, month);
+            //DataTable dtLeave = _objDBLVE02Context.FetchLeaveByEmployeeAndMonthYear(employeeID, year, month);
+            DataTable dtLeave = _objDBLVE02Context.FetchLeaveGeneral(employeeID, year, month);
             if (dtLeave.Rows.Count == 0)
             {
                 response.IsError = true;
                 response.HttpStatusCode = HttpStatusCode.NotFound;
-                response.Message = $"No leaves found for employee {employeeId} for {year}/{month}.";
+                response.Message = $"No leaves found for employee {employeeID} for {year}/{month}.";
 
                 return response;
             }
@@ -495,6 +506,11 @@ namespace FirmAdvanceDemo.BL
             return response;
         }
 
+        /// <summary>
+        /// Validates the employee's leave entry.
+        /// </summary>
+        /// <param name="leaveID">The ID of the leave entry to validate.</param>
+        /// <returns>A response indicating the validation result.</returns>
         public Response ValidateEmployeeLeave(int leaveID)
         {
             // check if leave exists
@@ -546,16 +562,16 @@ namespace FirmAdvanceDemo.BL
             // if employee then check employeeID associated with leaveID
             if (!GeneralUtility.IsAdmin())
             {
-                int leaveEmployeeID;
+                int leaveemployeeID;
                 using (IDbConnection db = _dbFactory.OpenDbConnection())
                 {
-                    leaveEmployeeID = db.Scalar<LVE02, int>(leave => leave.E02F02, leave => leave.E02F01 == leaveID);
+                    leaveemployeeID = db.Scalar<LVE02, int>(leave => leave.E02F02, leave => leave.E02F01 == leaveID);
                 }
                 if (!GeneralUtility.IsAuthorizedEmployee(_objLVE02.E02F02))
                 {
                     response.IsError = true;
                     response.HttpStatusCode = HttpStatusCode.Conflict;
-                    response.Message = $"You are not authorized to access employee {leaveEmployeeID}.";
+                    response.Message = $"You are not authorized to access employee {leaveemployeeID}.";
 
                     return response;
                 }
@@ -583,6 +599,12 @@ namespace FirmAdvanceDemo.BL
             return response;
         }
 
+        /// <summary>
+        /// Validates the update of the leave status for a specific leave entry.
+        /// </summary>
+        /// <param name="leaveID">The ID of the leave entry to update.</param>
+        /// <param name="toLeaveStatus">The new leave status to update to.</param>
+        /// <returns>A response indicating the validation result.</returns>
         public Response ValidateUpdateLeaveStatus(int leaveID, EnmLeaveStatus toLeaveStatus)
         {
             Response response = new Response();
@@ -630,6 +652,12 @@ namespace FirmAdvanceDemo.BL
             return response;
         }
 
+        /// <summary>
+        /// Saves the leave status update for a specific leave entry.
+        /// </summary>
+        /// <param name="leaveID">The ID of the leave entry to update.</param>
+        /// <param name="toLeaveStatus">The new leave status to update to.</param>
+        /// <returns>A response indicating the success of the save operation.</returns>
         public Response SaveLeaveStatus(int leaveID, EnmLeaveStatus toLeaveStatus)
         {
             Response response = new Response();

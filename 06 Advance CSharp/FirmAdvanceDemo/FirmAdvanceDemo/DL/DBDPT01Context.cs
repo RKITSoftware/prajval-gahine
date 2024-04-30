@@ -39,15 +39,9 @@ namespace FirmAdvanceDemo.DB
 
             MySqlDataAdapter adapter = new MySqlDataAdapter(cmd);
 
-            try
-            {
-                _connection.Open();
-                adapter.Fill(dtDPT01);
-            }
-            finally
-            {
-                _connection.Close();
-            }
+
+            adapter.Fill(dtDPT01);
+
             return dtDPT01;
         }
 
@@ -71,15 +65,8 @@ namespace FirmAdvanceDemo.DB
 
             MySqlDataAdapter adapter = new MySqlDataAdapter(cmd);
 
-            try
-            {
-                _connection.Open();
-                adapter.Fill(dtDPT01);
-            }
-            finally
-            {
-                _connection.Close();
-            }
+            adapter.Fill(dtDPT01);
+
             return dtDPT01;
         }
     }

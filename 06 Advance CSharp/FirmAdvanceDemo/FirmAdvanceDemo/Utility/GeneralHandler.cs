@@ -112,7 +112,7 @@ namespace FirmAdvanceDemo.Utility
         /// </summary>
         /// <param name="userID">The user ID.</param>
         /// <returns>The employee ID associated with the user ID.</returns>
-        public static int RetrieveEmployeeIDByUserID(int userID)
+        public static int RetrieveemployeeIDByUserID(int userID)
         {
             int employeeID = 0;
             using (IDbConnection db = _dbFactory.OpenDbConnection())

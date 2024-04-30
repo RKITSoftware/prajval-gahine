@@ -2,6 +2,7 @@ using FirmAdvanceDemo.Auth;
 using FirmAdvanceDemo.BL;
 using FirmAdvanceDemo.Enums;
 using FirmAdvanceDemo.Models.DTO;
+using FirmAdvanceDemo.Models.DTO.DataAnnotations;
 using FirmAdvanceDemo.Utility;
 using System;
 using System.Web.Http;
@@ -63,6 +64,11 @@ namespace FirmAdvanceDemo.Controllers
             return Ok(response);
         }
 
+        /// <summary>
+        /// Adds a virtual punch entry.
+        /// </summary>
+        /// <param name="objDTOPCH01">The DTO representing the virtual punch entry.</param>
+        /// <returns>An IHttpActionResult indicating the result of the operation.</returns>
         [HttpPost]
         [Route("virtual")]
         [AccessTokenAuthentication]
@@ -85,6 +91,10 @@ namespace FirmAdvanceDemo.Controllers
             return Ok(response);
         }
 
+        /// Retrieves ambiguous punch entries for the specified date.
+        /// </summary>
+        /// <param name="date">The date of the ambiguous punch entries.</param>
+        /// <returns>An IHttpActionResult containing the retrieved ambiguous punch entries.</returns>
         [HttpGet]
         [Route("ambiguous")]
         [AccessTokenAuthentication]
@@ -95,10 +105,18 @@ namespace FirmAdvanceDemo.Controllers
             return Ok(response);
         }
 
+        /// <summary>
+        /// Retrieves punch entries for a specific employee for the specified month and year.
+        /// </summary>
+        /// <param name="employeeID">The ID of the employee.</param>
+        /// <param name="year">The year of the punch entries.</param>
+        /// <param name="month">The month of the punch entries.</param>
+        /// <returns>An IHttpActionResult containing the retrieved punch entries.</returns>
         [HttpGet]
         [Route("employee/{employeeID}")]
         [AccessTokenAuthentication]
         [BasicAuthorization(Roles = "E, A")]
+        [ValidateMonthYear]
         public IHttpActionResult GetPunchForEmployeeByMonth(int employeeID, int year, int month)
         {
             Response response;
@@ -110,6 +128,11 @@ namespace FirmAdvanceDemo.Controllers
             return Ok(response);
         }
 
+        /// <summary>
+        /// Processes unprocessed punches for the specified date.
+        /// </summary>
+        /// <param name="date">The date of the unprocessed punches to process.</param>
+        /// <returns>An IHttpActionResult indicating the result of the operation.</returns>
         [HttpPut]
         [Route("process-unprocessed-punches")]
         [AccessTokenAuthentication]
