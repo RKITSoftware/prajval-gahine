@@ -1,17 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
+﻿using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Web;
 using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
 
 namespace FirmAdvanceDemo.Models.DTO.DataAnnotations
 {
+    /// <summary>
+    /// Attribute to validate month and/or year
+    /// </summary>
     public class ValidateMonthYearAttribute : ActionFilterAttribute
     {
+        #region Public Methods
+        /// <summary>
+        /// Method to validate month and/or year
+        /// </summary>
+        /// <param name="context"></param>
         public override void OnActionExecuting(HttpActionContext context)
         {
             string[] lstYearKey = context.ActionArguments.Select(kvp => kvp.Key).Where(key => key.ToLower().Contains("year")).ToArray();
@@ -26,7 +30,7 @@ namespace FirmAdvanceDemo.Models.DTO.DataAnnotations
             }
 
             string[] lstMonthKey = context.ActionArguments.Select(kvp => kvp.Key).Where(key => key.ToLower().Contains("month")).ToArray();
-            foreach(string monthKey in lstMonthKey)
+            foreach (string monthKey in lstMonthKey)
             {
                 int month = (int)context.ActionArguments[monthKey];
                 if (month < 1 || month > 12)
@@ -36,5 +40,6 @@ namespace FirmAdvanceDemo.Models.DTO.DataAnnotations
                 }
             }
         }
+        #endregion
     }
 }

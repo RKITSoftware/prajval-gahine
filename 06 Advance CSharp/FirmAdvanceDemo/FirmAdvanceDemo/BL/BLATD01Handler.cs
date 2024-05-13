@@ -18,16 +18,7 @@ namespace FirmAdvanceDemo.BL
     /// </summary>
     public class BLATD01Handler
     {
-        /// <summary>
-        /// The OrmLiteConnectionFactory object.
-        /// </summary>
-        private readonly OrmLiteConnectionFactory _dbFactory;
-
-        /// <summary>
-        /// The DBATD01Context object.
-        /// </summary>
-        private readonly DBATD01Context _objDBATD01Context;
-
+        #region Private Structs
         /// <summary>
         /// Represents the data needed for processing attendance.
         /// </summary>
@@ -48,17 +39,35 @@ namespace FirmAdvanceDemo.BL
             /// </summary>
             public List<ATD01> LstAttendance;
         }
+        #endregion
+
+        #region Private Fields
+        /// <summary>
+        /// The OrmLiteConnectionFactory object.
+        /// </summary>
+        private readonly OrmLiteConnectionFactory _dbFactory;
+
+        /// <summary>
+        /// The DBATD01Context object.
+        /// </summary>
+        private readonly DBATD01Context _objDBATD01Context;
 
         /// <summary>
         /// The data for processing attendance.
         /// </summary>
-        public AttendanceProcessingData _attendanceProcessingData;
+        private AttendanceProcessingData _attendanceProcessingData;
+        #endregion
 
+
+
+        #region Public Properties
         /// <summary>
         /// The operation to be performed.
         /// </summary>
         public EnmOperation Operation { get; set; }
+        #endregion
 
+        # region Constructors
         /// <summary>
         /// Initializes a new instance of the BLATD01Handler class.
         /// </summary>
@@ -67,7 +76,9 @@ namespace FirmAdvanceDemo.BL
             _dbFactory = OrmliteDbConnector.DbFactory;
             _objDBATD01Context = new DBATD01Context();
         }
+        #endregion
 
+        #region Public Methods
         /// <summary>
         /// Retrieves attendance records by employee ID.
         /// </summary>
@@ -386,5 +397,6 @@ namespace FirmAdvanceDemo.BL
 
             return response;
         }
+        #endregion
     }
 }

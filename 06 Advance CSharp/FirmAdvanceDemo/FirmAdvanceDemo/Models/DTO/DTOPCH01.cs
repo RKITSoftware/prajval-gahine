@@ -1,4 +1,3 @@
-using FirmAdvanceDemo.Enums;
 using FirmAdvanceDemo.Models.DTO.DataAnnotations;
 using Newtonsoft.Json;
 using System;
@@ -11,6 +10,7 @@ namespace FirmAdvanceDemo.Models.DTO
     /// </summary>
     public class DTOPCH01
     {
+        #region Public Properties
         /// <summary>
         /// Punch id
         /// </summary>
@@ -33,5 +33,6 @@ namespace FirmAdvanceDemo.Models.DTO
         [JsonProperty("h01103")]
         [RequiredWhenAdmin(ErrorMessage = "Punch datetime field cannot be empty.")]
         public DateTime H01F03 { get; set; }
+        #endregion
     }
 }

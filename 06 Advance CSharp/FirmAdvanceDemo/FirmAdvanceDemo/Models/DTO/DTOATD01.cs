@@ -10,6 +10,7 @@ namespace FirmAdvanceDemo.Models.DTO
     /// </summary>
     public class DTOATD01
     {
+        #region Public Properties
         /// <summary>
         /// attendance id
         /// </summary>
@@ -39,5 +40,6 @@ namespace FirmAdvanceDemo.Models.DTO
         /// </summary>
         [JsonProperty("d01104")]
         public double D01F04 { get; set; }
+        #endregion
     }
 }

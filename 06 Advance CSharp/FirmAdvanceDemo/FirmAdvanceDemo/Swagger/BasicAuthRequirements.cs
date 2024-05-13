@@ -14,6 +14,7 @@ namespace FirmAdvanceDemo.Swagger
     /// </summary>
     public class BasicAuthRequirements : IOperationFilter
     {
+        #region Public Methods
         /// <summary>
         /// Applies the basic authentication requirements to the Swagger operation.
         /// </summary>
@@ -47,5 +48,6 @@ namespace FirmAdvanceDemo.Swagger
                     );
             }
         }
+        #endregion
     }
 }

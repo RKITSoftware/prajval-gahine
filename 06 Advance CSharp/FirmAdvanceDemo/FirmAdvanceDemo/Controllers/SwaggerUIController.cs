@@ -19,8 +19,14 @@ namespace FirmAdvanceDemo.Controllers
     [RoutePrefix("api/swaggerui-support")]
     public class SwaggerUIController : ApiController
     {
-        private IDbConnectionFactory _dfFactory;
+        #region Private Fields
+        /// <summary>
+        /// Connection factory for Ormlite
+        /// </summary>
+        private readonly IDbConnectionFactory _dfFactory;
+        #endregion
 
+        #region Constructors
         /// <summary>
         /// Initializes a new instance of the SwaggerUIController class.
         /// </summary>
@@ -28,7 +34,9 @@ namespace FirmAdvanceDemo.Controllers
         {
             _dfFactory = OrmliteDbConnector.DbFactory;
         }
+        #endregion
 
+        #region Public Methods
         /// <summary>
         /// Retrieves application information.
         /// </summary>
@@ -86,5 +94,6 @@ namespace FirmAdvanceDemo.Controllers
 
             return new { roles = roles };
         }
+        #endregion
     }
 }

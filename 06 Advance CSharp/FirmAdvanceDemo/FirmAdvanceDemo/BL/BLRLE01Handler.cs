@@ -15,6 +15,7 @@ namespace FirmAdvanceDemo.BL
     /// </summary>
     public class BLRLE01Handler
     {
+        #region Private Fields
         /// <summary>
         /// OrmLite Connection Factory instance representing a connection with a particular database.
         /// </summary>
@@ -29,12 +30,16 @@ namespace FirmAdvanceDemo.BL
         /// Instance of RLE01 model.
         /// </summary>
         private RLE01 _objRLE01;
+        #endregion
 
+        #region Public Properties
         /// <summary>
         /// Gets or sets the operation type for role handling.
         /// </summary>
         public EnmOperation Operation { get; internal set; }
+        #endregion
 
+        #region Constructors
         /// <summary>
         /// Default constructor for BLRLE01Handler.
         /// </summary>  
@@ -44,7 +49,9 @@ namespace FirmAdvanceDemo.BL
             _objRLE01 = new RLE01();
             _objDBRLE01Context = new DBRLE01Context();
         }
+        #endregion
 
+        #region Public Methods
         /// <summary>
         /// Validates the provided DTORLE01 instance before processing.
         /// </summary>
@@ -223,5 +230,6 @@ namespace FirmAdvanceDemo.BL
             response.Data = dtRole;
             return response;
         }
+        #endregion
     }
 }

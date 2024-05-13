@@ -8,6 +8,7 @@ namespace FirmAdvanceDemo.Models.POCO
     /// </summary>
     public class USR01
     {
+        #region Public Properties
         /// <summary>
         /// user id
         /// </summary>
@@ -45,5 +46,6 @@ namespace FirmAdvanceDemo.Models.POCO
         /// </summary
         [IgnoreOnInsert]
         public DateTime? R01F07 { get; set; }
+        #endregion
     }
 }

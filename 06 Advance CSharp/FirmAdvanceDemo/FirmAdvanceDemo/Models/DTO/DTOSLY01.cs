@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace FirmAdvanceDemo.Models.DTO
 {
+    #region Public Properties
     /// <summary>
     /// Salary DTO model
     /// </summary>
@@ -47,5 +48,6 @@ namespace FirmAdvanceDemo.Models.DTO
         [Range(0, int.MaxValue)]
         [Required(ErrorMessage = "Position ID cannot be empty.")]
         public int Y01F05 { get; set; }
+        #endregion
     }
 }

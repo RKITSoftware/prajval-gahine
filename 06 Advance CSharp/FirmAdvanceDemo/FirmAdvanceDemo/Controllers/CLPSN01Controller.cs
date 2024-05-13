@@ -13,11 +13,14 @@ namespace FirmAdvanceDemo.Controllers
     [RoutePrefix("api/position")]
     public class CLPSN01Controller : ApiController
     {
+        #region Private Fields
         /// <summary>
         /// Instance of the position handler for managing position operations.
         /// </summary>
         private readonly BLPSN01Handler _objBLPSN01Handler;
+        #endregion
 
+        #region Constructors
         /// <summary>
         /// Initializes a new instance of the CLPSN01Controller class.
         /// </summary>
@@ -25,7 +28,9 @@ namespace FirmAdvanceDemo.Controllers
         {
             _objBLPSN01Handler = new BLPSN01Handler();
         }
+        #endregion
 
+        #region Public Methods
         /// <summary>
         /// Retrieves all positions.
         /// </summary>
@@ -131,5 +136,6 @@ namespace FirmAdvanceDemo.Controllers
             }
             return Ok(response);
         }
+        #endregion
     }
 }

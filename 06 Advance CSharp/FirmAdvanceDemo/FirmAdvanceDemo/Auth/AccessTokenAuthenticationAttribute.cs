@@ -11,6 +11,7 @@ namespace FirmAdvanceDemo.Auth
     /// </summary>
     public class AccessTokenAuthenticationAttribute : AuthorizationFilterAttribute
     {
+        #region Public Mehtods
         /// <summary>
         /// Performs authentication on an access token.
         /// </summary>
@@ -38,5 +39,6 @@ namespace FirmAdvanceDemo.Auth
                 actionContext.Response = actionContext.Request.CreateResponse(response.HttpStatusCode, response.Message);
             }
         }
+        #endregion
     }
 }

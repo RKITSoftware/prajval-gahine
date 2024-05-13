@@ -5,7 +5,6 @@ using FirmAdvanceDemo.Utility;
 using MySql.Data.MySqlClient;
 using System;
 using System.Data;
-using System.Runtime.InteropServices.ComTypes;
 using static FirmAdvanceDemo.Utility.Constants;
 
 namespace FirmAdvanceDemo.DB
@@ -15,11 +14,15 @@ namespace FirmAdvanceDemo.DB
     /// </summary>
     public class DBLVE02Context
     {
+        #region Private Fields
         /// <summary>
         /// The MySqlConnection used for database operations.
         /// </summary>
         private readonly MySqlConnection _connection;
 
+        /// <summary>
+        /// Base select query for leave
+        /// </summary>
         private readonly string _baseSelectQuery = @"
                                     SELECT
                                         e02f01 AS E02101,
@@ -33,15 +36,19 @@ namespace FirmAdvanceDemo.DB
                                         lve02
                                     {0}";
 
+        #endregion
+
+        #region Constructors
         /// <summary>
         /// Initializes a new instance of the <see cref="DBLVE02Context"/> class.
         /// </summary>
-        public DBLVE02Context(string baseSelectQuery = null)
+        public DBLVE02Context()
         {
             _connection = MysqlDbConnector.Connection;
-            _baseSelectQuery = baseSelectQuery;
         }
+        #endregion
 
+        #region Public Methods
         /// <summary>
         /// Requests a leave based on the provided LVE02 object.
         /// </summary>
@@ -217,7 +224,7 @@ namespace FirmAdvanceDemo.DB
 
             MySqlCommand cmd = new MySqlCommand(query, _connection);
             MySqlDataAdapter adapter = new MySqlDataAdapter(cmd);
-            
+
             dtLeave = new DataTable();
             adapter.Fill(dtLeave);
 
@@ -301,7 +308,7 @@ namespace FirmAdvanceDemo.DB
 
             string where = string.Format(@"
                                     WHERE
-                                        e01f02 = {0} AND
+                                        e02f02 = {0} AND
                                         (
                                             (e02f03 >= '{1}' AND e02f03 <= '{2}') OR
                                             (ADDDATE(e02f03, e02f04 - 1) >= '{1}' AND ADDDATE(e02f03, e02f04 - 1) <= '{2}') OR
@@ -384,11 +391,12 @@ namespace FirmAdvanceDemo.DB
 
             MySqlCommand cmd = new MySqlCommand(query, _connection);
             MySqlDataAdapter adapter = new MySqlDataAdapter(cmd);
-            
+
             dtLeave = new DataTable();
             adapter.Fill(dtLeave);
 
             return dtLeave;
         }
+        #endregion
     }
 }

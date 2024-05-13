@@ -9,11 +9,14 @@ namespace FirmAdvanceDemo.DB
     /// </summary>
     public class DBDPT01Context
     {
+        #region Private Fields
         /// <summary>
         /// The MySqlConnection used for database operations.
         /// </summary>
         private readonly MySqlConnection _connection;
+        #endregion
 
+        #region Constructors
         /// <summary>
         /// Initializes a new instance of the DBDPT01Context class.
         /// </summary>
@@ -21,7 +24,9 @@ namespace FirmAdvanceDemo.DB
         {
             _connection = MysqlDbConnector.Connection;
         }
+        #endregion
 
+        #region Public Methods
         /// <summary>
         /// Fetches all department records.
         /// </summary>
@@ -69,5 +74,6 @@ namespace FirmAdvanceDemo.DB
 
             return dtDPT01;
         }
+        #endregion
     }
 }

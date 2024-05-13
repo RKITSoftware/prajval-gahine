@@ -13,11 +13,14 @@ namespace FirmAdvanceDemo.Controllers
     [RoutePrefix("api/department")]
     public class CLDPT01Controller : ApiController
     {
+        #region Private Fields
         /// <summary>
         /// Instance of BLDPT01Handler for handling department-related business logic.
         /// </summary>
         private readonly BLDPT01Handler _objBLDPT01Handler;
+        #endregion
 
+        #region Constructors
         /// <summary>
         /// Default constructor for CLDepartmentController.
         /// </summary>
@@ -25,7 +28,9 @@ namespace FirmAdvanceDemo.Controllers
         {
             _objBLDPT01Handler = new BLDPT01Handler();
         }
+        #endregion
 
+        #region Public Methods
         /// <summary>
         /// Action method to retrieve all departments. Requires Admin role.
         /// </summary>
@@ -126,5 +131,6 @@ namespace FirmAdvanceDemo.Controllers
             }
             return Ok(response);
         }
+        #endregion
     }
 }

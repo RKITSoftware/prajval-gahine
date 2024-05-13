@@ -1,4 +1,19 @@
-﻿.custom-link-list{
+﻿
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.custom-link-list{
     display: block !important;
     margin-bottom: 36px;
+}
+
+.highlight {
+    background-color: yellow;
+}
+
+.rotate{
+    transform: rotate(90deg);
 }

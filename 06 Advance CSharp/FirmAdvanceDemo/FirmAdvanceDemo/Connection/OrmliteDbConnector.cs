@@ -8,11 +8,14 @@ namespace FirmAdvanceDemo
     /// </summary>
     public static class OrmliteDbConnector
     {
+        #region Public Properties
         /// <summary>
         /// Gets or sets the OrmLiteConnectionFactory instance.
         /// </summary>
         public static OrmLiteConnectionFactory DbFactory { get; set; }
+        #endregion
 
+        #region Constructors
         /// <summary>
         /// Static constructor to initialize the OrmLiteConnectionFactory using the connection string from the configuration.
         /// </summary>
@@ -24,5 +27,6 @@ namespace FirmAdvanceDemo
             // Create a new OrmLiteConnectionFactory instance using the retrieved connection string and MySQL dialect provider
             DbFactory = new OrmLiteConnectionFactory(connectionString, MySqlDialect.Provider);
         }
+        #endregion
     }
 }

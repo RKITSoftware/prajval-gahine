@@ -13,6 +13,7 @@ namespace FirmAdvanceDemo.Auth
     /// </summary>
     public class RefreshTokenAuthenticationAttribute : AuthorizationFilterAttribute
     {
+        #region Public Methods
         /// <summary>
         /// Performs authentication on a refresh token.
         /// </summary>
@@ -46,5 +47,6 @@ namespace FirmAdvanceDemo.Auth
                 actionContext.Response = actionContext.Request.CreateResponse(response.HttpStatusCode, response.Message);
             }
         }
+        #endregion
     }
 }

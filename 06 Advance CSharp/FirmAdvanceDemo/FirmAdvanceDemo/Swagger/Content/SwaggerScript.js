@@ -1,11 +1,11 @@
-﻿console.log("adding token div");
+﻿// console.log("adding token div");
 
 // check if div already exists
 const myTokenDivEl = document.getElementById("my_token_div");
 if (myTokenDivEl == null) {
     // if no the add it to dom
     const selectElText = `
-    <select name="token" id="user_token_select">
+    <select name="token" id="user_token_select" accessKey="R">
       <option value="Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJleHBpcmVzIjoiMTcyMTc1NDY5NiJ9.9_zFdg09-KAYfFU66GsbONCijPkOSJtwf7-Q-BfC3Y0">Prajval</option>
       <option value="Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIiLCJleHBpcmVzIjoiMTcyMTc1NDc3MiJ9.X7GwUrKteTKIvQ1DkyV0VnU-B1XcfXc4q5FoHhyWst4">Deep</option>
       <option value="Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjMiLCJleHBpcmVzIjoiMTcyMTc0NDc5MiJ9.0SmWu1u7A1eiFUXxfKodYzJowo2rq9xtHhN-FaBtuB8">Yash</option>
@@ -67,7 +67,7 @@ async function fetchAndSetUsernameAndRoles(authToken) {
         let data1 = await response1.json();
         let data2 = await response2.json();
 
-        console.log(data1.username, data2.roles);
+        // console.log(data1.username, data2.roles);
 
         const info_title = document.getElementsByClassName("info_title")[0];
         if (info_title.innerText == "FirmAdvanceDemo") {

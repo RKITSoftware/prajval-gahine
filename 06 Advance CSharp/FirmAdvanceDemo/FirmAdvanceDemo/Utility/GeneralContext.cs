@@ -11,11 +11,14 @@ namespace FirmAdvanceDemo.Utility
     /// </summary>
     public class GeneralContext
     {
+        #region Private Fields
         /// <summary>
         /// The MySqlConnection used for database operations.
         /// </summary>
         private static readonly MySqlConnection _connection;
+        #endregion
 
+        #region Constructors
         /// <summary>
         /// Initializes the GeneralContext class.
         /// </summary>
@@ -23,7 +26,9 @@ namespace FirmAdvanceDemo.Utility
         {
             _connection = MysqlDbConnector.Connection;
         }
+        #endregion
 
+        #region Public Methods
         /// <summary>
         /// Fetches the roles associated with a user ID.
         /// </summary>
@@ -60,5 +65,6 @@ namespace FirmAdvanceDemo.Utility
             lstUserRole = dtUserRole.AsEnumerable().Select(row => (string)row["e01f02"]).ToArray();
             return lstUserRole;
         }
+        #endregion
     }
 }

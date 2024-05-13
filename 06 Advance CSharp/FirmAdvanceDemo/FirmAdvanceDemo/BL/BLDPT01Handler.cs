@@ -15,6 +15,7 @@ namespace FirmAdvanceDemo.BL
     /// </summary>
     public class BLDPT01Handler
     {
+        #region Private Fields
         /// <summary>
         /// Instance of DPT01 POCO model.
         /// </summary>
@@ -29,12 +30,16 @@ namespace FirmAdvanceDemo.BL
         /// OrmLite Connection Factory representing a connection with a particular database.
         /// </summary>
         private readonly OrmLiteConnectionFactory _dbFactory;
+        #endregion
 
+        #region Public Properties
         /// <summary>
         /// Gets or sets the operation type for department handling.
         /// </summary>
         public EnmOperation Operation { get; set; }
+        #endregion
 
+        #region Constructors
         /// <summary>
         /// Initializes a new instance of the BLDPT01Handler class.
         /// </summary>
@@ -44,7 +49,9 @@ namespace FirmAdvanceDemo.BL
             _context = new DBDPT01Context();
             _dbFactory = OrmliteDbConnector.DbFactory;
         }
+        #endregion
 
+        #region Public Methods
         /// <summary>
         /// Retrieves all departments.
         /// </summary>
@@ -203,5 +210,6 @@ namespace FirmAdvanceDemo.BL
 
             return response;
         }
+        #endregion
     }
 }

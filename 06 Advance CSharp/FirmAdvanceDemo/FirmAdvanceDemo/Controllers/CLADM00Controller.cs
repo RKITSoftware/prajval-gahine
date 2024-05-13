@@ -10,12 +10,17 @@ namespace FirmAdvanceDemo.Controllers
     /// <summary>
     /// Controller for managing administrative users.
     /// </summary>
-    [Route("api/admin")]
+    [RoutePrefix("api/admin")]
     public class CLADM00Controller : ApiController
     {
-
+        #region Private Fields
+        /// <summary>
+        /// Handler for Admin
+        /// </summary>
         private readonly BLADM00Handler _objBLADM00Handler;
+        #endregion
 
+        #region Constructors
         /// <summary>
         /// Initializes a new instance of the CLADM00Controller class.
         /// </summary>
@@ -23,7 +28,9 @@ namespace FirmAdvanceDemo.Controllers
         {
             _objBLADM00Handler = new BLADM00Handler();
         }
+        #endregion
 
+        #region Public Methods
         /// <summary>
         /// Adds a new administrative user.
         /// </summary>
@@ -37,10 +44,10 @@ namespace FirmAdvanceDemo.Controllers
         {
             Response response;
             _objBLADM00Handler.Operation = EnmOperation.A;
-            response = _objBLADM00Handler.PrevalidateUser(objDTOUSR01);
+            response = _objBLADM00Handler.PrevalidateAdmin(objDTOUSR01);
             if (!response.IsError)
             {
-                _objBLADM00Handler.PresaveUser(objDTOUSR01);
+                _objBLADM00Handler.PresaveAdmin(objDTOUSR01);
                 response = _objBLADM00Handler.Save();
             }
             return Ok(response);
@@ -59,10 +66,10 @@ namespace FirmAdvanceDemo.Controllers
         {
             Response response;
             _objBLADM00Handler.Operation = EnmOperation.E;
-            response = _objBLADM00Handler.PrevalidateUser(objDTOUSR01);
+            response = _objBLADM00Handler.PrevalidateAdmin(objDTOUSR01);
             if (!response.IsError)
             {
-                _objBLADM00Handler.PresaveUser(objDTOUSR01);
+                _objBLADM00Handler.PresaveAdmin(objDTOUSR01);
                 response = _objBLADM00Handler.Save();
             }
             return Ok(response);
@@ -115,5 +122,6 @@ namespace FirmAdvanceDemo.Controllers
             }
             return Ok(response);
         }
+        #endregion
     }
 }

@@ -8,6 +8,7 @@ namespace FirmAdvanceDemo.Models.POCO
     /// </summary>
     public class STG01
     {
+        #region Public Properties
         /// <summary>
         /// Primary key for STG01 (ORMLite forces first field as PK if not specified)
         /// </summary>
@@ -30,5 +31,6 @@ namespace FirmAdvanceDemo.Models.POCO
         /// </summary>
         [IgnoreOnInsert]
         public DateTime? G01F04 { get; set; }
+        #endregion
     }
 }

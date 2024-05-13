@@ -11,11 +11,14 @@ namespace FirmAdvanceDemo.Utility
     /// </summary>
     public class GeneralHandler
     {
+        #region Private Fields
         /// <summary>
         /// The factory for creating IDbConnection instances.
         /// </summary>
         private static readonly IDbConnectionFactory _dbFactory;
+        #endregion
 
+        #region Constructors
         /// <summary>
         /// Initializes the GeneralHandler class.
         /// </summary>
@@ -23,7 +26,9 @@ namespace FirmAdvanceDemo.Utility
         {
             _dbFactory = OrmliteDbConnector.DbFactory;
         }
+        #endregion
 
+        #region Public Methods
         /// <summary>
         /// Checks if a user ID exists in the database.
         /// </summary>
@@ -122,5 +127,6 @@ namespace FirmAdvanceDemo.Utility
 
             return employeeID;
         }
+        #endregion
     }
 }

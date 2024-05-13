@@ -8,6 +8,7 @@ namespace FirmAdvanceDemo.Models.POCO
     /// </summary>
     public class PSN01
     {
+        #region Public Properties
         /// <summary>
         /// Position Id
         /// </summary>
@@ -50,5 +51,6 @@ namespace FirmAdvanceDemo.Models.POCO
         /// </summary>
         [IgnoreOnInsert]
         public DateTime? N01F08 { get; set; }
+        #endregion
     }
 }

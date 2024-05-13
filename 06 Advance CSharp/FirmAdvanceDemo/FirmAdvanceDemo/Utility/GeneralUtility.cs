@@ -15,6 +15,7 @@ using System.Security.Principal;
 using System.Text;
 using System.Threading;
 using System.Web;
+using System.Web.Http;
 
 namespace FirmAdvanceDemo.Utility
 {
@@ -23,6 +24,26 @@ namespace FirmAdvanceDemo.Utility
     /// </summary>
     public static class GeneralUtility
     {
+        #region Public Methods
+        /// <summary>
+        /// Generates a JSON Web Token (JWT) based on the header and payload.
+        /// </summary>
+        /// <param name="header">JWT Header</param>
+        /// <param name="payload">JWT Payload</param>
+        /// <returns>The generated JWT</returns>
+        public static string GenerateJWT(string header, string payload)
+        {
+            string headerEncoded = Convert.ToBase64String(Encoding.UTF8.GetBytes(header));
+            string payloadEncoded = Convert.ToBase64String(Encoding.UTF8.GetBytes(payload));
+
+            string digest = GeneralUtility.GetHMACBase64($"{headerEncoded}.{payloadEncoded}", null)
+                .Replace('/', '_')
+                .Replace('+', '-')
+                .Replace("=", "");
+
+            return $"{headerEncoded}.{payloadEncoded}.{digest}";
+        }
+
         /// <summary>
         /// Checks if the current user is an administrator.
         /// </summary>
@@ -309,7 +330,7 @@ namespace FirmAdvanceDemo.Utility
         {
             StringBuilder csvBuilder = new StringBuilder();
 
-            if(lstMainHeader != null)
+            if (lstMainHeader != null)
             {
                 csvBuilder.Append(lstMainHeader.Join(","));
                 csvBuilder.Append("\n");
@@ -329,7 +350,7 @@ namespace FirmAdvanceDemo.Utility
                 csvBuilder.Append("\n");
             }
 
-            if(lstFooter != null)
+            if (lstFooter != null)
             {
                 csvBuilder.Append(lstFooter.Join(","));
                 csvBuilder.Append("\n");
@@ -359,5 +380,6 @@ namespace FirmAdvanceDemo.Utility
             }
             return hours;
         }
+        #endregion
     }
 }

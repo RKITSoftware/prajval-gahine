@@ -1,4 +1,3 @@
-using ServiceStack;
 using ServiceStack.DataAnnotations;
 using System;
 
@@ -9,6 +8,7 @@ namespace FirmAdvanceDemo.Models.POCO
     /// </summary>
     public class ATD01
     {
+        #region Public Properties
         /// <summary>
         /// Attendance Id
         /// </summary>
@@ -46,5 +46,6 @@ namespace FirmAdvanceDemo.Models.POCO
         /// </summary>
         [IgnoreOnInsert]
         public DateTime? D01F07 { get; set; }
+        #endregion
     }
 }

@@ -173,6 +173,7 @@
     <EmbeddedResource Include="Swagger\Content\SwaggerScript.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+    <Compile Include="App_Start\TempSwaggerConfig.cs" />
     <Compile Include="BL\BLADM00Handler.cs" />
     <Compile Include="Controllers\CLADM00Controller.cs" />
     <Compile Include="DL\DBADM00Context.cs" />

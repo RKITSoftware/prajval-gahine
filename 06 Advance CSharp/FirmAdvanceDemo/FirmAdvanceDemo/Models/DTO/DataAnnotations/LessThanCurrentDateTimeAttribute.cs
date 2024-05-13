@@ -8,6 +8,7 @@ namespace FirmAdvanceDemo.Models.DTO.DataAnnotations
     /// </summary>
     public class LessThanCurrentDateTimeAttribute : ValidationAttribute
     {
+        #region Public Methods
         /// <summary>
         /// Determines whether the specified value is valid.
         /// </summary>
@@ -19,5 +20,6 @@ namespace FirmAdvanceDemo.Models.DTO.DataAnnotations
             DateTime d = Convert.ToDateTime(value);
             return d <= DateTime.Now.Date;
         }
+        #endregion
     }
 }

@@ -2,6 +2,7 @@ namespace FirmAdvanceDemo.Models.DTO
 {
     public class DTOUMP01
     {
+        #region Public Properties
         /// <summary>
         /// Instance of DTOUSR01
         /// </summary>
@@ -12,5 +13,6 @@ namespace FirmAdvanceDemo.Models.DTO
         /// </summary>
 
         public DTOEMP01 ObjDTOEMP01 { get; set; }
+        #endregion
     }
 }

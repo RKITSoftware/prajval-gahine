@@ -1,173 +1,76 @@
-﻿(function () {
+﻿
+import addButton from "./DxComponent/Button.js";
+import addCheckBox from "./DxComponent/CheckBox.js";
+import addDateBox from "./DxComponent/DateBox.js";
+import addDropDown from "./DxComponent/DropDown.js";
+import addList from "./DxComponent/List.js";
 
-    //// initialize the link container
-    //$("#linkContainer").dxButtonGroup({
-    //    items: lstLink.map(link => {
-    //        return {
-    //            text: link.text,
-    //            elementAttr: {
-    //                'data-handler-name': link.handler,
-    //                'style': 'display: block !important;'
-    //            },
-    //            onClick: function (e) {
-    //                window.lstDemoHandler[e.itemData.elementAttr['data-handler-name']]();
-    //            }
-    //        }
-    //    })
+(
+    function () {
+    // initialize the link container
+    $("#linkContainer").dxButtonGroup({
+        items: lstLink.map(link => {
+            return {
+                text: link.text,
+                elementAttr: {
+                    'data-handler-name': link.handler,
+                    'style': 'display: block !important;'
+                },
+                onClick: function (e) {
+                    window.lstDemoHandler[e.itemData.elementAttr['data-handler-name']]();
+                }
+            }
+        })
+    });
+
+    // make the link container as display block overridding display:flex
+    $("#linkContainer .dx-buttongroup-wrapper").addClass("custom-link-list");
+
+    // attack the demo handlers to window object globally
+    window.lstDemoHandler = {
+        addButton,
+        addCheckBox,
+        addDateBox,
+        addDropDown,
+        addList,
+    };
+
+
+    //var button = $("#container").dxButton({
+    //    text: "submit",
+    //    onInitialized: function () {
+    //        console.log("onInitialized");
+    //    },
+    //    onContentReady: function () {
+    //        console.log("onContentReady");
+    //    }
     //});
 
-    //// make the link container as display block overridding display:flex
-    //$("#linkContainer .dx-buttongroup-wrapper").addClass("custom-link-list");
+    //// beginUpdate and endUpdate
+    //var button = $("#container").dxButton({
+    //    text: "Click me",
+    //    onClick: function () {
+    //        // Begin batch updates
+    //        button.beginUpdate();
+    //        //button.option("text", "Click me 2");
+    //        button._options._optionManager._options.text = "Click me 2";
 
-    //// attack the demo handlers to window object globally
-    //window.lstDemoHandler = {
-    //    addButton: function () {
-    //        let container = $("#container");
-
-    //        if (container) {
-    //            // dispose the main container
-    //            container.remove();
+    //        // Toggle a CSS class on an element
+    //        //$("#container").toggleClass("highlight");
+    //        var currentClass = $("#container").dxButton("option", "elementAttr")["class"];
+    //        if (!currentClass) {
+    //            currentClass = "";
     //        }
+    //        var newClass = currentClass.includes("highlight") ? currentClass.replace("highlight", "") : currentClass + " highlight";
+    //        button.option("elementAttr", { "class": newClass });
 
-    //        // append #container after linkContainer
-    //        $("#linkContainer").after('<div id="container"></div>');
+    //        // Simulate a time-consuming operation
+    //        setTimeout(function () {
+    //            button.repaint();
 
-    //        container = $("#container");
-
-    //        // creating a button instance inside #container
-    //        container.dxButton();
-
-    //        // get the dx button reference
-    //        const button = container.dxButton("instance");
-
-    //        // access some properties of button using option method
-    //        button.option("text", "submit");
-    //        button.option("focusStateEnabled", true);
-    //        button.option("hint", "This is a submit button.");
-
-    //        // attach some click handler to the button
-    //        button.option("onClick", function () {
-    //            alert("button on clicked 1.");
-    //        });
-
-    //        // it overwrite above handler
-    //        button.option("onClick", function () {
-    //            alert("button on clicked 2.");
-    //        });
-
-    //        // another way to attach events
-    //        button.on("click", function () {
-    //            alert("button clicked 3.");
-    //        });
-
-    //        button.on("click", function () {
-    //            alert("button clicked 4.");
-    //        });
-
-    //        // attaching a custom event
-    //        button.on("prajval", function () {
-    //            alert("prajval 1.");
-    //        });
-
-    //        // above code is as good as writting this
-    //        button?._eventsStrategy._events.prajval._list.push(function () {
-    //            alert("prajval 2.");
-    //        });
-
-    //        // unsubsribing from an event, it just empty the _list
-    //        button.off("prajval");
-    //        // button.off("prajval", handler1);
-
-    //        // disposing an UI component
-    //        const disposeUiComp = $("#disposeUiComp");
-    //        disposeUiComp.dxButton({
-    //            text: "Dispose Ui Comp",
-    //            onClick: function () {
-    //                container.dxButton("dispose");
-    //            }
-    //        });
-
-    //        // remove the container itself using jQuery .remove method
-    //        const removeContainer = $("#removeContainer");
-    //        removeContainer.dxButton({
-    //            text: "Remove Container",
-    //            onClick: function () {
-    //                container.remove();
-    //            }
-    //        });
-    //    },
-    //    addCheckBox: function () {
-
-    //        let container = $("#container");
-
-    //        if (container) {
-    //            // dispose the main container
-    //            container.remove();
-    //        }
-
-    //        // append #container after linkContainer
-    //        $("#linkContainer").after("<div id='container'></div>");
-
-    //        container = $("#container");
-
-    //        const htmlLstCheckBox = lstCheckBox.reduce(function (acc, curr) {
-    //            return acc + `
-    //        <div class="dx-field" style="width: 288px">
-    //            <div class="dx-field-label">${curr.label}</div>
-    //            <div class="dx-field-value">
-                    //${ curr.label }
-    //                <div id="${curr.id}"></div>
-    //            </div>
-    //        </div>`;
-    //        }, "");
-
-    //        container.append(htmlLstCheckBox);
-
-    //        const checkedCbContainer = $("#checkedCbContainer");
-    //        checkedCbContainer.dxCheckBox({
-    //            value: true,
-    //            elementAttr: {
-    //                'aria-label': 'Checked'
-    //            },
-    //            activeStateEnabled: true,
-    //            accessKey: "1",
-    //        });
-
-    //        const uncheckedCbContainer = $("#uncheckedCbContainer");
-    //        uncheckedCbContainer.dxCheckBox({
-    //            value: false
-    //        });
-
-    //        const disabledCbContainer = $("#disabledCbContainer");
-    //        disabledCbContainer.dxCheckBox({
-    //            value: true,
-    //            disabled: true
-    //        });
-
-    //        const handlerCbContainer = $("#handlerCbContainer");
-    //        handlerCbContainer.dxCheckBox({
-    //            value: true,
-    //            onValueChanged: function () {
-    //                alert("Value changed.");
-    //            }
-    //        });
-
-    //        const labledCbContainer = $("#labledCbContainer");
-    //        labledCbContainer.dxCheckBox({
-    //            value: true,
-    //            text: "Labelled"
-    //        });
+    //            // End batch updates
+    //            button.endUpdate();
+    //        }, 1000); // Wait for 1 second before ending updates
     //    }
-    //};
-
-        
-    var button = $("#container").dxButton({
-        text: "submit",
-        onInitialized: function () {
-            console.log("onInitialized");
-        },
-        onContentReady: function () {
-                console.log("onContentReady");
-        }
-    })
+    //}).dxButton("instance");
 })();

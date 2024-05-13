@@ -8,6 +8,7 @@ namespace FirmAdvanceDemo.Models.DTO
     /// </summary>
     public class DTODPT01
     {
+        #region Public Properties
         /// <summary>
         /// Department Id
         /// </summary>
@@ -23,5 +24,6 @@ namespace FirmAdvanceDemo.Models.DTO
         [Range(0, int.MaxValue)]
         [Required(ErrorMessage = "Department name cannot be empty.")]
         public string T01F02 { get; set; }
+        #endregion
     }
 }

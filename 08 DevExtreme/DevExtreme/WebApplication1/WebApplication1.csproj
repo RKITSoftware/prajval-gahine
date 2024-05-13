@@ -67,6 +67,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="DxComponent\DropDown.js" />
+    <Content Include="DxComponent\DateBox.js" />
+    <Content Include="DxComponent\Button.js" />
     <Content Include="Content\dx-diagram.css" />
     <Content Include="Content\dx-diagram.min.css" />
     <Content Include="Content\dx-gantt.css" />
@@ -109,6 +112,8 @@
     <Content Include="Content\dx.softblue.compact.css" />
     <Content Include="Content\dx.softblue.css" />
     <Content Include="data.js" />
+    <Content Include="DxComponent\CheckBox.js" />
+    <Content Include="DxComponent\List.js" />
     <Content Include="index.html" />
     <Content Include="Scripts\cldr.js" />
     <Content Include="Scripts\cldr\event.js" />
@@ -173,6 +178,7 @@
     <Content Include="Scripts\vectormap-utils\dx.vectormaputils.js" />
     <Content Include="Scripts\vectormap-utils\dx.vectormaputils.node.js" />
     <Content Include="styles.css" />
+    <Content Include="temp.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>

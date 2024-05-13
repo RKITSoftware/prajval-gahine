@@ -15,6 +15,7 @@ namespace FirmAdvanceDemo.BL
     /// </summary>
     public class BLPSN01Handler
     {
+        #region Private Fields
         /// <summary>
         /// OrmLite Connection Factory instance representing a connection with a particular database.
         /// </summary>
@@ -26,6 +27,20 @@ namespace FirmAdvanceDemo.BL
         private readonly DBPSN01Context _objDBPSN01Context;
 
         /// <summary>
+        /// Instance of PSN01 model.
+        /// </summary>
+        private PSN01 _objPSN01;
+        #endregion
+
+        #region Public Properties
+        /// <summary>
+        /// Gets or sets the operation type for position handling.
+        /// </summary>  
+        public EnmOperation Operation { get; internal set; }
+        #endregion
+
+        #region Public Constructors
+        /// <summary>
         /// Default constructor for BLPSN01Handler.
         /// </summary>
         public BLPSN01Handler()
@@ -34,17 +49,9 @@ namespace FirmAdvanceDemo.BL
             _objPSN01 = new PSN01();
             _objDBPSN01Context = new DBPSN01Context();
         }
+        #endregion
 
-        /// <summary>
-        /// Instance of PSN01 model.
-        /// </summary>
-        private PSN01 _objPSN01;
-
-        /// <summary>
-        /// Gets or sets the operation type for position handling.
-        /// </summary>  
-        public EnmOperation Operation { get; internal set; }
-
+        #region Public Methods
         /// <summary>
         /// Validates the provided DTOPSN01 instance before processing.
         /// </summary>
@@ -240,5 +247,6 @@ namespace FirmAdvanceDemo.BL
             response.Data = dtPosition;
             return response;
         }
+        #endregion
     }
 }

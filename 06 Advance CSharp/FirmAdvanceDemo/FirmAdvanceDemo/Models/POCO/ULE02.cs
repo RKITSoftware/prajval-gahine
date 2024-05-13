@@ -8,6 +8,7 @@ namespace FirmAdvanceDemo.Models.POCO
     /// </summary>
     public class ULE02
     {
+        #region Public Properties
         /// <summary>
         /// User-Role record Id
         /// </summary>
@@ -35,5 +36,6 @@ namespace FirmAdvanceDemo.Models.POCO
         /// </summary>
         [IgnoreOnInsert]
         public DateTime? E02F05 { get; set; }
+        #endregion
     }
 }

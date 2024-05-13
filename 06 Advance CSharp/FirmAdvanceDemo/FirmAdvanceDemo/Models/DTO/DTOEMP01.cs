@@ -9,6 +9,7 @@ namespace FirmAdvanceDemo.Models.DTO
     /// </summary>
     public class DTOEMP01
     {
+        #region Public Properties
         /// <summary>
         /// Employee id
         /// </summary>
@@ -58,5 +59,6 @@ namespace FirmAdvanceDemo.Models.DTO
         /// </summary>
         [JsonProperty("p01107")]
         public bool P01X07 { get; set; }
+        #endregion
     }
 }

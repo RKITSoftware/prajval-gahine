@@ -3,8 +3,12 @@ using System.ComponentModel.DataAnnotations;
 
 namespace FirmAdvanceDemo.Models.DTO.DataAnnotations
 {
+    /// <summary>
+    /// Attribute for required admin validation
+    /// </summary>
     public class RequiredWhenAdmin : ValidationAttribute
     {
+        #region Public Methods
         /// <summary>
         /// Determines whether the specified value is valid.
         /// </summary>
@@ -18,5 +22,6 @@ namespace FirmAdvanceDemo.Models.DTO.DataAnnotations
             }
             return true;
         }
+        #endregion
     }
 }

@@ -8,6 +8,7 @@ namespace FirmAdvanceDemo.Models.POCO
     /// </summary>
     public class EMP01
     {
+        #region Public Properties
         /// <summary>
         /// Employee Id
         /// </summary>
@@ -50,5 +51,6 @@ namespace FirmAdvanceDemo.Models.POCO
         /// </summary>
         [IgnoreOnInsert]
         public DateTime? P01F08 { get; set; }
+        #endregion
     }
 }

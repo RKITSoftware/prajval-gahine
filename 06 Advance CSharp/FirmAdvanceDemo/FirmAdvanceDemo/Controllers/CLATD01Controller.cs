@@ -13,11 +13,14 @@ namespace FirmAdvanceDemo.Controllers
     [RoutePrefix("api/attendance")]
     public class CLATD01Controller : ApiController
     {
+        #region Private Fields
         /// <summary>
         /// Instance of BLATD01Handler for handling attendance business logic.
         /// </summary>
         private readonly BLATD01Handler _objBLAttendance;
+        #endregion
 
+        #region Constructors
         /// <summary>
         /// Default constructor for CLATD01Controller.
         /// </summary>
@@ -25,7 +28,9 @@ namespace FirmAdvanceDemo.Controllers
         {
             _objBLAttendance = new BLATD01Handler();
         }
+        #endregion
 
+        #region Public Methods
         /// <summary>
         /// Action method to retrieve all attendances of employees. Requires Admin role.
         /// </summary>
@@ -213,5 +218,6 @@ namespace FirmAdvanceDemo.Controllers
             }
             return Ok(response);
         }
+        #endregion
     }
 }

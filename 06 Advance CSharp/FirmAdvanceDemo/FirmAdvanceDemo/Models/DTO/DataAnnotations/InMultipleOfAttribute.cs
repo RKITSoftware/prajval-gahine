@@ -7,8 +7,14 @@ namespace FirmAdvanceDemo.Models.DTO.DataAnnotations
     /// </summary>
     public class InMultipleOfAttribute : ValidationAttribute
     {
-        private double _divisor;
+        #region Private Fields
+        /// <summary>
+        /// Divisor
+        /// </summary>
+        private readonly double _divisor;
+        #endregion
 
+        #region Constructors
         /// <summary>
         /// Initializes a new instance of the InMultipleOfAttribute class with the specified divisor.
         /// </summary>
@@ -17,7 +23,9 @@ namespace FirmAdvanceDemo.Models.DTO.DataAnnotations
         {
             _divisor = divisor;
         }
-
+        #endregion
+        
+        #region Public Methods
         /// <summary>
         /// Determines whether the specified value is valid.
         /// </summary>
@@ -29,5 +37,6 @@ namespace FirmAdvanceDemo.Models.DTO.DataAnnotations
 
             return n % _divisor == 0;
         }
+        #endregion
     }
 }

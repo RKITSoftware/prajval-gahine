@@ -8,11 +8,14 @@ namespace FirmAdvanceDemo.Connection
     /// </summary>
     public class MysqlDbConnector
     {
+        #region Public Properties
         /// <summary>
         /// Gets or sets the MySqlConnection instance.
         /// </summary>
         public static MySqlConnection Connection { get; set; }
+        #endregion
 
+        #region Constructors
         /// <summary>
         /// Static constructor to initialize the MySqlConnection using the connection string from the configuration.
         /// </summary>
@@ -24,5 +27,6 @@ namespace FirmAdvanceDemo.Connection
             // Create a new MySqlConnection instance using the retrieved connection string
             Connection = new MySqlConnection(connectionString);
         }
+        #endregion
     }
 }

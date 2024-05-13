@@ -2,7 +2,6 @@ using FirmAdvanceDemo.DB;
 using FirmAdvanceDemo.Models.POCO;
 using FirmAdvanceDemo.Utility;
 using ServiceStack.OrmLite;
-using ServiceStack.Text;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -17,15 +16,7 @@ namespace FirmAdvanceDemo.BL
     /// </summary>
     public class BLSLY01Handler
     {
-        /// <summary>
-        /// Context for Salary handler.
-        /// </summary>
-        private readonly DBSLY01Context _dBSLY01Context;
-
-        /// <summary>
-        /// OrmLite Connection Factory instance representing a connection with a particular database.
-        /// </summary>
-        private readonly OrmLiteConnectionFactory _dbFactory;
+        #region Private Structs
 
         /// <summary>
         /// Represents the data needed for processing salary payments.
@@ -47,12 +38,26 @@ namespace FirmAdvanceDemo.BL
             /// </summary>
             public List<SLY01> LstToBePaidSalary;
         }
+        #endregion
+
+        #region Private Fields
+        /// <summary>
+        /// Context for Salary handler.
+        /// </summary>
+        private readonly DBSLY01Context _dBSLY01Context;
+
+        /// <summary>
+        /// OrmLite Connection Factory instance representing a connection with a particular database.
+        /// </summary>
+        private readonly OrmLiteConnectionFactory _dbFactory;
 
         /// <summary>
         /// The data for processing salary payments.
         /// </summary>
         private SalaryProcessingData _objProcessSalaryData;
+        #endregion
 
+        #region Constructors
         /// <summary>
         /// Default constructor for BLSLY01Handler.
         /// </summary>
@@ -61,7 +66,9 @@ namespace FirmAdvanceDemo.BL
             _dbFactory = OrmliteDbConnector.DbFactory;
             _dBSLY01Context = new DBSLY01Context();
         }
+        #endregion
 
+        #region Public Methods
         /// <summary>
         /// Pre-saves unsalaried attendance records.
         /// </summary>
@@ -145,40 +152,6 @@ namespace FirmAdvanceDemo.BL
         }
 
         /// <summary>
-        /// Converts employee work hour data from DataTable to a list of SLY01 instances.
-        /// </summary>
-        /// <returns>A list of SLY01 instances representing the converted employee work hour data.</returns>
-        private List<SLY01> ProcessDtEmployeeWorkHour()
-        {
-            DateTime now = DateTime.Now;
-            int totalHoursInCurrentMonth = GeneralUtility.MonthTotalHoursWithoutWeekends(now.Year, now.Month);
-            List<SLY01> lstSalary = new List<SLY01>(_objProcessSalaryData.DtEmployeeWorkHoursUntilYesterday.Rows.Count);
-
-            for (int i = 0; i < _objProcessSalaryData.DtEmployeeWorkHoursUntilYesterday.Rows.Count; i++)
-            {
-                DataRow row = _objProcessSalaryData.DtEmployeeWorkHoursUntilYesterday.Rows[i];
-
-                // calculate salary using workhour and monthly salary
-                double monthlySalary = (double)row["MontlhySalary"];
-                double workHours = (double)row["WorkHours"];
-                double salaryAmount = (workHours / totalHoursInCurrentMonth) * monthlySalary;
-
-
-                DateTime monthStartDate = new DateTime(_objProcessSalaryData.UptoCreditDate.Year, _objProcessSalaryData.UptoCreditDate.Month, 1);
-                lstSalary.Add(new SLY01
-                {
-                    Y01F02 = (int)row["employeeID"],
-                    Y01F03 = salaryAmount,
-                    Y01F04 = monthStartDate,
-                    Y01F05 = (int)row["PositionID"],
-                    Y01F06 = now,
-                });
-            }
-
-            return lstSalary;
-        }
-
-        /// <summary>
         /// Downloads the salary slip for the specified employee and date range.
         /// </summary>
         /// <param name="employeeID">The ID of the employee.</param>
@@ -251,5 +224,42 @@ namespace FirmAdvanceDemo.BL
             response.Data = salaryCSV;
             return response;
         }
+        #endregion
+
+        #region Private Methods
+        /// <summary>
+        /// Converts employee work hour data from DataTable to a list of SLY01 instances.
+        /// </summary>
+        /// <returns>A list of SLY01 instances representing the converted employee work hour data.</returns>
+        private List<SLY01> ProcessDtEmployeeWorkHour()
+        {
+            DateTime now = DateTime.Now;
+            int totalHoursInCurrentMonth = GeneralUtility.MonthTotalHoursWithoutWeekends(now.Year, now.Month);
+            List<SLY01> lstSalary = new List<SLY01>(_objProcessSalaryData.DtEmployeeWorkHoursUntilYesterday.Rows.Count);
+
+            for (int i = 0; i < _objProcessSalaryData.DtEmployeeWorkHoursUntilYesterday.Rows.Count; i++)
+            {
+                DataRow row = _objProcessSalaryData.DtEmployeeWorkHoursUntilYesterday.Rows[i];
+
+                // calculate salary using workhour and monthly salary
+                double monthlySalary = (double)row["MontlhySalary"];
+                double workHours = (double)row["WorkHours"];
+                double salaryAmount = (workHours / totalHoursInCurrentMonth) * monthlySalary;
+
+
+                DateTime monthStartDate = new DateTime(_objProcessSalaryData.UptoCreditDate.Year, _objProcessSalaryData.UptoCreditDate.Month, 1);
+                lstSalary.Add(new SLY01
+                {
+                    Y01F02 = (int)row["employeeID"],
+                    Y01F03 = salaryAmount,
+                    Y01F04 = monthStartDate,
+                    Y01F05 = (int)row["PositionID"],
+                    Y01F06 = now,
+                });
+            }
+
+            return lstSalary;
+        }
+        #endregion
     }
 }

@@ -15,11 +15,14 @@ namespace FirmAdvanceDemo.Controllers
     [RoutePrefix("api/salary")]
     public class CLSLY01Controller : ApiController
     {
+        #region Private Fields
         /// <summary>
         /// Instance of the salary handler for managing salary operations.
         /// </summary>
         private readonly BLSLY01Handler _objBLSLY01Handler;
+        #endregion
 
+        #region Constructors
         /// <summary>
         /// Initializes a new instance of the CLSLY01Controller class.
         /// </summary>
@@ -27,7 +30,9 @@ namespace FirmAdvanceDemo.Controllers
         {
             _objBLSLY01Handler = new BLSLY01Handler();
         }
+        #endregion
 
+        #region Public Methods
         /// <summary>
         /// Credits salary to employees.
         /// </summary>
@@ -115,7 +120,7 @@ namespace FirmAdvanceDemo.Controllers
 
                     httpResponse.Clear();
                     httpResponse.AppendHeader("Content-Type", "text/csv");
-                    httpResponse.AppendHeader("Content-Disposition", $"attachment;filename=salary-slip-{employeeID}-{startYear}, {CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(startMonth)}To{endYear}, {CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(endMonth)}.csv;");
+                    httpResponse.AppendHeader("Content-Disposition", $"attachment;filename=salary-slip-{employeeID}-{startYear}/{CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(startMonth)}To{endYear}/{CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(endMonth)}.csv;");
 
                     httpResponse.BinaryWrite((byte[])response.Data);
 
@@ -154,5 +159,6 @@ namespace FirmAdvanceDemo.Controllers
             }
             return Ok(response);
         }
+        #endregion
     }
 }

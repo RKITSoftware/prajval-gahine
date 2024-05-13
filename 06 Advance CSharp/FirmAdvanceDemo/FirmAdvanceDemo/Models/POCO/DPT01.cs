@@ -8,6 +8,7 @@ namespace FirmAdvanceDemo.Models.POCO
     /// </summary>
     public class DPT01
     {
+        #region Public Properties
         /// <summary>
         /// Department Id
         /// </summary>
@@ -30,5 +31,6 @@ namespace FirmAdvanceDemo.Models.POCO
         /// </summary>
         [IgnoreOnInsert]
         public DateTime? T01F04 { get; set; }
+        #endregion
     }
 }

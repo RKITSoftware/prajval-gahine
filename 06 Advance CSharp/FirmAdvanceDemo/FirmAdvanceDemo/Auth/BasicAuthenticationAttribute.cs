@@ -17,6 +17,7 @@ namespace FirmAdvanceDemo.Auth
     /// </summary>
     public class BasicAuthenticationAttribute : AuthorizationFilterAttribute
     {
+        #region Public Methods
         /// <summary>
         /// Performs basic authentication based on the Authorization header.
         /// </summary>
@@ -88,5 +89,6 @@ namespace FirmAdvanceDemo.Auth
                 actionContext.Response = actionContext.Request.CreateErrorResponse(response.HttpStatusCode, response.Message);
             }
         }
+        #endregion
     }
 }

@@ -16,11 +16,14 @@ namespace FirmAdvanceDemo.Controllers
     [RoutePrefix("api/leave")]
     public class CLLVE02Controller : ApiController
     {
+        #region Private Fields
         /// <summary>
         /// Instance of BLLVE02Handler.
         /// </summary>
         private readonly BLLVE02Handler _objBLLVE02Handler;
+        #endregion
 
+        #region Constructors
         /// <summary>
         /// Default constructor for CLLeaveController.
         /// </summary>
@@ -28,7 +31,9 @@ namespace FirmAdvanceDemo.Controllers
         {
             _objBLLVE02Handler = new BLLVE02Handler();
         }
+        #endregion
 
+        #region Public Methods
         /// <summary>
         /// Action method to retrieve all leave entries.
         /// </summary>
@@ -233,16 +238,20 @@ namespace FirmAdvanceDemo.Controllers
         [ValidateModel]
         public IHttpActionResult PostLeave(DTOLVE02 objDTOLVE02)
         {
-            Response response;
-            _objBLLVE02Handler.Operation = EnmOperation.A;
-            response = _objBLLVE02Handler.Prevalidate(objDTOLVE02);
+            Response response = GeneralUtility.ValidateAccess(objDTOLVE02.E02F02);
+
             if (!response.IsError)
             {
-                _objBLLVE02Handler.Presave(objDTOLVE02);
-
+                _objBLLVE02Handler.Operation = EnmOperation.A;
+                response = _objBLLVE02Handler.Prevalidate(objDTOLVE02);
                 if (!response.IsError)
                 {
-                    response = _objBLLVE02Handler.Save();
+                    _objBLLVE02Handler.Presave(objDTOLVE02);
+
+                    if (!response.IsError)
+                    {
+                        response = _objBLLVE02Handler.Save();
+                    }
                 }
             }
             return Ok(response);
@@ -286,7 +295,7 @@ namespace FirmAdvanceDemo.Controllers
         /// <param name="toLeaveStatus">The new status to update to.</param>
         /// <returns>An IHttpActionResult indicating the result of the operation.</returns>
         [HttpPatch]
-        [Route("status/{leaveStatus}")]
+        [Route("status/{toLeaveStatus}")]
         [AccessTokenAuthentication]
         [BasicAuthorization(Roles = "A")]
         public IHttpActionResult PatchLeaveStatus(int leaveID, EnmLeaveStatus toLeaveStatus)
@@ -320,5 +329,6 @@ namespace FirmAdvanceDemo.Controllers
             }
             return Ok(response);
         }
+        #endregion
     }
 }

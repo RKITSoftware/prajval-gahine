@@ -16,29 +16,59 @@ namespace FirmAdvanceDemo.BL
     /// <summary>
     /// Handles business logic related to employee operations.
     /// </summary>
-    public class BLEMP01Handler : BLUSR01Handler
+    public class BLEMP01Handler
     {
+        #region Private Fields
         /// <summary>
         /// Instance of EMP01 POCO model.
         /// </summary>
-
         private EMP01 _objEMP01;
+
+        /// <summary>
+        /// List of User-Role instance.
+        /// </summary>
+        private List<ULE02> _lstULE02 { get; set; }
+
+        /// <summary>
+        /// Instance of BLUSR01Handler
+        /// </summary>
+        private BLUSR01Handler _objBLUSR01Handler { get; set; }
+
+        /// <summary>
+        /// OrmLite Connection Factory instance representing a connection with a particular database.
+        /// </summary>
+        private readonly OrmLiteConnectionFactory _dbFactory;
 
         /// <summary>
         /// Context for Employee handler.
         /// </summary>
         private readonly DBEMP01Context _context;
 
+        /// <summary>
+        /// Specifies whether the user is admin or not at time of user creation.
+        /// </summary>
         private bool _isAdmin;
+        #endregion
 
+        #region Public Properties
+        /// <summary>
+        /// Gets or sets the operation type for user handling.
+        /// </summary>
+        public EnmOperation Operation { get; set; }
+        #endregion
+
+        #region Constructors
         /// <summary>
         /// Default constructor for BLEMP01Handler.
         /// </summary>
         public BLEMP01Handler()
         {
             _context = new DBEMP01Context();
+            _dbFactory = OrmliteDbConnector.DbFactory;
         }
+        #endregion
 
+        #region Public Methods
         /// <summary>
         /// Method to validate the provided DTOUMP01 instance before processing.
         /// </summary>
@@ -46,12 +76,15 @@ namespace FirmAdvanceDemo.BL
         /// <returns>A response indicating the validation result.</returns>
         public Response Prevalidate(DTOUMP01 objDTOUMP)
         {
+            _objBLUSR01Handler = new BLUSR01Handler();
+            _objBLUSR01Handler.Operation = Operation;
+
             Response response = new Response();
 
             DTOUSR01 objDTOUSR01 = objDTOUMP.ObjDTOUSR01;
             DTOEMP01 objDTOEMP01 = objDTOUMP.ObjDTOEMP01;
 
-            response = PrevalidateUser(objDTOUSR01);
+            response = _objBLUSR01Handler.PrevalidateUser(objDTOUSR01);
 
             if (!response.IsError)
             {
@@ -102,7 +135,6 @@ namespace FirmAdvanceDemo.BL
                     }
                 }
             }
-
             return response;
         }
 
@@ -118,7 +150,7 @@ namespace FirmAdvanceDemo.BL
 
             _isAdmin = objDTOEMP01.P01X07;
 
-            PresaveUser(objDTOUSR01);
+            _objBLUSR01Handler.PresaveUser(objDTOUSR01);
 
             _objEMP01 = objDTOEMP01.ConvertModel<EMP01>();
 
@@ -153,27 +185,22 @@ namespace FirmAdvanceDemo.BL
                         try
                         {
                             // save user
-                            userId = (int)db.Insert(_objUSR01, selectIdentity: true);
+                            userId = (int)db.Insert<USR01>(_objBLUSR01Handler.ObjUSR01, selectIdentity: true);
 
-                            List<EnmRole> lstEnmRole = new List<EnmRole> { EnmRole.E };
+                            EnmRole[] lstEnmRole = _isAdmin ? new EnmRole[] { EnmRole.E, EnmRole.A } : new EnmRole[] { EnmRole.E };
 
-                            if (_isAdmin)
-                            {
-                                lstEnmRole.Add(EnmRole.A);
-                            }
-
+                            // retrieve roleIDs from EnmRole
                             SqlExpression<RLE01> sqlExp = db.From<RLE01>()
                                 .Where(role => Sql.In(role.E01F02, lstEnmRole))
                                 .Select(role => role.E01F01);
 
-                            List<ULE02> lstULE02 = db.Select<int>(sqlExp).Select(roleID => new ULE02()
+                            _lstULE02 = db.Select<int>(sqlExp).Select(roleID => new ULE02()
                             {
                                 E02F02 = userId,
                                 E02F03 = roleID,
                                 E02F04 = now
                             }).ToList();
-                            db.InsertAll<ULE02>(lstULE02);
-
+                            db.InsertAll<ULE02>(_lstULE02);
 
                             // save employee
                             employeeID = (int)db.Insert(_objEMP01, selectIdentity: true);
@@ -206,7 +233,8 @@ namespace FirmAdvanceDemo.BL
                     {
                         try
                         {
-                            db.Update<USR01>(_objUSR01);
+                            // update user
+                            db.Update<USR01>(_objBLUSR01Handler.ObjUSR01);
 
                             // update employee
                             db.Update<EMP01>(_objEMP01);
@@ -268,5 +296,6 @@ namespace FirmAdvanceDemo.BL
             response.Data = dtEmployee;
             return response;
         }
+        #endregion
     }
 }

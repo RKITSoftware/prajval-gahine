@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace FirmAdvanceDemo.Models.DTO
 {
+    #region Public Properties
     /// <summary>
     /// Role DTO model
     /// </summary>
@@ -23,5 +24,6 @@ namespace FirmAdvanceDemo.Models.DTO
         [JsonProperty("e01102")]
         [Required(ErrorMessage = "Role name cannot be empty.")]
         public EnmRole E01F02 { get; set; }
+        #endregion
     }
 }

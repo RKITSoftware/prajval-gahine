@@ -9,6 +9,7 @@ namespace FirmAdvanceDemo.Models.POCO
     /// </summary>
     public class PCH01
     {
+        #region Public Properties
         /// <summary>
         /// Punch Id
         /// </summary>
@@ -47,5 +48,6 @@ namespace FirmAdvanceDemo.Models.POCO
         /// </summary>
         [IgnoreOnInsert]
         public DateTime? H01F07 { get; set; }
+        #endregion
     }
 }

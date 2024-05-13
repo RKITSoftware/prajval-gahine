@@ -18,21 +18,26 @@ namespace FirmAdvanceDemo.BL
     /// </summary>
     public class BLUSR01Handler
     {
+        #region Private Fields
+        /// <summary>
+        /// OrmLite Connection Factory instance representing a connection with a particular database.
+        /// </summary>
+        private readonly OrmLiteConnectionFactory _dbFactory;
+        #endregion
+
+        #region Public Properties
         /// <summary>
         /// Instance of USR01 model representing user data.
         /// </summary>
-        public USR01 _objUSR01 { get; set; }
+        public USR01 ObjUSR01 { get; set; }
 
         /// <summary>
         /// Gets or sets the operation type for user handling.
         /// </summary>
         public EnmOperation Operation { get; set; }
+        #endregion
 
-        /// <summary>
-        /// OrmLite Connection Factory instance representing a connection with a particular database.
-        /// </summary>
-        protected readonly OrmLiteConnectionFactory _dbFactory;
-
+        #region Public Properties
         /// <summary>
         /// Default constructor for BLUSR01Handler.
         /// </summary>
@@ -40,7 +45,9 @@ namespace FirmAdvanceDemo.BL
         {
             _dbFactory = OrmliteDbConnector.DbFactory;
         }
+        #endregion
 
+        #region Public Methods
         /// <summary>
         /// Prevalidates an instance of DTOUSR01 (user portion).
         /// </summary>
@@ -53,7 +60,7 @@ namespace FirmAdvanceDemo.BL
             bool isUsernameExists;
             using (IDbConnection db = _dbFactory.OpenDbConnection())
             {
-                isUsernameExists = db.Exists<DTOUSR01>(new { r01f02 = objDTOUSR01.R01F02 });
+                isUsernameExists = db.Exists<USR01>(new { r01f02 = objDTOUSR01.R01F02 });
             }
 
             // in case of ADD username must NOT exists in DB
@@ -93,7 +100,7 @@ namespace FirmAdvanceDemo.BL
                     int userID;
                     using (IDbConnection db = _dbFactory.OpenDbConnection())
                     {
-                        userID = db.Scalar<USR01, int>(user => user.R01F01));
+                        userID = db.Scalar<USR01, int>(user => user.R01F01, user => user.R01F02 == objDTOUSR01.R01F02);
                     }
 
                     if (userID != objDTOUSR01.R01F01)
@@ -115,20 +122,20 @@ namespace FirmAdvanceDemo.BL
         /// <param name="objDTOUSR01">Instance of DTOUSR01 containing user data.</param>
         public void PresaveUser(DTOUSR01 objDTOUSR01)
         {
-            _objUSR01 = objDTOUSR01.ConvertModel<USR01>();
+            ObjUSR01 = objDTOUSR01.ConvertModel<USR01>();
 
             // converting string password to hased password (bytes)
             string secretKey = (string)ConfigurationManager.AppSettings["PasswordHashSecretKey"];
-            _objUSR01.R01F03 = GetHMACBase64(objDTOUSR01.R01F03, secretKey);
+            ObjUSR01.R01F03 = GetHMACBase64(objDTOUSR01.R01F03, secretKey);
 
             if (Operation == EnmOperation.A)
             {
-                _objUSR01.R01F01 = 0;
-                _objUSR01.R01F06 = DateTime.Now;
+                ObjUSR01.R01F01 = 0;
+                ObjUSR01.R01F06 = DateTime.Now;
             }
             else
             {
-                _objUSR01.R01F07 = DateTime.Now;
+                ObjUSR01.R01F07 = DateTime.Now;
             }
         }
 
@@ -185,5 +192,6 @@ namespace FirmAdvanceDemo.BL
 
             return response;
         }
+        #endregion
     }
 }

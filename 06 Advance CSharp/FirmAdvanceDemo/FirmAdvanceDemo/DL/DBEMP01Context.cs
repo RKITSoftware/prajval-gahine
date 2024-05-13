@@ -9,11 +9,14 @@ namespace FirmAdvanceDemo.DB
     /// </summary>
     public class DBEMP01Context
     {
+        #region Private Fields
         /// <summary>
         /// The MySqlConnection used for database operations.
         /// </summary>
         private readonly MySqlConnection _connection;
+        #endregion
 
+        #region Constructors
         /// <summary>
         /// Initializes a new instance of the <see cref="DBEMP01Context"/> class.
         /// </summary>
@@ -21,12 +24,9 @@ namespace FirmAdvanceDemo.DB
         {
             _connection = MysqlDbConnector.Connection;
         }
+        #endregion
 
-        /// <summary>
-        /// Gets the MySqlConnection used for database operations.
-        /// </summary>
-        public MySqlConnection Connection => _connection;
-
+        #region Public Methods
         /// <summary>
         /// Fetches the employee record with the specified employee ID.
         /// </summary>
@@ -54,7 +54,7 @@ namespace FirmAdvanceDemo.DB
                                 WHERE
                                     P01F01 = {0}", employeeID);
 
-            MySqlCommand cmd = new MySqlCommand(query, Connection);
+            MySqlCommand cmd = new MySqlCommand(query, _connection);
 
             MySqlDataAdapter adapter = new MySqlDataAdapter(cmd);
 
@@ -88,7 +88,7 @@ namespace FirmAdvanceDemo.DB
                                     usr01 INNER JOIN ump02 ON r01f01 = p02f02
                                           INNER JOIN emp01 ON p01f01 = p02f03");
 
-            MySqlCommand cmd = new MySqlCommand(query, Connection);
+            MySqlCommand cmd = new MySqlCommand(query, _connection);
 
             MySqlDataAdapter adapter = new MySqlDataAdapter(cmd);
 
@@ -96,5 +96,6 @@ namespace FirmAdvanceDemo.DB
 
             return dtEmployee;
         }
+        #endregion
     }
 }

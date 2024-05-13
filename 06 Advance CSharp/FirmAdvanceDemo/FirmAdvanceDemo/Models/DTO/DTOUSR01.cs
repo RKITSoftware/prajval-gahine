@@ -8,6 +8,7 @@ namespace FirmAdvanceDemo.Models.DTO
     /// </summary>
     public class DTOUSR01
     {
+        #region Public Properties
         /// <summary>
         /// user id
         /// </summary>
@@ -45,5 +46,6 @@ namespace FirmAdvanceDemo.Models.DTO
         [Phone]
         [Required(ErrorMessage = "Phone no. cannot be empty.")]
         public string R01F05 { get; set; }
+        #endregion
     }
 }

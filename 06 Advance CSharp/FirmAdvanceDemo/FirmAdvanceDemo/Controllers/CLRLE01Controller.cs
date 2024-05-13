@@ -13,11 +13,14 @@ namespace FirmAdvanceDemo.Controllers
     [RoutePrefix("api/role")]
     public class CLRLE01Controller : ApiController
     {
+        #region Private Fields
         /// <summary>
         /// Instance of the role handler for managing role operations.
         /// </summary>
         private readonly BLRLE01Handler _objBLRLE01Handler;
+        #endregion
 
+        #region Constructors
         /// <summary>
         /// Initializes a new instance of the CLRLE01Controller class.
         /// </summary>
@@ -25,7 +28,9 @@ namespace FirmAdvanceDemo.Controllers
         {
             _objBLRLE01Handler = new BLRLE01Handler();
         }
+        #endregion
 
+        #region Public Methods
         /// <summary>
         /// Retrieves all roles.
         /// </summary>
@@ -131,5 +136,6 @@ namespace FirmAdvanceDemo.Controllers
             }
             return Ok(response);
         }
+        #endregion
     }
 }

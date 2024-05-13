@@ -8,7 +8,7 @@ namespace FirmAdvanceDemo.Models.POCO
     /// </summary>
     public class UMP02
     {
-
+        #region Public Properties
         /// <summary>
         /// UMP02 record Id
         /// </summary>
@@ -36,5 +36,6 @@ namespace FirmAdvanceDemo.Models.POCO
         /// </summary>
         [IgnoreOnInsert]
         public DateTime? P02F05 { get; set; }
+        #endregion
     }
 }

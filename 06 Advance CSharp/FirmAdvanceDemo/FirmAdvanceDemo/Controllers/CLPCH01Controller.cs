@@ -15,11 +15,14 @@ namespace FirmAdvanceDemo.Controllers
     [RoutePrefix("api/punch")]
     public class CLPCH01Controller : ApiController
     {
+        #region Private Fields
         /// <summary>
         /// Instance of the punch handler for managing punch operations.
         /// </summary>
         private readonly BLPCH01Handler _objBLPCH01Handler;
+        #endregion
 
+        #region Constructors
         /// <summary>
         /// Initializes a new instance of the CLPCH01Controller class.
         /// </summary>
@@ -27,7 +30,9 @@ namespace FirmAdvanceDemo.Controllers
         {
             _objBLPCH01Handler = new BLPCH01Handler();
         }
+        #endregion
 
+        #region Public Methods
         /// <summary>
         /// Action method to submit punch details.
         /// </summary>
@@ -148,5 +153,6 @@ namespace FirmAdvanceDemo.Controllers
             }
             return Ok(response);
         }
+        #endregion
     }
 }

@@ -11,11 +11,14 @@ namespace FirmAdvanceDemo.DB
     /// </summary>
     public class DBATD01Context
     {
+        #region Private Fields
         /// <summary>
         /// The MySqlConnection used for database operations.
         /// </summary>
         private readonly MySqlConnection _connection;
+        #endregion
 
+        #region Constructors
         /// <summary>
         /// Initializes a new instance of the DBATD01Context class.
         /// </summary>
@@ -23,7 +26,9 @@ namespace FirmAdvanceDemo.DB
         {
             _connection = MysqlDbConnector.Connection;
         }
+        #endregion
 
+        #region Public Methods
         /// <summary>
         /// Fetches attendance records for a specified year and month.
         /// </summary>
@@ -75,7 +80,7 @@ namespace FirmAdvanceDemo.DB
                                 FROM
                                     atd01
                                 WHERE
-                                    DATE(d01f03) = {0}",
+                                    d01f03 = '{0}'",
                             now.ToString(GlobalDateFormat));
 
             MySqlCommand cmd = new MySqlCommand(query, _connection);
@@ -207,5 +212,6 @@ namespace FirmAdvanceDemo.DB
 
             return dtAttendance;
         }
+        #endregion
     }
 }

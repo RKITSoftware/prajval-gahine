@@ -9,6 +9,7 @@ namespace FirmAdvanceDemo.Models.POCO
     /// </summary>
     public class LVE02
     {
+        #region Public Properties
         /// <summary>
         /// Leave Id
         /// </summary>
@@ -46,7 +47,7 @@ namespace FirmAdvanceDemo.Models.POCO
         ///// <summary>
         ///  approved by userID
         /// </summary>
-        [ForeignKey(typeof(USR01), OnDelete = "CASCADE")]
+        [IgnoreOnInsert]
         public int E02F07 { get; set; }
 
         /// <summary>
@@ -60,5 +61,6 @@ namespace FirmAdvanceDemo.Models.POCO
         /// </summary>
         [IgnoreOnInsert]
         public DateTime? E02F09 { get; set; }
+        #endregion
     }
 }

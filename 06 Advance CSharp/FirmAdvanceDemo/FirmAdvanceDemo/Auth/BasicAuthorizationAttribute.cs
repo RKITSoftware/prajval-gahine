@@ -11,6 +11,7 @@ namespace FirmAdvanceDemo.Auth
     /// </summary>
     public class BasicAuthorizationAttribute : AuthorizeAttribute
     {
+        #region Mehtods
         /// <summary>
         /// Handles the unauthorized request by either allowing it or returning a forbidden status code.
         /// </summary>
@@ -27,5 +28,6 @@ namespace FirmAdvanceDemo.Auth
                 actionContext.Response = new HttpResponseMessage(HttpStatusCode.Forbidden);
             }
         }
+        #endregion
     }
 }

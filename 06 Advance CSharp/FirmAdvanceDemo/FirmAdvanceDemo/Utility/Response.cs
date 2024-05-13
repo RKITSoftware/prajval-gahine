@@ -7,6 +7,7 @@ namespace FirmAdvanceDemo.Utility
     /// </summary>
     public class Response
     {
+        #region Public Properties
         /// <summary>
         /// Flag to state that whether the request was successfully perform
         /// </summary>
@@ -26,5 +27,6 @@ namespace FirmAdvanceDemo.Utility
         /// Response data
         /// </summary>
         public object Data { get; set; }
+        #endregion
     }
 }

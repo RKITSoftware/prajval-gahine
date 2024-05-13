@@ -5,6 +5,7 @@
     /// </summary>
     public static class Constants
     {
+        #region Public Fields
         /// <summary>
         /// The global date and time format used in the application.
         /// </summary>
@@ -14,5 +15,6 @@
         /// The global date format used in the application.
         /// </summary>
         public const string GlobalDateFormat = "yyyy-MM-dd";
+        #endregion
     }
 }

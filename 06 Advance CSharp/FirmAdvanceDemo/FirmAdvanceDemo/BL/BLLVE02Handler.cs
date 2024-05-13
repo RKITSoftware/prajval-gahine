@@ -20,6 +20,7 @@ namespace FirmAdvanceDemo.BL
     /// </summary>
     public class BLLVE02Handler
     {
+        #region Private Fields
         /// <summary>
         /// Instance of LVE02 model.
         /// </summary>
@@ -34,12 +35,16 @@ namespace FirmAdvanceDemo.BL
         /// Context for Leave handler.
         /// </summary>
         private readonly DBLVE02Context _objDBLVE02Context;
+        #endregion
 
+        #region Public Properties
         /// <summary>
         /// Operation type for Leave handling.
         /// </summary>
         public EnmOperation Operation;
+        #endregion
 
+        #region Constructors
         /// <summary>
         /// Default constructor for BLLVE02Handler.
         /// </summary>
@@ -48,7 +53,9 @@ namespace FirmAdvanceDemo.BL
             _dbFactory = OrmliteDbConnector.DbFactory;
             _objDBLVE02Context = new DBLVE02Context();
         }
+        #endregion
 
+        #region Public Methods
         /// <summary>
         /// Method to validate the provided DTOLVE02 instance before processing.
         /// </summary>
@@ -62,7 +69,7 @@ namespace FirmAdvanceDemo.BL
             bool isEmployeeExists;
             using (IDbConnection db = _dbFactory.OpenDbConnection())
             {
-                isEmployeeExists = db.Exists<EMP01>(new { e01f01 = objDTOLVE02.E02F02 });
+                isEmployeeExists = db.Exists<EMP01>(new { p01f01 = objDTOLVE02.E02F02 });
             }
 
             if (!isEmployeeExists)
@@ -102,7 +109,7 @@ namespace FirmAdvanceDemo.BL
         {
             _objLVE02 = objDTOLVE02.ConvertModel<LVE02>();
             DateTime now = DateTime.Now;
-            
+
             if (Operation == EnmOperation.A)
             {
                 _objLVE02.E02F01 = 0;
@@ -129,8 +136,8 @@ namespace FirmAdvanceDemo.BL
         public Response Validate()
         {
             Response response = new Response();
-            
-            if(Operation == EnmOperation.E)
+
+            if (Operation == EnmOperation.E)
             {
                 LVE02 objLVE02Existsing;
 
@@ -160,7 +167,7 @@ namespace FirmAdvanceDemo.BL
                 }
 
                 // historic leave date must be less than or equal to creation date
-                if(objLVE02Existsing.E02F06 == EnmLeaveStatus.H && _objLVE02.E02F03 >= objLVE02Existsing.E02F08)
+                if (objLVE02Existsing.E02F06 == EnmLeaveStatus.H && _objLVE02.E02F03 >= objLVE02Existsing.E02F08)
                 {
                     response.IsError = true;
                     response.HttpStatusCode = HttpStatusCode.Forbidden;
@@ -271,7 +278,7 @@ namespace FirmAdvanceDemo.BL
         public Response PrevalidateUpdateLeaveStatus(int leaveID, EnmLeaveStatus toLeaveStatus)
         {
             Response response = new Response();
-            if(toLeaveStatus != EnmLeaveStatus.A || toLeaveStatus != EnmLeaveStatus.R)
+            if (toLeaveStatus != EnmLeaveStatus.A || toLeaveStatus != EnmLeaveStatus.R)
             {
                 response.IsError = true;
                 response.HttpStatusCode = HttpStatusCode.Forbidden;
@@ -610,11 +617,11 @@ namespace FirmAdvanceDemo.BL
             Response response = new Response();
 
             // check if toLeaveStatus is
-            if (toLeaveStatus == EnmLeaveStatus.P)
+            if (toLeaveStatus == EnmLeaveStatus.P || toLeaveStatus == EnmLeaveStatus.H)
             {
                 response.IsError = true;
                 response.HttpStatusCode = HttpStatusCode.BadRequest;
-                response.Message = "Leave request cannot be reverted to pending status.";
+                response.Message = "Leave request cannot be marked pending or historic.";
 
                 return response;
             }
@@ -669,12 +676,13 @@ namespace FirmAdvanceDemo.BL
 
             using (IDbConnection db = _dbFactory.OpenDbConnection())
             {
-                db.Update<LVE02>(new { e02f06 = toLeaveStatus,  e02f07 = userID }, where: leave => leave.E02F01 == leaveID);
+                db.Update<LVE02>(new { e02f06 = toLeaveStatus, e02f07 = userID }, where: leave => leave.E02F01 == leaveID);
             }
 
             response.HttpStatusCode = HttpStatusCode.OK;
             response.Message = $"Leave {leaveID} status updated to {toLeaveStatus}.";
             return response;
         }
+        #endregion
     }
 }

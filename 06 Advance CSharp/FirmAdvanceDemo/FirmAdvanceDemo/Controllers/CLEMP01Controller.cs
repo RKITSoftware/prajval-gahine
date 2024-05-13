@@ -13,11 +13,14 @@ namespace FirmAdvanceDemo.Controllers
     [RoutePrefix("api/employee")]
     public class CLEMP01Controller : ApiController
     {
+        #region Private Fields
         /// <summary>
         /// Instance of BLEmployee.
         /// </summary>
         private readonly BLEMP01Handler _objBLEMP01Handler;
+        #endregion
 
+        #region Constructors
         /// <summary>
         /// Default constructor for CLEmployeeController.
         /// </summary>
@@ -25,7 +28,9 @@ namespace FirmAdvanceDemo.Controllers
         {
             _objBLEMP01Handler = new BLEMP01Handler();
         }
+        #endregion
 
+        #region Public Methods
         /// <summary>
         /// Action method to retrieve all employees. Requires Admin role.
         /// </summary>
@@ -114,7 +119,7 @@ namespace FirmAdvanceDemo.Controllers
                 if (!response.IsError)
                 {
                     _objBLEMP01Handler.Presave(objDTOUMP);
-                    if (!response.IsError)  
+                    if (!response.IsError)
                     {
                         response = _objBLEMP01Handler.Save();
                     }
@@ -122,5 +127,6 @@ namespace FirmAdvanceDemo.Controllers
             }
             return Ok(response);
         }
+        #endregion
     }
 }

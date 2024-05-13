@@ -19,6 +19,31 @@ namespace FirmAdvanceDemo.BL
     /// </summary>
     public class BLPCH01Handler
     {
+
+        #region Private Struct
+        /// <summary>
+        /// Represents the data needed for processing punch entries.
+        /// </summary>
+        private struct PunchProcessingData
+        {
+            /// <summary>
+            /// The date of the punch entries being processed.
+            /// </summary>
+            public DateTime dateOfPunch;
+
+            /// <summary>
+            /// The list of all punch entries for the specified date.
+            /// </summary>
+            public List<PCH01> LstAllPunch;
+
+            /// <summary>
+            /// The list of in-out punch entries for the specified date.
+            /// </summary>
+            public List<PCH01> LstInOutPunch;
+        }
+        #endregion
+
+        #region Private Fields
         /// <summary>
         /// Instance of PCH01 model.
         /// </summary>
@@ -40,36 +65,19 @@ namespace FirmAdvanceDemo.BL
         private List<PCH01> _lstAmbigousPunch;
 
         /// <summary>
-        /// Represents the data needed for processing punch entries.
-        /// </summary>
-        public struct PunchProcessingData
-        {
-            /// <summary>
-            /// The date of the punch entries being processed.
-            /// </summary>
-            public DateTime dateOfPunch;
-
-            /// <summary>
-            /// The list of all punch entries for the specified date.
-            /// </summary>
-            public List<PCH01> LstAllPunch;
-
-            /// <summary>
-            /// The list of in-out punch entries for the specified date.
-            /// </summary>
-            public List<PCH01> LstInOutPunch;
-        }
-
-        /// <summary>
         /// The data for processing punch entries.
         /// </summary>
-        public PunchProcessingData _punchProcessingData;
+        private PunchProcessingData _punchProcessingData;
+        #endregion
 
+        #region Public Properties
         /// <summary>
         /// Gets or sets the operation type for punch handling.
         /// </summary>
         public EnmOperation Operation { get; set; }
+        #endregion
 
+        #region Constructors
         /// <summary>
         /// Default constructor for BLPCH01Handler.
         /// </summary>
@@ -78,7 +86,9 @@ namespace FirmAdvanceDemo.BL
             _dbFactory = OrmliteDbConnector.DbFactory;
             _objDBPCH01Context = new DBPCH01Context();
         }
+        #endregion
 
+        #region Public Methods
         /// <summary>
         /// Validates the provided DTOPCH01 instance before processing.
         /// </summary>
@@ -168,27 +178,7 @@ namespace FirmAdvanceDemo.BL
             MarkAmbiguousAsInOutPunch(_lstAmbigousPunch);
         }
 
-        /// <summary>
-        /// Marks ambiguous punch entries as in-out punches.
-        /// </summary>
-        /// <param name="lstAllPunch">The list of all punch entries.</param>
-        private void MarkAmbiguousAsInOutPunch(List<PCH01> lstAllPunch)
-        {
-            bool isEmployeePunchIn = false;
-            foreach (PCH01 punch in lstAllPunch)
-            {
-                if (isEmployeePunchIn)
-                {
-                    punch.H01F04 = EnmPunchType.O;
-                }
-                else
-                {
-                    punch.H01F04 = EnmPunchType.I;
-                }
-                punch.H01F07 = DateTime.Now;
-                isEmployeePunchIn = !isEmployeePunchIn;
-            }
-        }
+
 
         /// <summary>
         /// Saves the virtual punch entry.
@@ -251,140 +241,6 @@ namespace FirmAdvanceDemo.BL
             response.Message = $"Punch type updated for date: {_punchProcessingData.dateOfPunch.ToString(Constants.GlobalDateFormat)}.";
             return response;
         }
-
-        /// <summary>
-        /// Retrieves the unprocessed punches for the specified date.
-        /// </summary>
-        /// <param name="date">The date of the unprocessed punches.</param>
-        /// <returns>The list of unprocessed punches for the specified date.</returns>
-        private List<PCH01> GetUnprocessedPunchesForDate(DateTime date)
-        {
-            List<PCH01> lstPunch;
-            string query = string.Format(@"
-                                    SELECT
-                                        h01f01,
-                                        h01f02,
-                                        h01f03,
-                                        h01f04
-                                    FROM
-                                        pch01
-                                    WHERE
-                                        h01f04 = '{0}' AND
-                                        Date(h01f03) = '{1}' AND
-                                        h01f05 = 0
-                                    ORDER BY
-                                        h01f02, h01f03",
-                                        EnmPunchType.U,
-                                        date.ToString(Constants.GlobalDateFormat));
-
-            using (IDbConnection db = _dbFactory.OpenDbConnection())
-            {
-                lstPunch = db.Query<PCH01>(query).ToList();
-            }
-            return lstPunch;
-        }
-
-        /// <summary>
-        /// Updates the punch type based on certain criteria.
-        /// </summary>
-        public void ProcessUnprocessedPunches()
-        {
-            MarkDuplicatePunch();
-            MarkAmbiguousPunch();
-            MarkInOutPunch();
-        }
-
-        /// <summary>
-        /// Marks punches that are mistakenly recorded.
-        /// </summary>
-        private void MarkDuplicatePunch()
-        {
-            List<PCH01> lstAllPunch = _punchProcessingData.LstAllPunch;
-            TimeSpan timeBuffer = new TimeSpan(0, 0, 10);    // 10 second buffer
-            int size = lstAllPunch.Count;
-            for (int i = 0; i < size - 1; i++)
-            {
-                PCH01 currPunch = lstAllPunch[i];
-                PCH01 nextPunch = lstAllPunch[i + 1];
-                if (currPunch.H01F02 == nextPunch.H01F02 && nextPunch.H01F03.Subtract(currPunch.H01F03) <= timeBuffer)
-                {
-                    currPunch.H01F04 = EnmPunchType.D;
-                    currPunch.H01F07 = DateTime.Now;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Marks punches that are ambiguous or unclear.
-        /// </summary>
-        private void MarkAmbiguousPunch()
-        {
-            List<PCH01> lstAllPunch = _punchProcessingData.LstAllPunch;
-            int startIndex = 0;
-            int endIndex = 0;
-            int size = lstAllPunch.Count;
-            int uPunchForEmployeeCount = 0;
-
-            for (int i = 0; i < size; i++)
-            {
-                PCH01 currPunch = lstAllPunch[i];
-                PCH01 nextPunch = (i + 1 >= size) ? null : lstAllPunch?[i + 1];
-
-                if (currPunch.H01F04 == EnmPunchType.U)
-                {
-                    uPunchForEmployeeCount++;
-                }
-
-                if (nextPunch == null || currPunch.H01F02 != nextPunch.H01F02)
-                {
-                    if (uPunchForEmployeeCount % 2 != 0)
-                    {
-                        for (int j = startIndex; j <= endIndex; j++)
-                        {
-                            if (lstAllPunch[j].H01F04 == EnmPunchType.U)
-                            {
-                                lstAllPunch[j].H01F04 = EnmPunchType.A;
-                                lstAllPunch[j].H01F07 = DateTime.Now;
-                            }
-                        }
-                    }
-                    uPunchForEmployeeCount = 0;
-                    startIndex = i + 1;
-                    endIndex = startIndex;
-                }
-                else
-                {
-                    endIndex++;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Marks punches as In/Out based on certain criteria.
-        /// </summary>
-        private void MarkInOutPunch()
-        {
-            List<PCH01> lstAllPunch = _punchProcessingData.LstAllPunch;
-
-            bool isEmployeePunchIn = false;
-            foreach (PCH01 punch in lstAllPunch)
-            {
-                if (punch.H01F04 == EnmPunchType.U)
-                {
-                    if (isEmployeePunchIn)
-                    {
-                        punch.H01F04 = EnmPunchType.O;
-                    }
-                    else
-                    {
-                        punch.H01F04 = EnmPunchType.I;
-                    }
-                    punch.H01F07 = DateTime.Now;
-                    isEmployeePunchIn = !isEmployeePunchIn;
-                }
-            }
-        }
-
 
         /// <summary>
         /// Validates the punch data before saving.
@@ -558,5 +414,159 @@ namespace FirmAdvanceDemo.BL
             }
             return response;
         }
+        #endregion
+
+        #region Private Methods
+        /// <summary>
+        /// Marks ambiguous punch entries as in-out punches.
+        /// </summary>
+        /// <param name="lstAllPunch">The list of all punch entries.</param>
+        private void MarkAmbiguousAsInOutPunch(List<PCH01> lstAllPunch)
+        {
+            bool isEmployeePunchIn = false;
+            foreach (PCH01 punch in lstAllPunch)
+            {
+                if (isEmployeePunchIn)
+                {
+                    punch.H01F04 = EnmPunchType.O;
+                }
+                else
+                {
+                    punch.H01F04 = EnmPunchType.I;
+                }
+                punch.H01F07 = DateTime.Now;
+                isEmployeePunchIn = !isEmployeePunchIn;
+            }
+        }
+        /// <summary>
+        /// Retrieves the unprocessed punches for the specified date.
+        /// </summary>
+        /// <param name="date">The date of the unprocessed punches.</param>
+        /// <returns>The list of unprocessed punches for the specified date.</returns>
+        private List<PCH01> GetUnprocessedPunchesForDate(DateTime date)
+        {
+            List<PCH01> lstPunch;
+            string query = string.Format(@"
+                                    SELECT
+                                        h01f01,
+                                        h01f02,
+                                        h01f03,
+                                        h01f04
+                                    FROM
+                                        pch01
+                                    WHERE
+                                        h01f04 = '{0}' AND
+                                        Date(h01f03) = '{1}' AND
+                                        h01f05 = 0
+                                    ORDER BY
+                                        h01f02, h01f03",
+                                        EnmPunchType.U,
+                                        date.ToString(Constants.GlobalDateFormat));
+
+            using (IDbConnection db = _dbFactory.OpenDbConnection())
+            {
+                lstPunch = db.Query<PCH01>(query).ToList();
+            }
+            return lstPunch;
+        }
+        /// <summary>
+        /// Updates the punch type based on certain criteria.
+        /// </summary>
+        private void ProcessUnprocessedPunches()
+        {
+            MarkDuplicatePunch();
+            MarkAmbiguousPunch();
+            MarkInOutPunch();
+        }
+        /// <summary>
+        /// Marks punches that are mistakenly recorded.
+        /// </summary>
+        private void MarkDuplicatePunch()
+        {
+            List<PCH01> lstAllPunch = _punchProcessingData.LstAllPunch;
+            TimeSpan timeBuffer = new TimeSpan(0, 0, 10);    // 10 second buffer
+            int size = lstAllPunch.Count;
+            for (int i = 0; i < size - 1; i++)
+            {
+                PCH01 currPunch = lstAllPunch[i];
+                PCH01 nextPunch = lstAllPunch[i + 1];
+                if (currPunch.H01F02 == nextPunch.H01F02 && nextPunch.H01F03.Subtract(currPunch.H01F03) <= timeBuffer)
+                {
+                    currPunch.H01F04 = EnmPunchType.D;
+                    currPunch.H01F07 = DateTime.Now;
+                }
+            }
+        }
+        /// <summary>
+        /// Marks punches that are ambiguous or unclear.
+        /// </summary>
+        private void MarkAmbiguousPunch()
+        {
+            List<PCH01> lstAllPunch = _punchProcessingData.LstAllPunch;
+            int startIndex = 0;
+            int endIndex = 0;
+            int size = lstAllPunch.Count;
+            int uPunchForEmployeeCount = 0;
+
+            for (int i = 0; i < size; i++)
+            {
+                PCH01 currPunch = lstAllPunch[i];
+                PCH01 nextPunch = (i + 1 >= size) ? null : lstAllPunch?[i + 1];
+
+                if (currPunch.H01F04 == EnmPunchType.U)
+                {
+                    uPunchForEmployeeCount++;
+                }
+
+                if (nextPunch == null || currPunch.H01F02 != nextPunch.H01F02)
+                {
+                    if (uPunchForEmployeeCount % 2 != 0)
+                    {
+                        for (int j = startIndex; j <= endIndex; j++)
+                        {
+                            if (lstAllPunch[j].H01F04 == EnmPunchType.U)
+                            {
+                                lstAllPunch[j].H01F04 = EnmPunchType.A;
+                                lstAllPunch[j].H01F07 = DateTime.Now;
+                            }
+                        }
+                    }
+                    uPunchForEmployeeCount = 0;
+                    startIndex = i + 1;
+                    endIndex = startIndex;
+                }
+                else
+                {
+                    endIndex++;
+                }
+            }
+        }
+        /// <summary>
+        /// Marks punches as In/Out based on certain criteria.
+        /// </summary>
+        private void MarkInOutPunch()
+        {
+            List<PCH01> lstAllPunch = _punchProcessingData.LstAllPunch;
+
+            bool isEmployeePunchIn = false;
+            foreach (PCH01 punch in lstAllPunch)
+            {
+                if (punch.H01F04 == EnmPunchType.U)
+                {
+                    if (isEmployeePunchIn)
+                    {
+                        punch.H01F04 = EnmPunchType.O;
+                    }
+                    else
+                    {
+                        punch.H01F04 = EnmPunchType.I;
+                    }
+                    punch.H01F07 = DateTime.Now;
+                    isEmployeePunchIn = !isEmployeePunchIn;
+                }
+            }
+        }
+
+        #endregion
     }
 }

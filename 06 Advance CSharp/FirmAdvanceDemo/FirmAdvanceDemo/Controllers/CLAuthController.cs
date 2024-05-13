@@ -17,26 +17,7 @@ namespace FirmAdvanceDemo.Controllers
     /// </summary>
     public class CLAuthController : ApiController
     {
-        /// <summary>
-        /// Generates a JSON Web Token (JWT) based on the header and payload.
-        /// </summary>
-        /// <param name="header">JWT Header</param>
-        /// <param name="payload">JWT Payload</param>
-        /// <returns>The generated JWT</returns>
-        [NonAction]
-        public string GenerateJWT(string header, string payload)
-        {
-            string headerEncoded = Convert.ToBase64String(Encoding.UTF8.GetBytes(header));
-            string payloadEncoded = Convert.ToBase64String(Encoding.UTF8.GetBytes(payload));
-
-            string digest = GeneralUtility.GetHMACBase64($"{headerEncoded}.{payloadEncoded}", null)
-                .Replace('/', '_')
-                .Replace('+', '-')
-                .Replace("=", "");
-
-            return $"{headerEncoded}.{payloadEncoded}.{digest}";
-        }
-
+        #region Public Methods
         /// <summary>
         /// Retrieves a refresh token for the authenticated user.
         /// </summary>
@@ -54,7 +35,7 @@ namespace FirmAdvanceDemo.Controllers
             string header = "{\"alg\":\"HS256\",\"typ\":\"JWT\"}";
             string payload = $"{{\"id\":\"{userId}\",\"expires\":\"{DateTimeOffset.UtcNow.ToUnixTimeSeconds() + 7776000}\"}}";
 
-            string refreshToken = GenerateJWT(header, payload);
+            string refreshToken = GeneralUtility.GenerateJWT(header, payload);
 
             // encrypt the refresh token
             string encryptedRefreshToken = GeneralUtility.AesEncrypt(refreshToken, null);
@@ -89,9 +70,10 @@ namespace FirmAdvanceDemo.Controllers
             string header = "{\"alg\":\"HS256\",\"typ\":\"JWT\"}";
             string payload = $"{{\"id\":\"{userId}\",\"expires\":\"{DateTimeOffset.UtcNow.ToUnixTimeSeconds() + 7890000}\"}}";
 
-            string accessToken = GenerateJWT(header, payload);
+            string accessToken = GeneralUtility.GenerateJWT(header, payload);
 
             return accessToken;
         }
+        #endregion
     }
 }

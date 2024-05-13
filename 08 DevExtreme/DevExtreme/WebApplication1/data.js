@@ -1,8 +1,10 @@
 ﻿const lstLink = [
-    { text: "Button", url: "#container", handler: "addButton" },
-    { text: "Checkbox", url: "#checkboxContainer", handler: "addCheckBox" }
+    { text: "Button", handler: "addButton" },
+    { text: "Checkbox", handler: "addCheckBox" },
+    { text: "Datebox", handler: "addDateBox" },
+    { text: "List", handler: "addList" },
+    { text: "DropDown", handler: "addDropDown" },
 ];
-
 
 const lstCheckBox = [
     { id: "checkedCbContainer", label: "Checked"},

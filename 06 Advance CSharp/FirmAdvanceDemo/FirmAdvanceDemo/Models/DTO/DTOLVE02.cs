@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace FirmAdvanceDemo.Models.DTO
 {
+    #region Public Properties   
     /// <summary>
     /// Leave DTO model
     /// </summary>
@@ -46,5 +47,6 @@ namespace FirmAdvanceDemo.Models.DTO
         [JsonProperty("e02105")]
         [Required(ErrorMessage = "Reason of leave cannot be empty.")]
         public string E02F05 { get; set; }
+        #endregion
     }
 }
