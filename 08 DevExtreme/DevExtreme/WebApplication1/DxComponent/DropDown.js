@@ -18,10 +18,10 @@
     // append #container after linkContainer
     $("#linkContainer").after('<div id="container"></div>');
 
-    container = $("#container");
+    container = $("#container").addClass("field-container");
 
     // dx drop down ? container a text field (display current value) and drop-down field (any UI component)
-    const singleSelectionDDWrapper = $("<div>", { class: "dx-field", style: "width: 40%" }).appendTo(container);
+    const singleSelectionDDWrapper = $("<div>").appendTo(container);
     $("<div>", { class: "dx-field-label" }).text("Single Selection").appendTo(singleSelectionDDWrapper);
     const singleSelectionDDContainer = $("<div>", { class: "dx-field-value" })
         .appendTo(singleSelectionDDWrapper);
@@ -59,7 +59,7 @@
         }
     });
 
-    const singleSelectionDDWithControlWrapper = $("<div>", { class: "dx-field", style: "width: 40%" }).appendTo(container);
+    const singleSelectionDDWithControlWrapper = $("<div>").appendTo(container);
     $("<div>", { class: "dx-field-label" }).text("Single Selection with Control").appendTo(singleSelectionDDWithControlWrapper);
     const singleSelectionDDWithControlContainer = $("<div>", { class: "dx-field-value" })
         .appendTo(singleSelectionDDWithControlWrapper);
@@ -98,7 +98,7 @@
         }
     });
 
-    const multipleSelectionDDWrapper = $("<div>", { class: "dx-field", style: "width: 40%" }).appendTo(container);
+    const multipleSelectionDDWrapper = $("<div>").appendTo(container);
     $("<div>", { class: "dx-field-label" }).text("Multiple Selection").appendTo(multipleSelectionDDWrapper);
     const multipleSelectionDDContainer = $("<div>", { class: "dx-field-value" })
         .appendTo(multipleSelectionDDWrapper);
@@ -128,6 +128,7 @@
         myIsFirstSelection: true,
         contentTemplate: function (args) {
             return $("<div>").dxList({
+                selectedItems: [111],
                 dataSource: args.component.getDataSource(),
                 selectionMode: "multiple",
                 itemTemplate: function (itemData) {
@@ -156,7 +157,7 @@
     });
 
 
-    const customDDWrapper = $("<div>", { class: "dx-field", style: "width: 40%" }).appendTo(container);
+    const customDDWrapper = $("<div>").appendTo(container);
     $("<div>", { class: "dx-field-label" }).text("Custom Drop Down").appendTo(customDDWrapper);
     const customDDContainer = $("<div>", { class: "dx-field-value" })
         .appendTo(customDDWrapper);

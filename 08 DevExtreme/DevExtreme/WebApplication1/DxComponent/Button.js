@@ -11,11 +11,13 @@
 
     container = $("#container");
 
+    const buttonContainer = $("<div>", {id: "buttonContainer", class: "myClass, dx-myClass", style: "display: block; height: 100px; width: 100px; background-color: green;" }).appendTo(container);
+
     // creating a button instance inside #container
-    container.dxButton();
+    buttonContainer.dxButton();
 
     // get the dx button reference
-    const button = container.dxButton("instance");
+    const button = buttonContainer.dxButton("instance");
 
     // access some properties of button using option method
     button.option("text", "submit");
@@ -25,21 +27,21 @@
 
     // attach some click handler to the button
     button.option("onClick", function () {
-        alert("button on clicked 1.");
+        alert("Option's on click 1.");
     });
 
     // it overwrite above handler
     button.option("onClick", function () {
-        alert("button on clicked 2.");
+        alert("Option's on click 2.");
     });
 
     // another way to attach events
     button.on("click", function () {
-        alert("button clicked 3.");
+        alert("On method on click 1.");
     });
 
     button.on("click", function () {
-        alert("button clicked 4.");
+        alert("On method on click 2.");
     });
 
     // attaching a custom event
@@ -49,28 +51,28 @@
 
     // above code is as good as writting this
     button?._eventsStrategy._events.prajval._list.push(function () {
-        alert("prajval 2.");
+        alert("List pushed on click.");
     });
 
     // unsubsribing from an event, it just empty the _list
-    button.off("prajval");
+    //button.off("prajval");
     // button.off("prajval", handler1);
 
     // disposing an UI component
-    const disposeUiComp = $("#disposeUiComp");
-    disposeUiComp.dxButton({
+    const disposeButtonContainer = $("<div>", { id: "disposeButtonContainer" }).appendTo(container);
+    disposeButtonContainer.dxButton({
         text: "Dispose Ui Comp",
         onClick: function () {
-            container.dxButton("dispose");
+            buttonContainer.dxButton("dispose");
         }
     });
 
     // remove the container itself using jQuery .remove method
-    const removeContainer = $("#removeContainer");
-    removeContainer.dxButton({
+    const removeButtonContainer = $("<div>", { id: "removeButtonContainer" }).appendTo(container);
+    removeButtonContainer.dxButton({
         text: "Remove Container",
         onClick: function () {
-            container.remove();
+            buttonContainer.remove();
         }
     });
 }

@@ -36,3 +36,36 @@ $("<div>").appendTo(customDDContainer).dxDropDownBox({
         });
     }
 });
+
+
+
+
+
+window.myTemplates = {};
+window.date1 = performance.now();
+window.myTemplates["field2"] = $("<div>", { class: "dx-field" })
+    .append($("<div>", { class: "dx-field-label" }).text("No Text"))
+    .append($("<div>", { class: "dx-field-value" }));
+window.date2 = performance.now();
+window.field2TimeDiff = date2 - date1;
+
+window.date1 = performance.now();
+window.myTemplates["field"] = '<div class="dx-field"><div class="dx-field-label"></div><div class="dx-field-value"></div></div>';
+window.date2 = performance.now();
+window.fieldTimeDiff = date2 - date1;
+
+
+//--------------------------------
+window.date1 = performance.now();
+var simpleContainer = window.myTemplates["field2"].clone();
+window.date2 = performance.now();
+window.field2TimeDiff += date2 - date1;
+
+
+window.date1 = performance.now();
+var simpleContainer = $(window.myTemplates["field"]);
+window.date2 = performance.now();
+window.fieldTimeDiff += date2 - date1;
+
+console.log("clone", field2TimeDiff);
+console.log("string", fieldTimeDiff);

@@ -1,9 +1,13 @@
 ﻿const lstLink = [
     { text: "Button", handler: "addButton" },
-    { text: "Checkbox", handler: "addCheckBox" },
-    { text: "Datebox", handler: "addDateBox" },
+    { text: "Check Box", handler: "addCheckBox" },
+    { text: "Date Box", handler: "addDateBox" },
     { text: "List", handler: "addList" },
-    { text: "DropDown", handler: "addDropDown" },
+    { text: "Drop Down", handler: "addDropDown" },
+    { text: "Number Box", handler: "addNumberBox" },
+    { text: "Select Box", handler: "addSelectBox" },
+    { text: "Text Area", handler: "addTextArea" },
+    { text: "Text Box", handler: "addTextBox" },
 ];
 
 const lstCheckBox = [

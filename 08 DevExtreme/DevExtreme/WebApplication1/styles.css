@@ -17,3 +17,32 @@
 .rotate{
     transform: rotate(90deg);
 }
+
+#linkContainer{
+    margin-block: 16px;
+}
+
+.field-container {
+    width: fit-content;
+}
+.custom-item{
+    display: flex;
+    gap: 12px;
+}
+.custom-item-image {
+    height: 40px;
+    width: 40px;
+    display: flex;
+    justify-content: center;
+
+}
+.custom-item-image > img {
+    max-height: 100%;
+    max-width: 100%;
+    object-fit: contain;
+}
+.product-name {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

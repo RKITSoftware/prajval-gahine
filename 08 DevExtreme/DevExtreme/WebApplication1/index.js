@@ -4,9 +4,16 @@ import addCheckBox from "./DxComponent/CheckBox.js";
 import addDateBox from "./DxComponent/DateBox.js";
 import addDropDown from "./DxComponent/DropDown.js";
 import addList from "./DxComponent/List.js";
+import addNumberBox from "./DxComponent/NumberBox.js";
+import addSelectBox from "./DxComponent/SelectBox.js";
+import addTextArea from "./DxComponent/TextArea.js";
+import addTextBox from "./DxComponent/TextBox.js";
 
-(
-    function () {
+// setting a field template in myTemplates object
+window.myTemplates = {};
+window.myTemplates["field"] = '<div class="dx-field"><div class="dx-field-label"></div><div class="dx-field-value"></div></div>';
+
+$(function () {
     // initialize the link container
     $("#linkContainer").dxButtonGroup({
         items: lstLink.map(link => {
@@ -24,7 +31,8 @@ import addList from "./DxComponent/List.js";
     });
 
     // make the link container as display block overridding display:flex
-    $("#linkContainer .dx-buttongroup-wrapper").addClass("custom-link-list");
+    $("#linkContainer .dx-buttongroup-wrapper")
+        //.addClass("custom-link-list");
 
     // attack the demo handlers to window object globally
     window.lstDemoHandler = {
@@ -33,6 +41,10 @@ import addList from "./DxComponent/List.js";
         addDateBox,
         addDropDown,
         addList,
+        addNumberBox,
+        addSelectBox,
+        addTextArea,
+        addTextBox,
     };
 
 
@@ -73,4 +85,4 @@ import addList from "./DxComponent/List.js";
     //        }, 1000); // Wait for 1 second before ending updates
     //    }
     //}).dxButton("instance");
-})();
+});

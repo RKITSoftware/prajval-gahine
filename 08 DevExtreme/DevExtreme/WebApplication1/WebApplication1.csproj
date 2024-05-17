@@ -67,6 +67,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assests\Mobile\Redim 14.jpg" />
+    <Content Include="Assests\Mobile\Oneplus 12.jpg" />
+    <Content Include="Assests\Mobile\IPhone 15 pro max.jpg" />
+    <Content Include="Assests\Mobile\Iqoo neo 9T.jpg" />
+    <Content Include="Assests\Laptop\Lenovo ideapad slim 3.jpg" />
+    <Content Include="Assests\Laptop\Apple mac book pro.jpg" />
+    <Content Include="Assests\Laptop\Samsung galaxy book 2.jpg" />
+    <Content Include="Assests\Laptop\Asus handlbook.jpg" />
     <Content Include="DxComponent\DropDown.js" />
     <Content Include="DxComponent\DateBox.js" />
     <Content Include="DxComponent\Button.js" />
@@ -114,7 +122,12 @@
     <Content Include="data.js" />
     <Content Include="DxComponent\CheckBox.js" />
     <Content Include="DxComponent\List.js" />
+    <Content Include="DxComponent\NumberBox.js" />
+    <Content Include="DxComponent\SelectBox.js" />
+    <Content Include="DxComponent\TextArea.js" />
+    <Content Include="DxComponent\TextBox.js" />
     <Content Include="index.html" />
+    <Content Include="Readme.txt" />
     <Content Include="Scripts\cldr.js" />
     <Content Include="Scripts\cldr\event.js" />
     <Content Include="Scripts\cldr\supplemental.js" />
@@ -179,6 +192,8 @@
     <Content Include="Scripts\vectormap-utils\dx.vectormaputils.node.js" />
     <Content Include="styles.css" />
     <Content Include="temp.js" />
+    <Content Include="test.html" />
+    <Content Include="Utility\Container.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
