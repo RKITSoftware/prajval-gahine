@@ -1,0 +1,71 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .parent{
+            width:  fit-content;
+            height: 100px;
+        }
+        #child1{
+            width: 60%;
+            height: 100%;
+            background-color: green;
+        }
+        #child2 {
+            width: 40%;
+            height: 100%;
+            background-color: red;
+        }
+    </style>
+</head>
+<body>
+    <!--<div class="parent">
+        <div id="child1"></div>
+        <div id="child2"></div>
+    </div>-->
+    <button id="myButton">Click me</button>
+    <div style="pointer-events: none">Good</div>
+    <script>
+        const button = document.getElementById('myButton');
+
+        // 2
+        button.addEventListener('focus', function () {
+            console.log('Button focused (focus)');
+        });
+
+        // 5
+        button.addEventListener('blur', function () {
+            console.log('Button lost focus (blur)');
+        });
+
+        // 1
+        button.addEventListener('mousedown', function abc() {
+            console.log('Button active (mousedown)');
+            button.dispatchEvent(new Event('focus'));
+        });
+
+        // 3
+        button.addEventListener('mouseup', function () {
+            console.log('Button no longer active (mouseup)');
+        });
+
+        // 4
+        button.addEventListener('click', function () {
+            console.log('Button clicked (click)');
+        });
+    </script>
+
+    <style>
+        #myButton:active {
+            background-color: red;
+        }
+        #myButton:focus {
+            background-color: blue;
+            color: white;
+        }
+    </style>
+</body>
+</html>

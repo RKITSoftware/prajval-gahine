@@ -11,6 +11,7 @@
 
     <!--dx stylesheet-->
     <link rel="stylesheet" href="Content/dx.light.css">
+    <!--<link rel="stylesheet" href="Content/dx.material.blue.light.css">-->
     <!-- DevExtreme library -->
     <script type="text/javascript" src="Scripts/dx.all.debug.js"></script>
 
@@ -19,14 +20,16 @@
 
 </head>
 <body>
-    <div></div>
-    <h2>DevExtreme UI Components</h2>
-    <div id="linkContainer"></div>
-    <div id="container"></div>
-    <!--<div id="disposeUiComp"></div>
-    <div id="removeContainer"></div>-->
-
-    <!--custom js-->
+    <div id="root">
+        <header>
+            <div></div>
+            <h2>DevExtreme UI Components</h2>
+            <div id="linkContainer"></div>
+        </header>
+        <main>
+            <div id="baseContainer"></div>
+        </main>
+    </div>
     <script type="text/javascript" src="data.js"></script>
     <script type="module" src="index.js"></script>
 </body>

@@ -1,24 +1,9 @@
-﻿export default function DateBox() {
-    let container = $("#container");
+﻿
+import { renewBaseContainer } from "../Utility/Container.js";
 
-    if (container) {
-        // dispose the main container
-        container.remove();
-    }
-
-    // append #container after linkContainer
-    $("#linkContainer").after("<div id='container'></div>");
-
-    container = $("#container");
-
-    //let container = $("#container");
-
-    //if (container) {
-    //    let widget = container.dxWidget("instance");
-
-    //    // dispose the widget
-    //    widget.dispose();
-    //}
+export default function DateBox() {
+    const baseContainer = renewBaseContainer();
+    const container = $("<div>", { id: "container" }).appendTo(baseContainer);
 
     container.append("<div id='dateContainer'></div>");
     container.append("<div id='timeContainer'></div>");
@@ -147,6 +132,29 @@
         interval: 15,
         invalidDateMessage: "Invalid date - custom"
     });
+
+    const minDateWidgetContainer = $("<div>").dxDateBox({
+        placeholder: "Select min date.",
+        value: null,
+        displayFormat: "dd-MM-yyyy",
+        onValueChanged: function (e) {
+            maxDateWidget.option("min", e.value);
+        }
+    });
+    const minDateWidget = minDateWidgetContainer.dxDateBox("instance");
+
+    const maxDateWidgetContainer = $("<div>").dxDateBox({
+        placeholder: "Select max date.",
+        value: null,
+        onValueChanged: function (e) {
+            minDateWidget.option("max", e.value);
+        },
+        displayFormat: "dd-MM-yyyy",
+    });
+    const maxDateWidget = maxDateWidgetContainer.dxDateBox("instance");
+
+    container.append(minDateWidgetContainer);
+    container.append(maxDateWidgetContainer);
 
     //container.dxDateBox({
     //    type: "date",

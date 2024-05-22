@@ -1,15 +1,10 @@
-﻿export default function addList() {
-    let container = $("#container");
+﻿
+import { renewBaseContainer } from "../Utility/Container.js";
 
-    if (container) {
-        // dispose the main container
-        container.remove();
-    }
+export default function addList() {
+    const baseContainer = renewBaseContainer();
+    const container = $("<div>", { id: "container" }).appendTo(baseContainer);
 
-    // append #container after linkContainer
-    $("#linkContainer").after('<div id="container"></div>');
-
-    container = $("#container");
 
     container.dxList({
         dataSource: ["Apple", "Mango", "Banana", "Chiku"],

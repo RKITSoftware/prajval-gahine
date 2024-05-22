@@ -1,13 +1,10 @@
-﻿export default function addNumberBox() {
-    let container = $("#container");
+﻿
+import { renewBaseContainer } from "../Utility/Container.js";
 
-    if (container) {
-        // dispose the main container
-        container.remove();
-    }
+export default function addNumberBox() {
+    const baseContainer = renewBaseContainer();
+    const container = $("<div>", { id: "container" }).appendTo(baseContainer);
 
-    // append #container after linkContainer
-    container = $('<div id="container" class="field-container"></div>').insertAfter("#linkContainer");
 
     var simpleContainer = $(window.myTemplates["field"]);
 

@@ -8,6 +8,8 @@
     { text: "Select Box", handler: "addSelectBox" },
     { text: "Text Area", handler: "addTextArea" },
     { text: "Text Box", handler: "addTextBox" },
+    { text: "File Uploader", handler: "addFileUploader"},
+    { text: "Validation", handler: "addValidation"},
 ];
 
 const lstCheckBox = [

@@ -46,3 +46,29 @@
     justify-content: center;
     align-items: center;
 }
+
+.demo-box {
+    border: 1px solid black;
+    margin-block: 8px;
+    margin-inline: 4px;
+}
+
+/*for file uploader dialog trigger and drop zone containers*/
+.custom-blue-container{
+    height: 100px;
+    width: 100px;
+    background-color: #37c3f1;
+    margin: 4px;
+}
+/*
+#custome-drag-drop-wrapper .dx-fileuploader-button {
+    display: none;
+}
+
+#custome-drag-drop-wrapper .dx-fileuploader-file-input-container {
+    display: none;
+}*/
+/*
+#custome-drag-drop-wrapper .dx-fileuploader-wrapper {
+    display: none;
+}*/

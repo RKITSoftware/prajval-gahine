@@ -1,7 +1,9 @@
-﻿import { renewContainer } from "../Utility/Container.js";
+﻿import { renewBaseContainer } from "../Utility/Container.js";
 
 export default function addTextBox() {
-    let container = renewContainer("#container");
+    const baseContainer = renewBaseContainer();
+    const container = $("<div>", { id: "container" }).appendTo(baseContainer);
+
 
     // text box - password
     const passwordTextBoxWrapper = $(window.myTemplates["field"]);

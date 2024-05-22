@@ -1,7 +1,9 @@
-﻿import { renewContainer } from "../Utility/Container.js";
+﻿import { renewBaseContainer } from "../Utility/Container.js";
 
 export default function addTextArea() {
-    let container = renewContainer("#container");
+    const baseContainer = renewBaseContainer();
+    const container = $("<div>", { id: "container" }).appendTo(baseContainer);
+
 
     // text area
     const textAreaFieldWrapper = $(window.myTemplates["field"]);

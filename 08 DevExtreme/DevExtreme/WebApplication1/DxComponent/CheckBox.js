@@ -1,25 +1,11 @@
-﻿export default function addCheckBox() {
+﻿
 
-    let container = $("#container");
+import { renewBaseContainer } from "../Utility/Container.js";
 
-    if (container) {
-        // dispose the main container
-        container.remove();
-    }
+export default function addCheckBox() {
 
-    // append #container after linkContainer
-    $("#linkContainer").after("<div id='container'></div>");
-
-    container = $("#container");
-
-    //let container = $("#container");
-
-    //if (container) {
-    //    let widget = container.dxWidget("instance");
-
-    //    // dispose the widget
-    //    widget.dispose();
-    //}
+    const baseContainer = renewBaseContainer();
+    const container = $("<div>", { id: "container" }).appendTo(baseContainer);
 
     const htmlLstCheckBox = lstCheckBox.reduce(function (acc, curr) {
         return acc + `

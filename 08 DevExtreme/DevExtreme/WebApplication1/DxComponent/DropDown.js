@@ -1,24 +1,11 @@
-﻿export default function addDropDown() {
-    //let container = $("#container");
+﻿
+import { renewBaseContainer } from "../Utility/Container.js";
 
-    //if (container) {
-    //    let widget = container.dxWidget("instance");
+export default function addDropDown() {
 
-    //    // dispose the widget
-    //    widget.dispose();
-    //}
+    const baseContainer = renewBaseContainer();
+    const container = $("<div>", { id: "container" }).appendTo(baseContainer);
 
-    let container = $("#container");
-
-    if (container) {
-        // dispose the main container
-        container.remove();
-    }
-
-    // append #container after linkContainer
-    $("#linkContainer").after('<div id="container"></div>');
-
-    container = $("#container").addClass("field-container");
 
     // dx drop down ? container a text field (display current value) and drop-down field (any UI component)
     const singleSelectionDDWrapper = $("<div>").appendTo(container);
@@ -41,6 +28,9 @@
                 name: "admin",
             },
         ],
+        onContentReady: function (e) {
+
+        },
         placeholder: "Select name",
         valueExpr: "id",
         displayExpr: "name",

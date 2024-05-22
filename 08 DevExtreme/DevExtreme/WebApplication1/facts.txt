@@ -1,0 +1,11 @@
+﻿
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+repaint, _refresh, _render => all somehow invokes onContentReady (onInitliazation is not called for any)
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Callbacks: Since mid-1990s.
+XMLHttpRequest (XHR): Late 1990s for Internet Explorer, later adopted by other browsers.
+jQuery: Released in 2006.
+Promises: Introduced in ECMAScript 6 (ES6) in 2015.
+jQuery Deferred Objects: Available in jQuery prior to ES6 Promises.
+Async/Await: Introduced in ECMAScript 2017 (ES8).

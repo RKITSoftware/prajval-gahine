@@ -121,11 +121,14 @@
     <Content Include="Content\dx.softblue.css" />
     <Content Include="data.js" />
     <Content Include="DxComponent\CheckBox.js" />
+    <Content Include="DxComponent\FileUploader.js" />
+    <Content Include="DxComponent\Validation.js" />
     <Content Include="DxComponent\List.js" />
     <Content Include="DxComponent\NumberBox.js" />
     <Content Include="DxComponent\SelectBox.js" />
     <Content Include="DxComponent\TextArea.js" />
     <Content Include="DxComponent\TextBox.js" />
+    <Content Include="facts.txt" />
     <Content Include="index.html" />
     <Content Include="Readme.txt" />
     <Content Include="Scripts\cldr.js" />
@@ -191,8 +194,9 @@
     <Content Include="Scripts\vectormap-utils\dx.vectormaputils.js" />
     <Content Include="Scripts\vectormap-utils\dx.vectormaputils.node.js" />
     <Content Include="styles.css" />
-    <Content Include="temp.js" />
-    <Content Include="test.html" />
+    <Content Include="Test\temp.js" />
+    <Content Include="Test\test.html" />
+    <Content Include="Test\test2.html" />
     <Content Include="Utility\Container.js" />
     <Content Include="Web.config" />
   </ItemGroup>
