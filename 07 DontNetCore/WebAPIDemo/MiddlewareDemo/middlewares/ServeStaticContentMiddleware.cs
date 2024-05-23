@@ -3,6 +3,9 @@ using System.Reflection;
 
 namespace MiddlewareDemo.middlewares
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class ServeStaticContentMiddleware
     {
         private readonly RequestDelegate _next;

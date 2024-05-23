@@ -8,11 +8,12 @@ namespace WebAPIDemo
         /// <summary>
         /// Date of the weather recorded
         /// </summary>
-        public DateOnly Date
+        public DateTime Date
         {
             get;
             set;
         }
+
         /// <summary>
         /// Temperature in celcius
         /// </summary>
@@ -21,10 +22,12 @@ namespace WebAPIDemo
             get;
             set;
         }
+
         /// <summary>
         /// Temperature in farenheit
         /// </summary>
         public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+
         /// <summary example="parjaval">
         /// Summary of the weather forecast
         /// </summary>

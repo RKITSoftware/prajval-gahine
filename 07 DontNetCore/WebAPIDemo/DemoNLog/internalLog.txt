@@ -1,0 +1,28 @@
+2024-05-23 11:12:32.2348 Warn Error has been raised. Exception: NLog.NLogConfigurationException: 'ColoredConsoleTarget' cannot assign unknown property 'fileName'='demo-${shortdate}.log'
+   at NLog.Config.LoggingConfigurationParser.SetPropertyValueFromString[T](T targetObject, String propertyName, String propertyValue, ValidatedConfigurationElement element)
+2024-05-23 11:12:32.3763 Info Registered target NLog.Targets.ColoredConsoleTarget(Name=alldata)
+2024-05-23 11:12:32.3763 Warn Error has been raised. Exception: NLog.NLogConfigurationException: Property 'type' has blank value, for element 'target(Name=file)' in section 'targets'
+2024-05-23 11:12:32.6097 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.2.8.2366. Product version: 5.2.8+f586f1341c46fa38aaaff4c641e7f0fa7e813943. GlobalAssemblyCache: False
+2024-05-23 11:12:32.6381 Info Validating config: TargetNames=alldata, ConfigItems=16, FilePath=F:\prajval-gahine\prajval-gahine\07 DontNetCore\WebAPIDemo\DemoNLog\bin\Debug\net6.0\NLog.config
+2024-05-23 11:12:32.6670 Info Configuration initialized.
+2024-05-23 11:15:18.9353 Warn Error has been raised. Exception: NLog.NLogConfigurationException: 'ColoredConsoleTarget' cannot assign unknown property 'fileName'='demo-${shortdate}.log'
+   at NLog.Config.LoggingConfigurationParser.SetPropertyValueFromString[T](T targetObject, String propertyName, String propertyValue, ValidatedConfigurationElement element)
+2024-05-23 11:15:19.0112 Info Registered target NLog.Targets.ColoredConsoleTarget(Name=alldata)
+2024-05-23 11:15:19.0112 Warn Error has been raised. Exception: NLog.NLogConfigurationException: Property 'type' has blank value, for element 'target(Name=file)' in section 'targets'
+2024-05-23 11:15:19.0371 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.2.8.2366. Product version: 5.2.8+f586f1341c46fa38aaaff4c641e7f0fa7e813943. GlobalAssemblyCache: False
+2024-05-23 11:15:19.0588 Info Validating config: TargetNames=alldata, ConfigItems=16, FilePath=F:\prajval-gahine\prajval-gahine\07 DontNetCore\WebAPIDemo\DemoNLog\bin\Debug\net6.0\NLog.config
+2024-05-23 11:15:19.0778 Info Configuration initialized.
+2024-05-23 11:17:14.7364 Warn Error has been raised. Exception: NLog.NLogConfigurationException: 'ColoredConsoleTarget' cannot assign unknown property 'fileName'='demo-${shortdate}.log'
+   at NLog.Config.LoggingConfigurationParser.SetPropertyValueFromString[T](T targetObject, String propertyName, String propertyValue, ValidatedConfigurationElement element)
+2024-05-23 11:17:14.9066 Info Registered target NLog.Targets.ColoredConsoleTarget(Name=alldata)
+2024-05-23 11:17:14.9066 Warn Error has been raised. Exception: NLog.NLogConfigurationException: Property 'type' has blank value, for element 'target(Name=file)' in section 'targets'
+2024-05-23 11:17:15.2556 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.2.8.2366. Product version: 5.2.8+f586f1341c46fa38aaaff4c641e7f0fa7e813943. GlobalAssemblyCache: False
+2024-05-23 11:17:15.2746 Info Validating config: TargetNames=alldata, ConfigItems=16, FilePath=F:\prajval-gahine\prajval-gahine\07 DontNetCore\WebAPIDemo\DemoNLog\bin\Release\net6.0\NLog.config
+2024-05-23 11:17:15.2944 Info Configuration initialized.
+2024-05-23 11:19:57.3519 Warn Error has been raised. Exception: NLog.NLogConfigurationException: 'ColoredConsoleTarget' cannot assign unknown property 'fileName'='demo-${shortdate}.log'
+   at NLog.Config.LoggingConfigurationParser.SetPropertyValueFromString[T](T targetObject, String propertyName, String propertyValue, ValidatedConfigurationElement element)
+2024-05-23 11:19:57.5192 Info Registered target NLog.Targets.ColoredConsoleTarget(Name=alldata)
+2024-05-23 11:19:57.5192 Warn Error has been raised. Exception: NLog.NLogConfigurationException: Property 'type' has blank value, for element 'target(Name=file)' in section 'targets'
+2024-05-23 11:19:57.5473 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.2.8.2366. Product version: 5.2.8+f586f1341c46fa38aaaff4c641e7f0fa7e813943. GlobalAssemblyCache: False
+2024-05-23 11:19:57.5689 Info Validating config: TargetNames=alldata, ConfigItems=16, FilePath=F:\prajval-gahine\prajval-gahine\07 DontNetCore\WebAPIDemo\DemoNLog\bin\Release\net6.0\NLog.config
+2024-05-23 11:19:57.5887 Info Configuration initialized.

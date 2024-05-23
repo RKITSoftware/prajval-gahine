@@ -9,43 +9,50 @@ namespace WebAPIDemo.Controllers
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
     {
-        private static readonly string[] Summaries = new[] {
-        "Freezing",
-        "Bracing",
-        "Chilly",
-        "Cool",
-        "Mild",
-        "Warm",
-        "Balmy",
-        "Hot",
-        "Sweltering",
-        "Scorching"
-    };
-        private readonly ILogger<WeatherForecastController> _logger;
         /// <summary>
-        ///
+        /// List of weather type
         /// </summary>
-        /// <param name="logger"></param>
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
-        {
-            _logger = logger;
-        }
+        private static readonly string[] Summaries = new[] {
+            "Freezing",
+            "Bracing",
+            "Chilly",
+            "Cool",
+            "Mild",
+            "Warm",
+            "Balmy",
+            "Hot",
+            "Sweltering",
+            "Scorching"
+        };
+
         /// <summary>
         /// Gets weather forecast information
         /// </summary>
-        /// <param name="parameter1">This is parameter 1</param>
-        /// <param name="parameter2">This is parameter 2</param>
         /// <returns>Returns list of <see cref="WeatherForecast"/>WeatherForecast</returns>
-        [HttpGet(Name = "GetWeatherForecast")]
-        public IEnumerable<WeatherForecast> Get(string parameter1, string parameter2)
+        [HttpGet]
+        [Route("WeatherDetails")]
+        public IEnumerable<WeatherForecast> Get()
         {
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {
-                Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
+                Date = DateTime.Now,
                 TemperatureC = Random.Shared.Next(-20, 55),
                 Summary = Summaries[Random.Shared.Next(Summaries.Length)]
             }).ToArray();
         }
+
+        /// <summary>
+        /// A test get method
+        /// </summary>
+        /// <param name="parameter1">City</param>
+        /// <param name="parameter2">State</param>
+        /// <returns></returns>
+        [HttpGet(Name = "CityWeather")]
+        public string FetchCityWeather(string city, string state)
+        {
+            return $"{city}, {state} has {Summaries[3]} weather.";
+        }
+
         /// <summary>
         /// Post weather forecast
         /// </summary>
