@@ -51,10 +51,14 @@
     border: 1px solid black;
     margin-block: 8px;
     margin-inline: 4px;
+    padding: 4px;
 }
 
+.short-width-box{
+    width: 365px;
+}
 /*for file uploader dialog trigger and drop zone containers*/
-.custom-blue-container{
+.custom-blue-container {
     height: 100px;
     width: 100px;
     background-color: #37c3f1;

@@ -21,7 +21,7 @@ const lstCheckBox = [
 ];
 
 const lstUsername = [
-    "prajvalgahine",
-    "yashlathiya",
-    "deeppatel",
+    "prajvalgahine@gmail.com",
+    "yashlathiya@gmail.com",
+    "deeppatel@gmail.com",
 ];

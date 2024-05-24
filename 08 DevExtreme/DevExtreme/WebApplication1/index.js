@@ -31,12 +31,21 @@ window.myTemplates = {};
 window.myTemplates["field"] = '<div class="dx-field"><div class="dx-field-label"></div><div class="dx-field-value"></div></div>';
 
 $(function () {
+
+    function getUrlHashValue() {
+        let hashValue = window.location.href.split("#")[1];
+        if (hashValue) {
+            return decodeURI(hashValue);
+        }
+        return "Button";
+    }
+
     // initialize the link container
     $("#linkContainer").dxSelectBox({
         items: lstLink,
         valueExpr: "text",
         displayExpr: "text",
-        value: "File Uploader",
+        value: getUrlHashValue(),
         onValueChanged: function (e) {
             //window.lstDemoHandler[e.itemData.elementAttr['data-handler-name']]();
         },
