@@ -10,6 +10,7 @@
     { text: "Text Box", handler: "addTextBox" },
     { text: "File Uploader", handler: "addFileUploader"},
     { text: "Validation", handler: "addValidation"},
+    { text: "Radio Button", handler: "addRadioGroup"},
 ];
 
 const lstCheckBox = [

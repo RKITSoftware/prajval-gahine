@@ -10,6 +10,7 @@ import addTextArea from "./DxComponent/TextArea.js";
 import addTextBox from "./DxComponent/TextBox.js";
 import addFileUploader from "./DxComponent/FileUploader.js";
 import addValidation from "./DxComponent/Validation.js";
+import addRadioGroup from "./DxComponent/RadioGroup.js";
 
 // attack the demo handlers to window object globally
 window.lstDemoHandler = {
@@ -23,14 +24,26 @@ window.lstDemoHandler = {
     addTextArea,
     addTextBox,
     addFileUploader,
-    addValidation
+    addValidation,
+    addRadioGroup,
 };
 
 // setting a field template in myTemplates object
 window.myTemplates = {};
 window.myTemplates["field"] = '<div class="dx-field"><div class="dx-field-label"></div><div class="dx-field-value"></div></div>';
 
-$(function () {
+$(async function () {
+
+    // style sheet selector
+    const lstCssFile = await(await fetch("/api/cssfiles")).json();
+    const stylesheetContainer = $("#stylesheetContainer");
+    stylesheetContainer.dxSelectBox({
+        items: lstCssFile,
+        value: "dx.material.blue.light.css",
+        onValueChanged: function (e) {
+            document.getElementById("stylesheet").setAttribute("href", "Content/" + e.value);
+        }
+    });
 
     function getUrlHashValue() {
         let hashValue = window.location.href.split("#")[1];
