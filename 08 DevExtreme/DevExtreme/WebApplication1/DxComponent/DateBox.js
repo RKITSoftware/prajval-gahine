@@ -12,40 +12,40 @@ export default function DateBox() {
     const millisecondsInDay = 24 * 60 * 60 * 1000;
 
     const dateBox = $("#dateContainer").dxDateBox({
-        type: "datetime",
+        type: "date",
         displayFormat: "dd-MM-yyyy",
         //value: new Date(2024, 0, 15).getTime(),
         //dateSerializationFormat: "yyyy-dd-MM",
         applyValueMode: "instantly",    // useButtons,
         //activeStateEnabled: true,
-        buttons: [
-            {
-                name: 'prevDate',
-                location: 'before',
-                options: {
-                    icon: 'spinprev',
-                    stylingMode: 'text',
-                    onClick() {
-                        const currentDate = dateBox.option('value');
-                        dateBox.option('value', currentDate - millisecondsInDay);
-                    },
-                },
-            },
-            {
-                name: 'nextDate',
-                location: 'after',
-                options: {
-                    icon: 'spinnext',
-                    stylingMode: 'text',
-                    onClick() {
-                        const currentDate = dateBox.option('value');
-                        dateBox.option('value', currentDate + millisecondsInDay);
-                    },
-                    disabled: false
-                }
-            },
-            "dropDown"
-        ],
+        //buttons: [
+        //    {
+        //        name: 'prevDate',
+        //        location: 'before',
+        //        options: {
+        //            icon: 'spinprev',
+        //            stylingMode: 'text',
+        //            onClick() {
+        //                const currentDate = dateBox.option('value');
+        //                dateBox.option('value', currentDate - millisecondsInDay);
+        //            },
+        //        },
+        //    },
+        //    {
+        //        name: 'nextDate',
+        //        location: 'after',
+        //        options: {
+        //            icon: 'spinnext',
+        //            stylingMode: 'text',
+        //            onClick() {
+        //                const currentDate = dateBox.option('value');
+        //                dateBox.option('value', currentDate + millisecondsInDay);
+        //            },
+        //            disabled: false
+        //        }
+        //    },
+        //    "dropDown"
+        //],
         pickerType: "calendar", // native, rollers, list (only when type is time)
         cancelButtonText: "Drop",
         min: new Date(2024, 0, 13),
@@ -54,10 +54,11 @@ export default function DateBox() {
         deferRendering: true,
         //disabled: true,
         //disabledDates: true,
-        dropDownButtonTemplate: function (icon, text) {
-            icon = "chevrondown";
-            text.prepend(`<span class="dx-icon-${icon}"></span>`);
-        },
+        //dropDownButtonTemplate: function (icon, text) {
+        //    icon = "ddropdowneditor-icon";
+        //    icon = "chevrondown";
+        //    text.prepend(`<span class="dx-icon-${icon}"></span>`);
+        //},
         hint: "This is my date picker",
         //onChange: function (eventData) {
         //    // is triggered when value is changed only by user interaction

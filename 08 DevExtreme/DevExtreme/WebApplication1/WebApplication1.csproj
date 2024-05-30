@@ -102,10 +102,12 @@
     <Content Include="Assests\Laptop\Apple mac book pro.jpg" />
     <Content Include="Assests\Laptop\Samsung galaxy book 2.jpg" />
     <Content Include="Assests\Laptop\Asus handlbook.jpg" />
+    <Content Include="demo\data.js" />
     <Content Include="demo\demo.html" />
     <Content Include="demo\script.js" />
     <Content Include="demo\style.css" />
     <Content Include="demo\test.html" />
+    <Content Include="demo\test2.html" />
     <Content Include="DxComponent\DropDown.js" />
     <Content Include="DxComponent\DateBox.js" />
     <Content Include="DxComponent\Button.js" />
@@ -225,6 +227,15 @@
     <Content Include="Scripts\vectormap-utils\dx.vectormaputils.debug.js" />
     <Content Include="Scripts\vectormap-utils\dx.vectormaputils.js" />
     <Content Include="Scripts\vectormap-utils\dx.vectormaputils.node.js" />
+    <Content Include="store\arraystore\index.html" />
+    <Content Include="store\arraystore\script.js" />
+    <Content Include="store\customstore\index.html" />
+    <Content Include="store\customstore\script.js" />
+    <Content Include="store\localstore\index.html" />
+    <Content Include="store\localstore\script.js" />
+    <Content Include="store\temp\Data.js" />
+    <Content Include="store\temp\Index.html" />
+    <Content Include="store\temp\Index.js" />
     <Content Include="styles.css" />
     <Content Include="Test\temp.js" />
     <Content Include="Test\test.html" />
@@ -249,6 +260,7 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

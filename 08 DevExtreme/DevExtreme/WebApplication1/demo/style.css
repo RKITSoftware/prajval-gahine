@@ -5,10 +5,22 @@
 }
 
 #formHeadingContainer{
-    padding-top: 8px;
+    padding-block: 8px;
     text-align: center;
 }
 
 #mainContainer{
     margin-inline: 257px;
+}
+
+.flex-container {
+    display: flex;
+    flex-wrap: wrap; /* Adjust this if you want items to wrap */
+    align-items: center; /* Align items vertically if needed */
+    gap: 16px; /* Add spacing between items */
+}
+
+.flex-item {
+    display: inline-flex;
+    align-items: center;  Align items vertically within each flex item 
 }
