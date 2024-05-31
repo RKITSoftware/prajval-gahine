@@ -10,7 +10,7 @@ namespace ExpenseSplittingApplication.Models.DTO
         public int P01F01 { get; set; }
 
         /// <summary>
-        /// Payer User ID
+        /// User ID (Payer)
         /// </summary>
 
         public int P01F02 { get; set; }

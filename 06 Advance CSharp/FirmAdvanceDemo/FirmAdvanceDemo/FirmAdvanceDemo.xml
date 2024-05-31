@@ -1,0 +1,3166 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>FirmAdvanceDemo</name>
+    </assembly>
+    <members>
+        <member name="T:FirmAdvanceDemo.BL.BLADM00Handler">
+            <summary>
+            Handles business logic related to administrative operations.
+            </summary>
+        </member>
+        <member name="F:FirmAdvanceDemo.BL.BLADM00Handler._objDBADM00Context">
+            <summary>
+            The database context for administrative operations.
+            </summary>
+        </member>
+        <member name="F:FirmAdvanceDemo.BL.BLADM00Handler._objBLUSR01Handler">
+            <summary>
+            Instance of BLUSR01Handler
+            </summary>
+        </member>
+        <member name="F:FirmAdvanceDemo.BL.BLADM00Handler._dbFactory">
+            <summary>
+            OrmLite Connection Factory instance representing a connection with a particular database.
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.BL.BLADM00Handler.Operation">
+            <summary>
+            Gets or sets the operation type for user handling.
+            </summary>
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLADM00Handler.#ctor">
+            <summary>
+            Initializes a new instance of the BLADM00Handler class.
+            </summary>
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLADM00Handler.PrevalidateAdmin(FirmAdvanceDemo.Models.DTO.DTOUSR01)">
+            <summary>
+            Prevalidates an instance of DTOUSR01 (user portion).
+            </summary>
+            <param name="objDTOUSR01">Instance of DTOUSR01 containing user data.</param>
+            <returns>A response indicating the validation result.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLADM00Handler.PresaveAdmin(FirmAdvanceDemo.Models.DTO.DTOUSR01)">
+            <summary>
+            Converts DTOUSR01 instance to USR01 instance.
+            </summary>
+            <param name="objDTOUSR01">Instance of DTOUSR01 containing user data.</param>
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLADM00Handler.Save">
+            <summary>
+            Saves the changes made to the administrative data.
+            </summary>
+            <returns>A response indicating the success of the operation.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLADM00Handler.RetrieveAdmin(System.Int32)">
+            <summary>
+            Retrieves a admin with the specified user ID.
+            </summary>
+            <param name="userID">The ID of the user to retrieve.</param>
+            <returns>A response containing the retrieved admin data.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLADM00Handler.RetrieveAdmin">
+            <summary>
+            Retrieves all admins.
+            </summary>
+            <returns>A response containing the retrieved admin data.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLADM00Handler.ValidateDelete(System.Int32)">
+            <summary>
+            Validates the deletion of an admin.
+            </summary>
+            <param name="userID">The ID of the user to be deleted.</param>
+            <returns>A response indicating the validation result.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLADM00Handler.Delete(System.Int32)">
+            <summary>
+            Deletes an admin with the specified user ID.
+            </summary>
+            <param name="userID">The ID of the user to delete.</param>
+            <returns>A response indicating the outcome of the deletion operation.</returns>
+        </member>
+        <member name="T:FirmAdvanceDemo.BL.BLATD01Handler">
+            <summary>
+            Handles business logic for ATD01 operations.
+            </summary>
+        </member>
+        <member name="T:FirmAdvanceDemo.BL.BLATD01Handler.AttendanceProcessingData">
+            <summary>
+            Represents the data needed for processing attendance.
+            </summary>
+        </member>
+        <member name="F:FirmAdvanceDemo.BL.BLATD01Handler.AttendanceProcessingData.dateOfAttendance">
+            <summary>
+            The date for which attendance is being processed.
+            </summary>
+        </member>
+        <member name="F:FirmAdvanceDemo.BL.BLATD01Handler.AttendanceProcessingData.LstInOutPunchesForDate">
+            <summary>
+            The list of punch entries for the specified date.
+            </summary>
+        </member>
+        <member name="F:FirmAdvanceDemo.BL.BLATD01Handler.AttendanceProcessingData.LstAttendance">
+            <summary>
+            The list of existing attendance entries for the specified date.
+            </summary>
+        </member>
+        <member name="F:FirmAdvanceDemo.BL.BLATD01Handler._dbFactory">
+            <summary>
+            The OrmLiteConnectionFactory object.
+            </summary>
+        </member>
+        <member name="F:FirmAdvanceDemo.BL.BLATD01Handler._objDBATD01Context">
+            <summary>
+            The DBATD01Context object.
+            </summary>
+        </member>
+        <member name="F:FirmAdvanceDemo.BL.BLATD01Handler._attendanceProcessingData">
+            <summary>
+            The data for processing attendance.
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.BL.BLATD01Handler.Operation">
+            <summary>
+            The operation to be performed.
+            </summary>
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLATD01Handler.#ctor">
+            <summary>
+            Initializes a new instance of the BLATD01Handler class.
+            </summary>
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLATD01Handler.RetrieveAttendanceByemployeeID(System.Int32)">
+            <summary>
+            Retrieves attendance records by employee ID.
+            </summary>
+            <param name="employeeID">The employee ID.</param>
+            <returns>The response object.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLATD01Handler.RetrieveAttendanceByMonthYear(System.Int32,System.Int32)">
+            <summary>
+            Retrieves attendance records by month and year.
+            </summary>
+            <param name="year">The year.</param>
+            <param name="month">The month.</param>
+            <returns>The response object.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLATD01Handler.RetrieveAttendanceForToday">
+            <summary>
+            Retrieves attendance records for today.
+            </summary>
+            <returns>The response object.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLATD01Handler.RetrieveAttendanceByemployeeIDAndMonthYear(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Retrieves attendance records by employee ID, year, and month.
+            </summary>
+            <param name="employeeID">The employee ID.</param>
+            <param name="year">The year.</param>
+            <param name="month">The month.</param>
+            <returns>The response object.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLATD01Handler.PresaveEoDPunchesForDate(System.DateTime)">
+            <summary>
+            Prepares attendance processing data for the end of day (EoD) punches for the specified date.
+            </summary>
+            <param name="date">The date for which EoD punches are being processed.</param>
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLATD01Handler.ValidateEoDAttendance">
+            <summary>
+            Validates the end of day (EoD) attendance data.
+            </summary>
+            <returns>A response indicating the validation result.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLATD01Handler.SaveAttendance">
+            <summary>
+            Saves the computed attendance data.
+            </summary>
+            <returns>A response indicating the success of the save operation.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLATD01Handler.GetInOutPunchesForDate(System.DateTime)">
+            <summary>
+            Retrieves the list of in-out punches for the specified date.
+            </summary>
+            <param name="date">The date for which to retrieve punches.</param>
+            <returns>The list of in-out punches for the specified date.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLATD01Handler.ComputeAttendanceFromInOutPunch">
+            <summary>
+            Computes the attendance data from the in-out punches.
+            </summary>
+            <returns>The computed attendance data.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLATD01Handler.RetrieveAttendance">
+            <summary>
+            Retrieves attendance records.
+            </summary>
+            <returns>The response object.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLATD01Handler.RetrieveAttendance(System.Int32)">
+            <summary>
+            Retrieves attendance records by ID.
+            </summary>
+            <param name="attendanceID">The attendance ID.</param>
+            <returns>The response object.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLATD01Handler.ValidateDelete(System.Int32)">
+            <summary>
+            Validates attendance deletion.
+            </summary>
+            <param name="attendanceID">The attendance ID.</param>
+            <returns>The response object.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLATD01Handler.Delete(System.Int32)">
+            <summary>
+            Deletes attendance records.
+            </summary>
+            <param name="attendanceID">The attendance ID.</param>
+            <returns>The response object.</returns>
+        </member>
+        <member name="T:FirmAdvanceDemo.BL.BLDPT01Handler">
+            <summary>
+            Handles business logic related to department operations.
+            </summary>
+        </member>
+        <member name="F:FirmAdvanceDemo.BL.BLDPT01Handler._objDPT01">
+            <summary>
+            Instance of DPT01 POCO model.
+            </summary>
+        </member>
+        <member name="F:FirmAdvanceDemo.BL.BLDPT01Handler._context">
+            <summary>
+            Context for Department handler.
+            </summary>
+        </member>
+        <member name="F:FirmAdvanceDemo.BL.BLDPT01Handler._dbFactory">
+            <summary>
+            OrmLite Connection Factory representing a connection with a particular database.
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.BL.BLDPT01Handler.Operation">
+            <summary>
+            Gets or sets the operation type for department handling.
+            </summary>
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLDPT01Handler.#ctor">
+            <summary>
+            Initializes a new instance of the BLDPT01Handler class.
+            </summary>
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLDPT01Handler.RetrieveDepartment">
+            <summary>
+            Retrieves all departments.
+            </summary>
+            <returns>A response containing the department data.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLDPT01Handler.RetrieveDepartment(System.Int32)">
+            <summary>
+            Retrieves a specific department by its ID.
+            </summary>
+            <param name="departmentId">The ID of the department to retrieve.</param>
+            <returns>A response containing the department data.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLDPT01Handler.Presave(FirmAdvanceDemo.Models.DTO.DTODPT01)">
+            <summary>
+            Sets the data for the department before saving it.
+            </summary>
+            <param name="objDTPDPT01">The DTO containing department data.</param>
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLDPT01Handler.Valdiate">
+            <summary>
+            Validates the department data before saving.
+            </summary>
+            <returns>A response indicating the validation result.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLDPT01Handler.Save">
+            <summary>
+            Saves the department data.
+            </summary>
+            <returns>A response indicating the outcome of the save operation.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLDPT01Handler.ValidateDelete(System.Int32)">
+            <summary>
+            Validates the deletion of a department.
+            </summary>
+            <param name="departmentId">The ID of the department to delete.</param>
+            <returns>A response indicating the validation result.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLDPT01Handler.Delete(System.Int32)">
+            <summary>
+            Deletes a department.
+            </summary>
+            <param name="departmentId">The ID of the department to delete.</param>
+            <returns>A response indicating the outcome of the delete operation.</returns>
+        </member>
+        <member name="T:FirmAdvanceDemo.BL.BLEMP01Handler">
+            <summary>
+            Handles business logic related to employee operations.
+            </summary>
+        </member>
+        <member name="F:FirmAdvanceDemo.BL.BLEMP01Handler._objEMP01">
+            <summary>
+            Instance of EMP01 POCO model.
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.BL.BLEMP01Handler._lstULE02">
+            <summary>
+            List of User-Role instance.
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.BL.BLEMP01Handler._objBLUSR01Handler">
+            <summary>
+            Instance of BLUSR01Handler
+            </summary>
+        </member>
+        <member name="F:FirmAdvanceDemo.BL.BLEMP01Handler._dbFactory">
+            <summary>
+            OrmLite Connection Factory instance representing a connection with a particular database.
+            </summary>
+        </member>
+        <member name="F:FirmAdvanceDemo.BL.BLEMP01Handler._context">
+            <summary>
+            Context for Employee handler.
+            </summary>
+        </member>
+        <member name="F:FirmAdvanceDemo.BL.BLEMP01Handler._isAdmin">
+            <summary>
+            Specifies whether the user is admin or not at time of user creation.
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.BL.BLEMP01Handler.Operation">
+            <summary>
+            Gets or sets the operation type for user handling.
+            </summary>
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLEMP01Handler.#ctor">
+            <summary>
+            Default constructor for BLEMP01Handler.
+            </summary>
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLEMP01Handler.Prevalidate(FirmAdvanceDemo.Models.DTO.DTOUMP01)">
+            <summary>
+            Method to validate the provided DTOUMP01 instance before processing.
+            </summary>
+            <param name="objDTOUMP">DTOUMP01 instance containing user and employee data.</param>
+            <returns>A response indicating the validation result.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLEMP01Handler.Presave(FirmAdvanceDemo.Models.DTO.DTOUMP01)">
+            <summary>
+            Sets the data for the employee before saving it.
+            </summary>
+            <param name="objUSREMP">DTO containing user and employee data.</param>
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLEMP01Handler.Save">
+            <summary>
+            Saves the employee data.
+            </summary>
+            <returns>A response indicating the outcome of the save operation.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLEMP01Handler.RetrieveEmployee(System.Int32)">
+            <summary>
+            Retrieves an employee with the specified employee ID.
+            </summary>
+            <param name="employeeID">The ID of the employee to retrieve.</param>
+            <returns>A response containing the retrieved employee data.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLEMP01Handler.RetrieveEmployee">
+            <summary>
+            Retrieves all employees.
+            </summary>
+            <returns>A response containing the retrieved employee data.</returns>
+        </member>
+        <member name="T:FirmAdvanceDemo.BL.BLLVE02Handler">
+            <summary>
+            Handles business logic related to Leave operations.
+            </summary>
+        </member>
+        <member name="F:FirmAdvanceDemo.BL.BLLVE02Handler._objLVE02">
+            <summary>
+            Instance of LVE02 model.
+            </summary>
+        </member>
+        <member name="F:FirmAdvanceDemo.BL.BLLVE02Handler._dbFactory">
+            <summary>
+            Factory for creating OrmLite database connections.
+            </summary>
+        </member>
+        <member name="F:FirmAdvanceDemo.BL.BLLVE02Handler._objDBLVE02Context">
+            <summary>
+            Context for Leave handler.
+            </summary>
+        </member>
+        <member name="F:FirmAdvanceDemo.BL.BLLVE02Handler.Operation">
+            <summary>
+            Operation type for Leave handling.
+            </summary>
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLLVE02Handler.#ctor">
+            <summary>
+            Default constructor for BLLVE02Handler.
+            </summary>
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLLVE02Handler.Prevalidate(FirmAdvanceDemo.Models.DTO.DTOLVE02)">
+            <summary>
+            Method to validate the provided DTOLVE02 instance before processing.
+            </summary>
+            <param name="objDTOLVE02">DTOLVE02 instance containing leave data.</param>
+            <returns>A response indicating the validation result.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLLVE02Handler.Presave(FirmAdvanceDemo.Models.DTO.DTOLVE02)">
+            <summary>
+            Method to convert DTOLVE02 instance to LVE02 instance.
+            </summary>
+            <param name="objDTOLVE02">Instance of DTOLVE02.</param>
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLLVE02Handler.Validate">
+            <summary>
+            Validates the leave data before saving.
+            </summary>
+            <returns>A response indicating the validation result.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLLVE02Handler.Save">
+            <summary>
+            Saves the leave data.
+            </summary>
+            <returns>A response indicating the outcome of the save operation.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLLVE02Handler.GetLeaveCountByemployeeIDAnMonthYear(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Method to get leave count of an employee for a specific month-year.
+            </summary>
+            <param name="employeeID">Employee ID.</param>
+            <param name="month">Leave month.</param>
+            <param name="year">Leave year.</param>
+            <returns>A response containing the leave count.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLLVE02Handler.PrevalidateUpdateLeaveStatus(System.Int32,FirmAdvanceDemo.Enums.EnmLeaveStatus)">
+            <summary>
+            Prevalidates the update of the leave status for a specific leave entry.
+            </summary>
+            <param name="leaveID">The ID of the leave entry to update.</param>
+            <param name="toLeaveStatus">The new leave status to update to.</param>
+            <returns>A response indicating the validation result.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLLVE02Handler.UpdateLeaveStatus(System.Int32,FirmAdvanceDemo.Enums.EnmLeaveStatus)">
+            <summary>
+            Updates the leave status for a specific leave entry.
+            </summary>
+            <param name="leaveID">The ID of the leave entry to update.</param>
+            <param name="toLeaveStatus">The new leave status to update to.</param>
+            <returns>A response indicating the success of the update operation.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLLVE02Handler.RetrieveLeave">
+            <summary>
+            Method to retrieve all leave records.
+            </summary>
+            <returns>A response containing the retrieved leave data.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLLVE02Handler.RetrieveLeave(System.Int32)">
+            <summary>
+            Method to retrieve a specific leave record by its ID.
+            </summary>
+            <param name="leaveID">Leave ID.</param>
+            <returns>A response containing the retrieved leave data.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLLVE02Handler.RetrieveLeaveByStatus(FirmAdvanceDemo.Enums.EnmLeaveStatus)">
+            <summary>
+            Method to retrieve leave records by their status.
+            </summary>
+            <param name="leaveStatus">Leave Status.</param>
+            <returns>A response containing the retrieved leave data.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLLVE02Handler.RetrieveLeaveByEmployee(System.Int32)">
+            <summary>
+            Method to retrieve leave records for a specific employee.
+            </summary>
+            <param name="employeeID">Employee ID.</param>
+            <returns>A response containing the retrieved leave data.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLLVE02Handler.RetrieveLeaveByMonthYear(System.Int32,System.Int32)">
+            <summary>
+            Method to retrieve leave records for a specific month and year.
+            </summary>
+            <param name="year">Year.</param>
+            <param name="month">Month.</param>
+            <returns>A response containing the retrieved leave data.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLLVE02Handler.RetrieveLeaveForDate(System.DateTime)">
+            <summary>
+            Method to retrieve leave records for a specific date.
+            </summary>
+            <param name="date">Date.</param>
+            <returns>A response containing the retrieved leave data.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLLVE02Handler.RetrieveLeaveByEmployeeAndMonthYear(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Method to retrieve leave records for a specific employee and month-year.
+            </summary>
+            <param name="employeeID">Employee ID.</param>
+            <param name="year">Year.</param>
+            <param name="month">Month.</param>
+            <returns>A response containing the retrieved leave data.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLLVE02Handler.RetrieveLeaveByEmployeeAndYear(System.Int32,System.Int32)">
+            <summary>
+            Method to retrieve leave records for a specific employee and year.
+            </summary>
+            <param name="employeeID">Employee ID.</param>
+            <param name="year">Year.</param>
+            <returns>A response containing the retrieved leave data.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLLVE02Handler.ValidateEmployeeLeave(System.Int32)">
+            <summary>
+            Validates the employee's leave entry.
+            </summary>
+            <param name="leaveID">The ID of the leave entry to validate.</param>
+            <returns>A response indicating the validation result.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLLVE02Handler.ValidateDelete(System.Int32)">
+            <summary>
+            Method to validate leave deletion.
+            </summary>
+            <param name="leaveID">Leave ID.</param>
+            <returns>A response indicating the validation result.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLLVE02Handler.Delete(System.Int32)">
+            <summary>
+            Method to delete a leave record.
+            </summary>
+            <param name="leaveID">Leave ID.</param>
+            <returns>A response indicating the outcome of the delete operation.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLLVE02Handler.ValidateUpdateLeaveStatus(System.Int32,FirmAdvanceDemo.Enums.EnmLeaveStatus)">
+            <summary>
+            Validates the update of the leave status for a specific leave entry.
+            </summary>
+            <param name="leaveID">The ID of the leave entry to update.</param>
+            <param name="toLeaveStatus">The new leave status to update to.</param>
+            <returns>A response indicating the validation result.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLLVE02Handler.SaveLeaveStatus(System.Int32,FirmAdvanceDemo.Enums.EnmLeaveStatus)">
+            <summary>
+            Saves the leave status update for a specific leave entry.
+            </summary>
+            <param name="leaveID">The ID of the leave entry to update.</param>
+            <param name="toLeaveStatus">The new leave status to update to.</param>
+            <returns>A response indicating the success of the save operation.</returns>
+        </member>
+        <member name="T:FirmAdvanceDemo.BL.BLPCH01Handler">
+            <summary>
+            Handles business logic related to punch operations.
+            </summary>
+        </member>
+        <member name="T:FirmAdvanceDemo.BL.BLPCH01Handler.PunchProcessingData">
+            <summary>
+            Represents the data needed for processing punch entries.
+            </summary>
+        </member>
+        <member name="F:FirmAdvanceDemo.BL.BLPCH01Handler.PunchProcessingData.dateOfPunch">
+            <summary>
+            The date of the punch entries being processed.
+            </summary>
+        </member>
+        <member name="F:FirmAdvanceDemo.BL.BLPCH01Handler.PunchProcessingData.LstAllPunch">
+            <summary>
+            The list of all punch entries for the specified date.
+            </summary>
+        </member>
+        <member name="F:FirmAdvanceDemo.BL.BLPCH01Handler.PunchProcessingData.LstInOutPunch">
+            <summary>
+            The list of in-out punch entries for the specified date.
+            </summary>
+        </member>
+        <member name="F:FirmAdvanceDemo.BL.BLPCH01Handler._objPCH01">
+            <summary>
+            Instance of PCH01 model.
+            </summary>
+        </member>
+        <member name="F:FirmAdvanceDemo.BL.BLPCH01Handler._objDBPCH01Context">
+            <summary>
+            Context for Punch handler.
+            </summary>
+        </member>
+        <member name="F:FirmAdvanceDemo.BL.BLPCH01Handler._dbFactory">
+            <summary>
+            Factory for creating OrmLite database connections.
+            </summary>
+        </member>
+        <member name="F:FirmAdvanceDemo.BL.BLPCH01Handler._lstAmbigousPunch">
+            <summary>
+            Represents a list of punch entries that are ambiguous and require further processing.
+            </summary>
+        </member>
+        <member name="F:FirmAdvanceDemo.BL.BLPCH01Handler._punchProcessingData">
+            <summary>
+            The data for processing punch entries.
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.BL.BLPCH01Handler.Operation">
+            <summary>
+            Gets or sets the operation type for punch handling.
+            </summary>
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLPCH01Handler.#ctor">
+            <summary>
+            Default constructor for BLPCH01Handler.
+            </summary>
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLPCH01Handler.Prevalidate(FirmAdvanceDemo.Models.DTO.DTOPCH01)">
+            <summary>
+            Validates the provided DTOPCH01 instance before processing.
+            </summary>
+            <param name="objDTOPCH01">DTOPCH01 instance containing punch data.</param>
+            <returns>A response indicating the validation result.</returns> 
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLPCH01Handler.Presave(FirmAdvanceDemo.Models.DTO.DTOPCH01)">
+            <summary>
+            Sets the data for the punch before saving it.
+            </summary>
+            <param name="objDTOPCH01">DTOPCH01 instance containing punch data.</param>
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLPCH01Handler.PresaveVirtualPunch(FirmAdvanceDemo.Models.DTO.DTOPCH01)">
+            <summary>
+            Prepares a virtual punch entry for saving.
+            </summary>
+            <param name="objDTOPCH01">The DTO representing the virtual punch entry.</param>
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLPCH01Handler.SaveVirtualPunch">
+            <summary>
+            Saves the virtual punch entry.
+            </summary>
+            <returns>A response indicating the success of the save operation.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLPCH01Handler.PresaveProcessUnprocessPunchesForDate(System.DateTime)">
+            <summary>
+            Prepares unprocessed punches for processing for the specified date.
+            </summary>
+            <param name="date">The date of the unprocessed punches.</param>
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLPCH01Handler.ValidateProcessedPunches">
+            <summary>
+            Validates the processed punches.
+            </summary>
+            <returns>A response indicating the validation result.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLPCH01Handler.SaveProcessedPunches">
+            <summary>
+            Saves the processed punches.
+            </summary>
+            <returns>A response indicating the success of the save operation.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLPCH01Handler.Validate">
+            <summary>
+            Validates the punch data before saving.
+            </summary>
+            <returns>A response indicating the validation result.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLPCH01Handler.Save">
+            <summary>
+            Saves the punch data.
+            </summary>
+            <returns>A response indicating the outcome of the save operation.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLPCH01Handler.RetrievePunch">
+            <summary>
+            Retrieves punch records.
+            </summary>
+            <returns>A response containing the retrieved punch data.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLPCH01Handler.RetrievePunch(System.Int32)">
+            <summary>
+            Retrieves a specific punch record by punch ID.
+            </summary>
+            <param name="punchId">The ID of the punch record to retrieve.</param>
+            <returns>A response containing the retrieved punch data.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLPCH01Handler.RetrievePunchForEmployeeByMonth(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Retrieves the punch entries for a specific employee for the specified month and year.
+            </summary>
+            <param name="employeeID">The ID of the employee.</param>
+            <param name="year">The year of the punch entries.</param>
+            <param name="month">The month of the punch entries.</param>
+            <returns>A response containing the retrieved punch entries.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLPCH01Handler.RetrieveAmbiguousPunch(System.DateTime)">
+            <summary>
+            Retrieves the ambiguous punch entries for the specified date.
+            </summary>
+            <param name="date">The date of the ambiguous punch entries.</param>
+            <returns>A response containing the retrieved ambiguous punch entries.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLPCH01Handler.PrevalidateVirtualPunch(FirmAdvanceDemo.Models.DTO.DTOPCH01)">
+            <summary>
+            Prevalidates a virtual punch entry before processing.
+            </summary>
+            <param name="objDTOPCH01">The DTO representing the virtual punch entry.</param>
+            <returns>A response indicating the validation result.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLPCH01Handler.MarkAmbiguousAsInOutPunch(System.Collections.Generic.List{FirmAdvanceDemo.Models.POCO.PCH01})">
+            <summary>
+            Marks ambiguous punch entries as in-out punches.
+            </summary>
+            <param name="lstAllPunch">The list of all punch entries.</param>
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLPCH01Handler.GetUnprocessedPunchesForDate(System.DateTime)">
+            <summary>
+            Retrieves the unprocessed punches for the specified date.
+            </summary>
+            <param name="date">The date of the unprocessed punches.</param>
+            <returns>The list of unprocessed punches for the specified date.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLPCH01Handler.ProcessUnprocessedPunches">
+            <summary>
+            Updates the punch type based on certain criteria.
+            </summary>
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLPCH01Handler.MarkDuplicatePunch">
+            <summary>
+            Marks punches that are mistakenly recorded.
+            </summary>
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLPCH01Handler.MarkAmbiguousPunch">
+            <summary>
+            Marks punches that are ambiguous or unclear.
+            </summary>
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLPCH01Handler.MarkInOutPunch">
+            <summary>
+            Marks punches as In/Out based on certain criteria.
+            </summary>
+        </member>
+        <member name="T:FirmAdvanceDemo.BL.BLPSN01Handler">
+            <summary>
+            Handles business logic related to position operations.
+            </summary>
+        </member>
+        <member name="F:FirmAdvanceDemo.BL.BLPSN01Handler._dbFactory">
+            <summary>
+            OrmLite Connection Factory instance representing a connection with a particular database.
+            </summary>
+        </member>
+        <member name="F:FirmAdvanceDemo.BL.BLPSN01Handler._objDBPSN01Context">
+            <summary>
+            Context for Position handler.
+            </summary>
+        </member>
+        <member name="F:FirmAdvanceDemo.BL.BLPSN01Handler._objPSN01">
+            <summary>
+            Instance of PSN01 model.
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.BL.BLPSN01Handler.Operation">
+            <summary>
+            Gets or sets the operation type for position handling.
+            </summary>  
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLPSN01Handler.#ctor">
+            <summary>
+            Default constructor for BLPSN01Handler.
+            </summary>
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLPSN01Handler.Prevalidate(FirmAdvanceDemo.Models.DTO.DTOPSN01)">
+            <summary>
+            Validates the provided DTOPSN01 instance before processing.
+            </summary>
+            <param name="objDTOPSN01">DTOPSN01 instance containing position data.</param>
+            <returns>A response indicating the validation result.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLPSN01Handler.Presave(FirmAdvanceDemo.Models.DTO.DTOPSN01)">
+            <summary>
+            Sets the data for the position before saving it.
+            </summary>
+            <param name="objDTOPSN01">DTOPSN01 instance containing position data.</param>
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLPSN01Handler.Validate">
+            <summary>
+            Validates the position data before saving.
+            </summary>
+            <returns>A response indicating the validation result.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLPSN01Handler.Save">
+            <summary>
+            Saves the position data.
+            </summary>
+            <returns>A response indicating the outcome of the save operation.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLPSN01Handler.ValidateDelete(System.Int32)">
+            <summary>
+            Validates the deletion of a position by ID.
+            </summary>
+            <param name="positionID">The ID of the position to be deleted.</param>
+            <returns>A response indicating the validation result.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLPSN01Handler.Delete(System.Int32)">
+            <summary>
+            Deletes a position by ID.
+            </summary>
+            <param name="positionID">The ID of the position to be deleted.</param>
+            <returns>A response indicating the outcome of the delete operation.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLPSN01Handler.RetrievePosition">
+            <summary>
+            Retrieves all positions.
+            </summary>
+            <returns>A response containing the retrieved position data.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLPSN01Handler.RetrievePosition(System.Int32)">
+            <summary>
+            Retrieves the position with the specified position ID.
+            </summary>
+            <param name="positionID">The ID of the position to retrieve.</param>
+            <returns>A response containing the retrieved position data.</returns>
+        </member>
+        <member name="T:FirmAdvanceDemo.BL.BLRLE01Handler">
+            <summary>
+            Handles business logic related to role operations.
+            </summary>
+        </member>
+        <member name="F:FirmAdvanceDemo.BL.BLRLE01Handler._dbFactory">
+            <summary>
+            OrmLite Connection Factory instance representing a connection with a particular database.
+            </summary>
+        </member>
+        <member name="F:FirmAdvanceDemo.BL.BLRLE01Handler._objDBRLE01Context">
+            <summary>
+            Context for Role handler.
+            </summary>
+        </member>
+        <member name="F:FirmAdvanceDemo.BL.BLRLE01Handler._objRLE01">
+            <summary>
+            Instance of RLE01 model.
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.BL.BLRLE01Handler.Operation">
+            <summary>
+            Gets or sets the operation type for role handling.
+            </summary>
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLRLE01Handler.#ctor">
+            <summary>
+            Default constructor for BLRLE01Handler.
+            </summary>  
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLRLE01Handler.Prevalidate(FirmAdvanceDemo.Models.DTO.DTORLE01)">
+            <summary>
+            Validates the provided DTORLE01 instance before processing.
+            </summary>
+            <param name="objDTORLE01">DTORLE01 instance containing role data.</param>
+            <returns>A response indicating the validation result.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLRLE01Handler.Presave(FirmAdvanceDemo.Models.DTO.DTORLE01)">
+            <summary>
+            Sets the data for the role before saving it.
+            </summary>
+            <param name="objDTORLE01">DTORLE01 instance containing role data.</param>
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLRLE01Handler.Validate">
+            <summary>
+            Validates the role data before saving.
+            </summary>
+            <returns>A response indicating the validation result.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLRLE01Handler.Save">
+            <summary>
+            Saves the role data.
+            </summary>
+            <returns>A response indicating the outcome of the save operation.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLRLE01Handler.ValidateDelete(System.Int32)">
+            <summary>
+            Validates the deletion of a role by ID.
+            </summary>
+            <param name="roleID">The ID of the role to be deleted.</param>
+            <returns>A response indicating the validation result.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLRLE01Handler.Delete(System.Int32)">
+            <summary>
+            Deletes a role by ID.
+            </summary>
+            <param name="roleID">The ID of the role to be deleted.</param>
+            <returns>A response indicating the outcome of the delete operation.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLRLE01Handler.RetrieveRole">
+            <summary>
+            Retrieves all roles.
+            </summary>
+            <returns>A response containing the retrieved role data.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLRLE01Handler.RetrieveRole(System.Int32)">
+            <summary>
+            Retrieves a specific role by ID.
+            </summary>
+            <param name="roleID">The ID of the role to retrieve.</param>
+            <returns>A response containing the retrieved role data.</returns>
+        </member>
+        <member name="T:FirmAdvanceDemo.BL.BLSLY01Handler">
+            <summary>
+            Handles business logic related to salary operations.
+            </summary>
+        </member>
+        <member name="T:FirmAdvanceDemo.BL.BLSLY01Handler.SalaryProcessingData">
+            <summary>
+            Represents the data needed for processing salary payments.
+            </summary>
+        </member>
+        <member name="F:FirmAdvanceDemo.BL.BLSLY01Handler.SalaryProcessingData.UptoCreditDate">
+            <summary>
+            The date up to which the salary is to be credited.
+            </summary>
+        </member>
+        <member name="F:FirmAdvanceDemo.BL.BLSLY01Handler.SalaryProcessingData.DtEmployeeWorkHoursUntilYesterday">
+            <summary>
+            DataTable containing employee work hours until yesterday.
+            </summary>
+        </member>
+        <member name="F:FirmAdvanceDemo.BL.BLSLY01Handler.SalaryProcessingData.LstToBePaidSalary">
+            <summary>
+            List of salary entries to be paid.
+            </summary>
+        </member>
+        <member name="F:FirmAdvanceDemo.BL.BLSLY01Handler._dBSLY01Context">
+            <summary>
+            Context for Salary handler.
+            </summary>
+        </member>
+        <member name="F:FirmAdvanceDemo.BL.BLSLY01Handler._dbFactory">
+            <summary>
+            OrmLite Connection Factory instance representing a connection with a particular database.
+            </summary>
+        </member>
+        <member name="F:FirmAdvanceDemo.BL.BLSLY01Handler._objProcessSalaryData">
+            <summary>
+            The data for processing salary payments.
+            </summary>
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLSLY01Handler.#ctor">
+            <summary>
+            Default constructor for BLSLY01Handler.
+            </summary>
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLSLY01Handler.PresaveUnSalariedAttendance(System.Int32,System.Int32)">
+            <summary>
+            Pre-saves unsalaried attendance records.
+            </summary>
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLSLY01Handler.ValidateUnSalariedAttendance">
+            <summary>
+            Validates unsalaried attendance records.
+            </summary>
+            <returns>A response indicating the validation result.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLSLY01Handler.SaveSalaries">
+            <summary>
+            Saves salaries for employees.
+            </summary>
+            <returns>A response indicating the save result.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLSLY01Handler.DownloadSalarySlip(System.Int32,System.DateTime,System.DateTime)">
+            <summary>
+            Downloads the salary slip for the specified employee and date range.
+            </summary>
+            <param name="employeeID">The ID of the employee.</param>
+            <param name="start">The start date of the salary slip period.</param>
+            <param name="end">The end date of the salary slip period.</param>
+            <returns>A response containing the downloaded salary slip data.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLSLY01Handler.DownloadSalarySlipForMonth(System.Int32,System.Int32)">
+            <summary>
+            Downloads the salary slip for the specified month.
+            </summary>
+            <param name="year">The year of specified month.</param>
+            <param name="month">The month of salary slip.</param>
+            <returns>A response containing the downloaded salary slip data.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLSLY01Handler.ProcessDtEmployeeWorkHour">
+            <summary>
+            Converts employee work hour data from DataTable to a list of SLY01 instances.
+            </summary>
+            <returns>A list of SLY01 instances representing the converted employee work hour data.</returns>
+        </member>
+        <member name="T:FirmAdvanceDemo.BL.BLUSR01Handler">
+            <summary>
+            Handles business logic related to user operations.
+            </summary>
+        </member>
+        <member name="F:FirmAdvanceDemo.BL.BLUSR01Handler._dbFactory">
+            <summary>
+            OrmLite Connection Factory instance representing a connection with a particular database.
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.BL.BLUSR01Handler.ObjUSR01">
+            <summary>
+            Instance of USR01 model representing user data.
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.BL.BLUSR01Handler.Operation">
+            <summary>
+            Gets or sets the operation type for user handling.
+            </summary>
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLUSR01Handler.#ctor">
+            <summary>
+            Default constructor for BLUSR01Handler.
+            </summary>
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLUSR01Handler.PrevalidateUser(FirmAdvanceDemo.Models.DTO.DTOUSR01)">
+            <summary>
+            Prevalidates an instance of DTOUSR01 (user portion).
+            </summary>
+            <param name="objDTOUSR01">Instance of DTOUSR01 containing user data.</param>
+            <returns>A response indicating the validation result.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLUSR01Handler.PresaveUser(FirmAdvanceDemo.Models.DTO.DTOUSR01)">
+            <summary>
+            Converts DTOUSR01 instance to USR01 instance.
+            </summary>
+            <param name="objDTOUSR01">Instance of DTOUSR01 containing user data.</param>
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLUSR01Handler.ValidateUser">
+            <summary>
+            Validates the USR01 instance.
+            </summary>
+            <returns>A response indicating the validation result.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLUSR01Handler.ValidateDelete(System.Int32)">
+            <summary>
+            Validates the deletion of a user.
+            </summary>
+            <param name="userID">The ID of the user to be deleted.</param>
+            <returns>A response indicating the validation result.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.BL.BLUSR01Handler.Delete(System.Int32)">
+            <summary>
+            Deletes a user with the specified user ID.
+            </summary>
+            <param name="userID">The ID of the user to delete.</param>
+            <returns>A response indicating the outcome of the deletion operation.</returns>
+        </member>
+        <member name="T:FirmAdvanceDemo.Controllers.CLADM00Controller">
+            <summary>
+            Controller for managing administrative users.
+            </summary>
+        </member>
+        <member name="F:FirmAdvanceDemo.Controllers.CLADM00Controller._objBLADM00Handler">
+            <summary>
+            Handler for Admin
+            </summary>
+        </member>
+        <member name="M:FirmAdvanceDemo.Controllers.CLADM00Controller.#ctor">
+            <summary>
+            Initializes a new instance of the CLADM00Controller class.
+            </summary>
+        </member>
+        <member name="M:FirmAdvanceDemo.Controllers.CLADM00Controller.PostAdmin(FirmAdvanceDemo.Models.DTO.DTOUSR01)">
+            <summary>
+            Adds a new administrative user.
+            </summary>
+            <param name="objDTOUSR01">The DTO containing the administrative user data.</param>
+            <returns>An IHttpActionResult indicating the result of the operation.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.Controllers.CLADM00Controller.PutAdmin(FirmAdvanceDemo.Models.DTO.DTOUSR01)">
+            <summary>
+            Updates an existing administrative user.
+            </summary>
+            <param name="objDTOUSR01">The DTO containing the updated administrative user data.</param>
+            <returns>An IHttpActionResult indicating the result of the operation.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.Controllers.CLADM00Controller.GetAdmin">
+            <summary>
+            Retrieves all administrative users.
+            </summary>
+            <returns>An IHttpActionResult containing the retrieved administrative user data.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.Controllers.CLADM00Controller.GetAdmin(System.Int32)">
+            <summary>
+            Retrieves an administrative user by ID.
+            </summary>
+            <param name="userID">The ID of the administrative user to retrieve.</param>
+            <returns>An IHttpActionResult containing the retrieved administrative user data.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.Controllers.CLADM00Controller.Delete(System.Int32)">
+            <summary>
+            Deletes an administrative user by ID.
+            </summary>
+            <param name="userID">The ID of the administrative user to delete.</param>
+            <returns>An IHttpActionResult indicating the result of the operation.</returns>
+        </member>
+        <member name="T:FirmAdvanceDemo.Controllers.CLATD01Controller">
+            <summary>
+            Controller for managing attendance-related operations.
+            </summary>
+        </member>
+        <member name="F:FirmAdvanceDemo.Controllers.CLATD01Controller._objBLAttendance">
+            <summary>
+            Instance of BLATD01Handler for handling attendance business logic.
+            </summary>
+        </member>
+        <member name="M:FirmAdvanceDemo.Controllers.CLATD01Controller.#ctor">
+            <summary>
+            Default constructor for CLATD01Controller.
+            </summary>
+        </member>
+        <member name="M:FirmAdvanceDemo.Controllers.CLATD01Controller.GetAttendance">
+            <summary>
+            Action method to retrieve all attendances of employees. Requires Admin role.
+            </summary>
+            <returns>HTTP response indicating the result of the operation.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.Controllers.CLATD01Controller.GetAttendance(System.Int32)">
+            <summary>
+            Action method to retrieve an employee's attendance. Requires Admin role.
+            </summary>
+            <param name="attendanceID">The ID of the attendance to retrieve.</param>
+            <returns>HTTP response indicating the result of the operation.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.Controllers.CLATD01Controller.GetAttendanceByemployeeID(System.Int32)">
+            <summary>
+            Action method to retrieve an employee's attendance by employee ID. Requires Admin or Employee role.
+            </summary>
+            <param name="employeeID">Employee Id</param>
+            <returns>Instance of type IHttpActionResult</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.Controllers.CLATD01Controller.GetAttendanceByMonthYear(System.Int32,System.Int32)">
+            <summary>
+            Action method to retrieve attendances by month and year. Requires Admin role.
+            </summary>
+            <param name="year">Attendance Year</param>
+            <param name="month">Attendance Month</param>
+            <returns>HTTP response indicating the result of the operation.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.Controllers.CLATD01Controller.GetAttendanceForToday">
+            <summary>
+            Action method to retrieve today's attendances of all employees. Requires Admin role.
+            </summary>
+            <returns>HTTP response indicating the result of the operation.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.Controllers.CLATD01Controller.GetAttendanceByemployeeIDAndMonthYear(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Action method to retrieve attendances by employee ID and month-year. Requires Admin or Employee role.
+            </summary>
+            <param name="employeeID">Employee Id</param>
+            <param name="year">Attendance Year</param>
+            <param name="month">Attendance Month</param>
+            <returns>HTTP response indicating the result of the operation.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.Controllers.CLATD01Controller.GetAttendanceByemployeeIDForCurrentMonth(System.Int32)">
+            <summary>
+            Action method to retrieve all attendances by employee ID for the current month. Requires Admin or Employee role.
+            </summary>
+            <param name="employeeID">Employee Id</param>
+            <returns>HTTP response indicating the result of the operation.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.Controllers.CLATD01Controller.DeleteAttendance(System.Int32)">
+            <summary>
+            Action method to delete an attendance. Requires Admin role.
+            </summary>
+            <param name="attendanceID">Attendance Id</param>
+            <returns>HTTP response indicating the result of the operation.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.Controllers.CLATD01Controller.ProcessEoDPunchesForToday">
+            <summary>
+            Action method to evaluate end-of-day punches. Requires Admin role.
+            </summary>
+            <param name="date">Date for which to evaluate end-of-day punches.</param>
+            <returns>HTTP response indicating the result of the operation.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.Controllers.CLATD01Controller.ProcessEoDPunchesForDate(System.DateTime)">
+            <summary>
+            Action method to evaluate end-of-day punches. Requires Admin role.
+            </summary>
+            <param name="date">Date for which to evaluate end-of-day punches.</param>
+            <returns>HTTP response indicating the result of the operation.</returns>
+        </member>
+        <member name="T:FirmAdvanceDemo.Controllers.CLAuthController">
+            <summary>
+            Controller for handling authentication-related operations.
+            </summary>
+        </member>
+        <member name="M:FirmAdvanceDemo.Controllers.CLAuthController.GetRefreshToken">
+            <summary>
+            Retrieves a refresh token for the authenticated user.
+            </summary>
+        </member>
+        <member name="M:FirmAdvanceDemo.Controllers.CLAuthController.GetAccessToken">
+            <summary>
+            Retrieves an access token for the authenticated user.
+            </summary>
+        </member>
+        <member name="T:FirmAdvanceDemo.Controllers.CLDPT01Controller">
+            <summary>
+            Controller for managing department-related operations.
+            </summary>
+        </member>
+        <member name="F:FirmAdvanceDemo.Controllers.CLDPT01Controller._objBLDPT01Handler">
+            <summary>
+            Instance of BLDPT01Handler for handling department-related business logic.
+            </summary>
+        </member>
+        <member name="M:FirmAdvanceDemo.Controllers.CLDPT01Controller.#ctor">
+            <summary>
+            Default constructor for CLDepartmentController.
+            </summary>
+        </member>
+        <member name="M:FirmAdvanceDemo.Controllers.CLDPT01Controller.GetDepartment">
+            <summary>
+            Action method to retrieve all departments. Requires Admin role.
+            </summary>
+        </member>
+        <member name="M:FirmAdvanceDemo.Controllers.CLDPT01Controller.GetDepartment(System.Int32)">
+            <summary>
+            Action method to retrieve a department by its ID. Requires Admin or Employee role.
+            </summary>
+            <param name="departmentId">Department ID</param>
+        </member>
+        <member name="M:FirmAdvanceDemo.Controllers.CLDPT01Controller.PostDepartment(FirmAdvanceDemo.Models.DTO.DTODPT01)">
+            <summary>
+            Action method to create a new department. Requires Admin role.
+            </summary>
+            <param name="objDTODPT01">DTO object containing department data</param>
+        </member>
+        <member name="M:FirmAdvanceDemo.Controllers.CLDPT01Controller.PutDepartment(FirmAdvanceDemo.Models.DTO.DTODPT01)">
+            <summary>
+            Action method to update an existing department. Requires Admin role.
+            </summary>
+            <param name="objDTODPT01">DTO object containing updated department data</param>
+        </member>
+        <member name="M:FirmAdvanceDemo.Controllers.CLDPT01Controller.DeleteDepartment(System.Int32)">
+            <summary>
+            Action method to delete a department by its ID. Requires Admin role.
+            </summary>
+            <param name="departmentId">Department ID</param>
+        </member>
+        <member name="T:FirmAdvanceDemo.Controllers.CLEMP01Controller">
+            <summary>
+            Controller for managing employee operations.
+            </summary>
+        </member>
+        <member name="F:FirmAdvanceDemo.Controllers.CLEMP01Controller._objBLEMP01Handler">
+            <summary>
+            Instance of BLEmployee.
+            </summary>
+        </member>
+        <member name="M:FirmAdvanceDemo.Controllers.CLEMP01Controller.#ctor">
+            <summary>
+            Default constructor for CLEmployeeController.
+            </summary>
+        </member>
+        <member name="M:FirmAdvanceDemo.Controllers.CLEMP01Controller.GetEmployee">
+            <summary>
+            Action method to retrieve all employees. Requires Admin role.
+            </summary>
+            <returns>HTTP response indicating the result of the operation.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.Controllers.CLEMP01Controller.GetEmployee(System.Int32)">
+            <summary>
+            Action method to retrieve an employee by ID. Requires Admin or Employee role.
+            </summary>
+            <param name="employeeID">Employee ID</param>
+            <returns>HTTP response indicating the result of the operation.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.Controllers.CLEMP01Controller.PostEmployee(FirmAdvanceDemo.Models.DTO.DTOUMP01)">
+            <summary>
+            Action method to create a new employee. Requires Admin role.
+            </summary>
+            <param name="objDTOUMP">DTO object containing employee data</param>
+            <returns>HTTP response indicating the result of the operation.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.Controllers.CLEMP01Controller.PutEmployee(FirmAdvanceDemo.Models.DTO.DTOUMP01)">
+            <summary>
+            Action method to update an existing employee. Requires Admin or Employee role.
+            </summary>
+            <param name="objDTOUMP">DTO object containing updated employee data</param>
+            <returns>HTTP response indicating the result of the operation.</returns>
+        </member>
+        <member name="T:FirmAdvanceDemo.Controllers.CLLVE02Controller">
+            <summary>
+            Controller for managing leave operations.
+            </summary>
+        </member>
+        <member name="F:FirmAdvanceDemo.Controllers.CLLVE02Controller._objBLLVE02Handler">
+            <summary>
+            Instance of BLLVE02Handler.
+            </summary>
+        </member>
+        <member name="M:FirmAdvanceDemo.Controllers.CLLVE02Controller.#ctor">
+            <summary>
+            Default constructor for CLLeaveController.
+            </summary>
+        </member>
+        <member name="M:FirmAdvanceDemo.Controllers.CLLVE02Controller.GetLeave">
+            <summary>
+            Action method to retrieve all leave entries.
+            </summary>
+            <returns>HTTP response containing leave information.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.Controllers.CLLVE02Controller.GetLeave(System.Int32)">
+            <summary>
+            Action method to retrieve a specific leave entry by ID.
+            </summary>
+            <param name="leaveID">The ID of the leave entry to retrieve.</param>
+            <returns>HTTP response containing leave information.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.Controllers.CLLVE02Controller.GetLeaveByEmployee(System.Int32)">
+            <summary>
+            Action method to retrieve leave entries by employee ID.
+            </summary>
+            <param name="employeeID">The ID of the employee whose leave entries to retrieve.</param>
+            <returns>HTTP response containing leave information.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.Controllers.CLLVE02Controller.GetLeaveByEmployeeAndMonthYear(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Action method to retrieve leave entries by employee ID, year, and month.
+            </summary>
+            <param name="employeeID">The ID of the employee whose leave entries to retrieve.</param>
+            <param name="year">The year for which leave entries are requested.</param>
+            <param name="month">The month for which leave entries are requested.</param>
+            <returns>HTTP response containing leave information.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.Controllers.CLLVE02Controller.GetLeaveByEmployeeAndYear(System.Int32,System.Int32)">
+            <summary>
+            Action method to retrieve leave entries by employee ID and year.
+            </summary>
+            <param name="employeeID">The ID of the employee whose leave entries to retrieve.</param>
+            <param name="year">The year for which leave entries are requested.</param>
+            <returns>HTTP response containing leave information.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.Controllers.CLLVE02Controller.GetLeaveByEmployeeForCurrentYear(System.Int32)">
+            <summary>
+            Action method to retrieve leave entries by employee ID for the current year.
+            </summary>
+            <param name="employeeID">The ID of the employee whose leave entries to retrieve.</param>
+            <returns>HTTP response containing leave information.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.Controllers.CLLVE02Controller.GetLeaveByEmployeeForCurrentMonth(System.Int32)">
+            <summary>
+            Action method to retrieve leave entries by current employee's ID for the current month.
+            </summary>
+            <returns>HTTP response containing leave information.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.Controllers.CLLVE02Controller.GetLeaveByMonthYear(System.Int32,System.Int32)">
+            <summary>
+            Action method to retrieve leave entries by year and month.
+            </summary>
+            <param name="year">The year for which leave entries are requested.</param>
+            <param name="month">The month for which leave entries are requested.</param>
+            <returns>HTTP response containing leave information.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.Controllers.CLLVE02Controller.GetLeaveForDate(System.DateTime)">
+            <summary>
+            Action method to retrieve leave entries by date.
+            </summary>
+            <param name="date">The date for which leave entries are requested.</param>
+            <returns>HTTP response containing leave information.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.Controllers.CLLVE02Controller.GetLeaveForToday">
+            <summary>
+            Action method to retrieve leave entries for today's date.
+            </summary>
+            <returns>HTTP response containing leave information.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.Controllers.CLLVE02Controller.GetLeaveByStatus(FirmAdvanceDemo.Enums.EnmLeaveStatus)">
+            <summary>
+            Retrieves leave entries by status.
+            </summary>
+            <param name="leaveStatus">The status of the leave entries to retrieve.</param>
+            <returns>An IHttpActionResult containing the retrieved leave entries.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.Controllers.CLLVE02Controller.PostLeave(FirmAdvanceDemo.Models.DTO.DTOLVE02)">
+            <summary>
+            Action method to create a new leave entry.
+            </summary>
+            <param name="objDTOLVE02">DTO object containing leave details.</param>
+            <returns>HTTP response indicating the result of the operation.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.Controllers.CLLVE02Controller.PutLeave(FirmAdvanceDemo.Models.DTO.DTOLVE02)">
+            <summary>
+            Action method to update a leave entry.
+            </summary>
+            <param name="objDTOLVE02">DTO object containing leave details.</param>
+            <returns>HTTP response indicating the result of the operation.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.Controllers.CLLVE02Controller.PatchLeaveStatus(System.Int32,FirmAdvanceDemo.Enums.EnmLeaveStatus)">
+            <summary>
+            Updates the status of a leave entry.
+            </summary>
+            <param name="leaveID">The ID of the leave entry to update.</param>
+            <param name="toLeaveStatus">The new status to update to.</param>
+            <returns>An IHttpActionResult indicating the result of the operation.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.Controllers.CLLVE02Controller.DeleteLeave(System.Int32)">
+            <summary>
+            Action method to delete a leave entry.
+            </summary>
+            <param name="leaveId">The ID of the leave to delete.</param>
+            <returns>HTTP response indicating the result of the operation.</returns>
+        </member>
+        <member name="T:FirmAdvanceDemo.Controllers.CLPCH01Controller">
+            <summary>
+            Controller for managing punch operations, such as submitting punch details.
+            </summary>
+        </member>
+        <member name="F:FirmAdvanceDemo.Controllers.CLPCH01Controller._objBLPCH01Handler">
+            <summary>
+            Instance of the punch handler for managing punch operations.
+            </summary>
+        </member>
+        <member name="M:FirmAdvanceDemo.Controllers.CLPCH01Controller.#ctor">
+            <summary>
+            Initializes a new instance of the CLPCH01Controller class.
+            </summary>
+        </member>
+        <member name="M:FirmAdvanceDemo.Controllers.CLPCH01Controller.PostPunch(FirmAdvanceDemo.Models.DTO.DTOPCH01)">
+            <summary>
+            Action method to submit punch details.
+            </summary>
+            <param name="objDTOPCH01">DTO containing punch details.</param>
+            <returns>HTTP response indicating the success or failure of the punch submission.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.Controllers.CLPCH01Controller.PostVirtualPunch(FirmAdvanceDemo.Models.DTO.DTOPCH01)">
+            <summary>
+            Adds a virtual punch entry.
+            </summary>
+            <param name="objDTOPCH01">The DTO representing the virtual punch entry.</param>
+            <returns>An IHttpActionResult indicating the result of the operation.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.Controllers.CLPCH01Controller.GetAmbiguousPunchForDate(System.DateTime)">
+            <summary>
+             Retrieves ambiguous punch entries for the specified date.
+             </summary>
+             <param name="date">The date of the ambiguous punch entries.</param>
+             <returns>An IHttpActionResult containing the retrieved ambiguous punch entries.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.Controllers.CLPCH01Controller.GetPunchForEmployeeByMonth(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Retrieves punch entries for a specific employee for the specified month and year.
+            </summary>
+            <param name="employeeID">The ID of the employee.</param>
+            <param name="year">The year of the punch entries.</param>
+            <param name="month">The month of the punch entries.</param>
+            <returns>An IHttpActionResult containing the retrieved punch entries.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.Controllers.CLPCH01Controller.ProcessUprocessedPunchsForDate(System.DateTime)">
+            <summary>
+            Processes unprocessed punches for the specified date.
+            </summary>
+            <param name="date">The date of the unprocessed punches to process.</param>
+            <returns>An IHttpActionResult indicating the result of the operation.</returns>
+        </member>
+        <member name="T:FirmAdvanceDemo.Controllers.CLPSN01Controller">
+            <summary>
+            Controller for managing position operations, such as retrieving, adding, updating, and deleting positions.
+            </summary>
+        </member>
+        <member name="F:FirmAdvanceDemo.Controllers.CLPSN01Controller._objBLPSN01Handler">
+            <summary>
+            Instance of the position handler for managing position operations.
+            </summary>
+        </member>
+        <member name="M:FirmAdvanceDemo.Controllers.CLPSN01Controller.#ctor">
+            <summary>
+            Initializes a new instance of the CLPSN01Controller class.
+            </summary>
+        </member>
+        <member name="M:FirmAdvanceDemo.Controllers.CLPSN01Controller.GetPosition">
+            <summary>
+            Retrieves all positions.
+            </summary>
+            <returns>HTTP response containing the retrieved positions.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.Controllers.CLPSN01Controller.GetPosition(System.Int32)">
+            <summary>
+            Retrieves a specific position by its ID.
+            </summary>
+            <param name="id">The ID of the position to retrieve.</param>
+            <returns>HTTP response containing the retrieved position.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.Controllers.CLPSN01Controller.PostPosition(FirmAdvanceDemo.Models.DTO.DTOPSN01)">
+            <summary>
+            Adds a new position.
+            </summary>
+            <param name="objDTOPSN01">DTO containing the details of the position to add.</param>
+            <returns>HTTP response indicating the success or failure of the operation.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.Controllers.CLPSN01Controller.PutPosition(FirmAdvanceDemo.Models.DTO.DTOPSN01)">
+            <summary>
+            Updates an existing position.
+            </summary>
+            <param name="objDTOPSN01">DTO containing the updated details of the position.</param>
+            <returns>HTTP response indicating the success or failure of the operation.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.Controllers.CLPSN01Controller.DeletePosition(System.Int32)">
+            <summary>
+            Deletes a position by its ID.
+            </summary>
+            <param name="positionId">The ID of the position to delete.</param>
+            <returns>HTTP response indicating the success or failure of the operation.</returns>
+        </member>
+        <member name="T:FirmAdvanceDemo.Controllers.CLRLE01Controller">
+            <summary>
+            Controller for managing role operations, such as retrieving, adding, updating, and deleting roles.
+            </summary>
+        </member>
+        <member name="F:FirmAdvanceDemo.Controllers.CLRLE01Controller._objBLRLE01Handler">
+            <summary>
+            Instance of the role handler for managing role operations.
+            </summary>
+        </member>
+        <member name="M:FirmAdvanceDemo.Controllers.CLRLE01Controller.#ctor">
+            <summary>
+            Initializes a new instance of the CLRLE01Controller class.
+            </summary>
+        </member>
+        <member name="M:FirmAdvanceDemo.Controllers.CLRLE01Controller.GetRole">
+            <summary>
+            Retrieves all roles.
+            </summary>
+            <returns>HTTP response containing the retrieved roles.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.Controllers.CLRLE01Controller.GetRole(System.Int32)">
+            <summary>
+            Retrieves a specific role by its ID.
+            </summary>
+            <param name="id">The ID of the role to retrieve.</param>
+            <returns>HTTP response containing the retrieved role.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.Controllers.CLRLE01Controller.PostRole(FirmAdvanceDemo.Models.DTO.DTORLE01)">
+            <summary>
+            Adds a new role.
+            </summary>
+            <param name="objDTORLE01">DTO containing the details of the role to add.</param>
+            <returns>HTTP response indicating the success or failure of the operation.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.Controllers.CLRLE01Controller.PatchRole(FirmAdvanceDemo.Models.DTO.DTORLE01)">
+            <summary>
+            Updates an existing role.
+            </summary>
+            <param name="objDTORLE01">DTO containing the updated details of the role.</param>
+            <returns>HTTP response indicating the success or failure of the operation.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.Controllers.CLRLE01Controller.DeleteRole(System.Int32)">
+            <summary>
+            Deletes a role by its ID.
+            </summary>
+            <param name="roleID">The ID of the role to delete.</param>
+            <returns>HTTP response indicating the success or failure of the operation.</returns>
+        </member>
+        <member name="T:FirmAdvanceDemo.Controllers.CLSLY01Controller">
+            <summary>
+            Controller for managing salary operations, such as crediting salaries.
+            </summary>
+        </member>
+        <member name="F:FirmAdvanceDemo.Controllers.CLSLY01Controller._objBLSLY01Handler">
+            <summary>
+            Instance of the salary handler for managing salary operations.
+            </summary>
+        </member>
+        <member name="M:FirmAdvanceDemo.Controllers.CLSLY01Controller.#ctor">
+            <summary>
+            Initializes a new instance of the CLSLY01Controller class.
+            </summary>
+        </member>
+        <member name="M:FirmAdvanceDemo.Controllers.CLSLY01Controller.CreditSalary(System.Int32,System.Int32)">
+            <summary>
+            Credits salary to employees.
+            </summary>
+            <returns>HTTP response indicating the success or failure of the operation.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.Controllers.CLSLY01Controller.GetSalarySlipCsv(System.Int32,System.DateTime,System.DateTime)">
+            <summary>
+            Action method to download salary slip as a CSV file for a specific employee within a date range. Requires Employee role.
+            </summary>
+            <param name="employeeID">Employee ID</param>
+            <param name="startDate">Start date of the salary slip</param>
+            <param name="endDate">End date of the salary slip</param>
+            <returns>HTTP response indicating the result of the operation.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.Controllers.CLSLY01Controller.GetSalarySlipCsvForMonthRange(System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Downloads the salary slips in CSV format for the specified employee and month range.
+            </summary>
+            <param name="employeeID">The ID of the employee.</param>
+            <param name="startYear">The start year of the month range.</param>
+            <param name="startMonth">The start month of the month range.</param>
+            <param name="endYear">The end year of the month range.</param>
+            <param name="endMonth">The end month of the month range.</param>
+            <returns>An IHttpActionResult containing the downloaded CSV file.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.Controllers.CLSLY01Controller.GetSalarySlipCsvForMonthRange(System.Int32,System.Int32)">
+            <summary>
+            Downloads the salary slips in CSV format for the specified month.
+            </summary>
+            <param name="year">The year of month.</param>
+            <param name="month">The month of salary slip.</param>
+            <returns></returns>
+        </member>
+        <member name="T:FirmAdvanceDemo.Controllers.SwaggerUIController">
+            <summary>
+            Controller for handling SwaggerUI API endpoints and retrieving user-related information.
+            </summary>
+        </member>
+        <member name="F:FirmAdvanceDemo.Controllers.SwaggerUIController._dfFactory">
+            <summary>
+            Connection factory for Ormlite
+            </summary>
+        </member>
+        <member name="M:FirmAdvanceDemo.Controllers.SwaggerUIController.#ctor">
+            <summary>
+            Initializes a new instance of the SwaggerUIController class.
+            </summary>
+        </member>
+        <member name="M:FirmAdvanceDemo.Controllers.SwaggerUIController.GetAppInfo">
+            <summary>
+            Retrieves application information.
+            </summary>
+            <returns>HTTP response containing the application information.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.Controllers.SwaggerUIController.GetUsername">
+            <summary>
+            Retrieves the username of the currently authenticated user.
+            </summary>
+            <returns>Object containing the username of the authenticated user.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.Controllers.SwaggerUIController.GetRoles">
+            <summary>
+            Retrieves the roles associated with the currently authenticated user.
+            </summary>
+            <returns>Object containing the roles associated with the authenticated user.</returns>
+        </member>
+        <member name="F:FirmAdvanceDemo.DL.DBADM00Context._connection">
+            <summary>
+            The MySqlConnection used for database operations.
+            </summary>
+        </member>
+        <member name="M:FirmAdvanceDemo.DL.DBADM00Context.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:FirmAdvanceDemo.DL.DBADM00Context"/> class.
+            </summary>
+        </member>
+        <member name="M:FirmAdvanceDemo.DL.DBADM00Context.FetchAdmin(System.Int32)">
+            <summary>
+            Fetches admin data from the 'usr01' table based on the provided userID.
+            </summary>
+            <param name="userID">The ID of the user to fetch.</param>
+            <returns>A DataTable containing admin data.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.DL.DBADM00Context.FetchAdmin">
+            <summary>
+            Fetches all admin data from the 'usr01' table.
+            </summary>
+            <returns>A DataTable containing all admin data.</returns>
+        </member>
+        <member name="T:FirmAdvanceDemo.Auth.AccessTokenAuthenticationAttribute">
+            <summary>
+            Attribute to authenticate an access token.
+            </summary>
+        </member>
+        <member name="M:FirmAdvanceDemo.Auth.AccessTokenAuthenticationAttribute.OnAuthorization(System.Web.Http.Controllers.HttpActionContext)">
+            <summary>
+            Performs authentication on an access token.
+            </summary>
+            <param name="actionContext">The context of the current action.</param>
+        </member>
+        <member name="T:FirmAdvanceDemo.Auth.BasicAuthenticationAttribute">
+            <summary>
+            Attribute to perform user authentication based on username and password.
+            </summary>
+        </member>
+        <member name="M:FirmAdvanceDemo.Auth.BasicAuthenticationAttribute.OnAuthorization(System.Web.Http.Controllers.HttpActionContext)">
+            <summary>
+            Performs basic authentication based on the Authorization header.
+            </summary>
+            <param name="actionContext">The HTTP action context.</param>
+        </member>
+        <member name="T:FirmAdvanceDemo.Auth.BasicAuthorizationAttribute">
+            <summary>
+            Attribute to perform authorization for an API hit on which this attribute is used.
+            </summary>
+        </member>
+        <member name="M:FirmAdvanceDemo.Auth.BasicAuthorizationAttribute.HandleUnauthorizedRequest(System.Web.Http.Controllers.HttpActionContext)">
+            <summary>
+            Handles the unauthorized request by either allowing it or returning a forbidden status code.
+            </summary>
+            <param name="actionContext">The HTTP action context.</param>
+        </member>
+        <member name="T:FirmAdvanceDemo.Auth.RefreshTokenAuthenticationAttribute">
+            <summary>
+            Attribute to authenticate a refresh token.
+            </summary>
+        </member>
+        <member name="M:FirmAdvanceDemo.Auth.RefreshTokenAuthenticationAttribute.OnAuthorization(System.Web.Http.Controllers.HttpActionContext)">
+            <summary>
+            Performs authentication on a refresh token.
+            </summary>
+            <param name="actionContext">The context of the current action.</param>
+        </member>
+        <member name="T:FirmAdvanceDemo.Connection.MysqlDbConnector">
+            <summary>
+            Provides a static MySqlConnection instance for connecting to a MySQL database.
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Connection.MysqlDbConnector.Connection">
+            <summary>
+            Gets or sets the MySqlConnection instance.
+            </summary>
+        </member>
+        <member name="M:FirmAdvanceDemo.Connection.MysqlDbConnector.#cctor">
+            <summary>
+            Static constructor to initialize the MySqlConnection using the connection string from the configuration.
+            </summary>
+        </member>
+        <member name="T:FirmAdvanceDemo.OrmliteDbConnector">
+            <summary>
+            Provides a static OrmLiteConnectionFactory instance for connecting to a database using OrmLite.
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.OrmliteDbConnector.DbFactory">
+            <summary>
+            Gets or sets the OrmLiteConnectionFactory instance.
+            </summary>
+        </member>
+        <member name="M:FirmAdvanceDemo.OrmliteDbConnector.#cctor">
+            <summary>
+            Static constructor to initialize the OrmLiteConnectionFactory using the connection string from the configuration.
+            </summary>
+        </member>
+        <member name="T:FirmAdvanceDemo.DB.DBATD01Context">
+            <summary>
+            Provides methods for interacting with the ATD01 table in the database.
+            </summary>
+        </member>
+        <member name="F:FirmAdvanceDemo.DB.DBATD01Context._connection">
+            <summary>
+            The MySqlConnection used for database operations.
+            </summary>
+        </member>
+        <member name="M:FirmAdvanceDemo.DB.DBATD01Context.#ctor">
+            <summary>
+            Initializes a new instance of the DBATD01Context class.
+            </summary>
+        </member>
+        <member name="M:FirmAdvanceDemo.DB.DBATD01Context.FetchAttendanceByMonthYear(System.Int32,System.Int32)">
+            <summary>
+            Fetches attendance records for a specified year and month.
+            </summary>
+            <param name="year">The year.</param>
+            <param name="month">The month.</param>
+            <returns>A DataTable containing the attendance records.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.DB.DBATD01Context.FetchAttendanceForToday">
+            <summary>
+            Fetches attendance records for today's date.
+            </summary>
+            <returns>A DataTable containing the attendance records.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.DB.DBATD01Context.FetchAttendanceByemployeeIDAndMonthYear(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Fetches attendance records for a specified employee ID, year, and month.
+            </summary>
+            <param name="employeeID">The employee ID.</param>
+            <param name="year">The year.</param>
+            <param name="month">The month.</param>
+            <returns>A DataTable containing the attendance records.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.DB.DBATD01Context.RetrieveAttendanceByemployeeID(System.Int32)">
+            <summary>
+            Retrieves attendance records for a specified employee ID.
+            </summary>
+            <param name="employeeID">The employee ID.</param>
+            <returns>A DataTable containing the attendance records.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.DB.DBATD01Context.FetchAttendance">
+            <summary>
+            Fetches all attendance records.
+            </summary>
+            <returns>A DataTable containing all attendance records.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.DB.DBATD01Context.FetchAttendance(System.Int32)">
+            <summary>
+            Fetches the attendance record with the specified attendance ID.
+            </summary>
+            <param name="attendanceID">The attendance ID.</param>
+            <returns>A DataTable containing the attendance record.</returns>
+        </member>
+        <member name="T:FirmAdvanceDemo.DB.DBDPT01Context">
+            <summary>
+            Provides methods for interacting with the DPT01 table in the database.
+            </summary>
+        </member>
+        <member name="F:FirmAdvanceDemo.DB.DBDPT01Context._connection">
+            <summary>
+            The MySqlConnection used for database operations.
+            </summary>
+        </member>
+        <member name="M:FirmAdvanceDemo.DB.DBDPT01Context.#ctor">
+            <summary>
+            Initializes a new instance of the DBDPT01Context class.
+            </summary>
+        </member>
+        <member name="M:FirmAdvanceDemo.DB.DBDPT01Context.FetchDepartment">
+            <summary>
+            Fetches all department records.
+            </summary>
+            <returns>A DataTable containing all department records.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.DB.DBDPT01Context.FetchDepartment(System.Int32)">
+            <summary>
+            Fetches the department record with the specified department ID.
+            </summary>
+            <param name="departmentId">The department ID.</param>
+            <returns>A DataTable containing the department record.</returns>
+        </member>
+        <member name="T:FirmAdvanceDemo.DB.DBEMP01Context">
+            <summary>
+            Provides methods for interacting with the EMP01 table in the database.
+            </summary>
+        </member>
+        <member name="F:FirmAdvanceDemo.DB.DBEMP01Context._connection">
+            <summary>
+            The MySqlConnection used for database operations.
+            </summary>
+        </member>
+        <member name="M:FirmAdvanceDemo.DB.DBEMP01Context.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:FirmAdvanceDemo.DB.DBEMP01Context"/> class.
+            </summary>
+        </member>
+        <member name="M:FirmAdvanceDemo.DB.DBEMP01Context.FetchEmployee(System.Int32)">
+            <summary>
+            Fetches the employee record with the specified employee ID.
+            </summary>
+            <param name="employeeID">The employee ID.</param>
+            <returns>A DataTable containing the employee record.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.DB.DBEMP01Context.FetchEmployee">
+            <summary>
+            Fetches all employee records.
+            </summary>
+            <returns>A DataTable containing all employee records.</returns>
+        </member>
+        <member name="T:FirmAdvanceDemo.DB.DBLVE02Context">
+            <summary>
+            Provides methods for interacting with the LVE02 table in the database.
+            </summary>
+        </member>
+        <member name="F:FirmAdvanceDemo.DB.DBLVE02Context._connection">
+            <summary>
+            The MySqlConnection used for database operations.
+            </summary>
+        </member>
+        <member name="F:FirmAdvanceDemo.DB.DBLVE02Context._baseSelectQuery">
+            <summary>
+            Base select query for leave
+            </summary>
+        </member>
+        <member name="M:FirmAdvanceDemo.DB.DBLVE02Context.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:FirmAdvanceDemo.DB.DBLVE02Context"/> class.
+            </summary>
+        </member>
+        <member name="M:FirmAdvanceDemo.DB.DBLVE02Context.RequestLeave(FirmAdvanceDemo.Models.POCO.LVE02)">
+            <summary>
+            Requests a leave based on the provided LVE02 object.
+            </summary>
+            <param name="objLVE02">The LVE02 object representing the leave request.</param>
+            <returns>True if the leave request is successful, otherwise false.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.DB.DBLVE02Context.FetchLeave">
+            <summary>
+            Fetches all leave records.
+            </summary>
+            <returns>A DataTable containing all leave records.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.DB.DBLVE02Context.FetchLeave(System.Int32)">
+            <summary>
+            Fetches a specific leave record by its ID.
+            </summary>
+            <param name="leaveID">The ID of the leave record to fetch.</param>
+            <returns>A DataTable containing the leave record.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.DB.DBLVE02Context.FetchLeaveByStatus(FirmAdvanceDemo.Enums.EnmLeaveStatus)">
+            <summary>
+            Fetches leave records by their status.
+            </summary>
+            <param name="leaveStatus">The status of the leave records to fetch.</param>
+            <returns>A DataTable containing the leave records with the specified status.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.DB.DBLVE02Context.FetchLeaveByEmployee(System.Int32)">
+            <summary>
+            Fetches leave records for a specific employee.
+            </summary>
+            <param name="employeeID">The ID of the employee whose leave records to fetch.</param>
+            <returns>A DataTable containing the leave records for the specified employee.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.DB.DBLVE02Context.FetchLeaveByMonth(System.Int32,System.Int32)">
+            <summary>
+            Fetches leave records for a specific month and year.
+            </summary>
+            <param name="year">The year of the leave records.</param>
+            <param name="month">The month of the leave records.</param>
+            <returns>A DataTable containing the leave records for the specified month and year.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.DB.DBLVE02Context.FetchLeaveForDate(System.DateTime)">
+            <summary>
+            Fetches leave records for a specific date.
+            </summary>
+            <param name="date">The date of the leave records.</param>
+            <returns>A DataTable containing the leave records for the specified date.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.DB.DBLVE02Context.FetchLeaveByEmployeeAndMonth(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Fetches leave records for a specific employee, month, and year.
+            </summary>
+            <param name="employeeID">The ID of the employee.</param>
+            <param name="year">The year of the leave records.</param>
+            <param name="month">The month of the leave records.</param>
+            <returns>A DataTable containing the leave records for the specified employee, month, and year.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.DB.DBLVE02Context.FetchLeaveByEmployeeAndYear(System.Int32,System.Int32)">
+            <summary>
+            Fetches leave records for a specific employee and year.
+            </summary>
+            <param name="employeeID">The ID of the employee.</param>
+            <param name="year">The year of the leave records.</param>
+            <returns>A DataTable containing the leave records for the specified employee and year.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.DB.DBLVE02Context.FetchLeaveGeneral(System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Fetches leave data using dynamically query for the specified employee, optionally filtered by year, month, and day.
+            </summary>
+            <param name="employeeID">The ID of the employee.</param>
+            <param name="year">The year to filter the leave data (optional).</param>
+            <param name="month">The month to filter the leave data (optional).</param>
+            <param name="day">The day to filter the leave data (optional).</param>
+            <returns>A DataTable containing the fetched leave data.</returns>
+        </member>
+        <member name="T:FirmAdvanceDemo.DB.DBPCH01Context">
+            <summary>
+            Provides methods for interacting with the PCH01 table in the database.
+            </summary>
+        </member>
+        <member name="F:FirmAdvanceDemo.DB.DBPCH01Context._connection">
+            <summary>
+            The MySqlConnection used for database operations.
+            </summary>
+        </member>
+        <member name="M:FirmAdvanceDemo.DB.DBPCH01Context.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:FirmAdvanceDemo.DB.DBPCH01Context"/> class.
+            </summary>
+        </member>
+        <member name="M:FirmAdvanceDemo.DB.DBPCH01Context.FetchPunch">
+            <summary>
+            Fetches all punch records.
+            </summary>
+            <returns>A DataTable containing all punch records.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.DB.DBPCH01Context.FetchPunch(System.Int32)">
+            <summary>
+            Fetches a specific punch record by its ID.
+            </summary>
+            <param name="punchId">The ID of the punch record to fetch.</param>
+            <returns>A DataTable containing the punch record with the specified ID.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.DB.DBPCH01Context.FetchPunchForEmployeeByMonth(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Fetches punch data for the specified employee and month.
+            </summary>
+            <param name="employeeID">The ID of the employee.</param>
+            <param name="year">The year of the punch data.</param>
+            <param name="month">The month of the punch data.</param>
+            <returns>A DataTable containing the fetched punch data.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.DB.DBPCH01Context.FetchAmbiguousPunch(System.DateTime)">
+            <summary>
+            Fetches ambiguous punch data for the specified date.
+            </summary>
+            <param name="date">The date of the ambiguous punch data.</param>
+            <returns>A DataTable containing the fetched ambiguous punch data.</returns>
+        </member>
+        <member name="T:FirmAdvanceDemo.DB.DBPSN01Context">
+            <summary>
+            Provides methods for interacting with the PSN01 table in the database.
+            </summary>
+        </member>
+        <member name="F:FirmAdvanceDemo.DB.DBPSN01Context._connection">
+            <summary>
+            The MySqlConnection used for database operations.
+            </summary>
+        </member>
+        <member name="M:FirmAdvanceDemo.DB.DBPSN01Context.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:FirmAdvanceDemo.DB.DBPSN01Context"/> class.
+            </summary>
+        </member>
+        <member name="M:FirmAdvanceDemo.DB.DBPSN01Context.FetchPosition">
+            <summary>
+            Fetches all position records.
+            </summary>
+            <returns>A DataTable containing all position records.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.DB.DBPSN01Context.FetchPosition(System.Int32)">
+            <summary>
+            Fetches a specific position record by its ID.
+            </summary>
+            <param name="positionID">The ID of the position record to fetch.</param>
+            <returns>A DataTable containing the position record with the specified ID.</returns>
+        </member>
+        <member name="T:FirmAdvanceDemo.DB.DBRLE01Context">
+            <summary>
+            Provides methods for interacting with the RLE01 table in the database.
+            </summary>
+        </member>
+        <member name="F:FirmAdvanceDemo.DB.DBRLE01Context._connection">
+            <summary>
+            The MySqlConnection used for database operations.
+            </summary>
+        </member>
+        <member name="M:FirmAdvanceDemo.DB.DBRLE01Context.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:FirmAdvanceDemo.DB.DBRLE01Context"/> class.
+            </summary>
+        </member>
+        <member name="M:FirmAdvanceDemo.DB.DBRLE01Context.FetchRole">
+            <summary>
+            Fetches all role records.
+            </summary>
+            <returns>A DataTable containing all role records.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.DB.DBRLE01Context.FetchRole(System.Int32)">
+            <summary>
+            Fetches a specific role record by its ID.
+            </summary>
+            <param name="roleID">The ID of the role record to fetch.</param>
+            <returns>A DataTable containing the role record with the specified ID.</returns>
+        </member>
+        <member name="T:FirmAdvanceDemo.DB.DBSLY01Context">
+            <summary>
+            Provides methods for interacting with the SLY01 table in the database.
+            </summary>
+        </member>
+        <member name="F:FirmAdvanceDemo.DB.DBSLY01Context._connection">
+            <summary>
+            The MySqlConnection used for database operations.
+            </summary>
+        </member>
+        <member name="M:FirmAdvanceDemo.DB.DBSLY01Context.#ctor">
+            <summary>
+            Default constructor for DBSLY01Context
+            </summary>
+        </member>
+        <member name="M:FirmAdvanceDemo.DB.DBSLY01Context.FetchUnpaidWorkHours(System.DateTime)">
+            <summary>
+            Fetches unpaid work hours for employees based on the last credit date.
+            </summary>
+            <param name="lastCreditDate">The last credit date to consider for unpaid work hours calculation.</param>
+            <returns>A DataTable containing the employeeID, WorkHours, PositionId, and MonthlySalary of employees with unpaid work hours.
+            </returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.DB.DBSLY01Context.FetchSalaryForMonth(System.Int32,System.Int32)">
+            <summary>
+            Fetches salary data for the specified employee within the given date range.
+            </summary>
+            <param name="employeeID">The ID of the employee.</param>
+            <param name="startDate">The start date of the salary data range.</param>
+            <param name="endDate">The end date of the salary data range.</param>
+            <returns>A DataTable containing the fetched salary data.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.DB.DBSLY01Context.FetchSalaryByEmployeeForDateRange(System.Int32,System.DateTime,System.DateTime)">
+            <summary>
+            Fetches salary data for the specified employee within the given date range.
+            </summary>
+            <param name="employeeID">The ID of the employee.</param>
+            <param name="startDate">The start date of the salary data range.</param>
+            <param name="endDate">The end date of the salary data range.</param>
+            <returns>A DataTable containing the fetched salary data.</returns>
+        </member>
+        <member name="T:FirmAdvanceDemo.Models.DTO.DataAnnotations.InMultipleOfAttribute">
+            <summary>
+            Custom validation attribute to validate if a numeric value is a multiple of a specified divisor.
+            </summary>
+        </member>
+        <member name="F:FirmAdvanceDemo.Models.DTO.DataAnnotations.InMultipleOfAttribute._divisor">
+            <summary>
+            Divisor
+            </summary>
+        </member>
+        <member name="M:FirmAdvanceDemo.Models.DTO.DataAnnotations.InMultipleOfAttribute.#ctor(System.Double)">
+            <summary>
+            Initializes a new instance of the InMultipleOfAttribute class with the specified divisor.
+            </summary>
+            <param name="divisor">The divisor to use for validation.</param>
+        </member>
+        <member name="M:FirmAdvanceDemo.Models.DTO.DataAnnotations.InMultipleOfAttribute.IsValid(System.Object)">
+            <summary>
+            Determines whether the specified value is valid.
+            </summary>
+            <param name="value">The value to validate.</param>
+            <returns>True if the value is valid; otherwise, false.</returns>
+        </member>
+        <member name="T:FirmAdvanceDemo.Models.DTO.DataAnnotations.LessThanCurrentDateTimeAttribute">
+            <summary>
+            Custom validation attribute to validate if a DateTime value is less than or equal to the current date.
+            </summary>
+        </member>
+        <member name="M:FirmAdvanceDemo.Models.DTO.DataAnnotations.LessThanCurrentDateTimeAttribute.IsValid(System.Object)">
+            <summary>
+            Determines whether the specified value is valid.
+            </summary>
+            <param name="value">The value to validate.</param>
+            <returns>True if the value is valid; otherwise, false.</returns>
+        </member>
+        <member name="T:FirmAdvanceDemo.Models.DTO.DataAnnotations.RequiredWhenAdmin">
+            <summary>
+            Attribute for required admin validation
+            </summary>
+        </member>
+        <member name="M:FirmAdvanceDemo.Models.DTO.DataAnnotations.RequiredWhenAdmin.IsValid(System.Object)">
+            <summary>
+            Determines whether the specified value is valid.
+            </summary>
+            <param name="value">The value to validate.</param>
+            <returns>True if the value is valid; otherwise, false.</returns>
+        </member>
+        <member name="T:FirmAdvanceDemo.Models.DTO.DataAnnotations.ValidateMonthYearAttribute">
+            <summary>
+            Attribute to validate month and/or year
+            </summary>
+        </member>
+        <member name="M:FirmAdvanceDemo.Models.DTO.DataAnnotations.ValidateMonthYearAttribute.OnActionExecuting(System.Web.Http.Controllers.HttpActionContext)">
+            <summary>
+            Method to validate month and/or year
+            </summary>
+            <param name="context"></param>
+        </member>
+        <member name="M:FirmAdvanceDemo.Models.DTO.FIlters.ValidateModelAttribute.OnActionExecuting(System.Web.Http.Controllers.HttpActionContext)">
+            <summary>
+            Attribute to validate model
+            </summary>
+            <param name="context"></param>
+        </member>
+        <member name="T:FirmAdvanceDemo.Models.DTO.DTOATD01">
+            <summary>
+            Attendance DTO model
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.DTO.DTOATD01.D01F01">
+            <summary>
+            attendance id
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.DTO.DTOATD01.D01F02">
+            <summary>
+            Employee Id
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.DTO.DTOATD01.D01F03">
+            <summary>
+            Date of attendance
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.DTO.DTOATD01.D01F04">
+            <summary>
+            Day work hour
+            </summary>
+        </member>
+        <member name="T:FirmAdvanceDemo.Models.DTO.DTODPT01">
+            <summary>
+            Department DTO model
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.DTO.DTODPT01.T01F01">
+            <summary>
+            Department Id
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.DTO.DTODPT01.T01F02">
+            <summary>
+            Department Name
+            </summary>
+        </member>
+        <member name="T:FirmAdvanceDemo.Models.DTO.DTOEMP01">
+            <summary>
+            Employee DTO model
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.DTO.DTOEMP01.P01F01">
+            <summary>
+            Employee id
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.DTO.DTOEMP01.P01F02">
+            <summary>
+            Employee First Name
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.DTO.DTOEMP01.P01F03">
+            <summary>
+            Employee Last Name
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.DTO.DTOEMP01.P01F04">
+            <summary>
+            Employee Gender
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.DTO.DTOEMP01.P01F05">
+            <summary>
+            Employee Date of Birth
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.DTO.DTOEMP01.P01F06">
+            <summary>
+            Position Id
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.DTO.DTOEMP01.P01X07">
+            <summary>
+            is admin
+            </summary>
+        </member>
+        <member name="T:FirmAdvanceDemo.Models.DTO.DTOLVE02">
+            <summary>
+            Leave DTO model
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.DTO.DTOLVE02.E02F01">
+            <summary>
+            Leave id
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.DTO.DTOLVE02.E02F02">
+            <summary>
+            Employee Id
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.DTO.DTOLVE02.E02F03">
+            <summary>
+            Leave Date
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.DTO.DTOLVE02.E02F04">
+            <summary>
+            No. of leaves from Leave Date
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.DTO.DTOLVE02.E02F05">
+            <summary>
+            Reason for leave
+            </summary>
+        </member>
+        <member name="T:FirmAdvanceDemo.Models.DTO.DTOPCH01">
+            <summary>
+            Punch DTO model
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.DTO.DTOPCH01.H01F01">
+            <summary>
+            Punch id
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.DTO.DTOPCH01.H01F02">
+            <summary>
+            Employee Id
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.DTO.DTOPCH01.H01F03">
+            <summary>
+            Datetime of Punch
+            </summary>
+        </member>
+        <member name="T:FirmAdvanceDemo.Models.DTO.DTOPSN01">
+            <summary>
+            Position DTO model
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.DTO.DTOPSN01.N01F01">
+            <summary>
+            Position id
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.DTO.DTOPSN01.N01F02">
+            <summary>
+            Position name
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.DTO.DTOPSN01.N01F03">
+            <summary>
+            Annual Package (LPA)
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.DTO.DTOPSN01.N01F05">
+            <summary>
+            Monthly Salary
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.DTO.DTOPSN01.N01F04">
+            <summary>
+            Yearly Bonus
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.DTO.DTOPSN01.N01F06">
+            <summary>
+            Department Id
+            </summary>
+        </member>
+        <member name="T:FirmAdvanceDemo.Models.DTO.DTORLE01">
+            <summary>
+            Role DTO model
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.DTO.DTORLE01.E01F01">
+            <summary>
+            Role id
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.DTO.DTORLE01.E01F02">
+            <summary>
+            Role name
+            </summary>
+        </member>
+        <member name="T:FirmAdvanceDemo.Models.DTO.DTOSLY01">
+            <summary>
+            Salary DTO model
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.DTO.DTOSLY01.Y01F01">
+            <summary>
+            Salary id
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.DTO.DTOSLY01.Y01F02">
+            <summary>
+            Employee Id
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.DTO.DTOSLY01.Y01F03">
+            <summary>
+            Month, Year of salary credit
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.DTO.DTOSLY01.Y01F04">
+            <summary>
+            Monthly salary amount
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.DTO.DTOSLY01.Y01F05">
+            <summary>
+            Position Id
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.DTO.DTOUMP01.ObjDTOUSR01">
+            <summary>
+            Instance of DTOUSR01
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.DTO.DTOUMP01.ObjDTOEMP01">
+            <summary>
+            Instance of DTOEMP01
+            </summary>
+        </member>
+        <member name="T:FirmAdvanceDemo.Models.DTO.DTOUSR01">
+            <summary>
+            User DTO model
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.DTO.DTOUSR01.R01F01">
+            <summary>
+            user id
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.DTO.DTOUSR01.R01F02">
+            <summary>
+            username
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.DTO.DTOUSR01.R01F03">
+            <summary>
+            user hashed password
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.DTO.DTOUSR01.R01F04">
+            <summary>
+            user emailId
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.DTO.DTOUSR01.R01F05">
+            <summary>
+            User phone no.
+            </summary>
+        </member>
+        <member name="T:FirmAdvanceDemo.Models.POCO.ATD01">
+            <summary>
+            Attendance POCO model
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.POCO.ATD01.D01F01">
+            <summary>
+            Attendance Id
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.POCO.ATD01.D01F02">
+            <summary>
+            Employee Id
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.POCO.ATD01.D01F03">
+            <summary>
+            Date of attendance
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.POCO.ATD01.D01F04">
+            <summary>
+            Day work hour
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.POCO.ATD01.D01F05">
+            <summary>
+            Attendance considered in salary ?
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.POCO.ATD01.D01F06">
+            <summary>
+            Attendance creation datetime
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.POCO.ATD01.D01F07">
+            <summary>
+            Attendance last modified datetime
+            </summary>
+        </member>
+        <member name="T:FirmAdvanceDemo.Models.POCO.DPT01">
+            <summary>
+            Department POCO model
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.POCO.DPT01.T01F01">
+            <summary>
+            Department Id
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.POCO.DPT01.T01F02">
+            <summary>
+            Department Name
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.POCO.DPT01.T01F03">
+            <summary>
+            Department creation datetime
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.POCO.DPT01.T01F04">
+            <summary>
+            Department last modified datetime
+            </summary>
+        </member>
+        <member name="T:FirmAdvanceDemo.Models.POCO.EMP01">
+            <summary>
+            Employee POCO model
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.POCO.EMP01.P01F01">
+            <summary>
+            Employee Id
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.POCO.EMP01.P01F02">
+            <summary>
+            Employee First Name
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.POCO.EMP01.P01F03">
+            <summary>
+            Employee Last Name
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.POCO.EMP01.P01F04">
+            <summary>
+            Employee Gender
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.POCO.EMP01.P01F05">
+            <summary>
+            Employee Date of Birth
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.POCO.EMP01.P01F06">
+            <summary>
+            Position Id (Foreign key)
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.POCO.EMP01.P01F07">
+            <summary>
+            Employee creation datetime
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.POCO.EMP01.P01F08">
+            <summary>
+            Employee last modified datetime
+            </summary>
+        </member>
+        <member name="T:FirmAdvanceDemo.Models.POCO.LVE02">
+            <summary>
+            Leave POCO model
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.POCO.LVE02.E02F01">
+            <summary>
+            Leave Id
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.POCO.LVE02.E02F02">
+            <summary>
+            Employee Id
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.POCO.LVE02.E02F03">
+            <summary>
+            Leave Date
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.POCO.LVE02.E02F04">
+            <summary>
+            No. of leaves from Leave Date
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.POCO.LVE02.E02F05">
+            <summary>
+            Reason for leave
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.POCO.LVE02.E02F06">
+            <summary>
+            Leave status
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "P:FirmAdvanceDemo.Models.POCO.LVE02.E02F07" -->
+        <member name="P:FirmAdvanceDemo.Models.POCO.LVE02.E02F08">
+            <summary>
+            Leave creation datetime
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.POCO.LVE02.E02F09">
+            <summary>
+            Leave last modified datetime
+            </summary>
+        </member>
+        <member name="T:FirmAdvanceDemo.Models.POCO.PCH01">
+            <summary>
+            Punch POCO model
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.POCO.PCH01.H01F01">
+            <summary>
+            Punch Id
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.POCO.PCH01.H01F02">
+            <summary>
+            Employee Id
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.POCO.PCH01.H01F03">
+            <summary>
+            Date time of punch
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.POCO.PCH01.H01F04">
+            <summary>
+            Punch Type
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.POCO.PCH01.H01F05">
+            <summary>
+            Punch considered in attendance ?
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.POCO.PCH01.H01F06">
+            <summary>
+            Punch creation datetime
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.POCO.PCH01.H01F07">
+            <summary>
+            Punch last modified datetime
+            </summary>
+        </member>
+        <member name="T:FirmAdvanceDemo.Models.POCO.PSN01">
+            <summary>
+            Position POCO model
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.POCO.PSN01.N01F01">
+            <summary>
+            Position Id
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.POCO.PSN01.N01F02">
+            <summary>
+            Position Name
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.POCO.PSN01.N01F03">
+            <summary>
+            Annual Package (LPA)
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.POCO.PSN01.N01F04">
+            <summary>
+            Monthly Salary
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.POCO.PSN01.N01F05">
+            <summary>
+            Yearly Bonus
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.POCO.PSN01.N01F06">
+            <summary>
+            Department Id
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.POCO.PSN01.N01F07">
+            <summary>
+            Position creation datetime
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.POCO.PSN01.N01F08">
+            <summary>
+            Position last modified datetime
+            </summary>
+        </member>
+        <member name="T:FirmAdvanceDemo.Models.POCO.RLE01">
+            <summary>
+            Role POCO model
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.POCO.RLE01.E01F01">
+            <summary>
+            Role Id
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.POCO.RLE01.E01F02">
+            <summary>
+            Role name
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.POCO.RLE01.E01F03">
+            <summary>
+             creation datetime
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.POCO.RLE01.E01F04">
+            <summary>
+             last modified datetime
+            </summary>
+        </member>
+        <member name="T:FirmAdvanceDemo.Models.POCO.SLY01">
+            <summary>
+            Salary POCO model
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.POCO.SLY01.Y01F01">
+            <summary>
+            Salary Id
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.POCO.SLY01.Y01F02">
+            <summary>
+            Employee Id (Foreign key)
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.POCO.SLY01.Y01F03">
+            <summary>
+            Salary Amount
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.POCO.SLY01.Y01F04">
+            <summary>
+            Salary month
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.POCO.SLY01.Y01F05">
+            <summary>
+            Position Id (Foreign key)
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.POCO.SLY01.Y01F06">
+            <summary>
+            Salary creation datetime
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.POCO.SLY01.Y01F07">
+            <summary>
+            Salary last modified datetime
+            </summary>
+        </member>
+        <member name="T:FirmAdvanceDemo.Models.POCO.STG01">
+            <summary>
+            Setting POCO model
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.POCO.STG01.G01F01">
+            <summary>
+            Primary key for STG01 (ORMLite forces first field as PK if not specified)
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.POCO.STG01.G01F02">
+            <summary>
+            Previous Month Salary CreditDate
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.POCO.STG01.G01F03">
+            <summary>
+            Setting creation datetime
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.POCO.STG01.G01F04">
+            <summary>
+            Setting last modified datetime
+            </summary>
+        </member>
+        <member name="T:FirmAdvanceDemo.Models.POCO.ULE02">
+            <summary>
+            User-Role mapping POCO model
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.POCO.ULE02.E02F01">
+            <summary>
+            User-Role record Id
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.POCO.ULE02.E02F02">
+            <summary>
+            User Id (Foreign key)
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.POCO.ULE02.E02F03">
+            <summary>
+            Role Id (Foreign key)
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.POCO.ULE02.E02F04">
+            <summary>
+            UserEmployee creation datetime
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.POCO.ULE02.E02F05">
+            <summary>
+            UserEmployee last update datetime
+            </summary>
+        </member>
+        <member name="T:FirmAdvanceDemo.Models.POCO.UMP02">
+            <summary>
+            User-Employee mapping POCO model
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.POCO.UMP02.P02F01">
+            <summary>
+            UMP02 record Id
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.POCO.UMP02.P02F02">
+            <summary>
+            User Id (Foreign key)
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.POCO.UMP02.P02F03">
+            <summary>
+            Employee Id (Foreign key)
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.POCO.UMP02.P02F04">
+            <summary>
+            UserEmployee creation datetime
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.POCO.UMP02.P02F05">
+            <summary>
+            UserEmployee last update datetime
+            </summary>
+        </member>
+        <member name="T:FirmAdvanceDemo.Models.POCO.USR01">
+            <summary>
+            User POCO model
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.POCO.USR01.R01F01">
+            <summary>
+            user id
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.POCO.USR01.R01F02">
+            <summary>
+            username
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.POCO.USR01.R01F03">
+            <summary>
+            user hashed password
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.POCO.USR01.R01F04">
+            <summary>
+            user emailId
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.POCO.USR01.R01F05">
+            <summary>
+            User phone no.
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Models.POCO.USR01.R01F06">
+            <summary>
+            User creation datetime
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "P:FirmAdvanceDemo.Models.POCO.USR01.R01F07" -->
+        <member name="T:FirmAdvanceDemo.Utility.Constants">
+            <summary>
+            Provides constant values used throughout the application.
+            </summary>
+        </member>
+        <member name="F:FirmAdvanceDemo.Utility.Constants.GlobalDateTimeFormat">
+            <summary>
+            The global date and time format used in the application.
+            </summary>
+        </member>
+        <member name="F:FirmAdvanceDemo.Utility.Constants.GlobalDateFormat">
+            <summary>
+            The global date format used in the application.
+            </summary>
+        </member>
+        <member name="T:FirmAdvanceDemo.Utility.GeneralContext">
+            <summary>
+            Provides methods for handling general database context operations.
+            </summary>
+        </member>
+        <member name="F:FirmAdvanceDemo.Utility.GeneralContext._connection">
+            <summary>
+            The MySqlConnection used for database operations.
+            </summary>
+        </member>
+        <member name="M:FirmAdvanceDemo.Utility.GeneralContext.#cctor">
+            <summary>
+            Initializes the GeneralContext class.
+            </summary>
+        </member>
+        <member name="M:FirmAdvanceDemo.Utility.GeneralContext.FetchRolesByUserID(System.Int32)">
+            <summary>
+            Fetches the roles associated with a user ID.
+            </summary>
+            <param name="userID">The user ID.</param>
+            <returns>An array of role names associated with the user ID.</returns>
+        </member>
+        <member name="T:FirmAdvanceDemo.Utility.GeneralHandler">
+            <summary>
+            Provides methods for handling general database operations.
+            </summary>
+        </member>
+        <member name="F:FirmAdvanceDemo.Utility.GeneralHandler._dbFactory">
+            <summary>
+            The factory for creating IDbConnection instances.
+            </summary>
+        </member>
+        <member name="M:FirmAdvanceDemo.Utility.GeneralHandler.#cctor">
+            <summary>
+            Initializes the GeneralHandler class.
+            </summary>
+        </member>
+        <member name="M:FirmAdvanceDemo.Utility.GeneralHandler.CheckUserIDExists(System.Int32)">
+            <summary>
+            Checks if a user ID exists in the database.
+            </summary>
+            <param name="userID">The user ID to check.</param>
+            <returns>True if the user ID exists; otherwise, false.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.Utility.GeneralHandler.CheckUsernameExists(System.String)">
+            <summary>
+            Checks if a username exists in the database.
+            </summary>
+            <param name="username">The username to check.</param>
+            <returns>True if the username exists; otherwise, false.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.Utility.GeneralHandler.RetrieveUsernameByUserID(System.Int32)">
+            <summary>
+            Retrieves the username associated with a user ID.
+            </summary>
+            <param name="userID">The user ID.</param>
+            <returns>The username associated with the user ID.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.Utility.GeneralHandler.RetrieveUserIdByUsername(System.String)">
+            <summary>
+            Retrieves the user ID associated with a username.
+            </summary>
+            <param name="username">The username.</param>
+            <returns>The user ID associated with the username.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.Utility.GeneralHandler.RetrievePassword(System.String)">
+            <summary>
+            Retrieves the hashed password associated with a username.
+            </summary>
+            <param name="username">The username.</param>
+            <returns>The hashed password associated with the username.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.Utility.GeneralHandler.RetrieveemployeeIDByUserID(System.Int32)">
+            <summary>
+            Retrieves the employee ID associated with a user ID.
+            </summary>
+            <param name="userID">The user ID.</param>
+            <returns>The employee ID associated with the user ID.</returns>
+        </member>
+        <member name="T:FirmAdvanceDemo.Utility.GeneralUtility">
+            <summary>
+            Provides general utility operations such as authentication, encryption, and data conversion.
+            </summary>
+        </member>
+        <member name="M:FirmAdvanceDemo.Utility.GeneralUtility.GenerateJWT(System.String,System.String)">
+            <summary>
+            Generates a JSON Web Token (JWT) based on the header and payload.
+            </summary>
+            <param name="header">JWT Header</param>
+            <param name="payload">JWT Payload</param>
+            <returns>The generated JWT</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.Utility.GeneralUtility.IsAdmin">
+            <summary>
+            Checks if the current user is an administrator.
+            </summary>
+            <returns>True if the current user is an administrator; otherwise, false.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.Utility.GeneralUtility.GetemployeeIDFromItems">
+            <summary>
+            Retrieves the employee ID from the HttpContext Items collection.
+            </summary>
+            <returns>The employee ID stored in the Items collection.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.Utility.GeneralUtility.IsAuthorizedEmployee(System.Int32)">
+            <summary>
+            Checks if the specified employee ID is authorized.
+            </summary>
+            <param name="employeeID">The employee ID to check authorization for.</param>
+            <returns>True if the employee ID is authorized; otherwise, false.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.Utility.GeneralUtility.ValidateAccess(System.Int32)">
+            <summary>
+            Validates access for the specified employee ID.
+            </summary>
+            <param name="employeeID">The employee ID to validate access for.</param>
+            <returns>A response indicating the result of the access validation.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.Utility.GeneralUtility.AuthenticateJWT(System.String)">
+            <summary>
+            Authenticates a JSON Web Token (JWT).
+            </summary>
+            <param name="jwt">The JWT to authenticate.</param>
+            <returns>A response indicating the result of the authentication.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.Utility.GeneralUtility.Login(System.String,System.String)">
+            <summary>
+            Performs a login operation.
+            </summary>
+            <param name="username">The username to login with.</param>
+            <param name="password">The password to login with.</param>
+            <returns>True if the login is successful; otherwise, false.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.Utility.GeneralUtility.GetHMACBase64(System.String,System.String)">
+            <summary>
+            Calculates the HMAC (Hash-based Message Authentication Code) hash of a string using a specified key.
+            </summary>
+            <param name="text">The string to calculate the hash for.</param>
+            <param name="key">The key to use for the HMAC calculation. If null, uses a default key from configuration.</param>
+            <returns>The HMAC hash of the input string.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.Utility.GeneralUtility.AesEncrypt(System.String,System.String)">
+            <summary>
+            Encrypts a text using AES (Advanced Encryption Standard).
+            </summary>
+            <param name="text">The text to encrypt.</param>
+            <param name="key">The key to use for encryption.</param>
+            <returns>The encrypted text.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.Utility.GeneralUtility.AesDecrypt(System.String,System.String)">
+            <summary>
+            Decrypts an AES (Advanced Encryption Standard) encrypted text.
+            </summary>
+            <param name="encryptedText">The encrypted text to decrypt.</param>
+            <param name="key">The key to use for decryption.</param>
+            <returns>The decrypted text.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.Utility.GeneralUtility.ConvertModel``1(System.Object)">
+            <summary>
+            Converts the properties of the source object to a new instance of the destination object.
+            </summary>
+            <typeparam name="D">The type of the destination object.</typeparam>
+            <param name="objSource">The source object to map from.</param>
+            <returns>A new instance of the destination object with mapped properties.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.Utility.GeneralUtility.ConvertToCSV(System.Data.DataTable,System.String[],System.String[])">
+            <summary>
+            Converts a DataTable to a CSV (comma-separated values) byte array.
+            </summary>
+            <param name="dt">The DataTable to convert.</param>
+            <returns>A byte array representing the CSV data.</returns>
+        </member>
+        <member name="M:FirmAdvanceDemo.Utility.GeneralUtility.MonthTotalHoursWithoutWeekends(System.Int32,System.Int32)">
+            <summary>
+            Calculates the total number of working hours in a month excluding weekends.
+            </summary>
+            <param name="year">The year of the month.</param>
+            <param name="month">The month.</param>
+            <returns>The total number of working hours in the month excluding weekends.</returns>
+        </member>
+        <member name="T:FirmAdvanceDemo.Utility.Response">
+            <summary>
+            Class whose instance respresent a response result
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Utility.Response.IsError">
+            <summary>
+            Flag to state that whether the request was successfully perform
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Utility.Response.HttpStatusCode">
+            <summary>
+            Status code of the response of request
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Utility.Response.Message">
+            <summary>
+            Message breifing the response
+            </summary>
+        </member>
+        <member name="P:FirmAdvanceDemo.Utility.Response.Data">
+            <summary>
+            Response data
+            </summary>
+        </member>
+        <member name="T:FirmAdvanceDemo.Enums.EnmLeaveStatus">
+            <summary>
+            Represnt current status of leave. None value is used to get all types of leaves
+            </summary>
+        </member>
+        <member name="F:FirmAdvanceDemo.Enums.EnmLeaveStatus.P">
+            <summary>
+            Pending
+            </summary>
+        </member>
+        <member name="F:FirmAdvanceDemo.Enums.EnmLeaveStatus.A">
+            <summary>
+            Approved
+            </summary>
+        </member>
+        <member name="F:FirmAdvanceDemo.Enums.EnmLeaveStatus.R">
+            <summary>
+            Rejected
+            </summary>
+        </member>
+        <member name="F:FirmAdvanceDemo.Enums.EnmLeaveStatus.H">
+            <summary>
+            Historic
+            </summary>
+        </member>
+        <member name="T:FirmAdvanceDemo.Enums.EnmPunchType">
+            <summary>
+            Represnt type of punch
+            </summary>
+        </member>
+        <member name="F:FirmAdvanceDemo.Enums.EnmPunchType.U">
+            <summary>
+            Unprocessed
+            </summary>
+        </member>
+        <member name="F:FirmAdvanceDemo.Enums.EnmPunchType.I">
+            <summary>
+            Punch In
+            </summary>
+        </member>
+        <member name="F:FirmAdvanceDemo.Enums.EnmPunchType.O">
+            <summary>
+            Punch Out
+            </summary>
+        </member>
+        <member name="F:FirmAdvanceDemo.Enums.EnmPunchType.D">
+            <summary>
+            Duplicate Punch
+            </summary>
+        </member>
+        <member name="F:FirmAdvanceDemo.Enums.EnmPunchType.A">
+            <summary>
+            Ambiguous Punch
+            </summary>
+        </member>
+        <member name="T:FirmAdvanceDemo.Enums.EnmRole">
+            <summary>
+            Represent type of role of user
+            </summary>
+        </member>
+        <member name="F:FirmAdvanceDemo.Enums.EnmRole.A">
+            <summary>
+            Admin
+            </summary>
+        </member>
+        <member name="F:FirmAdvanceDemo.Enums.EnmRole.E">
+            <summary>
+            Employee
+            </summary>
+        </member>
+        <member name="F:FirmAdvanceDemo.Enums.EnmGender.M">
+            <summary>
+            Male
+            </summary>
+        </member>
+        <member name="F:FirmAdvanceDemo.Enums.EnmGender.F">
+            <summary>
+            Female
+            </summary>
+        </member>
+        <member name="F:FirmAdvanceDemo.Enums.EnmGender.O">
+            <summary>
+            Others
+            </summary>
+        </member>
+        <member name="T:FirmAdvanceDemo.Enums.EnmOperation">
+            <summary>
+            Represent type of operation to be performed
+            </summary>
+        </member>
+        <member name="F:FirmAdvanceDemo.Enums.EnmOperation.A">
+            <summary>
+            Add
+            </summary>
+        </member>
+        <member name="F:FirmAdvanceDemo.Enums.EnmOperation.E">
+            <summary>
+            Edit
+            </summary>
+        </member>
+        <member name="T:FirmAdvanceDemo.Swagger.AccessTokenAuthRequirements">
+            <summary>
+            Represents an operation filter for applying access token authentication requirements in Swagger documentation.
+            </summary>
+        </member>
+        <member name="M:FirmAdvanceDemo.Swagger.AccessTokenAuthRequirements.Apply(Swashbuckle.Swagger.Operation,Swashbuckle.Swagger.SchemaRegistry,System.Web.Http.Description.ApiDescription)">
+            <summary>
+            Applies the access token authentication requirements to the Swagger operation.
+            </summary>
+            <param name="operation">The Swagger operation to apply the requirements to.</param>
+            <param name="schemaRegistry">The schema registry.</param>
+            <param name="apiDescription">The API description.</param>
+        </member>
+        <member name="T:FirmAdvanceDemo.Swagger.BasicAuthRequirements">
+            <summary>
+            Represents an operation filter for applying basic authentication requirements in Swagger documentation.
+            </summary>
+        </member>
+        <member name="M:FirmAdvanceDemo.Swagger.BasicAuthRequirements.Apply(Swashbuckle.Swagger.Operation,Swashbuckle.Swagger.SchemaRegistry,System.Web.Http.Description.ApiDescription)">
+            <summary>
+            Applies the basic authentication requirements to the Swagger operation.
+            </summary>
+            <param name="operation">The Swagger operation to apply the requirements to.</param>
+            <param name="schemaRegistry">The schema registry.</param>
+            <param name="apiDescription">The API description.</param>
+        </member>
+    </members>
+</doc>

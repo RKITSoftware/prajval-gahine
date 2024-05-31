@@ -5,5 +5,6 @@ namespace ExpenseSplittingApplication.BL.Master.Interface
 {
     public interface IUSR01Service : ICommonService<DTOUSR01>
     {
+        object? GetAll();
     }
 }
