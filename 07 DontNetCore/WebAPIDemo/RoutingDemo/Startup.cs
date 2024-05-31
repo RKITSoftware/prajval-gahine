@@ -23,7 +23,7 @@ namespace RoutingDemo
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute("default", "{controller}/{action}");
-                endpoints.MapControllerRoute("product", "product/{*action}");
+                endpoints.MapControllers();
             });
         }
     }

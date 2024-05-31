@@ -6,7 +6,7 @@ var array = [
     { id: 4, name: 'IJK', age: 12, ageGroup: "teen"  },
     { id: 5, name: 'ZZZ', age: 30, ageGroup: "adult"  },
     { id: 6, name: 'EFG', age: 12, ageGroup: "teen"  },
-];
+]
 
 var localStore = new DevExpress.data.LocalStore({
     name: "png",

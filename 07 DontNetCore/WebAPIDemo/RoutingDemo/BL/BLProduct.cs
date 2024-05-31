@@ -42,6 +42,15 @@ namespace RoutingDemo.BL
         }
 
         /// <summary>
+        /// Method to fetch a product
+        /// </summary>
+        /// <returns></returns>
+        public PRD01? FetchProduct(int productID)
+        {
+            return lstProduct?.Find(product => product.d01f01 == productID);
+        }
+
+        /// <summary>
         /// Method to check if the new product item is correctly configured
         /// </summary>
         /// <param name="product">PRD01 object</param>

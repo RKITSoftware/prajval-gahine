@@ -4,10 +4,17 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FilterDemo.Controllers
 {
+    /// <summary>
+    /// Product controller
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class ProductController : ControllerBase
     {
+        /// <summary>
+        /// Method to get list of products
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public IActionResult Get()
         {

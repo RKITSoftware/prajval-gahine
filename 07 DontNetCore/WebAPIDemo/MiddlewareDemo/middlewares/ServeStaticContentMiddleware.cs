@@ -395,7 +395,7 @@ namespace MiddlewareDemo.middlewares
                 { ".zip", "application/x-zip-compressed" },
             };
 
-    public ServeStaticContentMiddleware(RequestDelegate next)
+        public ServeStaticContentMiddleware(RequestDelegate next)
         {
             _next = next;
         }
@@ -425,7 +425,6 @@ namespace MiddlewareDemo.middlewares
             using (var fs = new FileStream(serverStaticContentFilePath, FileMode.Open))
             {
                 response.Headers.ContentType = contentType;
-                response.Headers.ContentLength = fs.Length;
                 response.Headers.ContentLength = fs.Length;
                 await fs.CopyToAsync(context.Response.Body);
             }

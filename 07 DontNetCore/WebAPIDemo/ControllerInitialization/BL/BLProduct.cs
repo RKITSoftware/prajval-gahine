@@ -46,20 +46,23 @@ namespace ControllerInitialization.BL
         /// </summary>
         /// <param name="product">PRD01 object</param>
         /// <returns>True if new product item is correctly configure else false</returns>
-        private bool Validate(PRD01 product)
+        public Response Validate(PRD01 product)
         {
+            Response response = new Response();
             if (string.IsNullOrEmpty(product.d01f02) || product.d01f03 < 0 || product.d01f04 < 0)
             {
-                return false;
+                response.IsError = true;
+                response.Message = "Validation Error";
+                return response;
             }
-            return true;
+            return response;
         }
 
         /// <summary>
         /// Method to perform operation(s) on new product item before save
         /// </summary>
         /// <param name="product">PRD01 object</param>
-        private void PreSave(PRD01 product)
+        public void PreSave(PRD01 product)
         {
             product.d01f01 = NextId;
         }
@@ -68,23 +71,13 @@ namespace ControllerInitialization.BL
         /// Method to save the new product item in product list
         /// </summary>
         /// <param name="product">PRD01 object</param>
-        private void Save(PRD01 product)
+        public Response Save(PRD01 product)
         {
+            Response response = new Response();
             lstProduct?.Add(product);
             NextId++;
-        }
-
-        /// <summary>
-        /// Method to add new product item to product list
-        /// </summary>
-        /// <param name="product">PRD01 object</param>
-        public void AddProduct(PRD01 product)
-        {
-            if (Validate(product))
-            {
-                PreSave(product);
-                Save(product);
-            }
+            response.Message = "Product saved successfully.";
+            return response;
         }
     }
 }

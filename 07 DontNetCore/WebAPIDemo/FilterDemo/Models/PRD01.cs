@@ -1,6 +1,9 @@
 ﻿
 namespace FilterDemo.Models
 {
+    /// <summary>
+    /// Product class
+    /// </summary>
     public class PRD01
     {
         /// <summary>
