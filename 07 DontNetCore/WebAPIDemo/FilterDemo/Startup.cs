@@ -8,6 +8,25 @@ namespace FilterDemo
     public class Startup
     {
         /// <summary>
+        /// Register servicesn into the application
+        /// </summary>
+        /// <param name="services">The ServicesCollection to add the services to.</param>
+        public void ConfigureServices(IServiceCollection services)
+        {
+            // Add services to the container.
+            services.AddControllers(options =>
+            {
+                //options.Filters.Add(new GlobalHeaderFilter("name", "prajval"));
+                options.Filters.Add<CustomAuthorizationFilter>();
+                options.Filters.Add<CustomResourceFilter>();
+                options.Filters.Add<CustomActionFilter>();
+                options.Filters.Add<CustomResultFilter>();
+            });
+            services.AddEndpointsApiExplorer();
+            services.AddSwaggerGen();
+        }
+
+        /// <summary>
         /// Configure the application
         /// </summary>
         /// <param name="app">An application</param>
@@ -21,21 +40,6 @@ namespace FilterDemo
             {
                 endpoints.MapControllerRoute("default", "{controller}/{action}/{id?}");
             });
-        }
-
-        /// <summary>
-        /// Register servicesn into the application
-        /// </summary>
-        /// <param name="services">The ServicesCollection to add the services to.</param>
-        public void ConfigureServices(IServiceCollection services)
-        {
-            // Add services to the container.
-            services.AddControllers(options =>
-            {
-                options.Filters.Add(new GlobalHeaderFilter("name", "prajval"));
-            });
-            services.AddEndpointsApiExplorer();
-            services.AddSwaggerGen();
         }
     }
 }

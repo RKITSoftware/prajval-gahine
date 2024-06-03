@@ -108,9 +108,19 @@
     <Content Include="Content\dx.material.teal.light.css" />
     <Content Include="Content\dx.softblue.compact.css" />
     <Content Include="Content\dx.softblue.css" />
-    <Content Include="DG\index.html" />
-    <Content Include="DG\script.js" />
-    <Content Include="DG\style.css" />
+    <Content Include="DG\ajax\index.html" />
+    <Content Include="DG\ajax\script.js" />
+    <Content Include="DG\ajax\style.css" />
+    <Content Include="DG\array\index.html" />
+    <Content Include="DG\array\script.js" />
+    <Content Include="DG\array\style.css" />
+    <Content Include="DG\main\index.html" />
+    <Content Include="DG\main\script.js" />
+    <Content Include="DG\main\style.css" />
+    <Content Include="DG\scrolling\virtual\index.html" />
+    <Content Include="DG\scrolling\virtual\script.js" />
+    <Content Include="DG\scrolling\virtual\style.css" />
+    <Content Include="info\info.js" />
     <Content Include="Scripts\cldr.js" />
     <Content Include="Scripts\cldr\event.js" />
     <Content Include="Scripts\cldr\supplemental.js" />
@@ -175,6 +185,7 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="DG\debug-utlity.js" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -188,7 +199,9 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="DG\scrolling\infinite\" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

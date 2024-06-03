@@ -20,6 +20,7 @@ namespace FilterDemo.Controllers
         {
             BLProduct bLProduct = new BLProduct();
             List<PRD01>? lstProduct = bLProduct.FetchProductList();
+            Console.WriteLine("Action method executed");
             return Ok(lstProduct);
         }
     }
