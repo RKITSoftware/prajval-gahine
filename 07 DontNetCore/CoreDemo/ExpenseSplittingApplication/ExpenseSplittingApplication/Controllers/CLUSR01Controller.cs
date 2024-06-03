@@ -1,13 +1,12 @@
 ﻿using ExpenseSplittingApplication.BL.Master.Interface;
 using ExpenseSplittingApplication.Models;
-using Microsoft.AspNetCore.Mvc;
 using ExpenseSplittingApplication.Models.DTO;
-using Microsoft.AspNetCore.Authorization;
+using ExpenseSplittingApplication.Models.DTO.Filters;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ExpenseSplittingApplication.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
+    [Route("api/user")]
     public class CLUSR01Controller : ControllerBase
     {
         private readonly IUSR01Service _usr01Service;
@@ -20,12 +19,15 @@ namespace ExpenseSplittingApplication.Controllers
         [HttpGet("")]
         public IActionResult GetUser()
         {
-            return Ok(_usr01Service.GetAll());
+            Response response = _usr01Service.GetAll();
+            return Ok(response);
         }
 
         [HttpPost("")]
+        [ValidateModel]
         public IActionResult PostUser(DTOUSR01 objDTOUSR01)
         {
+            if(ModelState.IsValid) { }
             _usr01Service.Operation = EnmOperation.A;
             Response response = _usr01Service.PreValidation(objDTOUSR01);
 
@@ -61,22 +63,28 @@ namespace ExpenseSplittingApplication.Controllers
             return Ok(response);
         }
 
-        [HttpPatch("")]
-        public IActionResult ChangePassword(string password)
+        [HttpPatch("change-password")]
+        public IActionResult ChangePassword(int userID, string oldPassword, string newPassword)
         {
-            Response response = new Response();
+            Response response = _usr01Service.ValidatePassword(userID, oldPassword);
+            if(!response.IsError)
+            {
+                response = _usr01Service.ChangePassword(userID, newPassword);
+            }
             return Ok(response);
         }
 
+        
         [HttpDelete("{id}")]
         public IActionResult DeleteUser(int id)
         {
             Response response = _usr01Service.DeleteValidation(id);
-            if(!response.IsError)
+            if (!response.IsError)
             {
                 response = _usr01Service.Delete(id);
             }
             return Ok(response);
+            return Ok("DeleteUser");
         }
     }
 }

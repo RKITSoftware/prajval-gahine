@@ -11,7 +11,7 @@ namespace ExpenseSplittingApplication.Models.POCO
         public int P01F01 { get; set; }
 
         /// <summary>
-        /// Payer User ID
+        /// User ID (Payer)
         /// </summary>
 
         public int P01F02 { get; set; }
@@ -27,13 +27,18 @@ namespace ExpenseSplittingApplication.Models.POCO
         public double P01F04{ get; set; }
 
         /// <summary>
+        /// Date of Expense
+        /// </summary>
+        public DateTime P01F05 { get; set; }
+
+        /// <summary>
         /// Expense creation datetime
         /// </summary>
-        public DateTime P01F098 { get; set; }
+        public DateTime P01F98 { get; set; }
 
         /// <summary>
         /// Expense last modified datetime
         /// </summary>
-        public DateTime? P01F099 { get; set; }
+        public DateTime? P01F99 { get; set; }
     }
 }

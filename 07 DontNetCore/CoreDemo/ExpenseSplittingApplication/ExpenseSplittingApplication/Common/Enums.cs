@@ -1,4 +1,4 @@
-﻿namespace ExpenseSplittingApplication.Utility
+﻿namespace ExpenseSplittingApplication.Common
 {
     public enum EnmPaymentStatus : byte
     {

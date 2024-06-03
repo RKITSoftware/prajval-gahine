@@ -23,11 +23,11 @@ namespace ExpenseSplittingApplication.Models.POCO
         /// <summary>
         /// User creation datetime
         /// </summary>
-        public DateTime R01F098 { get; set; }
+        public DateTime R01F98 { get; set; }
 
         /// <summary>
         /// User last modified datetime
         /// </summary>
-        public DateTime? R01F099 { get; set; }
+        public DateTime? R01F99 { get; set; }
     }
 }

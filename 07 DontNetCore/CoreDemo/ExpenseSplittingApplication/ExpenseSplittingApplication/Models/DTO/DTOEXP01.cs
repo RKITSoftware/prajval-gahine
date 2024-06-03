@@ -1,4 +1,4 @@
-﻿using ServiceStack.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace ExpenseSplittingApplication.Models.DTO
 {
@@ -12,7 +12,7 @@ namespace ExpenseSplittingApplication.Models.DTO
         /// <summary>
         /// User ID (Payer)
         /// </summary>
-
+        [Required(ErrorMessage = "User ID is required")]
         public int P01F02 { get; set; }
 
         /// <summary>
@@ -23,6 +23,12 @@ namespace ExpenseSplittingApplication.Models.DTO
         /// <summary>
         /// Amount paid
         /// </summary>
+        [Required(ErrorMessage = "Amount paid is required.")]
         public double P01F04 { get; set; }
+
+        /// <summary>
+        /// Date of Expense
+        /// </summary>
+        public DateTime P01F05 { get; set; }
     }
 }

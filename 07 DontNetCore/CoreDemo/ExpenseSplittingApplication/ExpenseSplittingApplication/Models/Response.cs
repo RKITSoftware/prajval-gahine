@@ -1,12 +1,10 @@
-﻿using System.Net;
-
-namespace ExpenseSplittingApplication.Models
+﻿namespace ExpenseSplittingApplication.Models
 {
     public class Response
     {
         public bool IsError { get; set; }
 
-        public HttpStatusCode HttpStatusCode { get; set; }
+        public int HttpStatusCode { get; set; }
 
         public string Message { get; set; }
 

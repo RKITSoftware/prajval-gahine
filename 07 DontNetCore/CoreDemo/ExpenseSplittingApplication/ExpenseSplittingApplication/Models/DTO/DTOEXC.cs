@@ -1,4 +1,4 @@
-﻿using ExpenseSplittingApplication.Models.POCO;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace ExpenseSplittingApplication.Models.DTO
 {
@@ -7,7 +7,7 @@ namespace ExpenseSplittingApplication.Models.DTO
         /// <summary>
         /// Instance of DTOEXP01.
         /// </summary>
-        public DTOEXP01 ObjDT8OEXP01 { get; set; }
+        public DTOEXP01 ObjDTOEXP01 { get; set; }
 
         /// <summary>
         /// Instance of DTOUXE01.
@@ -17,6 +17,7 @@ namespace ExpenseSplittingApplication.Models.DTO
         /// <summary>
         /// Is expense shared equally ?
         /// </summary>
-        public bool IsShareEqual { get; set; }
+        [Required(ErrorMessage = "Expense share type is required")]
+        public bool IsShareUnequal { get; set; }
     }
 }

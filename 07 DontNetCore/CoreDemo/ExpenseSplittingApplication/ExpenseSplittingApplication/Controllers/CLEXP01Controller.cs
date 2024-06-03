@@ -1,12 +1,11 @@
 ﻿using ExpenseSplittingApplication.BL.Master.Interface;
-using ExpenseSplittingApplication.Models.DTO;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
 using ExpenseSplittingApplication.Models;
+using ExpenseSplittingApplication.Models.DTO;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ExpenseSplittingApplication.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/expense")]
     [ApiController]
     public class CLEXP01Controller : ControllerBase
     {
@@ -25,25 +24,16 @@ namespace ExpenseSplittingApplication.Controllers
             if (!response.IsError)
             {
                 _exp01Service.PreSave(dtoEXC);
-                response = _exp01Service.Validation();
-                if (!response.IsError)
-                {
-                    response = _exp01Service.Save();
-                }
+                response = _exp01Service.Save();
             }
             return Ok(response);
         }
 
-        [HttpDelete("")]
-        public IActionResult DeleteExpense(int id)
+        [HttpGet("settlement-report")]
+        public IActionResult GetSettlementReport(int userID)
         {
-            Response response = _exp01Service.DeleteValidation(id);
-            if (!response.IsError)
-            {
-                response = _exp01Service.Delete(id);
-            }
+            Response response = _exp01Service.GetSettlementReport(userID);
             return Ok(response);
         }
     }
 }
-9
