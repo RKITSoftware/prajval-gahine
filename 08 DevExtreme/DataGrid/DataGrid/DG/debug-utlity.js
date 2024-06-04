@@ -34,6 +34,7 @@ function findValuePathsInObj(obj, value) {
     let safeObj = JSON.parse(strObj);
     return findKeysWithValue(safeObj, value);
 }
+
 function safeStringify2(obj, replacer = null, space = 2) {
     let seenObjects = new WeakMap();
 

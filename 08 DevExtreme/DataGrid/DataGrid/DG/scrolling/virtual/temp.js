@@ -5,21 +5,65 @@ var dataGrid;
 
 
 $(function () {
+
+
     function fakeAPIGetUnsorted(){
-        console.log("fakeAPIGetUnsorted called");
+        var unsortedEmployees = 
+        [
+            {
+                "ID": 3,
+                "FirstName": "Emma",
+                "LastName": "Michael",
+                "Position": "Sales",
+                "BirthDate": "1975-02-15",
+                "Salary": 136472
+            },
+            {
+                "ID": 5,
+                "FirstName": "David",
+                "LastName": "Michael",
+                "Position": "Sales",
+                "BirthDate": "1990-12-01",
+                "Salary": 136037
+            },
+            {
+                "ID": 2,
+                "FirstName": "PRAJVAL GAHINE",
+                "LastName": "Linda",
+                "Position": "Finance",
+                "BirthDate": "1960-11-01",
+                "Salary": 79795
+            },
+            {
+                "ID": 4,
+                "FirstName": "Samuel",
+                "LastName": "Michael",
+                "Position": "Finance",
+                "BirthDate": "1988-04-18",
+                "Salary": 83138
+            },
+            {
+                "ID": 1,
+                "FirstName": "Oliver loremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremlorem",
+                "LastName": "Sophia",
+                "Position": "Developer",
+                "BirthDate": "1960-11-01",
+                "Salary": 135624
+            },
+        ]
+
         const deferred = $.Deferred();
 
         setTimeout(function(){
-            deferred.resolve(generateEmployees(500));
+            deferred.resolve(unsortedEmployees);
         }, 200);
 
         return deferred.promise();
     }
 
-    // simulate an API for virtual scrolling
-    function fakeAPIGetData(skip = 0, take = 10, sortInfo) {
 
-        console.log("fakeAPIGetData called");
+    // simulate an API for virtual scrolling
+    function virtualScollAPI(skip = 0, take = 10, sortInfo) {
 
         function compare(prop, isDesc) {
             return function (a, b) {
@@ -36,7 +80,7 @@ $(function () {
         // console.log("API Called", skip, take, sortInfo);
 
         setTimeout(function () {
-            let employees = generateEmployees(500);
+
             let subEmployee;
 
             if (!sortInfo) {
@@ -85,14 +129,17 @@ $(function () {
                 deferred = fakeAPIGetUnsorted();
             }
             else{
-                deferred = fakeAPIGetData(loadOptions.skip, loadOptions.take, loadOptions?.sort?.[0]);
+                deferred = virtualScollAPI(loadOptions.skip, loadOptions.take, loadOptions?.sort?.[0]);
             }
 
-            deferred.always(function () {
+            deferred.then(function () {
                 if (loadOptions.skip == 0) {
                     loaderW.hide();
                 }
             }).catch(function () {
+                if (loadOptions.skip == 0) {
+                    loaderW.hide();
+                }
                 DevExpress.ui.notify({
                     message: "Unable to laod data.",
                     type: "error",
@@ -126,7 +173,7 @@ $(function () {
             scrollByThumb: true,
             scrollByContent: false,
         },
-        height: "380px",
+        height: "280px",
         loadPanel: {
             enabled: false
         },
@@ -142,7 +189,7 @@ $(function () {
         },
         remoteOperations: {
             paging: true,
-            sorting: true,
+            sorting: false,
         },
         sorting: {
             mode: "single"
@@ -151,16 +198,7 @@ $(function () {
 
     // -------------------------------------------------------------------------------------------------------
 
-
     root.append(container);
-
-    $("<div>").dxCheckBox({
-        value: true,
-        text: "Sorting on remote",
-        onValueChanged: function (e) {
-            dataGrid.option("remoteOperations.sorting", e.value);
-        }
-    }).appendTo("#root");
 
     // export to window
     {
