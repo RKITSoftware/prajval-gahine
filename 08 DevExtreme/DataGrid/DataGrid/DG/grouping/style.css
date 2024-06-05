@@ -1,0 +1,41 @@
+﻿*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+#container{
+    border: 1px solid #ddd;
+    margin: 16px;
+    border-radius: 8px;
+}
+
+.custom-dark-mode {
+    border: 1px solid #ddd;
+    margin: 16px;
+    margin-top: 24px;
+    border-radius: 8px;
+}
+.custom-dark-mode .dx-datagrid,
+.custom-dark-mode .dx-datagrid-headers,
+.custom-dark-mode .dx-datagrid-rowsview,
+.custom-dark-mode .dx-datagrid-filter-row,
+.custom-dark-mode .dx-datagrid-footer,
+.custom-dark-mode .dx-datagrid-total-footer {
+    background-color: #333; /* Dark background */
+    color: #fff; /* Light text */
+}
+
+    .custom-dark-mode .dx-datagrid .dx-header-row .dx-datagrid-action {
+        color: #fff;
+    }
+
+    .custom-dark-mode .dx-datagrid .dx-row-focused,
+    .custom-dark-mode .dx-datagrid .dx-selection {
+        background-color: #555;
+    }
+
+    .custom-dark-mode .dx-datagrid .dx-editor-cell .dx-texteditor-input {
+        color: #fff;
+        background-color: #444;
+    }

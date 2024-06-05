@@ -27,6 +27,21 @@ $(function () {
     window.dataSource = dataSource;
 
 
+    const loopupArray = [
+        {
+            departmentId: 1,
+            deptName: "HR"
+        },
+        {
+            departmentId: 2,
+            deptName: "Marketing"
+        },
+        {
+            departmentId: 3,
+            deptName: "Development"
+        },
+    ];
+
     let currentEditingRow;
     // dx data grid
     const dataGrid = container.dxDataGrid({
@@ -59,6 +74,15 @@ $(function () {
             {
                 dataField: "salary",
                 dataType: "number"
+            },
+            {
+                dataField: "departmentId",
+                lookup: {
+                    dataSource: loopupArray,
+                    valueExpr: "departmentId",
+                    displayExpr: "deptName",
+                    allowClearing: true,
+                }
             },
         ],
         editing: {
@@ -156,7 +180,7 @@ $(function () {
                     {
                         itemType: "group",
                         caption: "Job Details",
-                        items: ["position", "salary"],
+                        items: ["position", "salary", "departmentId"],
                     },
                 ],
             }

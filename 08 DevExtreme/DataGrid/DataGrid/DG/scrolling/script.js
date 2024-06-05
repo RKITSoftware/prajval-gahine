@@ -72,7 +72,7 @@ $(function () {
     const container = $("<div>", { id: "container" });
 
     const customStore = new DevExpress.data.CustomStore({
-        key: "ID",
+        key: "id",
         load: function (loadOptions) {
 
             if (loadOptions.skip == 0) {
@@ -119,7 +119,7 @@ $(function () {
         cacheEnabled: true,
         scrolling: {
             mode: "infinite",
-            preloadEnabled: true,
+            preloadEnabled: false,
             rowRenderingMode: "virtual",
             showScrollbar: "always",
             useNative: false,
@@ -136,6 +136,7 @@ $(function () {
             pageIndex: 0,
         },
         pager: {
+            visible: true,
             showPageSizeSelector: true,
             allowedPageSizes: [10, 20, 50],
             showInfo: true

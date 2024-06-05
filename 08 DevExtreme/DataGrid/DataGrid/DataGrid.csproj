@@ -115,17 +115,29 @@
     <Content Include="DG\array\script.js" />
     <Content Include="DG\array\style.css" />
     <Content Include="DG\editing\index.html" />
+    <Content Include="DG\editing\lookup\index.html" />
+    <Content Include="DG\editing\lookup\script.js" />
+    <Content Include="DG\editing\lookup\style.css" />
     <Content Include="DG\editing\script.js" />
     <Content Include="DG\editing\style.css" />
     <Content Include="DG\emlpoyee-utility.js" />
+    <Content Include="DG\filtering\index.html" />
+    <Content Include="DG\filtering\script.js" />
+    <Content Include="DG\filtering\style.css" />
+    <Content Include="DG\grouping\index.html" />
+    <Content Include="DG\grouping\script.js" />
+    <Content Include="DG\grouping\style.css" />
     <Content Include="DG\main\index.html" />
     <Content Include="DG\main\script.js" />
     <Content Include="DG\main\style.css" />
-    <Content Include="DG\scrolling\virtual\data.js" />
-    <Content Include="DG\scrolling\virtual\index.html" />
-    <Content Include="DG\scrolling\virtual\script.js" />
-    <Content Include="DG\scrolling\virtual\style.css" />
-    <Content Include="DG\scrolling\virtual\temp.js" />
+    <Content Include="DG\scrolling\data.js" />
+    <Content Include="DG\scrolling\index.html" />
+    <Content Include="DG\scrolling\script.js" />
+    <Content Include="DG\scrolling\style.css" />
+    <Content Include="DG\scrolling\temp.js" />
+    <Content Include="DG\test\index.html" />
+    <Content Include="DG\test\script.js" />
+    <Content Include="DG\test\style.css" />
     <Content Include="info\info.js" />
     <Content Include="Scripts\cldr.js" />
     <Content Include="Scripts\cldr\event.js" />
@@ -205,9 +217,7 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="DG\scrolling\infinite\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
