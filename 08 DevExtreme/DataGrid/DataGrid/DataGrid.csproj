@@ -130,14 +130,24 @@
     <Content Include="DG\main\index.html" />
     <Content Include="DG\main\script.js" />
     <Content Include="DG\main\style.css" />
+    <Content Include="DG\rowselection\index.html" />
+    <Content Include="DG\rowselection\script.js" />
+    <Content Include="DG\rowselection\style.css" />
     <Content Include="DG\scrolling\data.js" />
     <Content Include="DG\scrolling\index.html" />
     <Content Include="DG\scrolling\script.js" />
     <Content Include="DG\scrolling\style.css" />
     <Content Include="DG\scrolling\temp.js" />
+    <Content Include="DG\sorting\index.html" />
+    <Content Include="DG\sorting\script.js" />
+    <Content Include="DG\sorting\style.css" />
     <Content Include="DG\test\index.html" />
     <Content Include="DG\test\script.js" />
     <Content Include="DG\test\style.css" />
+    <Content Include="DG\test\test2\data.js" />
+    <Content Include="DG\test\test2\index.html" />
+    <Content Include="DG\test\test2\script.js" />
+    <Content Include="DG\test\test2\style.css" />
     <Content Include="info\info.js" />
     <Content Include="Scripts\cldr.js" />
     <Content Include="Scripts\cldr\event.js" />
@@ -233,7 +243,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>60152</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:60152</IISUrl>
+          <IISUrl>http://localhost:43569</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

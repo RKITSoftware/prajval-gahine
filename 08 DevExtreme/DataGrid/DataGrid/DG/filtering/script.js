@@ -10,7 +10,7 @@ $(function () {
     const container = $("<div>", { id: "container" });
 
     // array - data
-    const array = $.extend(true, [], generateEmployees(500));
+    const array = $.extend(true, [], arrayStatic);
     window.array = array;
 
     // array store
@@ -39,30 +39,62 @@ $(function () {
     DevExpress.localization.locale("en");
 
     function getOrderDay(rowData) {
-        return (new Date(rowData.OrderDate)).getDay();
+        return (new Date(rowData.birthDate)).getDay();
     }
 
     // dx data grid
     const dataGrid = container.dxDataGrid({
         dataSource,
-        //filterBuilder: {
-        //    enabled: true,
-        //    applyFilter: "auto" // Apply filter automatically when a condition is added or changed
-        //},
-        filterValue: [['firstName', '=', 'Prajval'], 'and', ['birthDate', 'weekends']],
+        //filterValue: [['firstName', '=', 'Prajval']],
+        filterPanel: {
+            visible: true,
+        },
         filterBuilder: {
             enabled: true,
-            customOperations: [{
-                name: 'weekends',
-                caption: 'Weekends',
-                dataTypes: ['date'],
-                icon: 'check',
-                hasValue: false,
-                calculateFilterExpression() {
-                    return [[getOrderDay, '=', 0], 'or', [getOrderDay, '=', 6]];
+            customOperations: [
+                {
+                    name: 'weekends',
+                    caption: 'Weekends',
+                    dataTypes: ['date'],
+                    icon: 'check',
+                    hasValue: false,
+                    calculateFilterExpression(value, fields) {
+                        return [[getOrderDay, '=', 0], 'or', [getOrderDay, '=', 6]];
+                    },
                 },
-            }],
+                {
+                    name: 'containsNot',
+                    caption: 'Custom Contains not',
+                    icon: 'check',
+                    calculateFilterExpression: function (filterValue, selectedFilterOperation) {
+                        if (selectedFilterOperation === "containsNot") {
+                            return ["!", ["firstName", "contains", , filterValue]];
+                        }
+                        return ['firstName', selectedFilterOperation, filterValue];
+                    }
+                }
+            ],
             allowHierarchicalFields: true,
+        },
+        filterSyncEnabled: true,
+        sorting: {
+            mode: "multiple",
+            showSortIndexes: false,
+        },
+        /*
+        customizeColumns: function (columns) {
+            columns.forEach(function (column) {
+                if (column.dataField === 'firstName') {
+                    column.filterOperations.push('containsNot'); // Add the custom operation to the column
+                }
+            });
+            return columns;
+        },
+        */
+        searchPanel: {
+            visible: true,
+            width: 240,
+            placeholder: 'Search...',
         },
         columns: [
             {
@@ -72,19 +104,30 @@ $(function () {
                 allowHeaderFiltering: true,
                 filterType: "exclude",
                 filterOperations: ["="],
+                sortOrder: "asc",
+                sortIndex: 0,
+                headerFilter: {
+                    visible: true,
+                    searchTimeout: 100,
+                    groupInterval: 100,
+                    texts: {},
+                    height: "400px",
+                    width: "300px",
+                }
             },
             {
                 dataField: "firstName",
                 //sortOrder: "asc",
                 allowFiltering: true,
-                filterOperations: ["contains", "containsNot", "="], // Include custom operation
+                filterOperations: ["contains", "containsNot", "="],
+                /*
                 calculateFilterExpression: function (filterValue, selectedFilterOperation) {
                     if (selectedFilterOperation === "containsNot") {
-                        //return ["!", ["contains", "columnName", filterValue]];
-                        return ["=", "firstName", filterValue];
+                        return ["!", ["firstName", "contains", , filterValue]];
                     }
-                    return ["firstName", "=", filterValue];
+                    return ['firstName', selectedFilterOperation, filterValue];
                 }
+                */
             },
             {
                 dataField: "lastName",
@@ -93,7 +136,9 @@ $(function () {
                         type: "required",
                         message: "Last Name is required",
                     }
-                ]
+                ],
+                sortOrder: "asc",
+                sortIndex: 1,
             },
             {
                 dataField: "birthDate",
@@ -113,7 +158,7 @@ $(function () {
                 },
                 headerFilter: {
                     visible: true,
-                    allowSearch: true,
+                    allowSearch: false,
                     dataSource: [
                         {
                             text: "Less than $10000",

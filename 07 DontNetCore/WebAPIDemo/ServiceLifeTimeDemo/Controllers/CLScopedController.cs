@@ -6,16 +6,31 @@ using System.Runtime.CompilerServices;
 
 namespace ServiceLifeTimeDemo.Controllers
 {
-    //[Route("api/[controller]")]
+    /// <summary>
+    /// CLScopedController class
+    /// </summary>
     [ApiController]
     public class CLScopedController : ControllerBase
     {
+        /// <summary>
+        /// Scoped Service instance
+        /// </summary>
         private IScopedService _scopedService;
+
+        /// <summary>
+        /// CLScopedController constructor to initialize IScopedService
+        /// </summary>
+        /// <param name="scopedService">IScopedService instance</param>
         public CLScopedController(IScopedService scopedService)
         {
             _scopedService = scopedService;
         }
 
+        /// <summary>
+        /// Method to get guid of scoped service
+        /// </summary>
+        /// <param name="sp">IServiceProvider instance</param>
+        /// <returns>object containing guid information</returns>
         [HttpGet]
         [Route("api/scoped")]
         public IActionResult Get([FromServices]IServiceProvider sp)

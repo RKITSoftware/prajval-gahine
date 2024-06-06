@@ -1,17 +1,24 @@
 ﻿namespace LoggingDemo
 {
+    /// <summary>
+    /// Startup class for web app startup
+    /// </summary>
     public class Startup
     {
-        public Startup(IConfiguration config)
-        {
-
-        }
+        /// <summary>
+        /// Method to configure app services
+        /// </summary>
+        /// <param name="services">IServiceCollection instance</param>
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
             services.AddSwaggerGen();
         }
 
+        /// <summary>
+        /// Method to configure request pipeline
+        /// </summary>
+        /// <param name="app">WebApplication instance</param>
         public void Configure(IApplicationBuilder app)
         {
             app.UseSwagger();

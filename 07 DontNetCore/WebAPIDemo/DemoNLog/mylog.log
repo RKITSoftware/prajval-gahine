@@ -1,0 +1,414 @@
+2024-06-06 11:01:37.7666|Hosting starting
+2024-06-06 11:01:38.1406|Registered model binder providers, in the following order: Microsoft.AspNetCore.Mvc.ModelBinding.Binders.BinderTypeModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ServicesModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.BodyModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.HeaderModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FloatingPointTypeModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.EnumTypeModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.DateTimeModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.SimpleTypeModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.CancellationTokenModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ByteArrayModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FormFileModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FormCollectionModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.KeyValuePairModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.DictionaryModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ArrayModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.CollectionModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ComplexObjectModelBinderProvider
+2024-06-06 11:01:38.3074|Hosting started
+2024-06-06 11:01:38.3074|Loaded hosting startup assembly DemoNLog
+2024-06-06 11:01:38.3074|Loaded hosting startup assembly Microsoft.AspNetCore.Watch.BrowserRefresh
+2024-06-06 11:01:38.6316|Connection id "0HN45T7O5RBV0" received FIN.
+2024-06-06 11:01:38.6316|Connection id "0HN45T7O5RBUV" received FIN.
+2024-06-06 11:01:38.6434|Connection id "0HN45T7O5RBUV" accepted.
+2024-06-06 11:01:38.6434|Connection id "0HN45T7O5RBV0" accepted.
+2024-06-06 11:01:38.6434|Connection id "0HN45T7O5RBUV" started.
+2024-06-06 11:01:38.6434|Connection id "0HN45T7O5RBV0" started.
+2024-06-06 11:01:38.6652|Connection id "0HN45T7O5RBV0" sending FIN because: "The client closed the connection."
+2024-06-06 11:01:38.6652|Connection id "0HN45T7O5RBUV" sending FIN because: "The client closed the connection."
+2024-06-06 11:01:38.6652|Connection id "0HN45T7O5RBUV" disconnecting.
+2024-06-06 11:01:38.6652|Connection id "0HN45T7O5RBV0" disconnecting.
+2024-06-06 11:01:38.6892|Connection id "0HN45T7O5RBUV" stopped.
+2024-06-06 11:01:38.6892|Connection id "0HN45T7O5RBV0" stopped.
+2024-06-06 11:01:39.7032|Connection id "0HN45T7O5RBV1" accepted.
+2024-06-06 11:01:39.7032|Connection id "0HN45T7O5RBV1" started.
+2024-06-06 11:01:39.7032|Connection id "0HN45T7O5RBV2" accepted.
+2024-06-06 11:01:39.7032|Connection id "0HN45T7O5RBV2" started.
+2024-06-06 11:01:39.7541|Request starting HTTP/1.1 GET http://localhost:5081/swagger/index.html - -
+2024-06-06 11:01:39.8978|Response markup is scheduled to include browser refresh script injection.
+2024-06-06 11:01:39.9227|Response markup was updated to include browser refresh script injection.
+2024-06-06 11:01:39.9227|Connection id "0HN45T7O5RBV1" completed keep alive response.
+2024-06-06 11:01:39.9227|Request finished HTTP/1.1 GET http://localhost:5081/swagger/index.html - - - 200 - text/html;charset=utf-8 174.4649ms
+2024-06-06 11:01:40.5445|Request starting HTTP/1.1 GET http://localhost:5081/_framework/aspnetcore-browser-refresh.js - -
+2024-06-06 11:01:40.5445|Connection id "0HN45T7O5RBV1" completed keep alive response.
+2024-06-06 11:01:40.5445|Request finished HTTP/1.1 GET http://localhost:5081/_framework/aspnetcore-browser-refresh.js - - - 200 11986 application/javascript;+charset=utf-8 4.6681ms
+2024-06-06 11:01:40.6504|Request starting HTTP/1.1 GET http://localhost:5081/swagger/v1/swagger.json - -
+2024-06-06 11:01:40.7199|Connection id "0HN45T7O5RBV1" completed keep alive response.
+2024-06-06 11:01:40.7199|Request finished HTTP/1.1 GET http://localhost:5081/swagger/v1/swagger.json - - - 200 - application/json;charset=utf-8 69.8095ms
+2024-06-06 11:01:44.0721|Request starting HTTP/1.1 GET http://localhost:5081/api/Data - -
+2024-06-06 11:01:44.0752|The request path  does not match the path filter
+2024-06-06 11:01:44.1023|1 candidate(s) found for the request path '/api/Data'
+2024-06-06 11:01:44.1023|Endpoint 'DemoNLog.Controllers.DataController.Get (DemoNLog)' with route pattern 'api/Data' is valid for the request path '/api/Data'
+2024-06-06 11:01:44.1023|Request matched endpoint 'DemoNLog.Controllers.DataController.Get (DemoNLog)'
+2024-06-06 11:01:44.1067|Executing endpoint 'DemoNLog.Controllers.DataController.Get (DemoNLog)'
+2024-06-06 11:01:44.1067|Route matched with {action = "Get", controller = "Data"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Get() on controller DemoNLog.Controllers.DataController (DemoNLog).
+2024-06-06 11:01:44.1067|Execution plan of authorization filters (in the following order): None
+2024-06-06 11:01:44.1067|Execution plan of resource filters (in the following order): None
+2024-06-06 11:01:44.1067|Execution plan of action filters (in the following order): Microsoft.AspNetCore.Mvc.ModelBinding.UnsupportedContentTypeFilter (Order: -3000), Microsoft.AspNetCore.Mvc.Infrastructure.ModelStateInvalidFilter (Order: -2000)
+2024-06-06 11:01:44.1067|Execution plan of exception filters (in the following order): None
+2024-06-06 11:01:44.1067|Execution plan of result filters (in the following order): Microsoft.AspNetCore.Mvc.Infrastructure.ClientErrorResultFilter (Order: -2000)
+2024-06-06 11:01:44.1067|Executing controller factory for controller DemoNLog.Controllers.DataController (DemoNLog)
+2024-06-06 11:01:44.1067|Executed controller factory for controller DemoNLog.Controllers.DataController (DemoNLog)
+2024-06-06 11:01:44.1067|Action Filter: Before executing OnActionExecuting on filter Microsoft.AspNetCore.Mvc.ModelBinding.UnsupportedContentTypeFilter.
+2024-06-06 11:01:44.1067|Action Filter: After executing OnActionExecuting on filter Microsoft.AspNetCore.Mvc.ModelBinding.UnsupportedContentTypeFilter.
+2024-06-06 11:01:44.1067|Action Filter: Before executing OnActionExecuting on filter Microsoft.AspNetCore.Mvc.Infrastructure.ModelStateInvalidFilter.
+2024-06-06 11:01:44.1067|Action Filter: After executing OnActionExecuting on filter Microsoft.AspNetCore.Mvc.Infrastructure.ModelStateInvalidFilter.
+2024-06-06 11:01:44.1261|Executing action method DemoNLog.Controllers.DataController.Get (DemoNLog) - Validation state: Valid
+2024-06-06 11:01:44.1261|Into Get method
+2024-06-06 11:01:44.1261|Exiting Get method
+2024-06-06 11:01:44.1395|Executed action method DemoNLog.Controllers.DataController.Get (DemoNLog), returned result Microsoft.AspNetCore.Mvc.OkObjectResult in 8.6292ms.
+2024-06-06 11:01:44.1395|Action Filter: Before executing OnActionExecuted on filter Microsoft.AspNetCore.Mvc.Infrastructure.ModelStateInvalidFilter.
+2024-06-06 11:01:44.1395|Action Filter: After executing OnActionExecuted on filter Microsoft.AspNetCore.Mvc.Infrastructure.ModelStateInvalidFilter.
+2024-06-06 11:01:44.1395|Action Filter: Before executing OnActionExecuted on filter Microsoft.AspNetCore.Mvc.ModelBinding.UnsupportedContentTypeFilter.
+2024-06-06 11:01:44.1395|Action Filter: After executing OnActionExecuted on filter Microsoft.AspNetCore.Mvc.ModelBinding.UnsupportedContentTypeFilter.
+2024-06-06 11:01:44.1395|Result Filter: Before executing OnResultExecuting on filter Microsoft.AspNetCore.Mvc.Infrastructure.ClientErrorResultFilter.
+2024-06-06 11:01:44.1395|Result Filter: After executing OnResultExecuting on filter Microsoft.AspNetCore.Mvc.Infrastructure.ClientErrorResultFilter.
+2024-06-06 11:01:44.1395|Before executing action result Microsoft.AspNetCore.Mvc.OkObjectResult.
+2024-06-06 11:01:44.1395|List of registered output formatters, in the following order: Microsoft.AspNetCore.Mvc.Formatters.HttpNoContentOutputFormatter, Microsoft.AspNetCore.Mvc.Formatters.StringOutputFormatter, Microsoft.AspNetCore.Mvc.Formatters.StreamOutputFormatter, Microsoft.AspNetCore.Mvc.Formatters.SystemTextJsonOutputFormatter
+2024-06-06 11:01:44.1395|No information found on request to perform content negotiation.
+2024-06-06 11:01:44.1395|Attempting to select an output formatter without using a content type as no explicit content types were specified for the response.
+2024-06-06 11:01:44.1395|Attempting to select the first formatter in the output formatters list which can write the result.
+2024-06-06 11:01:44.1395|Selected output formatter 'Microsoft.AspNetCore.Mvc.Formatters.StringOutputFormatter' and content type 'text/plain' to write the response.
+2024-06-06 11:01:44.1395|Executing OkObjectResult, writing value of type 'System.String'.
+2024-06-06 11:01:44.1395|After executing action result Microsoft.AspNetCore.Mvc.OkObjectResult.
+2024-06-06 11:01:44.1395|Result Filter: Before executing OnResultExecuted on filter Microsoft.AspNetCore.Mvc.Infrastructure.ClientErrorResultFilter.
+2024-06-06 11:01:44.1395|Result Filter: After executing OnResultExecuted on filter Microsoft.AspNetCore.Mvc.Infrastructure.ClientErrorResultFilter.
+2024-06-06 11:01:44.1527|Executed action DemoNLog.Controllers.DataController.Get (DemoNLog) in 30.2479ms
+2024-06-06 11:01:44.1527|Executed endpoint 'DemoNLog.Controllers.DataController.Get (DemoNLog)'
+2024-06-06 11:01:44.1527|Connection id "0HN45T7O5RBV1" completed keep alive response.
+2024-06-06 11:01:44.1527|Request finished HTTP/1.1 GET http://localhost:5081/api/Data - - - 200 - text/plain;+charset=utf-8 80.7787ms
+2024-06-06 15:51:40.7717|Hosting starting
+2024-06-06 15:51:41.0637|Registered model binder providers, in the following order: Microsoft.AspNetCore.Mvc.ModelBinding.Binders.BinderTypeModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ServicesModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.BodyModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.HeaderModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FloatingPointTypeModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.EnumTypeModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.DateTimeModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.SimpleTypeModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.CancellationTokenModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ByteArrayModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FormFileModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FormCollectionModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.KeyValuePairModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.DictionaryModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ArrayModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.CollectionModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ComplexObjectModelBinderProvider
+2024-06-06 15:51:41.2949|Hosting started
+2024-06-06 15:51:41.2949|Loaded hosting startup assembly DemoNLog
+2024-06-06 15:51:41.2949|Loaded hosting startup assembly Microsoft.AspNetCore.Watch.BrowserRefresh
+2024-06-06 15:51:41.3902|Connection id "0HN4629QJFQK0" received FIN.
+2024-06-06 15:51:41.3902|Connection id "0HN4629QJFQK1" received FIN.
+2024-06-06 15:51:41.6212|Connection id "0HN4629QJFQK0" accepted.
+2024-06-06 15:51:41.6212|Connection id "0HN4629QJFQK1" accepted.
+2024-06-06 15:51:41.6506|Connection id "0HN4629QJFQK1" started.
+2024-06-06 15:51:41.6506|Connection id "0HN4629QJFQK0" started.
+2024-06-06 15:51:41.6754|Connection id "0HN4629QJFQK1" sending FIN because: "The client closed the connection."
+2024-06-06 15:51:41.6772|Connection id "0HN4629QJFQK0" sending FIN because: "The client closed the connection."
+2024-06-06 15:51:41.6772|Connection id "0HN4629QJFQK0" disconnecting.
+2024-06-06 15:51:41.6772|Connection id "0HN4629QJFQK0" stopped.
+2024-06-06 15:51:41.6772|Connection id "0HN4629QJFQK1" disconnecting.
+2024-06-06 15:51:41.6772|Connection id "0HN4629QJFQK1" stopped.
+2024-06-06 15:51:43.1922|Connection id "0HN4629QJFQK2" accepted.
+2024-06-06 15:51:43.1922|Connection id "0HN4629QJFQK2" started.
+2024-06-06 15:51:43.1922|Connection id "0HN4629QJFQK3" accepted.
+2024-06-06 15:51:43.1922|Connection id "0HN4629QJFQK3" started.
+2024-06-06 15:51:43.3131|Request starting HTTP/1.1 GET http://localhost:5081/swagger/index.html - -
+2024-06-06 15:51:43.5124|Response markup is scheduled to include browser refresh script injection.
+2024-06-06 15:51:43.5382|Response markup was updated to include browser refresh script injection.
+2024-06-06 15:51:43.5382|Connection id "0HN4629QJFQK2" completed keep alive response.
+2024-06-06 15:51:43.5705|Request finished HTTP/1.1 GET http://localhost:5081/swagger/index.html - - - 200 - text/html;charset=utf-8 261.0257ms
+2024-06-06 15:51:44.4965|Request starting HTTP/1.1 GET http://localhost:5081/_framework/aspnetcore-browser-refresh.js - -
+2024-06-06 15:51:44.4965|Connection id "0HN4629QJFQK2" completed keep alive response.
+2024-06-06 15:51:44.4965|Request finished HTTP/1.1 GET http://localhost:5081/_framework/aspnetcore-browser-refresh.js - - - 200 11986 application/javascript;+charset=utf-8 5.9042ms
+2024-06-06 15:51:44.6244|Request starting HTTP/1.1 GET http://localhost:5081/swagger/v1/swagger.json - -
+2024-06-06 15:51:44.7059|Connection id "0HN4629QJFQK2" completed keep alive response.
+2024-06-06 15:51:44.7059|Request finished HTTP/1.1 GET http://localhost:5081/swagger/v1/swagger.json - - - 200 - application/json;charset=utf-8 81.6197ms
+2024-06-06 15:51:47.0540|Request starting HTTP/1.1 GET http://localhost:5081/api/Data - -
+2024-06-06 15:51:47.0540|The request path  does not match the path filter
+2024-06-06 15:51:47.0893|1 candidate(s) found for the request path '/api/Data'
+2024-06-06 15:51:47.0893|Endpoint 'DemoNLog.Controllers.DataController.Get (DemoNLog)' with route pattern 'api/Data' is valid for the request path '/api/Data'
+2024-06-06 15:51:47.0893|Request matched endpoint 'DemoNLog.Controllers.DataController.Get (DemoNLog)'
+2024-06-06 15:51:47.0893|Executing endpoint 'DemoNLog.Controllers.DataController.Get (DemoNLog)'
+2024-06-06 15:51:47.1083|Route matched with {action = "Get", controller = "Data"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Get() on controller DemoNLog.Controllers.DataController (DemoNLog).
+2024-06-06 15:51:47.1083|Execution plan of authorization filters (in the following order): None
+2024-06-06 15:51:47.1083|Execution plan of resource filters (in the following order): None
+2024-06-06 15:51:47.1083|Execution plan of action filters (in the following order): Microsoft.AspNetCore.Mvc.ModelBinding.UnsupportedContentTypeFilter (Order: -3000), Microsoft.AspNetCore.Mvc.Infrastructure.ModelStateInvalidFilter (Order: -2000)
+2024-06-06 15:51:47.1083|Execution plan of exception filters (in the following order): None
+2024-06-06 15:51:47.1083|Execution plan of result filters (in the following order): Microsoft.AspNetCore.Mvc.Infrastructure.ClientErrorResultFilter (Order: -2000)
+2024-06-06 15:51:47.1083|Executing controller factory for controller DemoNLog.Controllers.DataController (DemoNLog)
+2024-06-06 15:51:47.1083|Executed controller factory for controller DemoNLog.Controllers.DataController (DemoNLog)
+2024-06-06 15:51:47.1083|Action Filter: Before executing OnActionExecuting on filter Microsoft.AspNetCore.Mvc.ModelBinding.UnsupportedContentTypeFilter.
+2024-06-06 15:51:47.1083|Action Filter: After executing OnActionExecuting on filter Microsoft.AspNetCore.Mvc.ModelBinding.UnsupportedContentTypeFilter.
+2024-06-06 15:51:47.1083|Action Filter: Before executing OnActionExecuting on filter Microsoft.AspNetCore.Mvc.Infrastructure.ModelStateInvalidFilter.
+2024-06-06 15:51:47.1083|Action Filter: After executing OnActionExecuting on filter Microsoft.AspNetCore.Mvc.Infrastructure.ModelStateInvalidFilter.
+2024-06-06 15:51:47.1186|Executing action method DemoNLog.Controllers.DataController.Get (DemoNLog) - Validation state: Valid
+2024-06-06 15:51:47.1186|Into Get method
+2024-06-06 15:51:47.1186|Exiting Get method
+2024-06-06 15:51:47.1186|This is an error
+2024-06-06 15:51:47.1339|Executed action method DemoNLog.Controllers.DataController.Get (DemoNLog), returned result Microsoft.AspNetCore.Mvc.OkObjectResult in 10.2413ms.
+2024-06-06 15:51:47.1339|Action Filter: Before executing OnActionExecuted on filter Microsoft.AspNetCore.Mvc.Infrastructure.ModelStateInvalidFilter.
+2024-06-06 15:51:47.1339|Action Filter: After executing OnActionExecuted on filter Microsoft.AspNetCore.Mvc.Infrastructure.ModelStateInvalidFilter.
+2024-06-06 15:51:47.1339|Action Filter: Before executing OnActionExecuted on filter Microsoft.AspNetCore.Mvc.ModelBinding.UnsupportedContentTypeFilter.
+2024-06-06 15:51:47.1339|Action Filter: After executing OnActionExecuted on filter Microsoft.AspNetCore.Mvc.ModelBinding.UnsupportedContentTypeFilter.
+2024-06-06 15:51:47.1339|Result Filter: Before executing OnResultExecuting on filter Microsoft.AspNetCore.Mvc.Infrastructure.ClientErrorResultFilter.
+2024-06-06 15:51:47.1339|Result Filter: After executing OnResultExecuting on filter Microsoft.AspNetCore.Mvc.Infrastructure.ClientErrorResultFilter.
+2024-06-06 15:51:47.1339|Before executing action result Microsoft.AspNetCore.Mvc.OkObjectResult.
+2024-06-06 15:51:47.1339|List of registered output formatters, in the following order: Microsoft.AspNetCore.Mvc.Formatters.HttpNoContentOutputFormatter, Microsoft.AspNetCore.Mvc.Formatters.StringOutputFormatter, Microsoft.AspNetCore.Mvc.Formatters.StreamOutputFormatter, Microsoft.AspNetCore.Mvc.Formatters.SystemTextJsonOutputFormatter
+2024-06-06 15:51:47.1339|No information found on request to perform content negotiation.
+2024-06-06 15:51:47.1339|Attempting to select an output formatter without using a content type as no explicit content types were specified for the response.
+2024-06-06 15:51:47.1339|Attempting to select the first formatter in the output formatters list which can write the result.
+2024-06-06 15:51:47.1339|Selected output formatter 'Microsoft.AspNetCore.Mvc.Formatters.StringOutputFormatter' and content type 'text/plain' to write the response.
+2024-06-06 15:51:47.1339|Executing OkObjectResult, writing value of type 'System.String'.
+2024-06-06 15:51:47.1339|After executing action result Microsoft.AspNetCore.Mvc.OkObjectResult.
+2024-06-06 15:51:47.1339|Result Filter: Before executing OnResultExecuted on filter Microsoft.AspNetCore.Mvc.Infrastructure.ClientErrorResultFilter.
+2024-06-06 15:51:47.1339|Result Filter: After executing OnResultExecuted on filter Microsoft.AspNetCore.Mvc.Infrastructure.ClientErrorResultFilter.
+2024-06-06 15:51:47.1478|Executed action DemoNLog.Controllers.DataController.Get (DemoNLog) in 31.9496ms
+2024-06-06 15:51:47.1478|Executed endpoint 'DemoNLog.Controllers.DataController.Get (DemoNLog)'
+2024-06-06 15:51:47.1478|Connection id "0HN4629QJFQK2" completed keep alive response.
+2024-06-06 15:51:47.1478|Request finished HTTP/1.1 GET http://localhost:5081/api/Data - - - 200 - text/plain;+charset=utf-8 94.0799ms
+2024-06-06 15:54:38.1690|Hosting starting
+2024-06-06 15:54:38.4808|Registered model binder providers, in the following order: Microsoft.AspNetCore.Mvc.ModelBinding.Binders.BinderTypeModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ServicesModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.BodyModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.HeaderModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FloatingPointTypeModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.EnumTypeModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.DateTimeModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.SimpleTypeModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.CancellationTokenModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ByteArrayModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FormFileModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FormCollectionModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.KeyValuePairModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.DictionaryModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ArrayModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.CollectionModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ComplexObjectModelBinderProvider
+2024-06-06 15:54:38.6480|Hosting started
+2024-06-06 15:54:38.6480|Loaded hosting startup assembly DemoNLog
+2024-06-06 15:54:38.6480|Loaded hosting startup assembly Microsoft.AspNetCore.Watch.BrowserRefresh
+2024-06-06 15:54:39.1289|Connection id "0HN462BFIE744" accepted.
+2024-06-06 15:54:39.1289|Connection id "0HN462BFIE745" accepted.
+2024-06-06 15:54:39.1339|Connection id "0HN462BFIE744" started.
+2024-06-06 15:54:39.1339|Connection id "0HN462BFIE745" started.
+2024-06-06 15:54:39.1339|Connection id "0HN462BFIE744" received FIN.
+2024-06-06 15:54:39.1339|Connection id "0HN462BFIE745" received FIN.
+2024-06-06 15:54:39.1720|Connection id "0HN462BFIE745" sending FIN because: "The client closed the connection."
+2024-06-06 15:54:39.1720|Connection id "0HN462BFIE744" sending FIN because: "The client closed the connection."
+2024-06-06 15:54:39.1720|Connection id "0HN462BFIE744" disconnecting.
+2024-06-06 15:54:39.1720|Connection id "0HN462BFIE745" disconnecting.
+2024-06-06 15:54:39.1809|Connection id "0HN462BFIE744" stopped.
+2024-06-06 15:54:39.1809|Connection id "0HN462BFIE745" stopped.
+2024-06-06 15:54:40.1467|Connection id "0HN462BFIE746" accepted.
+2024-06-06 15:54:40.1467|Connection id "0HN462BFIE746" started.
+2024-06-06 15:54:40.1528|Connection id "0HN462BFIE747" accepted.
+2024-06-06 15:54:40.1528|Connection id "0HN462BFIE747" started.
+2024-06-06 15:54:40.2133|Request starting HTTP/1.1 GET http://localhost:5081/swagger/index.html - -
+2024-06-06 15:54:40.3657|Response markup is scheduled to include browser refresh script injection.
+2024-06-06 15:54:40.3965|Response markup was updated to include browser refresh script injection.
+2024-06-06 15:54:40.3965|Connection id "0HN462BFIE746" completed keep alive response.
+2024-06-06 15:54:40.3991|Request finished HTTP/1.1 GET http://localhost:5081/swagger/index.html - - - 200 - text/html;charset=utf-8 188.7529ms
+2024-06-06 15:54:40.9904|Request starting HTTP/1.1 GET http://localhost:5081/_framework/aspnetcore-browser-refresh.js - -
+2024-06-06 15:54:40.9958|Connection id "0HN462BFIE746" completed keep alive response.
+2024-06-06 15:54:40.9958|Request finished HTTP/1.1 GET http://localhost:5081/_framework/aspnetcore-browser-refresh.js - - - 200 11986 application/javascript;+charset=utf-8 5.4860ms
+2024-06-06 15:54:41.0977|Request starting HTTP/1.1 GET http://localhost:5081/swagger/v1/swagger.json - -
+2024-06-06 15:54:41.1785|Connection id "0HN462BFIE746" completed keep alive response.
+2024-06-06 15:54:41.1785|Request finished HTTP/1.1 GET http://localhost:5081/swagger/v1/swagger.json - - - 200 - application/json;charset=utf-8 81.0118ms
+2024-06-06 15:54:43.4761|Request starting HTTP/1.1 GET http://localhost:5081/api/Data - -
+2024-06-06 15:54:43.4794|The request path  does not match the path filter
+2024-06-06 15:54:43.5110|1 candidate(s) found for the request path '/api/Data'
+2024-06-06 15:54:43.5110|Endpoint 'DemoNLog.Controllers.DataController.Get (DemoNLog)' with route pattern 'api/Data' is valid for the request path '/api/Data'
+2024-06-06 15:54:43.5110|Request matched endpoint 'DemoNLog.Controllers.DataController.Get (DemoNLog)'
+2024-06-06 15:54:43.5110|Executing endpoint 'DemoNLog.Controllers.DataController.Get (DemoNLog)'
+2024-06-06 15:54:43.5287|Route matched with {action = "Get", controller = "Data"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Get() on controller DemoNLog.Controllers.DataController (DemoNLog).
+2024-06-06 15:54:43.5287|Execution plan of authorization filters (in the following order): None
+2024-06-06 15:54:43.5287|Execution plan of resource filters (in the following order): None
+2024-06-06 15:54:43.5287|Execution plan of action filters (in the following order): Microsoft.AspNetCore.Mvc.ModelBinding.UnsupportedContentTypeFilter (Order: -3000), Microsoft.AspNetCore.Mvc.Infrastructure.ModelStateInvalidFilter (Order: -2000)
+2024-06-06 15:54:43.5287|Execution plan of exception filters (in the following order): None
+2024-06-06 15:54:43.5287|Execution plan of result filters (in the following order): Microsoft.AspNetCore.Mvc.Infrastructure.ClientErrorResultFilter (Order: -2000)
+2024-06-06 15:54:43.5287|Executing controller factory for controller DemoNLog.Controllers.DataController (DemoNLog)
+2024-06-06 15:54:43.5646|Executed controller factory for controller DemoNLog.Controllers.DataController (DemoNLog)
+2024-06-06 15:54:43.5646|Action Filter: Before executing OnActionExecuting on filter Microsoft.AspNetCore.Mvc.ModelBinding.UnsupportedContentTypeFilter.
+2024-06-06 15:54:43.5646|Action Filter: After executing OnActionExecuting on filter Microsoft.AspNetCore.Mvc.ModelBinding.UnsupportedContentTypeFilter.
+2024-06-06 15:54:43.5646|Action Filter: Before executing OnActionExecuting on filter Microsoft.AspNetCore.Mvc.Infrastructure.ModelStateInvalidFilter.
+2024-06-06 15:54:43.5646|Action Filter: After executing OnActionExecuting on filter Microsoft.AspNetCore.Mvc.Infrastructure.ModelStateInvalidFilter.
+2024-06-06 15:54:43.5742|Executing action method DemoNLog.Controllers.DataController.Get (DemoNLog) - Validation state: Valid
+2024-06-06 15:54:43.5742|Into Get method
+2024-06-06 15:54:43.5742|Exiting Get method
+2024-06-06 15:54:43.5742|This is an error
+2024-06-06 15:54:43.5918|Executed action method DemoNLog.Controllers.DataController.Get (DemoNLog), returned result Microsoft.AspNetCore.Mvc.OkObjectResult in 11.2628ms.
+2024-06-06 15:54:43.5918|Action Filter: Before executing OnActionExecuted on filter Microsoft.AspNetCore.Mvc.Infrastructure.ModelStateInvalidFilter.
+2024-06-06 15:54:43.5918|Action Filter: After executing OnActionExecuted on filter Microsoft.AspNetCore.Mvc.Infrastructure.ModelStateInvalidFilter.
+2024-06-06 15:54:43.5918|Action Filter: Before executing OnActionExecuted on filter Microsoft.AspNetCore.Mvc.ModelBinding.UnsupportedContentTypeFilter.
+2024-06-06 15:54:43.5918|Action Filter: After executing OnActionExecuted on filter Microsoft.AspNetCore.Mvc.ModelBinding.UnsupportedContentTypeFilter.
+2024-06-06 15:54:43.5918|Result Filter: Before executing OnResultExecuting on filter Microsoft.AspNetCore.Mvc.Infrastructure.ClientErrorResultFilter.
+2024-06-06 15:54:43.5918|Result Filter: After executing OnResultExecuting on filter Microsoft.AspNetCore.Mvc.Infrastructure.ClientErrorResultFilter.
+2024-06-06 15:54:43.5918|Before executing action result Microsoft.AspNetCore.Mvc.OkObjectResult.
+2024-06-06 15:54:43.5918|List of registered output formatters, in the following order: Microsoft.AspNetCore.Mvc.Formatters.HttpNoContentOutputFormatter, Microsoft.AspNetCore.Mvc.Formatters.StringOutputFormatter, Microsoft.AspNetCore.Mvc.Formatters.StreamOutputFormatter, Microsoft.AspNetCore.Mvc.Formatters.SystemTextJsonOutputFormatter
+2024-06-06 15:54:43.5918|No information found on request to perform content negotiation.
+2024-06-06 15:54:43.5918|Attempting to select an output formatter without using a content type as no explicit content types were specified for the response.
+2024-06-06 15:54:43.5918|Attempting to select the first formatter in the output formatters list which can write the result.
+2024-06-06 15:54:43.5918|Selected output formatter 'Microsoft.AspNetCore.Mvc.Formatters.StringOutputFormatter' and content type 'text/plain' to write the response.
+2024-06-06 15:54:43.5918|Executing OkObjectResult, writing value of type 'System.String'.
+2024-06-06 15:54:43.5918|After executing action result Microsoft.AspNetCore.Mvc.OkObjectResult.
+2024-06-06 15:54:43.5918|Result Filter: Before executing OnResultExecuted on filter Microsoft.AspNetCore.Mvc.Infrastructure.ClientErrorResultFilter.
+2024-06-06 15:54:43.5918|Result Filter: After executing OnResultExecuted on filter Microsoft.AspNetCore.Mvc.Infrastructure.ClientErrorResultFilter.
+2024-06-06 15:54:43.6052|Executed action DemoNLog.Controllers.DataController.Get (DemoNLog) in 70.0729ms
+2024-06-06 15:54:43.6052|Executed endpoint 'DemoNLog.Controllers.DataController.Get (DemoNLog)'
+2024-06-06 15:54:43.6052|Connection id "0HN462BFIE746" completed keep alive response.
+2024-06-06 15:54:43.6052|Request finished HTTP/1.1 GET http://localhost:5081/api/Data - - - 200 - text/plain;+charset=utf-8 129.2833ms
+2024-06-06 15:57:40.2633|Hosting starting
+2024-06-06 15:57:40.6049|Registered model binder providers, in the following order: Microsoft.AspNetCore.Mvc.ModelBinding.Binders.BinderTypeModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ServicesModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.BodyModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.HeaderModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FloatingPointTypeModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.EnumTypeModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.DateTimeModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.SimpleTypeModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.CancellationTokenModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ByteArrayModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FormFileModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FormCollectionModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.KeyValuePairModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.DictionaryModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ArrayModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.CollectionModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ComplexObjectModelBinderProvider
+2024-06-06 15:57:40.8194|Hosting started
+2024-06-06 15:57:40.8194|Loaded hosting startup assembly DemoNLog
+2024-06-06 15:57:40.8194|Loaded hosting startup assembly Microsoft.AspNetCore.Watch.BrowserRefresh
+2024-06-06 15:57:40.8667|Connection id "0HN462D5NNBIK" received FIN.
+2024-06-06 15:57:40.9263|Connection id "0HN462D5NNBIL" received FIN.
+2024-06-06 15:57:40.9484|Connection id "0HN462D5NNBIL" accepted.
+2024-06-06 15:57:40.9484|Connection id "0HN462D5NNBIK" accepted.
+2024-06-06 15:57:40.9484|Connection id "0HN462D5NNBIK" started.
+2024-06-06 15:57:40.9484|Connection id "0HN462D5NNBIL" started.
+2024-06-06 15:57:40.9707|Connection id "0HN462D5NNBIK" sending FIN because: "The client closed the connection."
+2024-06-06 15:57:40.9707|Connection id "0HN462D5NNBIL" sending FIN because: "The client closed the connection."
+2024-06-06 15:57:40.9707|Connection id "0HN462D5NNBIK" disconnecting.
+2024-06-06 15:57:40.9707|Connection id "0HN462D5NNBIL" disconnecting.
+2024-06-06 15:57:40.9814|Connection id "0HN462D5NNBIK" stopped.
+2024-06-06 15:57:40.9814|Connection id "0HN462D5NNBIL" stopped.
+2024-06-06 15:57:53.5702|Hosting starting
+2024-06-06 15:57:53.8362|Registered model binder providers, in the following order: Microsoft.AspNetCore.Mvc.ModelBinding.Binders.BinderTypeModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ServicesModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.BodyModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.HeaderModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FloatingPointTypeModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.EnumTypeModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.DateTimeModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.SimpleTypeModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.CancellationTokenModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ByteArrayModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FormFileModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FormCollectionModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.KeyValuePairModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.DictionaryModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ArrayModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.CollectionModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ComplexObjectModelBinderProvider
+2024-06-06 15:57:53.9584|Hosting started
+2024-06-06 15:57:53.9584|Loaded hosting startup assembly DemoNLog
+2024-06-06 15:57:53.9584|Loaded hosting startup assembly Microsoft.AspNetCore.Watch.BrowserRefresh
+2024-06-06 15:57:54.1984|Connection id "0HN462D9MRQKB" received FIN.
+2024-06-06 15:57:54.1984|Connection id "0HN462D9MRQKB" accepted.
+2024-06-06 15:57:54.2426|Connection id "0HN462D9MRQKB" started.
+2024-06-06 15:57:54.2669|Connection id "0HN462D9MRQKB" sending FIN because: "The client closed the connection."
+2024-06-06 15:57:54.2669|Connection id "0HN462D9MRQKB" disconnecting.
+2024-06-06 15:57:54.2837|Connection id "0HN462D9MRQKB" stopped.
+2024-06-06 15:57:55.7061|Connection id "0HN462D9MRQKC" accepted.
+2024-06-06 15:57:55.7061|Connection id "0HN462D9MRQKC" started.
+2024-06-06 15:57:55.7061|Connection id "0HN462D9MRQKD" accepted.
+2024-06-06 15:57:55.7061|Connection id "0HN462D9MRQKD" started.
+2024-06-06 15:57:55.7783|Request starting HTTP/1.1 GET http://localhost:5081/swagger/index.html - -
+2024-06-06 15:57:55.9425|Response markup is scheduled to include browser refresh script injection.
+2024-06-06 15:57:55.9977|Response markup was updated to include browser refresh script injection.
+2024-06-06 15:57:55.9977|Connection id "0HN462D9MRQKC" completed keep alive response.
+2024-06-06 15:57:55.9977|Request finished HTTP/1.1 GET http://localhost:5081/swagger/index.html - - - 200 - text/html;charset=utf-8 226.5098ms
+2024-06-06 15:57:56.6743|Request starting HTTP/1.1 GET http://localhost:5081/_framework/aspnetcore-browser-refresh.js - -
+2024-06-06 15:57:56.6743|Connection id "0HN462D9MRQKC" completed keep alive response.
+2024-06-06 15:57:56.6743|Request finished HTTP/1.1 GET http://localhost:5081/_framework/aspnetcore-browser-refresh.js - - - 200 11986 application/javascript;+charset=utf-8 5.6070ms
+2024-06-06 15:57:56.7772|Request starting HTTP/1.1 GET http://localhost:5081/swagger/v1/swagger.json - -
+2024-06-06 15:57:56.7974|Request starting HTTP/1.1 GET http://localhost:5081/swagger/favicon-32x32.png - -
+2024-06-06 15:57:56.7974|Range header's value is empty.
+2024-06-06 15:57:56.8100|Sending file. Request path: '/favicon-32x32.png'. Physical path: 'N/A'
+2024-06-06 15:57:56.8100|Connection id "0HN462D9MRQKD" completed keep alive response.
+2024-06-06 15:57:56.8100|Request finished HTTP/1.1 GET http://localhost:5081/swagger/favicon-32x32.png - - - 200 628 image/png 12.7572ms
+2024-06-06 15:57:56.8468|Connection id "0HN462D9MRQKC" completed keep alive response.
+2024-06-06 15:57:56.8468|Request finished HTTP/1.1 GET http://localhost:5081/swagger/v1/swagger.json - - - 200 - application/json;charset=utf-8 69.7623ms
+2024-06-06 15:57:59.2516|Request starting HTTP/1.1 GET http://localhost:5081/api/Data - -
+2024-06-06 15:57:59.2516|The request path  does not match the path filter
+2024-06-06 15:57:59.2777|1 candidate(s) found for the request path '/api/Data'
+2024-06-06 15:57:59.2777|Endpoint 'DemoNLog.Controllers.DataController.Get (DemoNLog)' with route pattern 'api/Data' is valid for the request path '/api/Data'
+2024-06-06 15:57:59.2777|Request matched endpoint 'DemoNLog.Controllers.DataController.Get (DemoNLog)'
+2024-06-06 15:57:59.2777|Executing endpoint 'DemoNLog.Controllers.DataController.Get (DemoNLog)'
+2024-06-06 15:57:59.2914|Route matched with {action = "Get", controller = "Data"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Get() on controller DemoNLog.Controllers.DataController (DemoNLog).
+2024-06-06 15:57:59.2914|Execution plan of authorization filters (in the following order): None
+2024-06-06 15:57:59.2914|Execution plan of resource filters (in the following order): None
+2024-06-06 15:57:59.2914|Execution plan of action filters (in the following order): Microsoft.AspNetCore.Mvc.ModelBinding.UnsupportedContentTypeFilter (Order: -3000), Microsoft.AspNetCore.Mvc.Infrastructure.ModelStateInvalidFilter (Order: -2000)
+2024-06-06 15:57:59.2914|Execution plan of exception filters (in the following order): None
+2024-06-06 15:57:59.2914|Execution plan of result filters (in the following order): Microsoft.AspNetCore.Mvc.Infrastructure.ClientErrorResultFilter (Order: -2000)
+2024-06-06 15:57:59.2914|Executing controller factory for controller DemoNLog.Controllers.DataController (DemoNLog)
+2024-06-06 15:57:59.2914|Executed controller factory for controller DemoNLog.Controllers.DataController (DemoNLog)
+2024-06-06 15:57:59.2914|Action Filter: Before executing OnActionExecuting on filter Microsoft.AspNetCore.Mvc.ModelBinding.UnsupportedContentTypeFilter.
+2024-06-06 15:57:59.2914|Action Filter: After executing OnActionExecuting on filter Microsoft.AspNetCore.Mvc.ModelBinding.UnsupportedContentTypeFilter.
+2024-06-06 15:57:59.2914|Action Filter: Before executing OnActionExecuting on filter Microsoft.AspNetCore.Mvc.Infrastructure.ModelStateInvalidFilter.
+2024-06-06 15:57:59.2914|Action Filter: After executing OnActionExecuting on filter Microsoft.AspNetCore.Mvc.Infrastructure.ModelStateInvalidFilter.
+2024-06-06 15:57:59.2914|Executing action method DemoNLog.Controllers.DataController.Get (DemoNLog) - Validation state: Valid
+2024-06-06 15:57:59.2914|Into Get method
+2024-06-06 15:57:59.3096|Exiting Get method
+2024-06-06 15:57:59.3096|This is an error
+2024-06-06 15:57:59.3096|Executed action method DemoNLog.Controllers.DataController.Get (DemoNLog), returned result Microsoft.AspNetCore.Mvc.OkObjectResult in 7.5118ms.
+2024-06-06 15:57:59.3096|Action Filter: Before executing OnActionExecuted on filter Microsoft.AspNetCore.Mvc.Infrastructure.ModelStateInvalidFilter.
+2024-06-06 15:57:59.3096|Action Filter: After executing OnActionExecuted on filter Microsoft.AspNetCore.Mvc.Infrastructure.ModelStateInvalidFilter.
+2024-06-06 15:57:59.3096|Action Filter: Before executing OnActionExecuted on filter Microsoft.AspNetCore.Mvc.ModelBinding.UnsupportedContentTypeFilter.
+2024-06-06 15:57:59.3096|Action Filter: After executing OnActionExecuted on filter Microsoft.AspNetCore.Mvc.ModelBinding.UnsupportedContentTypeFilter.
+2024-06-06 15:57:59.3096|Result Filter: Before executing OnResultExecuting on filter Microsoft.AspNetCore.Mvc.Infrastructure.ClientErrorResultFilter.
+2024-06-06 15:57:59.3096|Result Filter: After executing OnResultExecuting on filter Microsoft.AspNetCore.Mvc.Infrastructure.ClientErrorResultFilter.
+2024-06-06 15:57:59.3096|Before executing action result Microsoft.AspNetCore.Mvc.OkObjectResult.
+2024-06-06 15:57:59.3096|List of registered output formatters, in the following order: Microsoft.AspNetCore.Mvc.Formatters.HttpNoContentOutputFormatter, Microsoft.AspNetCore.Mvc.Formatters.StringOutputFormatter, Microsoft.AspNetCore.Mvc.Formatters.StreamOutputFormatter, Microsoft.AspNetCore.Mvc.Formatters.SystemTextJsonOutputFormatter
+2024-06-06 15:57:59.3096|No information found on request to perform content negotiation.
+2024-06-06 15:57:59.3096|Attempting to select an output formatter without using a content type as no explicit content types were specified for the response.
+2024-06-06 15:57:59.3096|Attempting to select the first formatter in the output formatters list which can write the result.
+2024-06-06 15:57:59.3236|Selected output formatter 'Microsoft.AspNetCore.Mvc.Formatters.StringOutputFormatter' and content type 'text/plain' to write the response.
+2024-06-06 15:57:59.3236|Executing OkObjectResult, writing value of type 'System.String'.
+2024-06-06 15:57:59.3236|After executing action result Microsoft.AspNetCore.Mvc.OkObjectResult.
+2024-06-06 15:57:59.3236|Result Filter: Before executing OnResultExecuted on filter Microsoft.AspNetCore.Mvc.Infrastructure.ClientErrorResultFilter.
+2024-06-06 15:57:59.3236|Result Filter: After executing OnResultExecuted on filter Microsoft.AspNetCore.Mvc.Infrastructure.ClientErrorResultFilter.
+2024-06-06 15:57:59.3236|Executed action DemoNLog.Controllers.DataController.Get (DemoNLog) in 32.0945ms
+2024-06-06 15:57:59.3236|Executed endpoint 'DemoNLog.Controllers.DataController.Get (DemoNLog)'
+2024-06-06 15:57:59.3236|Connection id "0HN462D9MRQKC" completed keep alive response.
+2024-06-06 15:57:59.3236|Request finished HTTP/1.1 GET http://localhost:5081/api/Data - - - 200 - text/plain;+charset=utf-8 77.9150ms
+2024-06-06 15:58:52.3181|Hosting starting
+2024-06-06 15:58:52.6028|Registered model binder providers, in the following order: Microsoft.AspNetCore.Mvc.ModelBinding.Binders.BinderTypeModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ServicesModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.BodyModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.HeaderModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FloatingPointTypeModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.EnumTypeModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.DateTimeModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.SimpleTypeModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.CancellationTokenModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ByteArrayModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FormFileModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FormCollectionModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.KeyValuePairModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.DictionaryModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ArrayModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.CollectionModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ComplexObjectModelBinderProvider
+2024-06-06 15:58:52.7478|Hosting started
+2024-06-06 15:58:52.7478|Loaded hosting startup assembly DemoNLog
+2024-06-06 15:58:52.7478|Loaded hosting startup assembly Microsoft.AspNetCore.Watch.BrowserRefresh
+2024-06-06 15:58:53.0298|Connection id "0HN462DR7TP1D" received FIN.
+2024-06-06 15:58:53.0298|Connection id "0HN462DR7TP1E" received FIN.
+2024-06-06 15:58:53.0298|Connection id "0HN462DR7TP1E" accepted.
+2024-06-06 15:58:53.0298|Connection id "0HN462DR7TP1D" accepted.
+2024-06-06 15:58:53.0425|Connection id "0HN462DR7TP1D" started.
+2024-06-06 15:58:53.0425|Connection id "0HN462DR7TP1E" started.
+2024-06-06 15:58:53.0623|Connection id "0HN462DR7TP1E" sending FIN because: "The client closed the connection."
+2024-06-06 15:58:53.0623|Connection id "0HN462DR7TP1D" sending FIN because: "The client closed the connection."
+2024-06-06 15:58:53.0623|Connection id "0HN462DR7TP1D" disconnecting.
+2024-06-06 15:58:53.0623|Connection id "0HN462DR7TP1E" disconnecting.
+2024-06-06 15:58:53.0816|Connection id "0HN462DR7TP1D" stopped.
+2024-06-06 15:58:53.0816|Connection id "0HN462DR7TP1E" stopped.
+2024-06-06 15:58:54.0480|Connection id "0HN462DR7TP1F" accepted.
+2024-06-06 15:58:54.0480|Connection id "0HN462DR7TP1F" started.
+2024-06-06 15:58:54.0617|Connection id "0HN462DR7TP1G" accepted.
+2024-06-06 15:58:54.0617|Connection id "0HN462DR7TP1G" started.
+2024-06-06 15:58:54.1026|Request starting HTTP/1.1 GET http://localhost:5081/swagger/index.html - -
+2024-06-06 15:58:54.3076|Response markup is scheduled to include browser refresh script injection.
+2024-06-06 15:58:54.3347|Response markup was updated to include browser refresh script injection.
+2024-06-06 15:58:54.3347|Connection id "0HN462DR7TP1F" completed keep alive response.
+2024-06-06 15:58:54.3347|Request finished HTTP/1.1 GET http://localhost:5081/swagger/index.html - - - 200 - text/html;charset=utf-8 237.3677ms
+2024-06-06 15:58:55.0071|Request starting HTTP/1.1 GET http://localhost:5081/_framework/aspnetcore-browser-refresh.js - -
+2024-06-06 15:58:55.0120|Connection id "0HN462DR7TP1F" completed keep alive response.
+2024-06-06 15:58:55.0120|Request finished HTTP/1.1 GET http://localhost:5081/_framework/aspnetcore-browser-refresh.js - - - 200 11986 application/javascript;+charset=utf-8 4.9813ms
+2024-06-06 15:58:55.1250|Request starting HTTP/1.1 GET http://localhost:5081/swagger/v1/swagger.json - -
+2024-06-06 15:58:55.2025|Connection id "0HN462DR7TP1F" completed keep alive response.
+2024-06-06 15:58:55.2025|Request finished HTTP/1.1 GET http://localhost:5081/swagger/v1/swagger.json - - - 200 - application/json;charset=utf-8 77.6913ms
+2024-06-06 15:58:58.0170|Request starting HTTP/1.1 GET http://localhost:5081/api/Data - -
+2024-06-06 15:58:58.0170|The request path  does not match the path filter
+2024-06-06 15:58:58.0529|1 candidate(s) found for the request path '/api/Data'
+2024-06-06 15:58:58.0529|Endpoint 'DemoNLog.Controllers.DataController.Get (DemoNLog)' with route pattern 'api/Data' is valid for the request path '/api/Data'
+2024-06-06 15:58:58.0529|Request matched endpoint 'DemoNLog.Controllers.DataController.Get (DemoNLog)'
+2024-06-06 15:58:58.0529|Executing endpoint 'DemoNLog.Controllers.DataController.Get (DemoNLog)'
+2024-06-06 15:58:58.0667|Route matched with {action = "Get", controller = "Data"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Get() on controller DemoNLog.Controllers.DataController (DemoNLog).
+2024-06-06 15:58:58.0667|Execution plan of authorization filters (in the following order): None
+2024-06-06 15:58:58.0667|Execution plan of resource filters (in the following order): None
+2024-06-06 15:58:58.0667|Execution plan of action filters (in the following order): Microsoft.AspNetCore.Mvc.ModelBinding.UnsupportedContentTypeFilter (Order: -3000), Microsoft.AspNetCore.Mvc.Infrastructure.ModelStateInvalidFilter (Order: -2000)
+2024-06-06 15:58:58.0667|Execution plan of exception filters (in the following order): None
+2024-06-06 15:58:58.0667|Execution plan of result filters (in the following order): Microsoft.AspNetCore.Mvc.Infrastructure.ClientErrorResultFilter (Order: -2000)
+2024-06-06 15:58:58.1793|Executing controller factory for controller DemoNLog.Controllers.DataController (DemoNLog)
+2024-06-06 15:58:58.1793|Executed controller factory for controller DemoNLog.Controllers.DataController (DemoNLog)
+2024-06-06 15:58:58.1793|Action Filter: Before executing OnActionExecuting on filter Microsoft.AspNetCore.Mvc.ModelBinding.UnsupportedContentTypeFilter.
+2024-06-06 15:58:58.1793|Action Filter: After executing OnActionExecuting on filter Microsoft.AspNetCore.Mvc.ModelBinding.UnsupportedContentTypeFilter.
+2024-06-06 15:58:58.1793|Action Filter: Before executing OnActionExecuting on filter Microsoft.AspNetCore.Mvc.Infrastructure.ModelStateInvalidFilter.
+2024-06-06 15:58:58.1793|Action Filter: After executing OnActionExecuting on filter Microsoft.AspNetCore.Mvc.Infrastructure.ModelStateInvalidFilter.
+2024-06-06 15:58:58.1869|Executing action method DemoNLog.Controllers.DataController.Get (DemoNLog) - Validation state: Valid
+2024-06-06 15:58:58.1869|Into Get method
+2024-06-06 15:58:58.1869|Exiting Get method
+2024-06-06 15:58:58.1869|This is an error
+2024-06-06 15:58:58.2005|Executed action method DemoNLog.Controllers.DataController.Get (DemoNLog), returned result Microsoft.AspNetCore.Mvc.OkObjectResult in 8.3947ms.
+2024-06-06 15:58:58.2005|Action Filter: Before executing OnActionExecuted on filter Microsoft.AspNetCore.Mvc.Infrastructure.ModelStateInvalidFilter.
+2024-06-06 15:58:58.2005|Action Filter: After executing OnActionExecuted on filter Microsoft.AspNetCore.Mvc.Infrastructure.ModelStateInvalidFilter.
+2024-06-06 15:58:58.2005|Action Filter: Before executing OnActionExecuted on filter Microsoft.AspNetCore.Mvc.ModelBinding.UnsupportedContentTypeFilter.
+2024-06-06 15:58:58.2005|Action Filter: After executing OnActionExecuted on filter Microsoft.AspNetCore.Mvc.ModelBinding.UnsupportedContentTypeFilter.
+2024-06-06 15:58:58.2005|Result Filter: Before executing OnResultExecuting on filter Microsoft.AspNetCore.Mvc.Infrastructure.ClientErrorResultFilter.
+2024-06-06 15:58:58.2005|Result Filter: After executing OnResultExecuting on filter Microsoft.AspNetCore.Mvc.Infrastructure.ClientErrorResultFilter.
+2024-06-06 15:58:58.2005|Before executing action result Microsoft.AspNetCore.Mvc.OkObjectResult.
+2024-06-06 15:58:58.2005|List of registered output formatters, in the following order: Microsoft.AspNetCore.Mvc.Formatters.HttpNoContentOutputFormatter, Microsoft.AspNetCore.Mvc.Formatters.StringOutputFormatter, Microsoft.AspNetCore.Mvc.Formatters.StreamOutputFormatter, Microsoft.AspNetCore.Mvc.Formatters.SystemTextJsonOutputFormatter
+2024-06-06 15:58:58.2005|No information found on request to perform content negotiation.
+2024-06-06 15:58:58.2005|Attempting to select an output formatter without using a content type as no explicit content types were specified for the response.
+2024-06-06 15:58:58.2005|Attempting to select the first formatter in the output formatters list which can write the result.
+2024-06-06 15:58:58.2005|Selected output formatter 'Microsoft.AspNetCore.Mvc.Formatters.StringOutputFormatter' and content type 'text/plain' to write the response.
+2024-06-06 15:58:58.2005|Executing OkObjectResult, writing value of type 'System.String'.
+2024-06-06 15:58:58.2005|After executing action result Microsoft.AspNetCore.Mvc.OkObjectResult.
+2024-06-06 15:58:58.2005|Result Filter: Before executing OnResultExecuted on filter Microsoft.AspNetCore.Mvc.Infrastructure.ClientErrorResultFilter.
+2024-06-06 15:58:58.2005|Result Filter: After executing OnResultExecuted on filter Microsoft.AspNetCore.Mvc.Infrastructure.ClientErrorResultFilter.
+2024-06-06 15:58:58.2005|Executed action DemoNLog.Controllers.DataController.Get (DemoNLog) in 30.2738ms
+2024-06-06 15:58:58.2005|Executed endpoint 'DemoNLog.Controllers.DataController.Get (DemoNLog)'
+2024-06-06 15:58:58.2005|Connection id "0HN462DR7TP1F" completed keep alive response.
+2024-06-06 15:58:58.2005|Request finished HTTP/1.1 GET http://localhost:5081/api/Data - - - 200 - text/plain;+charset=utf-8 196.9889ms
+2024-06-06 16:35:30.3271|Hosting starting
+2024-06-06 16:35:31.6007|Registered model binder providers, in the following order: Microsoft.AspNetCore.Mvc.ModelBinding.Binders.BinderTypeModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ServicesModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.BodyModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.HeaderModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FloatingPointTypeModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.EnumTypeModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.DateTimeModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.SimpleTypeModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.CancellationTokenModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ByteArrayModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FormFileModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FormCollectionModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.KeyValuePairModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.DictionaryModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ArrayModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.CollectionModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ComplexObjectModelBinderProvider
+2024-06-06 16:35:32.5171|Hosting started
+2024-06-06 16:35:32.5171|Loaded hosting startup assembly DemoNLog
+2024-06-06 16:35:32.5171|Loaded hosting startup assembly Microsoft.AspNetCore.Watch.BrowserRefresh
+2024-06-06 16:35:32.9262|Connection id "0HN4632ARH1S0" accepted.
+2024-06-06 16:35:32.9427|Connection id "0HN4632ARH1S0" started.
+2024-06-06 16:35:32.9806|Connection id "0HN4632ARH1S1" accepted.
+2024-06-06 16:35:32.9806|Connection id "0HN4632ARH1S1" started.
+2024-06-06 16:35:35.5231|Connection id "0HN4632ARH1S2" accepted.
+2024-06-06 16:35:35.5231|Connection id "0HN4632ARH1S2" started.
+2024-06-06 16:35:35.5231|Connection id "0HN4632ARH1S3" accepted.
+2024-06-06 16:35:35.5231|Connection id "0HN4632ARH1S3" started.
+2024-06-06 16:35:35.6188|Request starting HTTP/1.1 GET http://localhost:5081/swagger/index.html - -
+2024-06-06 16:35:35.8363|Response markup is scheduled to include browser refresh script injection.
+2024-06-06 16:35:35.8655|Response markup was updated to include browser refresh script injection.
+2024-06-06 16:35:35.8655|Connection id "0HN4632ARH1S2" completed keep alive response.
+2024-06-06 16:35:35.8655|Request finished HTTP/1.1 GET http://localhost:5081/swagger/index.html - - - 200 - text/html;charset=utf-8 253.0325ms
+2024-06-06 16:35:36.7538|Request starting HTTP/1.1 GET http://localhost:5081/_framework/aspnetcore-browser-refresh.js - -
+2024-06-06 16:35:36.7538|Connection id "0HN4632ARH1S2" completed keep alive response.
+2024-06-06 16:35:36.7538|Request finished HTTP/1.1 GET http://localhost:5081/_framework/aspnetcore-browser-refresh.js - - - 200 11986 application/javascript;+charset=utf-8 6.1166ms
+2024-06-06 16:35:36.9157|Request starting HTTP/1.1 GET http://localhost:5081/swagger/v1/swagger.json - -
+2024-06-06 16:35:37.0049|Connection id "0HN4632ARH1S2" completed keep alive response.
+2024-06-06 16:35:37.0049|Request finished HTTP/1.1 GET http://localhost:5081/swagger/v1/swagger.json - - - 200 - application/json;charset=utf-8 89.3669ms

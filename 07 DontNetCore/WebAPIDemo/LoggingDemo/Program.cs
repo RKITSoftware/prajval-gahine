@@ -6,6 +6,7 @@ namespace LoggingDemo
         {
             using var loggerFactory = LoggerFactory.Create(static builder =>
             {
+                builder.ClearProviders();
                 builder
                     .AddConsole();
             });

@@ -1,6 +1,7 @@
 ﻿namespace ServiceLifeTimeDemo.BL.Interface
 {
-    public interface IScopedService : IService
-    {
-    }
+    /// <summary>
+    /// IScopedService interface
+    /// </summary>
+    public interface IScopedService : IService {}
 }

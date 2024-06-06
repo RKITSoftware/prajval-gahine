@@ -3,29 +3,50 @@ using Swashbuckle.AspNetCore.Swagger;
 
 namespace ServiceDemo
 {
+    /// <summary>
+    /// Startup class for web app startup
+    /// </summary>
     public class Startup
     {
-        private IConfiguration _configuration;
-        //public Startup(IConfiguration configuration)
-        //{
-        //    _configuration = configuration;
-        //}
+        /// <summary>
+        /// Configuration
+        /// </summary>
+        private IConfiguration? _configuration;
 
+        /// <summary>
+        /// Default startup constructor
+        /// </summary>
+        public Startup()
+        {
+            _configuration = null;
+        }
+
+        /// <summary>
+        /// Startup constructor for configuration initailization
+        /// </summary>
+        /// <param name="configuration"></param>
+        public Startup(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
+
+        /// <summary>
+        /// Method to configure app services
+        /// </summary>
+        /// <param name="services">IServiceCollection instance</param>
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
             services.AddSwaggerGen();
-            //services.AddScoped<BLProduct>();
-            ServiceProvider sp = services.BuildServiceProvider();
             services.AddBLProduct();
-            //BLProduct bl = (BLProduct)sp.GetRequiredService(typeof(BLProduct));
-            //services.AddSingleton<IServiceProvider, ServiceProvider>();
         }
 
-        public void Configure(IApplicationBuilder app, IServiceProvider sp)
+        /// <summary>
+        /// Method to configure request pipeline
+        /// </summary>
+        /// <param name="app">WebApplication instance</param>
+        public void Configure(IApplicationBuilder app)
         {
-            BLProduct bl = (BLProduct)sp.GetRequiredService(typeof(BLProduct));
-
             app.UseSwagger();
             app.UseSwaggerUI();
             app.UseRouting();

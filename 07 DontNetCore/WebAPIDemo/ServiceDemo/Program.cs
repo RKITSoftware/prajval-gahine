@@ -6,13 +6,14 @@ namespace ServiceDemo
     {
         public static void Main(string[] args)
         {
-            //WebApplicationBuilder builder = WebApplication.CreateBuilder();
-            //Startup startup = new Startup();
-            //startup.ConfigureServices(builder.Services);
-            //WebApplication app = builder.Build();
-            //startup.Configure(app);
-            //app.Run();
+            WebApplicationBuilder builder = WebApplication.CreateBuilder();
+            Startup startup = new Startup();
+            startup.ConfigureServices(builder.Services);
+            WebApplication app = builder.Build();
+            startup.Configure(app);
+            app.Run();
 
+            /*
             IWebHostBuilder builder = new WebHostBuilder();
             builder
                 .UseKestrel()
@@ -20,6 +21,8 @@ namespace ServiceDemo
 
             IWebHost app = builder.Build();
             app.Run();
+            */
+
             //ConfigurationBuilder
             //ActivatorUtilities
         }

@@ -7,12 +7,15 @@ using System.Threading.Tasks;
 
 namespace CustomDIContainer
 {
+    /// <summary>
+    /// A Dependency Container
+    /// </summary>
     internal class Container
     {
         /// <summary>
         /// Dictionary for registring services
         /// </summary>
-        private readonly Dictionary<Type, Func<object>> regs = new();
+        private readonly Dictionary<Type, Func<object>> dictRegs = new();
 
         /// <summary>
         /// Registering a Service using an base type
@@ -21,7 +24,7 @@ namespace CustomDIContainer
         /// <typeparam name="TImpl">Implementation type</typeparam>
         public void Register<TService, TImpl>() where TImpl : TService
         {
-            regs.Add(typeof(TService), () => this.GetInstance(typeof(TImpl)));
+            dictRegs.Add(typeof(TService), () => this.GetInstance(typeof(TImpl)));
         }
 
         /// <summary>
@@ -31,7 +34,7 @@ namespace CustomDIContainer
         /// <param name="factory">Factory method to generate instance of given type</param>
         public void Register<TService>(Func<TService> factory)
         {
-            regs.Add(typeof(TService), () => factory());
+            dictRegs.Add(typeof(TService), () => factory());
         }
 
         /// <summary>
@@ -41,7 +44,7 @@ namespace CustomDIContainer
         /// <param name="instance">Instance of TService</param>
         public void Register<TService>(TService instance)
         {
-            regs.Add(typeof(TService), () => instance);
+            dictRegs.Add(typeof(TService), () => instance);
         }
 
         /// <summary>
@@ -64,7 +67,7 @@ namespace CustomDIContainer
         public object GetInstance(Type type)
         {
             bool isAbstract = type.IsAbstract;
-            bool exists = regs.TryGetValue(type, out Func<object> fac);
+            bool exists = dictRegs.TryGetValue(type, out Func<object> fac);
             if (exists) {
                 return fac();
             }

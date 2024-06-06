@@ -36,27 +36,4 @@ namespace DemoConsoleLoggingApp
             Console.WriteLine(configuration.GetValue<string>("name"));
         }
     }
-
-    public class final
-    {
-        public static void Main()
-        {
-            var test1 = new Test();
-            var test2 = new Test<int>();
-        }
-    }
-
-    internal class Test
-    {
-        public Test()
-        {
-
-        }
-    }
-    internal class Test<T>
-    {
-        public Test()
-        {
-        }
-    }
 }

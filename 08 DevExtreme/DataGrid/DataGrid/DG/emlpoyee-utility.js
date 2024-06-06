@@ -50,6 +50,15 @@ function generateEmployees(numEmployees) {
 
 var arrayStatic = [
     {
+        "id": 70,
+        "firstName": "xPrajval",
+        "lastName": "xGahine",
+        "position": "Engineer",
+        "birthDate": "2018-01-07",
+        "salary": 129969,
+        "departmentId": 3
+    },
+    {
         "id": 222,
         "firstName": "Satyendra",
         "lastName": "Kushalappa",
@@ -177,8 +186,8 @@ var arrayStatic = [
     },
     {
         "id": 286,
-        "firstName": "Yukti",
-        "lastName": "Bharadwaj",
+        "firstName": "xDeep",
+        "lastName": "xPatel",
         "position": "Analyst",
         "birthDate": "1957-06-20",
         "salary": 75810,
@@ -2246,15 +2255,6 @@ var arrayStatic = [
         "departmentId": 1
     },
     {
-        "id": 70,
-        "firstName": "Prajval",
-        "lastName": "Gahine",
-        "position": "Engineer",
-        "birthDate": "2018-01-07",
-        "salary": 129969,
-        "departmentId": 3
-    },
-    {
         "id": 269,
         "firstName": "Prajeeth",
         "lastName": "Dhinoja",
@@ -2337,8 +2337,8 @@ var arrayStatic = [
     },
     {
         "id": 410,
-        "firstName": "Anita",
-        "lastName": "Kulal",
+        "firstName": "xKrinsi",
+        "lastName": "xKayada",
         "position": "Designer",
         "birthDate": "1966-11-24",
         "salary": 166934,
@@ -4506,8 +4506,8 @@ var arrayStatic = [
     },
     {
         "id": 102,
-        "firstName": "Sagar",
-        "lastName": "Shekhar",
+        "firstName": "xYash",
+        "lastName": "xLathiya",
         "position": "Developer",
         "birthDate": "1972-03-27",
         "salary": 38712,

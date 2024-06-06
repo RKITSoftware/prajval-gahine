@@ -19,12 +19,13 @@ namespace NLogInConsoleApp
             LogFactory logFactory = LogManager.Setup().RegisterNLogWeb().LoadConfigurationFromFile("nlog.config", optional: true).LogFactory;
             Logger logger = logFactory.GetLogger("Program");
 
-            logger.Trace("Trace");
-            logger.Debug("Debug");
-            logger.Info("Info");
-            logger.Warn("Warn");
-            logger.Error("Error");
-            logger.Fatal("Fatal");
+            logger.Trace("CM: Trace");
+            logger.Debug("CM: Debug");
+            logger.Info("CM: Info");
+            logger.Warn("CM: Warn");
+            logger.Error("CM: Error");
+            logger.Fatal("CM: Fatal");
+        
         }
     }
 }

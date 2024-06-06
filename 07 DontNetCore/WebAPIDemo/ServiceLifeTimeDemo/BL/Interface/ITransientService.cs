@@ -1,6 +1,7 @@
 ﻿namespace ServiceLifeTimeDemo.BL.Interface
 {
-    public interface ITransientService : IService
-    {
-    }
+    /// <summary>
+    /// ITransientService interface
+    /// </summary>
+    public interface ITransientService : IService {}
 }

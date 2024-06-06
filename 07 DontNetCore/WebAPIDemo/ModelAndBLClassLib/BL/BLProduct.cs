@@ -73,18 +73,5 @@ namespace ModelAndBLClassLib.BL
             lstProduct?.Add(product);
             NextId++;
         }
-
-        /// <summary>
-        /// Method to add new product item to product list
-        /// </summary>
-        /// <param name="product">PRD01 object</param>
-        public void AddProduct(PRD01 product)
-        {
-            if (Validate(product))
-            {
-                PreSave(product);
-                Save(product);
-            }
-        }
     }
 }
