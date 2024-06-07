@@ -1,0 +1,280 @@
+2024-06-07 11:44:54.7773 Info Loading assembly name: NLog.Web.AspNetCore
+2024-06-07 11:44:54.9787 Info NLog.Web.AspNetCore, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.3.11.1082. Product version: 5.3.11+6a33919b2cf5fd3206f473d2230556ffa0b67d67. GlobalAssemblyCache: False
+2024-06-07 11:44:55.0829 Info Registered target NLog.Targets.ColoredConsoleTarget(Name=console)
+2024-06-07 11:44:55.1210 Info Registered target NLog.Targets.FileTarget(Name=file)
+2024-06-07 11:44:55.1405 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.3.2.2526. Product version: 5.3.2+8d52d4f3fcdbd84beae3442e1fdc8125598ed81f. GlobalAssemblyCache: False
+2024-06-07 11:44:55.1657 Info Validating config: TargetNames=console, file, ConfigItems=25, FilePath=F:\prajval-gahine\prajval-gahine\07 DontNetCore\NLog\NLogProject\NLogProject\bin\Debug\net6.0\NLog.config
+2024-06-07 11:44:55.1982 Info Configuration initialized.
+2024-06-07 11:46:31.2353 Info Loading assembly name: NLog.Web.AspNetCore
+2024-06-07 11:46:31.2846 Info NLog.Web.AspNetCore, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.3.11.1082. Product version: 5.3.11+6a33919b2cf5fd3206f473d2230556ffa0b67d67. GlobalAssemblyCache: False
+2024-06-07 11:46:31.4461 Info Registered target NLog.Targets.ColoredConsoleTarget(Name=console)
+2024-06-07 11:46:31.4842 Info Registered target NLog.Targets.FileTarget(Name=file)
+2024-06-07 11:46:31.5086 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.3.2.2526. Product version: 5.3.2+8d52d4f3fcdbd84beae3442e1fdc8125598ed81f. GlobalAssemblyCache: False
+2024-06-07 11:46:31.5418 Info Validating config: TargetNames=console, file, ConfigItems=25, FilePath=F:\prajval-gahine\prajval-gahine\07 DontNetCore\NLog\NLogProject\NLogProject\bin\Debug\net6.0\NLog.config
+2024-06-07 11:46:31.5708 Info Configuration initialized.
+2024-06-07 11:51:12.1332 Info Loading assembly name: NLog.Web.AspNetCore
+2024-06-07 11:51:12.1687 Info NLog.Web.AspNetCore, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.3.11.1082. Product version: 5.3.11+6a33919b2cf5fd3206f473d2230556ffa0b67d67. GlobalAssemblyCache: False
+2024-06-07 11:51:12.2526 Info Registered target NLog.Targets.ColoredConsoleTarget(Name=console)
+2024-06-07 11:51:12.2948 Info Registered target NLog.Targets.FileTarget(Name=file)
+2024-06-07 11:51:12.3260 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.3.2.2526. Product version: 5.3.2+8d52d4f3fcdbd84beae3442e1fdc8125598ed81f. GlobalAssemblyCache: False
+2024-06-07 11:51:12.3723 Info Validating config: TargetNames=console, file, ConfigItems=25, FilePath=F:\prajval-gahine\prajval-gahine\07 DontNetCore\NLog\NLogProject\NLogProject\bin\Debug\net6.0\NLog.config
+2024-06-07 11:51:12.4102 Info Configuration initialized.
+2024-06-07 11:53:27.9796 Info Loading assembly name: NLog.Web.AspNetCore
+2024-06-07 11:53:28.1317 Info NLog.Web.AspNetCore, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.3.11.1082. Product version: 5.3.11+6a33919b2cf5fd3206f473d2230556ffa0b67d67. GlobalAssemblyCache: False
+2024-06-07 11:53:28.4497 Info Registered target NLog.Targets.ColoredConsoleTarget(Name=console)
+2024-06-07 11:53:28.5154 Info Registered target NLog.Targets.FileTarget(Name=file)
+2024-06-07 11:53:28.5337 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.3.2.2526. Product version: 5.3.2+8d52d4f3fcdbd84beae3442e1fdc8125598ed81f. GlobalAssemblyCache: False
+2024-06-07 11:53:28.5681 Info Validating config: TargetNames=console, file, ConfigItems=25, FilePath=F:\prajval-gahine\prajval-gahine\07 DontNetCore\NLog\NLogProject\NLogProject\bin\Debug\net6.0\NLog.config
+2024-06-07 11:53:28.5975 Info Configuration initialized.
+2024-06-07 12:09:12.1537 Info Loading assembly name: NLog.Web.AspNetCore
+2024-06-07 12:09:12.1927 Info NLog.Web.AspNetCore, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.3.11.1082. Product version: 5.3.11+6a33919b2cf5fd3206f473d2230556ffa0b67d67. GlobalAssemblyCache: False
+2024-06-07 12:09:12.2791 Info Registered target NLog.Targets.ColoredConsoleTarget(Name=console)
+2024-06-07 12:09:12.3166 Info Registered target NLog.Targets.FileTarget(Name=file)
+2024-06-07 12:09:12.3166 Info Registered target NLog.Targets.FileTarget(Name=userfile)
+2024-06-07 12:09:12.3373 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.3.2.2526. Product version: 5.3.2+8d52d4f3fcdbd84beae3442e1fdc8125598ed81f. GlobalAssemblyCache: False
+2024-06-07 12:09:12.3646 Info Validating config: TargetNames=console, file, userfile, ConfigItems=46, FilePath=F:\prajval-gahine\prajval-gahine\07 DontNetCore\NLog\NLogProject\NLogProject\bin\Debug\net6.0\NLog.config
+2024-06-07 12:09:12.3940 Info Configuration initialized.
+2024-06-07 12:09:30.9382 Info Validating config: TargetNames=console, file, userfile, ConfigItems=48, FilePath=F:\prajval-gahine\prajval-gahine\07 DontNetCore\NLog\NLogProject\NLogProject\bin\Debug\net6.0\NLog.config
+2024-06-07 12:09:45.1253 Info Validating config: TargetNames=console, file, userfile, ConfigItems=48, FilePath=F:\prajval-gahine\prajval-gahine\07 DontNetCore\NLog\NLogProject\NLogProject\bin\Debug\net6.0\NLog.config
+2024-06-07 12:38:09.5864 Info Loading assembly name: NLog.Web.AspNetCore
+2024-06-07 12:38:10.1953 Info NLog.Web.AspNetCore, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.3.11.1082. Product version: 5.3.11+6a33919b2cf5fd3206f473d2230556ffa0b67d67. GlobalAssemblyCache: False
+2024-06-07 12:38:10.3323 Info Registered target NLog.Targets.ColoredConsoleTarget(Name=console)
+2024-06-07 12:38:10.3697 Info Registered target NLog.Targets.FileTarget(Name=file)
+2024-06-07 12:38:10.3697 Info Registered target NLog.Targets.FileTarget(Name=userfileusingvar)
+2024-06-07 12:38:10.3697 Info Registered target NLog.Targets.FileTarget(Name=userfileusinglogevent)
+2024-06-07 12:38:10.3927 Warn Error has been raised. Exception: NLog.NLogConfigurationException: Target 'userfile' not found for logging rule: NLogProject.*.
+2024-06-07 12:38:10.3927 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.3.2.2526. Product version: 5.3.2+8d52d4f3fcdbd84beae3442e1fdc8125598ed81f. GlobalAssemblyCache: False
+2024-06-07 12:38:10.4276 Info Validating config: TargetNames=console, file, userfileusinglogevent, ConfigItems=65, FilePath=F:\prajval-gahine\prajval-gahine\07 DontNetCore\NLog\NLogProject\NLogProject\bin\Debug\net6.0\NLog.config
+2024-06-07 12:38:10.4486 Warn Unused target detected. Add a rule for this target to the configuration. TargetName: userfileusingvar
+2024-06-07 12:38:10.5249 Info Configuration initialized.
+2024-06-07 12:38:21.3837 Info Validating config: TargetNames=console, file, userfileusinglogevent, ConfigItems=67, FilePath=F:\prajval-gahine\prajval-gahine\07 DontNetCore\NLog\NLogProject\NLogProject\bin\Debug\net6.0\NLog.config
+2024-06-07 12:41:10.2183 Info Loading assembly name: NLog.Web.AspNetCore
+2024-06-07 12:41:10.2460 Info NLog.Web.AspNetCore, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.3.11.1082. Product version: 5.3.11+6a33919b2cf5fd3206f473d2230556ffa0b67d67. GlobalAssemblyCache: False
+2024-06-07 12:41:10.3343 Info Registered target NLog.Targets.ColoredConsoleTarget(Name=console)
+2024-06-07 12:41:10.3679 Info Registered target NLog.Targets.FileTarget(Name=file)
+2024-06-07 12:41:10.3679 Info Registered target NLog.Targets.FileTarget(Name=userfileusingvar)
+2024-06-07 12:41:10.4763 Warn Error has been raised. Exception: NLog.NLogConfigurationException: Failed to create LayoutRenderer with unknown type-alias: 'userID_' - Verify type-alias and check extension is included.
+   at NLog.Config.FactoryExtensions.CreateInstance[TBaseType](IFactory`1 factory, String typeAlias)
+   at NLog.Layouts.LayoutParser.GetLayoutRenderer(String typeName, ConfigurationItemFactory configurationItemFactory, Nullable`1 throwConfigExceptions)
+2024-06-07 12:41:10.5297 Info Registered target NLog.Targets.FileTarget(Name=userfileusinglogevent)
+2024-06-07 12:41:10.5491 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.3.2.2526. Product version: 5.3.2+8d52d4f3fcdbd84beae3442e1fdc8125598ed81f. GlobalAssemblyCache: False
+2024-06-07 12:41:10.5747 Info Validating config: TargetNames=console, file, userfileusingvar, userfileusinglogevent, ConfigItems=65, FilePath=F:\prajval-gahine\prajval-gahine\07 DontNetCore\NLog\NLogProject\NLogProject\bin\Debug\net6.0\NLog.config
+2024-06-07 12:41:10.6090 Info Configuration initialized.
+2024-06-07 12:41:20.3250 Info Validating config: TargetNames=console, file, userfileusingvar, userfileusinglogevent, ConfigItems=67, FilePath=F:\prajval-gahine\prajval-gahine\07 DontNetCore\NLog\NLogProject\NLogProject\bin\Debug\net6.0\NLog.config
+2024-06-07 12:42:04.7856 Info Loading assembly name: NLog.Web.AspNetCore
+2024-06-07 12:42:04.8363 Info NLog.Web.AspNetCore, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.3.11.1082. Product version: 5.3.11+6a33919b2cf5fd3206f473d2230556ffa0b67d67. GlobalAssemblyCache: False
+2024-06-07 12:42:05.1146 Info Registered target NLog.Targets.ColoredConsoleTarget(Name=console)
+2024-06-07 12:42:05.1512 Info Registered target NLog.Targets.FileTarget(Name=file)
+2024-06-07 12:42:05.1633 Info Registered target NLog.Targets.FileTarget(Name=userfileusingvar)
+2024-06-07 12:42:05.2617 Warn Error has been raised. Exception: NLog.NLogConfigurationException: Failed to create LayoutRenderer with unknown type-alias: 'userID_' - Verify type-alias and check extension is included.
+   at NLog.Config.FactoryExtensions.CreateInstance[TBaseType](IFactory`1 factory, String typeAlias)
+   at NLog.Layouts.LayoutParser.GetLayoutRenderer(String typeName, ConfigurationItemFactory configurationItemFactory, Nullable`1 throwConfigExceptions)
+2024-06-07 12:42:05.3092 Info Registered target NLog.Targets.FileTarget(Name=userfileusinglogevent)
+2024-06-07 12:42:05.3290 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.3.2.2526. Product version: 5.3.2+8d52d4f3fcdbd84beae3442e1fdc8125598ed81f. GlobalAssemblyCache: False
+2024-06-07 12:42:05.3543 Info Validating config: TargetNames=console, file, userfileusingvar, userfileusinglogevent, ConfigItems=65, FilePath=F:\prajval-gahine\prajval-gahine\07 DontNetCore\NLog\NLogProject\NLogProject\bin\Debug\net6.0\NLog.config
+2024-06-07 12:42:05.3747 Info Configuration initialized.
+2024-06-07 12:42:15.8446 Info Validating config: TargetNames=console, file, userfileusingvar, userfileusinglogevent, ConfigItems=67, FilePath=F:\prajval-gahine\prajval-gahine\07 DontNetCore\NLog\NLogProject\NLogProject\bin\Debug\net6.0\NLog.config
+2024-06-07 12:43:07.7033 Info Loading assembly name: NLog.Web.AspNetCore
+2024-06-07 12:43:07.7252 Info NLog.Web.AspNetCore, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.3.11.1082. Product version: 5.3.11+6a33919b2cf5fd3206f473d2230556ffa0b67d67. GlobalAssemblyCache: False
+2024-06-07 12:43:07.8067 Info Registered target NLog.Targets.ColoredConsoleTarget(Name=console)
+2024-06-07 12:43:07.8474 Info Registered target NLog.Targets.FileTarget(Name=file)
+2024-06-07 12:43:07.8534 Info Registered target NLog.Targets.FileTarget(Name=userfileusingvar)
+2024-06-07 12:43:08.0790 Warn Error has been raised. Exception: NLog.NLogConfigurationException: Failed to create LayoutRenderer with unknown type-alias: 'userID_' - Verify type-alias and check extension is included.
+   at NLog.Config.FactoryExtensions.CreateInstance[TBaseType](IFactory`1 factory, String typeAlias)
+   at NLog.Layouts.LayoutParser.GetLayoutRenderer(String typeName, ConfigurationItemFactory configurationItemFactory, Nullable`1 throwConfigExceptions)
+2024-06-07 12:43:08.1246 Info Registered target NLog.Targets.FileTarget(Name=userfileusinglogevent)
+2024-06-07 12:43:08.1447 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.3.2.2526. Product version: 5.3.2+8d52d4f3fcdbd84beae3442e1fdc8125598ed81f. GlobalAssemblyCache: False
+2024-06-07 12:43:08.1660 Info Validating config: TargetNames=console, file, userfileusingvar, userfileusinglogevent, ConfigItems=65, FilePath=F:\prajval-gahine\prajval-gahine\07 DontNetCore\NLog\NLogProject\NLogProject\bin\Debug\net6.0\NLog.config
+2024-06-07 12:43:08.1933 Info Configuration initialized.
+2024-06-07 12:43:17.3228 Info Validating config: TargetNames=console, file, userfileusingvar, userfileusinglogevent, ConfigItems=67, FilePath=F:\prajval-gahine\prajval-gahine\07 DontNetCore\NLog\NLogProject\NLogProject\bin\Debug\net6.0\NLog.config
+2024-06-07 12:43:51.9305 Info Loading assembly name: NLog.Web.AspNetCore
+2024-06-07 12:43:51.9608 Info NLog.Web.AspNetCore, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.3.11.1082. Product version: 5.3.11+6a33919b2cf5fd3206f473d2230556ffa0b67d67. GlobalAssemblyCache: False
+2024-06-07 12:43:52.0988 Info Registered target NLog.Targets.ColoredConsoleTarget(Name=console)
+2024-06-07 12:43:52.1418 Info Registered target NLog.Targets.FileTarget(Name=file)
+2024-06-07 12:43:52.1418 Info Registered target NLog.Targets.FileTarget(Name=userfileusingvar)
+2024-06-07 12:43:52.3673 Warn Error has been raised. Exception: NLog.NLogConfigurationException: Failed to create LayoutRenderer with unknown type-alias: 'userID_' - Verify type-alias and check extension is included.
+   at NLog.Config.FactoryExtensions.CreateInstance[TBaseType](IFactory`1 factory, String typeAlias)
+   at NLog.Layouts.LayoutParser.GetLayoutRenderer(String typeName, ConfigurationItemFactory configurationItemFactory, Nullable`1 throwConfigExceptions)
+2024-06-07 12:43:52.5111 Info Registered target NLog.Targets.FileTarget(Name=userfileusinglogevent)
+2024-06-07 12:43:52.5399 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.3.2.2526. Product version: 5.3.2+8d52d4f3fcdbd84beae3442e1fdc8125598ed81f. GlobalAssemblyCache: False
+2024-06-07 12:43:52.5682 Info Validating config: TargetNames=console, file, userfileusingvar, userfileusinglogevent, ConfigItems=65, FilePath=F:\prajval-gahine\prajval-gahine\07 DontNetCore\NLog\NLogProject\NLogProject\bin\Debug\net6.0\NLog.config
+2024-06-07 12:43:52.6135 Info Configuration initialized.
+2024-06-07 12:44:32.5175 Info Loading assembly name: NLog.Web.AspNetCore
+2024-06-07 12:44:32.5454 Info NLog.Web.AspNetCore, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.3.11.1082. Product version: 5.3.11+6a33919b2cf5fd3206f473d2230556ffa0b67d67. GlobalAssemblyCache: False
+2024-06-07 12:44:32.6498 Info Registered target NLog.Targets.ColoredConsoleTarget(Name=console)
+2024-06-07 12:44:32.7054 Info Registered target NLog.Targets.FileTarget(Name=file)
+2024-06-07 12:44:32.7252 Info Registered target NLog.Targets.FileTarget(Name=userfileusingvar)
+2024-06-07 12:44:32.8568 Warn Error has been raised. Exception: NLog.NLogConfigurationException: Failed to create LayoutRenderer with unknown type-alias: 'userID_' - Verify type-alias and check extension is included.
+   at NLog.Config.FactoryExtensions.CreateInstance[TBaseType](IFactory`1 factory, String typeAlias)
+   at NLog.Layouts.LayoutParser.GetLayoutRenderer(String typeName, ConfigurationItemFactory configurationItemFactory, Nullable`1 throwConfigExceptions)
+2024-06-07 12:44:32.9322 Info Registered target NLog.Targets.FileTarget(Name=userfileusinglogevent)
+2024-06-07 12:44:32.9520 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.3.2.2526. Product version: 5.3.2+8d52d4f3fcdbd84beae3442e1fdc8125598ed81f. GlobalAssemblyCache: False
+2024-06-07 12:44:33.0054 Info Validating config: TargetNames=console, file, userfileusingvar, userfileusinglogevent, ConfigItems=65, FilePath=F:\prajval-gahine\prajval-gahine\07 DontNetCore\NLog\NLogProject\NLogProject\bin\Debug\net6.0\NLog.config
+2024-06-07 12:44:33.2124 Info Configuration initialized.
+2024-06-07 12:44:47.1803 Info Validating config: TargetNames=console, file, userfileusingvar, userfileusinglogevent, ConfigItems=67, FilePath=F:\prajval-gahine\prajval-gahine\07 DontNetCore\NLog\NLogProject\NLogProject\bin\Debug\net6.0\NLog.config
+2024-06-07 12:45:43.7198 Info Loading assembly name: NLog.Web.AspNetCore
+2024-06-07 12:45:43.7587 Info NLog.Web.AspNetCore, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.3.11.1082. Product version: 5.3.11+6a33919b2cf5fd3206f473d2230556ffa0b67d67. GlobalAssemblyCache: False
+2024-06-07 12:45:43.8093 Warn Error has been raised. Exception: NLog.NLogConfigurationException: Property 'value' has blank value, for element 'variable' in section 'variables'
+2024-06-07 12:45:43.8778 Info Registered target NLog.Targets.ColoredConsoleTarget(Name=console)
+2024-06-07 12:45:43.9237 Info Registered target NLog.Targets.FileTarget(Name=file)
+2024-06-07 12:45:43.9237 Info Registered target NLog.Targets.FileTarget(Name=userfileusingvar)
+2024-06-07 12:45:44.0436 Warn Error has been raised. Exception: NLog.NLogConfigurationException: Failed to create LayoutRenderer with unknown type-alias: 'userID_' - Verify type-alias and check extension is included.
+   at NLog.Config.FactoryExtensions.CreateInstance[TBaseType](IFactory`1 factory, String typeAlias)
+   at NLog.Layouts.LayoutParser.GetLayoutRenderer(String typeName, ConfigurationItemFactory configurationItemFactory, Nullable`1 throwConfigExceptions)
+2024-06-07 12:45:44.1576 Info Registered target NLog.Targets.FileTarget(Name=userfileusinglogevent)
+2024-06-07 12:45:44.1831 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.3.2.2526. Product version: 5.3.2+8d52d4f3fcdbd84beae3442e1fdc8125598ed81f. GlobalAssemblyCache: False
+2024-06-07 12:45:44.2113 Info Validating config: TargetNames=console, file, userfileusingvar, userfileusinglogevent, ConfigItems=65, FilePath=F:\prajval-gahine\prajval-gahine\07 DontNetCore\NLog\NLogProject\NLogProject\bin\Debug\net6.0\NLog.config
+2024-06-07 12:45:44.2403 Info Configuration initialized.
+2024-06-07 12:45:54.1643 Info Validating config: TargetNames=console, file, userfileusingvar, userfileusinglogevent, ConfigItems=65, FilePath=F:\prajval-gahine\prajval-gahine\07 DontNetCore\NLog\NLogProject\NLogProject\bin\Debug\net6.0\NLog.config
+2024-06-07 12:46:53.1857 Info Loading assembly name: NLog.Web.AspNetCore
+2024-06-07 12:46:53.2103 Info NLog.Web.AspNetCore, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.3.11.1082. Product version: 5.3.11+6a33919b2cf5fd3206f473d2230556ffa0b67d67. GlobalAssemblyCache: False
+2024-06-07 12:46:53.2332 Warn Error has been raised. Exception: NLog.NLogConfigurationException: Property 'value' has blank value, for element 'variable' in section 'variables'
+2024-06-07 12:46:53.2852 Info Registered target NLog.Targets.ColoredConsoleTarget(Name=console)
+2024-06-07 12:46:53.3249 Info Registered target NLog.Targets.FileTarget(Name=file)
+2024-06-07 12:46:53.3249 Info Registered target NLog.Targets.FileTarget(Name=userfileusingvar)
+2024-06-07 12:46:53.4459 Warn Error has been raised. Exception: NLog.NLogConfigurationException: Failed to create LayoutRenderer with unknown type-alias: 'userID_' - Verify type-alias and check extension is included.
+   at NLog.Config.FactoryExtensions.CreateInstance[TBaseType](IFactory`1 factory, String typeAlias)
+   at NLog.Layouts.LayoutParser.GetLayoutRenderer(String typeName, ConfigurationItemFactory configurationItemFactory, Nullable`1 throwConfigExceptions)
+2024-06-07 12:46:54.1601 Info Registered target NLog.Targets.FileTarget(Name=userfileusinglogevent)
+2024-06-07 12:46:54.1856 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.3.2.2526. Product version: 5.3.2+8d52d4f3fcdbd84beae3442e1fdc8125598ed81f. GlobalAssemblyCache: False
+2024-06-07 12:46:54.2279 Info Validating config: TargetNames=console, file, userfileusingvar, userfileusinglogevent, ConfigItems=65, FilePath=F:\prajval-gahine\prajval-gahine\07 DontNetCore\NLog\NLogProject\NLogProject\bin\Debug\net6.0\NLog.config
+2024-06-07 12:46:54.2658 Info Configuration initialized.
+2024-06-07 12:47:02.6897 Info Validating config: TargetNames=console, file, userfileusingvar, userfileusinglogevent, ConfigItems=65, FilePath=F:\prajval-gahine\prajval-gahine\07 DontNetCore\NLog\NLogProject\NLogProject\bin\Debug\net6.0\NLog.config
+2024-06-07 12:47:46.7933 Info Loading assembly name: NLog.Web.AspNetCore
+2024-06-07 12:47:46.9407 Info NLog.Web.AspNetCore, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.3.11.1082. Product version: 5.3.11+6a33919b2cf5fd3206f473d2230556ffa0b67d67. GlobalAssemblyCache: False
+2024-06-07 12:47:47.2732 Info Registered target NLog.Targets.ColoredConsoleTarget(Name=console)
+2024-06-07 12:47:47.3114 Info Registered target NLog.Targets.FileTarget(Name=file)
+2024-06-07 12:47:47.3114 Info Registered target NLog.Targets.FileTarget(Name=userfileusingvar)
+2024-06-07 12:47:47.5342 Warn Error has been raised. Exception: NLog.NLogConfigurationException: Failed to create LayoutRenderer with unknown type-alias: 'userID_' - Verify type-alias and check extension is included.
+   at NLog.Config.FactoryExtensions.CreateInstance[TBaseType](IFactory`1 factory, String typeAlias)
+   at NLog.Layouts.LayoutParser.GetLayoutRenderer(String typeName, ConfigurationItemFactory configurationItemFactory, Nullable`1 throwConfigExceptions)
+2024-06-07 12:47:47.7776 Info Registered target NLog.Targets.FileTarget(Name=userfileusinglogevent)
+2024-06-07 12:47:47.8034 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.3.2.2526. Product version: 5.3.2+8d52d4f3fcdbd84beae3442e1fdc8125598ed81f. GlobalAssemblyCache: False
+2024-06-07 12:47:47.8469 Info Validating config: TargetNames=console, file, userfileusingvar, userfileusinglogevent, ConfigItems=65, FilePath=F:\prajval-gahine\prajval-gahine\07 DontNetCore\NLog\NLogProject\NLogProject\bin\Debug\net6.0\NLog.config
+2024-06-07 12:47:47.8842 Info Configuration initialized.
+2024-06-07 12:48:04.5858 Info Validating config: TargetNames=console, file, userfileusingvar, userfileusinglogevent, ConfigItems=67, FilePath=F:\prajval-gahine\prajval-gahine\07 DontNetCore\NLog\NLogProject\NLogProject\bin\Debug\net6.0\NLog.config
+2024-06-07 12:51:52.7793 Info Loading assembly name: NLog.Web.AspNetCore
+2024-06-07 12:51:52.8028 Info NLog.Web.AspNetCore, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.3.11.1082. Product version: 5.3.11+6a33919b2cf5fd3206f473d2230556ffa0b67d67. GlobalAssemblyCache: False
+2024-06-07 12:51:52.9055 Info Registered target NLog.Targets.ColoredConsoleTarget(Name=console)
+2024-06-07 12:51:52.9443 Info Registered target NLog.Targets.FileTarget(Name=file)
+2024-06-07 12:51:52.9443 Info Registered target NLog.Targets.FileTarget(Name=userfileusingvar)
+2024-06-07 12:51:53.1335 Warn Error has been raised. Exception: NLog.NLogConfigurationException: Failed to create LayoutRenderer with unknown type-alias: 'userID_' - Verify type-alias and check extension is included.
+   at NLog.Config.FactoryExtensions.CreateInstance[TBaseType](IFactory`1 factory, String typeAlias)
+   at NLog.Layouts.LayoutParser.GetLayoutRenderer(String typeName, ConfigurationItemFactory configurationItemFactory, Nullable`1 throwConfigExceptions)
+2024-06-07 12:51:53.2188 Warn Error has been raised. Exception: NLog.NLogConfigurationException: Failed to create LayoutRenderer with unknown type-alias: 'userID_' - Verify type-alias and check extension is included.
+   at NLog.Config.FactoryExtensions.CreateInstance[TBaseType](IFactory`1 factory, String typeAlias)
+   at NLog.Layouts.LayoutParser.GetLayoutRenderer(String typeName, ConfigurationItemFactory configurationItemFactory, Nullable`1 throwConfigExceptions)
+2024-06-07 12:51:53.2188 Info Registered target NLog.Targets.FileTarget(Name=userfileusinglogevent)
+2024-06-07 12:51:53.2455 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.3.2.2526. Product version: 5.3.2+8d52d4f3fcdbd84beae3442e1fdc8125598ed81f. GlobalAssemblyCache: False
+2024-06-07 12:51:53.2761 Info Validating config: TargetNames=console, file, userfileusingvar, userfileusinglogevent, ConfigItems=65, FilePath=F:\prajval-gahine\prajval-gahine\07 DontNetCore\NLog\NLogProject\NLogProject\bin\Debug\net6.0\NLog.config
+2024-06-07 12:51:53.3340 Info Configuration initialized.
+2024-06-07 12:52:06.6673 Info Validating config: TargetNames=console, file, userfileusingvar, userfileusinglogevent, ConfigItems=67, FilePath=F:\prajval-gahine\prajval-gahine\07 DontNetCore\NLog\NLogProject\NLogProject\bin\Debug\net6.0\NLog.config
+2024-06-07 12:53:44.8839 Info Loading assembly name: NLog.Web.AspNetCore
+2024-06-07 12:53:45.3078 Info NLog.Web.AspNetCore, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.3.11.1082. Product version: 5.3.11+6a33919b2cf5fd3206f473d2230556ffa0b67d67. GlobalAssemblyCache: False
+2024-06-07 12:53:45.4401 Info Registered target NLog.Targets.ColoredConsoleTarget(Name=console)
+2024-06-07 12:53:45.4767 Info Registered target NLog.Targets.FileTarget(Name=file)
+2024-06-07 12:53:45.4767 Info Registered target NLog.Targets.FileTarget(Name=userfileusingvar)
+2024-06-07 12:53:45.5495 Warn Error has been raised. Exception: NLog.NLogConfigurationException: Failed to create LayoutRenderer with unknown type-alias: 'userID_' - Verify type-alias and check extension is included.
+   at NLog.Config.FactoryExtensions.CreateInstance[TBaseType](IFactory`1 factory, String typeAlias)
+   at NLog.Layouts.LayoutParser.GetLayoutRenderer(String typeName, ConfigurationItemFactory configurationItemFactory, Nullable`1 throwConfigExceptions)
+2024-06-07 12:53:45.6370 Warn Error has been raised. Exception: NLog.NLogConfigurationException: Failed to create LayoutRenderer with unknown type-alias: 'userID_' - Verify type-alias and check extension is included.
+   at NLog.Config.FactoryExtensions.CreateInstance[TBaseType](IFactory`1 factory, String typeAlias)
+   at NLog.Layouts.LayoutParser.GetLayoutRenderer(String typeName, ConfigurationItemFactory configurationItemFactory, Nullable`1 throwConfigExceptions)
+2024-06-07 12:53:45.6370 Info Registered target NLog.Targets.FileTarget(Name=userfileusinglogevent)
+2024-06-07 12:53:45.6548 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.3.2.2526. Product version: 5.3.2+8d52d4f3fcdbd84beae3442e1fdc8125598ed81f. GlobalAssemblyCache: False
+2024-06-07 12:53:45.6785 Info Validating config: TargetNames=console, file, userfileusingvar, userfileusinglogevent, ConfigItems=65, FilePath=F:\prajval-gahine\prajval-gahine\07 DontNetCore\NLog\NLogProject\NLogProject\bin\Debug\net6.0\NLog.config
+2024-06-07 12:53:45.7020 Info Configuration initialized.
+2024-06-07 12:53:54.7039 Info Validating config: TargetNames=console, file, userfileusingvar, userfileusinglogevent, ConfigItems=67, FilePath=F:\prajval-gahine\prajval-gahine\07 DontNetCore\NLog\NLogProject\NLogProject\bin\Debug\net6.0\NLog.config
+2024-06-07 12:59:54.2122 Info Loading assembly name: NLog.Web.AspNetCore
+2024-06-07 12:59:54.2371 Info NLog.Web.AspNetCore, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.3.11.1082. Product version: 5.3.11+6a33919b2cf5fd3206f473d2230556ffa0b67d67. GlobalAssemblyCache: False
+2024-06-07 12:59:54.3201 Info Registered target NLog.Targets.ColoredConsoleTarget(Name=console)
+2024-06-07 12:59:54.3577 Info Registered target NLog.Targets.FileTarget(Name=userfileusinglogevent)
+2024-06-07 12:59:54.3754 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.3.2.2526. Product version: 5.3.2+8d52d4f3fcdbd84beae3442e1fdc8125598ed81f. GlobalAssemblyCache: False
+2024-06-07 12:59:54.4042 Info Validating config: TargetNames=console, userfileusinglogevent, ConfigItems=25, FilePath=F:\prajval-gahine\prajval-gahine\07 DontNetCore\NLog\NLogProject\NLogProject\bin\Debug\net6.0\NLog.config
+2024-06-07 12:59:54.4288 Info Configuration initialized.
+2024-06-07 13:00:40.9584 Info Loading assembly name: NLog.Web.AspNetCore
+2024-06-07 13:00:40.9851 Info NLog.Web.AspNetCore, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.3.11.1082. Product version: 5.3.11+6a33919b2cf5fd3206f473d2230556ffa0b67d67. GlobalAssemblyCache: False
+2024-06-07 13:00:41.0820 Info Registered target NLog.Targets.ColoredConsoleTarget(Name=console)
+2024-06-07 13:00:41.1201 Info Registered target NLog.Targets.FileTarget(Name=userfileusinglogevent)
+2024-06-07 13:00:41.1385 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.3.2.2526. Product version: 5.3.2+8d52d4f3fcdbd84beae3442e1fdc8125598ed81f. GlobalAssemblyCache: False
+2024-06-07 13:00:41.1650 Info Validating config: TargetNames=console, userfileusinglogevent, ConfigItems=25, FilePath=F:\prajval-gahine\prajval-gahine\07 DontNetCore\NLog\NLogProject\NLogProject\bin\Debug\net6.0\NLog.config
+2024-06-07 13:00:41.1880 Info Configuration initialized.
+2024-06-07 13:01:19.9569 Info Loading assembly name: NLog.Web.AspNetCore
+2024-06-07 13:01:20.2180 Info NLog.Web.AspNetCore, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.3.11.1082. Product version: 5.3.11+6a33919b2cf5fd3206f473d2230556ffa0b67d67. GlobalAssemblyCache: False
+2024-06-07 13:01:20.3238 Info Registered target NLog.Targets.ColoredConsoleTarget(Name=console)
+2024-06-07 13:01:20.3957 Warn Error has been raised. Exception: NLog.NLogConfigurationException: Failed to create LayoutRenderer with unknown type-alias: 'userid' - Verify type-alias and check extension is included.
+   at NLog.Config.FactoryExtensions.CreateInstance[TBaseType](IFactory`1 factory, String typeAlias)
+   at NLog.Layouts.LayoutParser.GetLayoutRenderer(String typeName, ConfigurationItemFactory configurationItemFactory, Nullable`1 throwConfigExceptions)
+2024-06-07 13:01:20.4789 Warn Error has been raised. Exception: NLog.NLogConfigurationException: Failed to create LayoutRenderer with unknown type-alias: 'userid' - Verify type-alias and check extension is included.
+   at NLog.Config.FactoryExtensions.CreateInstance[TBaseType](IFactory`1 factory, String typeAlias)
+   at NLog.Layouts.LayoutParser.GetLayoutRenderer(String typeName, ConfigurationItemFactory configurationItemFactory, Nullable`1 throwConfigExceptions)
+2024-06-07 13:01:20.4955 Info Registered target NLog.Targets.FileTarget(Name=userfileusinglogevent)
+2024-06-07 13:01:20.4955 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.3.2.2526. Product version: 5.3.2+8d52d4f3fcdbd84beae3442e1fdc8125598ed81f. GlobalAssemblyCache: False
+2024-06-07 13:01:20.5313 Info Validating config: TargetNames=console, userfileusinglogevent, ConfigItems=25, FilePath=F:\prajval-gahine\prajval-gahine\07 DontNetCore\NLog\NLogProject\NLogProject\bin\Debug\net6.0\NLog.config
+2024-06-07 13:01:20.5543 Info Configuration initialized.
+2024-06-07 13:01:52.0896 Info Loading assembly name: NLog.Web.AspNetCore
+2024-06-07 13:01:52.1128 Info NLog.Web.AspNetCore, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.3.11.1082. Product version: 5.3.11+6a33919b2cf5fd3206f473d2230556ffa0b67d67. GlobalAssemblyCache: False
+2024-06-07 13:01:52.1877 Info Registered target NLog.Targets.ColoredConsoleTarget(Name=console)
+2024-06-07 13:01:52.4006 Warn Error has been raised. Exception: NLog.NLogConfigurationException: Failed to create LayoutRenderer with unknown type-alias: 'userid' - Verify type-alias and check extension is included.
+   at NLog.Config.FactoryExtensions.CreateInstance[TBaseType](IFactory`1 factory, String typeAlias)
+   at NLog.Layouts.LayoutParser.GetLayoutRenderer(String typeName, ConfigurationItemFactory configurationItemFactory, Nullable`1 throwConfigExceptions)
+2024-06-07 13:01:52.6169 Warn Error has been raised. Exception: NLog.NLogConfigurationException: Failed to create LayoutRenderer with unknown type-alias: 'userid' - Verify type-alias and check extension is included.
+   at NLog.Config.FactoryExtensions.CreateInstance[TBaseType](IFactory`1 factory, String typeAlias)
+   at NLog.Layouts.LayoutParser.GetLayoutRenderer(String typeName, ConfigurationItemFactory configurationItemFactory, Nullable`1 throwConfigExceptions)
+2024-06-07 13:01:52.6438 Info Registered target NLog.Targets.FileTarget(Name=userfileusinglogevent)
+2024-06-07 13:01:52.6610 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.3.2.2526. Product version: 5.3.2+8d52d4f3fcdbd84beae3442e1fdc8125598ed81f. GlobalAssemblyCache: False
+2024-06-07 13:01:52.6863 Info Validating config: TargetNames=console, userfileusinglogevent, ConfigItems=25, FilePath=F:\prajval-gahine\prajval-gahine\07 DontNetCore\NLog\NLogProject\NLogProject\bin\Debug\net6.0\NLog.config
+2024-06-07 13:01:52.7142 Info Configuration initialized.
+2024-06-07 13:02:53.8539 Info Loading assembly name: NLog.Web.AspNetCore
+2024-06-07 13:02:54.1238 Info NLog.Web.AspNetCore, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.3.11.1082. Product version: 5.3.11+6a33919b2cf5fd3206f473d2230556ffa0b67d67. GlobalAssemblyCache: False
+2024-06-07 13:02:54.3985 Info Registered target NLog.Targets.ColoredConsoleTarget(Name=console)
+2024-06-07 13:02:55.4961 Warn Error has been raised. Exception: NLog.NLogConfigurationException: Failed to create LayoutRenderer with unknown type-alias: 'userid' - Verify type-alias and check extension is included.
+   at NLog.Config.FactoryExtensions.CreateInstance[TBaseType](IFactory`1 factory, String typeAlias)
+   at NLog.Layouts.LayoutParser.GetLayoutRenderer(String typeName, ConfigurationItemFactory configurationItemFactory, Nullable`1 throwConfigExceptions)
+2024-06-07 13:02:55.8649 Warn Error has been raised. Exception: NLog.NLogConfigurationException: Failed to create LayoutRenderer with unknown type-alias: 'userid' - Verify type-alias and check extension is included.
+   at NLog.Config.FactoryExtensions.CreateInstance[TBaseType](IFactory`1 factory, String typeAlias)
+   at NLog.Layouts.LayoutParser.GetLayoutRenderer(String typeName, ConfigurationItemFactory configurationItemFactory, Nullable`1 throwConfigExceptions)
+2024-06-07 13:02:55.8965 Info Registered target NLog.Targets.FileTarget(Name=userfileusinglogevent)
+2024-06-07 13:02:55.9140 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.3.2.2526. Product version: 5.3.2+8d52d4f3fcdbd84beae3442e1fdc8125598ed81f. GlobalAssemblyCache: False
+2024-06-07 13:02:55.9418 Info Validating config: TargetNames=console, userfileusinglogevent, ConfigItems=25, FilePath=F:\prajval-gahine\prajval-gahine\07 DontNetCore\NLog\NLogProject\NLogProject\bin\Debug\net6.0\NLog.config
+2024-06-07 13:02:55.9781 Info Configuration initialized.
+2024-06-07 13:08:31.7858 Info Loading assembly name: NLog.Web.AspNetCore
+2024-06-07 13:08:31.8627 Info NLog.Web.AspNetCore, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.3.11.1082. Product version: 5.3.11+6a33919b2cf5fd3206f473d2230556ffa0b67d67. GlobalAssemblyCache: False
+2024-06-07 13:08:31.9924 Info Registered target NLog.Targets.ColoredConsoleTarget(Name=console)
+2024-06-07 13:08:32.1852 Warn Error has been raised. Exception: NLog.NLogConfigurationException: Failed to create LayoutRenderer with unknown type-alias: 'userid' - Verify type-alias and check extension is included.
+   at NLog.Config.FactoryExtensions.CreateInstance[TBaseType](IFactory`1 factory, String typeAlias)
+   at NLog.Layouts.LayoutParser.GetLayoutRenderer(String typeName, ConfigurationItemFactory configurationItemFactory, Nullable`1 throwConfigExceptions)
+2024-06-07 13:08:32.3807 Warn Error has been raised. Exception: NLog.NLogConfigurationException: Failed to create LayoutRenderer with unknown type-alias: 'userid' - Verify type-alias and check extension is included.
+   at NLog.Config.FactoryExtensions.CreateInstance[TBaseType](IFactory`1 factory, String typeAlias)
+   at NLog.Layouts.LayoutParser.GetLayoutRenderer(String typeName, ConfigurationItemFactory configurationItemFactory, Nullable`1 throwConfigExceptions)
+2024-06-07 13:08:32.4025 Info Registered target NLog.Targets.FileTarget(Name=userfileusinglogevent)
+2024-06-07 13:08:32.4201 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.3.2.2526. Product version: 5.3.2+8d52d4f3fcdbd84beae3442e1fdc8125598ed81f. GlobalAssemblyCache: False
+2024-06-07 13:08:32.4468 Info Validating config: TargetNames=console, userfileusinglogevent, ConfigItems=25, FilePath=F:\prajval-gahine\prajval-gahine\07 DontNetCore\NLog\NLogProject\NLogProject\bin\Debug\net6.0\NLog.config
+2024-06-07 13:08:32.4723 Info Configuration initialized.
+2024-06-07 13:08:32.8034 Info Loading NLog config from XML file: F:\prajval-gahine\prajval-gahine\07 DontNetCore\NLog\NLogProject\NLogProject\bin\Debug\net6.0\NLog.config
+2024-06-07 13:08:32.8034 Info Registered target NLog.Targets.ColoredConsoleTarget(Name=console)
+2024-06-07 13:08:32.8034 Info Registered target NLog.Targets.FileTarget(Name=userfileusinglogevent)
+2024-06-07 13:08:32.8034 Info Closing old configuration.
+2024-06-07 13:08:32.8413 Info Validating config: TargetNames=console, userfileusinglogevent, ConfigItems=29, FilePath=F:\prajval-gahine\prajval-gahine\07 DontNetCore\NLog\NLogProject\NLogProject\bin\Debug\net6.0\NLog.config
+2024-06-07 13:08:32.8413 Info Configuration initialized.
+2024-06-07 13:08:32.8413 Info Validating config: TargetNames=console, userfileusinglogevent, ConfigItems=29, FilePath=F:\prajval-gahine\prajval-gahine\07 DontNetCore\NLog\NLogProject\NLogProject\bin\Debug\net6.0\NLog.config
+2024-06-07 13:16:34.7725 Info Loading assembly name: NLog.Web.AspNetCore
+2024-06-07 13:16:34.7999 Info NLog.Web.AspNetCore, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.3.11.1082. Product version: 5.3.11+6a33919b2cf5fd3206f473d2230556ffa0b67d67. GlobalAssemblyCache: False
+2024-06-07 13:16:34.8855 Info Registered target NLog.Targets.ColoredConsoleTarget(Name=console)
+2024-06-07 13:16:34.9794 Warn Error has been raised. Exception: NLog.NLogConfigurationException: Failed to create LayoutRenderer with unknown type-alias: 'userid' - Verify type-alias and check extension is included.
+   at NLog.Config.FactoryExtensions.CreateInstance[TBaseType](IFactory`1 factory, String typeAlias)
+   at NLog.Layouts.LayoutParser.GetLayoutRenderer(String typeName, ConfigurationItemFactory configurationItemFactory, Nullable`1 throwConfigExceptions)
+2024-06-07 13:16:35.0753 Warn Error has been raised. Exception: NLog.NLogConfigurationException: Failed to create LayoutRenderer with unknown type-alias: 'userid' - Verify type-alias and check extension is included.
+   at NLog.Config.FactoryExtensions.CreateInstance[TBaseType](IFactory`1 factory, String typeAlias)
+   at NLog.Layouts.LayoutParser.GetLayoutRenderer(String typeName, ConfigurationItemFactory configurationItemFactory, Nullable`1 throwConfigExceptions)
+2024-06-07 13:16:35.0943 Info Registered target NLog.Targets.FileTarget(Name=userfileusinglogevent)
+2024-06-07 13:16:35.1108 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.3.2.2526. Product version: 5.3.2+8d52d4f3fcdbd84beae3442e1fdc8125598ed81f. GlobalAssemblyCache: False
+2024-06-07 13:16:35.1335 Info Validating config: TargetNames=console, userfileusinglogevent, ConfigItems=25, FilePath=F:\prajval-gahine\prajval-gahine\07 DontNetCore\NLog\NLogProject\NLogProject\bin\Debug\net6.0\NLog.config
+2024-06-07 13:16:35.1667 Info Configuration initialized.
+2024-06-07 13:16:35.4170 Info Loading NLog config from XML file: F:\prajval-gahine\prajval-gahine\07 DontNetCore\NLog\NLogProject\NLogProject\bin\Debug\net6.0\NLog.config
+2024-06-07 13:16:35.4170 Info Registered target NLog.Targets.ColoredConsoleTarget(Name=console)
+2024-06-07 13:16:35.4170 Info Registered target NLog.Targets.FileTarget(Name=userfileusinglogevent)
+2024-06-07 13:16:35.4170 Info Closing old configuration.
+2024-06-07 13:16:35.4535 Info Validating config: TargetNames=console, userfileusinglogevent, ConfigItems=29, FilePath=F:\prajval-gahine\prajval-gahine\07 DontNetCore\NLog\NLogProject\NLogProject\bin\Debug\net6.0\NLog.config
+2024-06-07 13:16:35.4535 Info Configuration initialized.
+2024-06-07 13:16:35.4535 Info Validating config: TargetNames=console, userfileusinglogevent, ConfigItems=29, FilePath=F:\prajval-gahine\prajval-gahine\07 DontNetCore\NLog\NLogProject\NLogProject\bin\Debug\net6.0\NLog.config

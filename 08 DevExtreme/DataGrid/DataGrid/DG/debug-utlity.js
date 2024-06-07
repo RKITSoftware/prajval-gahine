@@ -28,11 +28,53 @@ function findKeysWithValue(obj, searchValue, path = '', result = []) {
     }
     return result;
 }
+function findKeysPath(obj, searchKey, path = '', result = []) {
+    for (let key in obj) {
+        if (obj.hasOwnProperty(key)) {
+            const newPath = path ? `${path}.${key}` : key;
+            if (key.toLowerCase().includes(searchKey.toLowerCase())) {
+                result.push(newPath);
+            }
+            if (typeof obj[key] === 'object' && !Array.isArray(obj[key])) {
+                findKeysPath(obj[key], searchKey, newPath, result);
+            }
+        }
+    }
+    return result;
+}
 
-function findValuePathsInObj(obj, value) {
+function findRefPath(obj, searchValue, path = '', result = []) {
+    for (let key in obj) {
+        if (obj.hasOwnProperty(key)) {
+            const newPath = path ? `${path}.${key}` : key;
+            if (obj[key] === searchValue) {
+                result.push(newPath);
+            }
+            if (typeof obj[key] === 'object' && !Array.isArray(obj[key])) {
+                findRefPath(obj[key], searchValue, newPath, result);
+            }
+        }
+    }
+    return result;
+}
+
+
+function xFindValuePathsInObj(obj, value) {
     let strObj = safeStringify(obj);
     let safeObj = JSON.parse(strObj);
     return findKeysWithValue(safeObj, value);
+}
+
+function xfindKeyPathsInObj(obj, key) {
+    let strObj = safeStringify(obj);
+    let safeObj = JSON.parse(strObj);
+    return findKeysPath(safeObj, key);
+}
+
+function xfindRefPathsInObj(obj, ref) {
+    let strObj = safeStringify(obj);
+    let safeObj = JSON.parse(strObj);
+    return findRefPath(safeObj, ref);
 }
 
 function safeStringify2(obj, replacer = null, space = 2) {
@@ -68,4 +110,25 @@ function safeStringify2(obj, replacer = null, space = 2) {
     // Use JSON.stringify with the custom serializer
     const result = JSON.stringify(obj, (key, value) => serializer(key, value), space);
     return result;
+}
+
+
+function xShuffleArrayBetweenIndices(arr, n = 0, m = arr.length - 1, inPlace = true) {
+    // Ensure n and m are within bounds and n is less than or equal to m
+    if (n < 0 || m >= arr.length || n > m) {
+        throw new Error("Invalid indices");
+    }
+
+    // Make a copy of the array if not shuffling in place
+    const arrayToShuffle = inPlace ? arr : [...arr];
+
+    for (let i = m; i > n; i--) {
+        // Generate a random index between n and i
+        const j = Math.floor(Math.random() * (i - n + 1)) + n;
+
+        // Swap elements at i and j
+        [arrayToShuffle[i], arrayToShuffle[j]] = [arrayToShuffle[j], arrayToShuffle[i]];
+    }
+
+    return arrayToShuffle;
 }

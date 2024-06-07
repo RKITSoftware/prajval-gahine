@@ -1,0 +1,20 @@
+2024-06-07 11:28:45.1264|Response markup is scheduled to include browser refresh script injection.
+2024-06-07 11:28:45.2145|Response markup was updated to include browser refresh script injection.
+2024-06-07 11:28:45.2145|Connection id "0HN46MRHKTPU5" completed keep alive response.
+2024-06-07 11:28:46.6001|Request starting HTTP/1.1 GET http://localhost:5068/_framework/aspnetcore-browser-refresh.js - -
+2024-06-07 11:28:46.6117|Connection id "0HN46MRHKTPU5" completed keep alive response.
+2024-06-07 11:28:46.6117|Request finished HTTP/1.1 GET http://localhost:5068/_framework/aspnetcore-browser-refresh.js - - - 200 11992 application/javascript;+charset=utf-8 18.1590ms
+2024-06-07 11:28:46.7297|Request starting HTTP/1.1 GET http://localhost:5068/swagger/v1/swagger.json - -
+2024-06-07 11:28:46.7297|All hosts are allowed.
+2024-06-07 11:28:46.8215|Connection id "0HN46MRHKTPU5" completed keep alive response.
+2024-06-07 11:28:46.8215|Request finished HTTP/1.1 GET http://localhost:5068/swagger/v1/swagger.json - - - 200 - application/json;charset=utf-8 92.2388ms
+2024-06-07 11:28:48.8448|Connection id "0HN46MRHKTPU5" received FIN.
+2024-06-07 11:28:48.8448|Connection id "0HN46MRHKTPU6" received FIN.
+2024-06-07 11:28:48.8448|Connection id "0HN46MRHKTPU6" disconnecting.
+2024-06-07 11:28:48.8590|Connection id "0HN46MRHKTPU6" sending FIN because: "The client closed the connection."
+2024-06-07 11:28:48.8590|Connection id "0HN46MRHKTPU5" sending FIN because: "The client closed the connection."
+2024-06-07 11:28:48.8590|Connection id "0HN46MRHKTPU5" disconnecting.
+2024-06-07 11:28:48.8590|Connection id "0HN46MRHKTPU6" stopped.
+2024-06-07 11:28:48.8590|Connection id "0HN46MRHKTPU5" stopped.
+2024-06-07 11:29:14.0671|Registered model binder providers, in the following order: Microsoft.AspNetCore.Mvc.ModelBinding.Binders.BinderTypeModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ServicesModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.BodyModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.HeaderModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FloatingPointTypeModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.EnumTypeModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.DateTimeModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.SimpleTypeModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.CancellationTokenModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ByteArrayModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FormFileModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FormCollectionModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.KeyValuePairModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.DictionaryModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ArrayModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.CollectionModelBinderProvider, Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ComplexObjectModelBinderProvider
+2024-06-07 11:29:20.4837|Web application started!

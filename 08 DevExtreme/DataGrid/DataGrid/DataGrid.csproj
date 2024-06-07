@@ -114,6 +114,9 @@
     <Content Include="DG\array\index.html" />
     <Content Include="DG\array\script.js" />
     <Content Include="DG\array\style.css" />
+    <Content Include="DG\columncustomization\index.html" />
+    <Content Include="DG\columncustomization\script.js" />
+    <Content Include="DG\columncustomization\style.css" />
     <Content Include="DG\editing\index.html" />
     <Content Include="DG\editing\lookup\index.html" />
     <Content Include="DG\editing\lookup\script.js" />
