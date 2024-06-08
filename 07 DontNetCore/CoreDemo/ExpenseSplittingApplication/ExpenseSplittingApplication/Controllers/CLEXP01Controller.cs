@@ -1,6 +1,7 @@
 ﻿using ExpenseSplittingApplication.BL.Master.Interface;
 using ExpenseSplittingApplication.Models;
 using ExpenseSplittingApplication.Models.DTO;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ExpenseSplittingApplication.Controllers
@@ -29,6 +30,7 @@ namespace ExpenseSplittingApplication.Controllers
             return Ok(response);
         }
 
+        [Authorize]
         [HttpGet("settlement-report")]
         public IActionResult GetSettlementReport(int userID)
         {

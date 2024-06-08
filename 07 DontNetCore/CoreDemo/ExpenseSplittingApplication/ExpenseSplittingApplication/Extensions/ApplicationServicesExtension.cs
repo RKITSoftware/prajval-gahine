@@ -1,5 +1,7 @@
 ﻿using ExpenseSplittingApplication.BL.Master.Interface;
 using ExpenseSplittingApplication.BL.Master.Service;
+using ExpenseSplittingApplication.Common.Helper;
+using ExpenseSplittingApplication.Common.Interface;
 using ExpenseSplittingApplication.DL.Context;
 using ExpenseSplittingApplication.DL.Interface;
 using MySql.Data.MySqlClient;
@@ -9,8 +11,16 @@ using System.Data;
 
 namespace ExpenseSplittingApplication.Extensions
 {
-    public static class CustomServicesExtension
+    public static class ApplicationServicesExtension
     {
+        public static void AddApplicationServices(this IServiceCollection services, string connectionString)
+        {
+            services.AddApplicationConnections(connectionString);
+            services.AddBLServices();
+            services.AddDBContexts();
+            services.AddSingleton<IUtility, Utility>();
+        }
+
         public static void AddApplicationConnections(this IServiceCollection services, string connectionString)
         {
             services.AddSingleton<IDbConnectionFactory>(provider =>

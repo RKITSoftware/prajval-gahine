@@ -1,7 +1,7 @@
 ﻿using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
-namespace ExpenseSplittingApplication.Models.DTO.Swagger
+namespace ExpenseSplittingApplication.SwaggerRequirements
 {
     public class PostMethodRequiredParameterFilter : IOperationFilter
     {
@@ -14,7 +14,7 @@ namespace ExpenseSplittingApplication.Models.DTO.Swagger
 
             if (controllerName == "CLUSR01")
             {
-                if(httpMethod?.ToLower() == "post")
+                if (httpMethod?.ToLower() == "post")
                 {
                     // remove the userID parameter
                     parameter = operation.Parameters.FirstOrDefault(p => p.Name == "R01F01");
@@ -28,7 +28,7 @@ namespace ExpenseSplittingApplication.Models.DTO.Swagger
                     }
                 }
 
-                if(httpMethod?.ToLower() == "put")
+                if (httpMethod?.ToLower() == "put")
                 {
                     // remove the password parameter
                     parameter = operation.Parameters.FirstOrDefault(p => p.Name == "R01F03");

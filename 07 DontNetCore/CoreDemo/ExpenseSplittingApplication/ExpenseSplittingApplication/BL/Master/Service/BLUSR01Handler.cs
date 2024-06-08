@@ -211,5 +211,15 @@ namespace ExpenseSplittingApplication.BL.Master.Service
             response.Message = "Password was changed successfully.";
             return response;
         }
+
+        public USR01 GetUser(string username, string password)
+        {
+            USR01 objUSR01;
+            using (IDbConnection db = _dbFactory.OpenDbConnection())
+            {
+                objUSR01 = db.Single<USR01>(new { R01F02 = username, R01F03 = password });
+            }
+            return objUSR01;
+        }
     }
 }

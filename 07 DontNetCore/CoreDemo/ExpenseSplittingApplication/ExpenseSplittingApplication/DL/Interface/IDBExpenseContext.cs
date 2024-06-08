@@ -1,5 +1,4 @@
 ﻿using ExpenseSplittingApplication.BL.Domain;
-using System.Data;
 
 namespace ExpenseSplittingApplication.DL.Interface
 {
