@@ -1,4 +1,6 @@
-﻿namespace ExpenseSplittingApplication.BL.Domain
+﻿using System.Collections.Generic;
+
+namespace ExpenseSplittingApplication.BL.Domain
 {
     public class SettlementReport
     {

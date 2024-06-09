@@ -5,14 +5,19 @@ using ExpenseSplittingApplication.DL.Interface;
 using ExpenseSplittingApplication.Models;
 using ExpenseSplittingApplication.Models.DTO;
 using ExpenseSplittingApplication.Models.POCO;
+using Microsoft.AspNetCore.Http;
 using ServiceStack.Data;
 using ServiceStack.OrmLite;
+using System;
+using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 
 namespace ExpenseSplittingApplication.BL.Master.Service
 {
     public class BLEXP01Handler : IEXP01Service
     {
+        private const bool V = true;
         private EXP01 _objExpense;
         private List<CNT01> _lstContribution;
 
@@ -20,6 +25,7 @@ namespace ExpenseSplittingApplication.BL.Master.Service
         private IDbConnectionFactory _dbFactory;
         private IDBExpenseContext _context;
         public EnmOperation Operation { get; set; }
+        public List<CNT01> LstContribution { get => _lstContribution; set => _lstContribution = value; }
 
         public BLEXP01Handler(IUtility utility, IDbConnectionFactory dbFactory, IDBExpenseContext context)
         {
@@ -40,14 +46,7 @@ namespace ExpenseSplittingApplication.BL.Master.Service
 
         public void PreSave(DTOEXC objDto)
         {
-            _objExpense = new EXP01()
-            {
-                P01F02 = objDto.ObjDTOEXP01.P01F02,
-                P01F03 = objDto.ObjDTOEXP01.P01F03,
-                P01F04 = objDto.ObjDTOEXP01.P01F04,
-                P01F05 = objDto.ObjDTOEXP01.P01F05,
-                P01F98 = DateTime.Now,
-            };
+            _objExpense = new EXP01() { P01F02 = objDto.ObjDTOEXP01.P01F02, P01F03 = objDto.ObjDTOEXP01.P01F03, P01F04 = objDto.ObjDTOEXP01.P01F04, P01F05 = objDto.ObjDTOEXP01.P01F05, P01F98 = DateTime.Now, };
 
             double payeeAmount = Int32.MinValue;
             if (!objDto.IsShareUnequal)
@@ -55,7 +54,7 @@ namespace ExpenseSplittingApplication.BL.Master.Service
                 payeeAmount = objDto.ObjDTOEXP01.P01F04 / objDto.LstDTOCNT01.Count;
             }
 
-            _lstContribution = objDto.LstDTOCNT01.Select(dtoContribution => (new CNT01()
+            LstContribution = objDto.LstDTOCNT01.Select(dtoContribution => (new CNT01()
             {
                 T01F03 = dtoContribution.T01F03,
                 T01F04 = objDto.IsShareUnequal ? dtoContribution.T01F04 : payeeAmount,
@@ -117,7 +116,7 @@ namespace ExpenseSplittingApplication.BL.Master.Service
             List<int> lstUserIDNotInDB = _context.GetUserIdsNotInDatabase(lstUserID);
             if(lstUserIDNotInDB.Count > 0)
             {
-                response.IsError = true;
+                response.IsError = V;
                 response.HttpStatusCode = StatusCodes.Status404NotFound;
                 response.Message = "One of provided payee id not found.";
 
@@ -153,12 +152,12 @@ namespace ExpenseSplittingApplication.BL.Master.Service
                     {
                         int expenseID = (int)db.Insert<EXP01>(_objExpense, selectIdentity: true);
 
-                        _lstContribution.ForEach(contribution =>
+                        LstContribution.ForEach(contribution =>
                         {
                             contribution.T01F02 = expenseID;
                         });
 
-                        db.InsertAll<CNT01>(_lstContribution);
+                        db.InsertAll<CNT01>(LstContribution);
 
                         tnx.Commit();
                     }
@@ -187,6 +186,69 @@ namespace ExpenseSplittingApplication.BL.Master.Service
 
             response.Data = settlementReport;
             response.HttpStatusCode = StatusCodes.Status200OK;
+            return response;
+        }
+
+        public Response SettleDues(int userID, int recievableUserID, double amount)
+        {
+            Response response = new Response();
+
+            if(amount < 0)
+            {
+                response.IsError = true;
+                response.Message = $"Cannot setlle due, amount cannot be minus.";
+                response.HttpStatusCode = StatusCodes.Status409Conflict;
+
+                return response;
+            }
+
+            if(userID == recievableUserID)
+            {
+                response.IsError = true;
+                response.Message = $"Authenticated user id and recievable userid are same.";
+                response.HttpStatusCode = StatusCodes.Status409Conflict;
+
+                return response;
+            }
+
+            // check ids against db
+            if (!_utility.UserIDExists(userID))
+            {
+                response.IsError = true;
+                response.Message = $"userid {userID} not found";
+                response.HttpStatusCode = StatusCodes.Status404NotFound;
+
+                return response;
+            }
+
+            if (!_utility.UserIDExists(recievableUserID))
+            {
+                response.IsError = true;
+                response.Message = $"recievable userid {recievableUserID} not found";
+                response.HttpStatusCode = StatusCodes.Status404NotFound;
+
+                return response;
+            }
+
+            // check amount against db
+            double amountDB = _context.GetDueAmount(userID, recievableUserID);
+
+            if(amountDB != amount)
+            {
+                response.IsError = true;
+                response.Message = $"Incorrect amount {amount}, please recheck due amount.";
+                response.HttpStatusCode = StatusCodes.Status409Conflict;
+
+                return response;
+            }
+
+            using (IDbConnection db = _dbFactory.OpenDbConnection()){
+                db.Update<CNT01>(updateOnly: new { t01f05 = 1 }, where: (cnt) => cnt.T01F05 == false && (cnt.T01F02 == userID && cnt.T01F03 == recievableUserID) || (cnt.T01F02 == recievableUserID && cnt.T01F03 == userID));
+            }
+
+            response.Message = $"Due amount {amountDB} from user {recievableUserID} settled successfully";
+            response.HttpStatusCode = StatusCodes.Status200OK;
+
             return response;
         }
     }

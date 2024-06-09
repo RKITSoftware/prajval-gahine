@@ -2,11 +2,14 @@
 using ExpenseSplittingApplication.Models;
 using ExpenseSplittingApplication.Models.DTO;
 using ExpenseSplittingApplication.Models.DTO.Filters;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 
 namespace ExpenseSplittingApplication.Controllers
 {
     [Route("api/user")]
+    [Authorize]
     public class CLUSR01Controller : ControllerBase
     {
         private readonly IUSR01Service _usr01Service;
@@ -16,7 +19,8 @@ namespace ExpenseSplittingApplication.Controllers
             _usr01Service = usr01Service;
         }
 
-        [HttpGet("")]
+        //[HttpGet("")]
+        [NonAction]
         public IActionResult GetUser()
         {
             Response response = _usr01Service.GetAll();
@@ -25,9 +29,9 @@ namespace ExpenseSplittingApplication.Controllers
 
         [HttpPost("")]
         [ValidateModel]
-        public IActionResult PostUser(DTOUSR01 objDTOUSR01)
+        [AllowAnonymous]
+        public IActionResult PostUser([FromBody]DTOUSR01 objDTOUSR01)
         {
-            if(ModelState.IsValid) { }
             _usr01Service.Operation = EnmOperation.A;
             Response response = _usr01Service.PreValidation(objDTOUSR01);
 
@@ -45,7 +49,9 @@ namespace ExpenseSplittingApplication.Controllers
         }
 
         [HttpPut("")]
-        public IActionResult PutUser(DTOUSR01 objDTOUSR01)
+        [ValidateModel]
+        [ValidateUserAccess]
+        public IActionResult PutUser([FromBody] DTOUSR01 objDTOUSR01)
         {
             _usr01Service.Operation = EnmOperation.E;
             Response response = _usr01Service.PreValidation(objDTOUSR01);
@@ -64,8 +70,10 @@ namespace ExpenseSplittingApplication.Controllers
         }
 
         [HttpPatch("change-password")]
-        public IActionResult ChangePassword(int userID, string oldPassword, string newPassword)
+        public IActionResult ChangePassword(string oldPassword, string newPassword)
         {
+            int userID = int.Parse(User.Claims.FirstOrDefault(c => c.Type == "userID")?.Value ?? "");
+
             Response response = _usr01Service.ValidatePassword(userID, oldPassword);
             if(!response.IsError)
             {
@@ -75,16 +83,17 @@ namespace ExpenseSplittingApplication.Controllers
         }
 
         
-        [HttpDelete("{id}")]
-        public IActionResult DeleteUser(int id)
+        [HttpDelete("")]
+        public IActionResult DeleteUser()
         {
-            Response response = _usr01Service.DeleteValidation(id);
+            int userID = int.Parse(User.Claims.FirstOrDefault(c => c.Type == "userID")?.Value ?? "");
+
+            Response response = _usr01Service.DeleteValidation(userID);
             if (!response.IsError)
             {
-                response = _usr01Service.Delete(id);
+                response = _usr01Service.Delete(userID);
             }
             return Ok(response);
-            return Ok("DeleteUser");
         }
     }
 }

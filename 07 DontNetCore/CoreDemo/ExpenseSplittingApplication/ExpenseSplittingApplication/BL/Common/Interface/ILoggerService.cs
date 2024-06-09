@@ -1,4 +1,6 @@
-﻿namespace ExpenseSplittingApplication.BL.Common.Interface
+﻿using System;
+
+namespace ExpenseSplittingApplication.BL.Common.Interface
 {
     public interface ILoggerService
     {

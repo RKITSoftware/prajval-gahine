@@ -1,8 +1,8 @@
 ﻿using ExpenseSplittingApplication.BL.Master.Interface;
 using ExpenseSplittingApplication.Models;
 using ExpenseSplittingApplication.Models.DTO;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 
 namespace ExpenseSplittingApplication.Controllers
 {
@@ -30,11 +30,19 @@ namespace ExpenseSplittingApplication.Controllers
             return Ok(response);
         }
 
-        [Authorize]
         [HttpGet("settlement-report")]
-        public IActionResult GetSettlementReport(int userID)
+        public IActionResult GetSettlementReport()
         {
+            int userID = int.Parse(User.Claims.FirstOrDefault(c => c.Type == "userID")?.Value ?? "");
             Response response = _exp01Service.GetSettlementReport(userID);
+            return Ok(response);
+        }
+
+        [HttpPost("settle-dues/{recievableUserID}")]
+        public IActionResult SettleDues(int recievableUserID, double amount)
+        {
+            int userID = int.Parse(User.Claims.FirstOrDefault(c => c.Type == "userID")?.Value ?? "");
+            Response response = _exp01Service.SettleDues(userID, recievableUserID, amount);
             return Ok(response);
         }
     }

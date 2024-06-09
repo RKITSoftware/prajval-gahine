@@ -1,4 +1,5 @@
 ﻿using ServiceStack.DataAnnotations;
+using System;
 
 namespace ExpenseSplittingApplication.Models.POCO
 {

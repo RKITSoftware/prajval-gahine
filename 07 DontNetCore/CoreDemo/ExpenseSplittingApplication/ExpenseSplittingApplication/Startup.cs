@@ -1,10 +1,17 @@
-﻿
-using ExpenseSplittingApplication.BL.Common.Service;
-using ExpenseSplittingApplication.Extensions;
-using ExpenseSplittingApplication.SwaggerRequirements;
-using Microsoft.AspNetCore.Authentication;
+﻿using ExpenseSplittingApplication.Extensions;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using System.Reflection;
+using Newtonsoft.Json.Serialization;
+using NLog;
+using System.Text;
 
 namespace ExpenseSplittingApplication
 {
@@ -15,17 +22,71 @@ namespace ExpenseSplittingApplication
         public Startup(IConfiguration configuration)
         {
             _configuration = configuration;
+
+            // initialize NLog
+            // LogManager.LoadConfiguration("nlog.config");
+            LogManager.Setup().LoadConfigurationFromFile("nlog.config");
         }
         public void ConfigureServices(IServiceCollection services)
         {
+
+            services.AddControllers(options =>
+            {
+                AuthorizationPolicy policy = new AuthorizationPolicyBuilder()
+                .RequireAuthenticatedUser()
+                .Build();
+
+                options.Filters.Add(new AuthorizeFilter(policy));
+            })
+                .AddNewtonsoftJson(options =>
+                {
+                    options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                })
+                .AddJsonOptions(options =>
+                {
+                    options.JsonSerializerOptions.WriteIndented = true;
+                });
+
+            //services.AddLogging(options =>
+            //{
+            //    options.ClearProviders();
+            //});
+
             services.AddHttpContextAccessor();
             services.AddSwaggerGen(c =>
             {
+                /*
                 string xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 string xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-
                 c.IncludeXmlComments(xmlPath);
-                c.OperationFilter<PostMethodRequiredParameterFilter>();
+                */
+
+                c.EnableAnnotations();
+
+                //c.OperationFilter<PostMethodRequiredParameterFilter>();
+
+                // Configure JWT bearer authentication
+                var securityScheme = new OpenApiSecurityScheme
+                {
+                    Name = "JWT Authentication",
+                    Description = "Enter your JWT token",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.Http,
+                    Scheme = "bearer", // must be lower case
+                    BearerFormat = "JWT",
+                    Reference = new OpenApiReference
+                    {
+                        Id = JwtBearerDefaults.AuthenticationScheme,
+                        Type = ReferenceType.SecurityScheme
+                    }
+                };
+                c.AddSecurityDefinition(JwtBearerDefaults.AuthenticationScheme, securityScheme);
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    { securityScheme, new string[] { } }
+                });
+
+                /*
                 var securityScheme = new OpenApiSecurityScheme
                 {
                     Name = "Authorization",
@@ -46,19 +107,43 @@ namespace ExpenseSplittingApplication
 
                 // Ensure that the [Authorize] attribute is detected
                 c.OperationFilter<SecurityRequirementsOperationFilter>();
+                */
 
             });
 
-            services.AddControllers()
-                .AddNewtonsoftJson()
-                .AddJsonOptions(options =>
-                {
-                    options.JsonSerializerOptions.WriteIndented = true;
-                });
+            services.AddSwaggerGenNewtonsoftSupport();
 
-            services.AddAuthentication("Basic")
-                .AddScheme<AuthenticationSchemeOptions, CustomAuthenticationHandler>("Basic", null);
+            byte[] jwtSigningKey = Encoding.UTF8.GetBytes(_configuration["Jwt:SigningKey"]);
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = "esa.com",
+                    ValidAudience = "esa.com",
+                    IssuerSigningKey = new SymmetricSecurityKey(jwtSigningKey),
+                };
+            });
+
             services.AddAuthorization();
+            /*
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("Swagger", policy =>
+                {
+                    policy.AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme);
+                    policy.RequireAuthenticatedUser();
+                });
+            });
+            */
 
             string connectionString = _configuration.GetConnectionString("ConnectionString");
             services.AddApplicationServices(connectionString);
@@ -68,9 +153,13 @@ namespace ExpenseSplittingApplication
         {
             app.UseDeveloperExceptionPage();
             app.UseSwagger();
-            app.UseSwaggerUI();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "ESA v1");
+                c.InjectStylesheet("/swagger-ui/SwaggerDark.css");
+            });
 
-            //app.UseStaticFiles();
+            app.UseStaticFiles();
 
             app.UseRouting();
 
@@ -79,12 +168,9 @@ namespace ExpenseSplittingApplication
 
 
             app.MapControllers();
-            /*
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
-            */
+
+            ((IApplicationBuilder)app).ApplicationServices.GetRequiredService<IHostApplicationLifetime>()
+                .ApplicationStopped.Register(LogManager.Shutdown);
         }
     }
 }

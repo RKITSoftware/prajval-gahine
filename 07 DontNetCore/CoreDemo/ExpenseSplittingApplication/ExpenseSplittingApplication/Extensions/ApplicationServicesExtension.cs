@@ -1,9 +1,11 @@
-﻿using ExpenseSplittingApplication.BL.Master.Interface;
+﻿using ExpenseSplittingApplication.BL.Common.Service;
+using ExpenseSplittingApplication.BL.Master.Interface;
 using ExpenseSplittingApplication.BL.Master.Service;
 using ExpenseSplittingApplication.Common.Helper;
 using ExpenseSplittingApplication.Common.Interface;
 using ExpenseSplittingApplication.DL.Context;
 using ExpenseSplittingApplication.DL.Interface;
+using Microsoft.Extensions.DependencyInjection;
 using MySql.Data.MySqlClient;
 using ServiceStack.Data;
 using ServiceStack.OrmLite;
@@ -38,6 +40,7 @@ namespace ExpenseSplittingApplication.Extensions
         {
             services.AddScoped<IUSR01Service, BLUSR01Handler>();
             services.AddScoped<IEXP01Service, BLEXP01Handler>();
+            services.AddScoped<JwtTokenHandler>();
         }
 
         public static void AddDBContexts(this IServiceCollection services)

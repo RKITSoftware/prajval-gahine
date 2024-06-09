@@ -1,5 +1,6 @@
 ﻿using ExpenseSplittingApplication.BL.Common.Interface;
 using NLog;
+using System;
 
 namespace ExpenseSplittingApplication.BL.Common.Service
 {

@@ -3,8 +3,12 @@ using ExpenseSplittingApplication.DL.Interface;
 using ExpenseSplittingApplication.Models;
 using ExpenseSplittingApplication.Models.DTO;
 using ExpenseSplittingApplication.Models.POCO;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
+using NLog;
 using ServiceStack.Data;
 using ServiceStack.OrmLite;
+using System;
 using System.Data;
 
 namespace ExpenseSplittingApplication.BL.Master.Service
@@ -18,10 +22,11 @@ namespace ExpenseSplittingApplication.BL.Master.Service
 
         public EnmOperation Operation { get; set; }
 
-        public BLUSR01Handler(IDbConnectionFactory dbFactory, IDBUserContext context)
+        public BLUSR01Handler(IDbConnectionFactory dbFactory, IDBUserContext context, ILogger<BLUSR01Handler> logger)
         {
             _dbFactory = dbFactory;
             _dbUserContext = context;
+            logger.LogInformation("Hello fro BL");
         }
 
         public Response Delete(int id)

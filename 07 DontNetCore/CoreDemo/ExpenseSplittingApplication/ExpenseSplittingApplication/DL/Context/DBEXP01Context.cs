@@ -2,7 +2,10 @@
 using ExpenseSplittingApplication.Common.Interface;
 using ServiceStack;
 using ServiceStack.OrmLite.Dapper;
+using System;
+using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 
 namespace ExpenseSplittingApplication.DL.Interface
 {
@@ -107,6 +110,27 @@ namespace ExpenseSplittingApplication.DL.Interface
             }
 
             return settlementReport;
+        }
+
+        public double GetDueAmount(int userID, int recievableUserID)
+        {
+            string dyQuery = @"
+                        SELECT
+                            SUM(t01f04)
+                        FROM
+                            cnt01
+                        WHERE
+                            t01f02 = {0} AND
+                            t01f03 = {1} AND
+                            t01f05 = 0";
+
+            string query = string.Empty;
+            query = string.Format(dyQuery, userID, recievableUserID);
+
+            double amountToRecieve = _connection.QuerySingle<double>(query);
+            double amountToPay = _connection.QuerySingle<double>(query);
+
+            return amountToRecieve - amountToPay;
         }
     }
 }

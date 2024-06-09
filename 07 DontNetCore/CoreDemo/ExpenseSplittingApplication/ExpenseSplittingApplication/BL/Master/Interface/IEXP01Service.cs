@@ -7,5 +7,6 @@ namespace ExpenseSplittingApplication.BL.Master.Interface
     public interface IEXP01Service : ICommonService<DTOEXC>
     {
         public Response GetSettlementReport(int userID);
+        Response SettleDues(int userID, int recievableUserID, double amount);
     }
 }
