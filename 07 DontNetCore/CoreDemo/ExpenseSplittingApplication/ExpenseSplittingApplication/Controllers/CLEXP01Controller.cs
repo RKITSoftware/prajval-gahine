@@ -1,6 +1,7 @@
 ﻿using ExpenseSplittingApplication.BL.Master.Interface;
 using ExpenseSplittingApplication.Models;
 using ExpenseSplittingApplication.Models.DTO;
+using ExpenseSplittingApplication.Models.DTO.Filters;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 
@@ -18,6 +19,7 @@ namespace ExpenseSplittingApplication.Controllers
         }
 
         [HttpPost("")]
+        [ValidateUserAccess]
         public IActionResult PostExpense(DTOEXC dtoEXC)
         {
             _exp01Service.Operation = EnmOperation.A;

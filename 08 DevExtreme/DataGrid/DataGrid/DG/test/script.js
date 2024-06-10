@@ -27,4 +27,18 @@
     $("#name, #age, #email").dxValidator("option", "adapter", {
         bypass: function () { return true; }
     });
+
+    let button = $("#button");
+
+    let options = {
+        text: "submit",
+        onDisposing: function (e) {
+            alert("button is disposing");
+        }
+    };
+    window.options = options;
+    window.button = button;
+
+    let buttonWidget = button.dxButton(options).dxButton("instance");
+    window.buttonWidget = buttonWidget;
 });

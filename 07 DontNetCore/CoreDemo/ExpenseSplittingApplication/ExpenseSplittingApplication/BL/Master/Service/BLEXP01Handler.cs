@@ -106,7 +106,7 @@ namespace ExpenseSplittingApplication.BL.Master.Service
             {
                 response.IsError = true;
                 response.HttpStatusCode = StatusCodes.Status404NotFound;
-                response.Message = $"User ID: {objDto.ObjDTOEXP01.P01F01} not found.";
+                response.Message = $"User ID: {objDto.ObjDTOEXP01.P01F02} not found.";
 
                 return response;
             }

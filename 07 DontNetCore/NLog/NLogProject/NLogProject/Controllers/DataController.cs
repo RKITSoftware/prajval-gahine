@@ -31,7 +31,7 @@ namespace NLogProject.Controllers
 
             //_logger.Info("Entered");
             var logEvent = new LogEventInfo(NLog.LogLevel.Info, "userfileusinglogevent", "custom Log message");
-            logEvent.Properties["userid"] = userID.ToString();
+            //logEvent.Properties["userid"] = userID.ToString();
 
             _logger.Log(logEvent);
             return Ok("Hello! from NLogProject");

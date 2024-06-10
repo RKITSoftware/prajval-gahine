@@ -18,8 +18,9 @@
 --
 -- Table structure for table `cnt01`
 --
-
-DROP TABLE IF EXISTS `cnt01`;
+CREATE DATABASE 378esa;
+use 378esa;
+-- DROP TABLE IF EXISTS `cnt01`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `cnt01` (
@@ -52,7 +53,7 @@ UNLOCK TABLES;
 -- Table structure for table `exp01`
 --
 
-DROP TABLE IF EXISTS `exp01`;
+-- -- DROP TABLE IF EXISTS `exp01`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `exp01` (
@@ -83,7 +84,7 @@ UNLOCK TABLES;
 -- Table structure for table `usr01`
 --
 
-DROP TABLE IF EXISTS `usr01`;
+-- DROP TABLE IF EXISTS `usr01`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `usr01` (

@@ -1,0 +1,3 @@
+2024-06-10 10:08:03.2023 INFO NLogProject.Program.Main 40 Web application started! UnknownUser 
+2024-06-10 10:10:06.9327 INFO NLogProject.Program.Main 40 Web application started! UnknownUser 
+2024-06-10 10:10:30.0743 INFO NLogProject.Controllers.DataController.Get 36 custom Log message UnknownUser 

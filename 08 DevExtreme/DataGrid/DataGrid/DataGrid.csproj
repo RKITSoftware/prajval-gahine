@@ -133,6 +133,13 @@
     <Content Include="DG\main\index.html" />
     <Content Include="DG\main\script.js" />
     <Content Include="DG\main\style.css" />
+    <Content Include="DG\rowCustomization\index.html" />
+    <Content Include="DG\rowCustomization\script.js" />
+    <Content Include="DG\rowCustomization\style.css" />
+    <Content Include="DG\rowdragging\data.js" />
+    <Content Include="DG\rowdragging\index.html" />
+    <Content Include="DG\rowdragging\script.js" />
+    <Content Include="DG\rowdragging\style.css" />
     <Content Include="DG\rowselection\index.html" />
     <Content Include="DG\rowselection\script.js" />
     <Content Include="DG\rowselection\style.css" />
@@ -144,6 +151,9 @@
     <Content Include="DG\sorting\index.html" />
     <Content Include="DG\sorting\script.js" />
     <Content Include="DG\sorting\style.css" />
+    <Content Include="DG\summaries\index.html" />
+    <Content Include="DG\summaries\script.js" />
+    <Content Include="DG\summaries\style.css" />
     <Content Include="DG\test\index.html" />
     <Content Include="DG\test\script.js" />
     <Content Include="DG\test\style.css" />

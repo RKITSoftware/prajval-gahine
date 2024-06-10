@@ -8,14 +8,26 @@ namespace ExpenseSplittingApplication.Models.DTO.Filters
     {
         public override void OnActionExecuting(ActionExecutingContext context)
         {
-            int userID = int.Parse(context.HttpContext.User.Claims.FirstOrDefault(c => c.Type == "userID")?.Value ?? "");
-            DTOUSR01? user = (DTOUSR01?)context.ActionArguments["objDTOUSR01"];
-            if (user != null)
+            int userIDFromToken = int.Parse(context.HttpContext.User.Claims.FirstOrDefault(c => c.Type == "userID")?.Value ?? "");
+            int userIDFromBody = 0;
+
+            string controllerName = context.Controller.GetType().Name;
+
+            switch (controllerName)
             {
-                if(user.R01F01 != userID)
-                {
-                    context.Result = new UnauthorizedObjectResult("Provided userid donot matched with authenticated userid.");
-                }
+                case "CLUSR01Controller":
+                    DTOUSR01? user = (DTOUSR01?)context.ActionArguments["objDTOUSR01"];
+                    userIDFromBody = user.R01F01;
+                    break;
+                case "CLEXP01Controller":
+                    DTOEXC? dtoEXC = (DTOEXC?)context.ActionArguments["dtoEXC"];
+                    userIDFromBody = dtoEXC.ObjDTOEXP01.P01F02;
+                    break;
+
+            }
+            if(userIDFromBody != userIDFromToken)
+            {
+                context.Result = new UnauthorizedObjectResult("Provided userid donot matched with authenticated userid.");
             }
         }
     }

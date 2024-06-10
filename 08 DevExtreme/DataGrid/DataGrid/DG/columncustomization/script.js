@@ -28,9 +28,86 @@ $(function () {
     });
     window.dataSource = dataSource; 
 
+    function calculateAge(dob) {
+        const birthDate = new Date(dob);
+        const today = new Date();
+
+        let age = today.getFullYear() - birthDate.getFullYear();
+        const monthDiff = today.getMonth() - birthDate.getMonth();
+
+        // Check if the birth month has not occurred yet this year, or it's the birth month and the day has not occurred yet.
+        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+            age--;
+        }
+
+        return age;
+    }
+
     let nextIncId = 501;
     const gridWidget = gridContainer.dxDataGrid({
         dataSource,
+        showBorders: true,
+        height: "400px",
+        //toolbar: {
+        //    items: [,],
+        //},
+        rowDragging: {
+            allowReordering: true,
+            autoScroll: true,
+            onReorder: function (e) {
+                array.splice(e.toIndex, 0, array.splice(e.fromIndex, 1)[0]);
+                console.log("row dragged and dropped", e);
+                e.component.refresh();
+            },
+            onRemove: function (e) {
+                 console.log("row removed ", e);
+            },
+            container: "#draggable-row",
+            cursorOffset: {
+                x: 100,
+                y: 100
+            },
+            data: {
+                customInfo: "Hello"
+            },
+            scrollSensitivity: 10,
+            scrollSpeed: 100,
+            showDragIcons: true,
+            //boundary: "#gridContainer"
+        },
+        onToolbarPreparing: function (e) {
+            let toolbars = e.toolbarOptions.items;
+            toolbars.push(
+                {
+                    location: 'after',
+                    widget: 'dxButton',
+                    options: {
+                        icon: 'refresh',
+                        onClick() {
+                            gridWidget.refresh();
+                        },
+                    },
+                },
+                {
+                    location: 'after',
+                    widget: 'dxButton',
+                    options: {
+                        icon: 'clear',
+                        onClick() {
+                            var columns = gridWidget.getVisibleColumns();
+                            columns.forEach(function (column) {
+                                if (column.sortOrder) {
+                                    gridWidget.columnOption(column.index, "sortOrder", null);
+                                }
+                            });
+                            gridWidget.clearFilter();
+                            gridWidget.pageSize(100);
+                            gridWidget.pageIndex(0);
+                        },
+                    },
+                }
+            );
+        },
         columns: [
             {
                 dataField: "id",
@@ -75,6 +152,7 @@ $(function () {
             },
             {
                 caption: "Full Name",
+                dataField: "fullName",
                 calculateCellValue: function (rowData) {
                     return rowData.firstName + " " + rowData.lastName;
                 },
@@ -100,6 +178,21 @@ $(function () {
                     }
                 }
             },
+            {
+                caption: "Age",
+                calculateCellValue: function (rowData) {
+                    return calculateAge(rowData.birthDate);
+                },
+            },
+            {
+                dataField: "salary",
+                customizeText(cellInfo) {
+                    return "$" + cellInfo.value;
+                },
+                //calculateCellValue: function (rowData) {
+                //    return "$" + rowData.salary;
+                //}
+            },
             {       
                 width: 250,
                 type: "buttons",
@@ -107,7 +200,7 @@ $(function () {
                     hint: "Clone",
                     icon: "copy",
                     visible: function (e) {
-                        console.log("visible", e);
+                        // console.log("visible", e);
                         return !e.row.isEditing;
                     },
                     disabled: function (e) {
@@ -133,8 +226,8 @@ $(function () {
         searchPanel: {
             visible: true,
         },
-        sortingMode: {
-            mode: "singl,",
+        sorting: {
+            mode: "multiple",
         },
         grouping: {
             contextMenuEnabled: true,
@@ -154,6 +247,16 @@ $(function () {
         },
         headerFilter: {
             visible: true,
+        },
+        onCellPrepared: function (e) {
+            if (e.rowType == "data" && e.column.caption == "Age" && e.value < 50) {
+                // console.log(e);
+                e.cellElement.addClass("redbg font-white");
+            }
+        },
+
+        paging: {
+            pageSize: 100
         }
     }).dxDataGrid("instance");
     window.gridWidget = gridWidget;

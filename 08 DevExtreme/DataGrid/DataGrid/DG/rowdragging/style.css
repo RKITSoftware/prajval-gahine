@@ -1,4 +1,10 @@
-﻿/*60152*/
+﻿
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 .redbg {
     background-color: #ff0000
 }
@@ -7,14 +13,12 @@
     color: #fff;
 }
 
-#gridContainer {
+#root {
     /*margin-inline: auto;*/
     display: flex;
     justify-content: center;
-    align-items: center;
     width: 100%;
+    gap: 16px;
+    padding: 8px;
 }
 
-#gridContainer > div {
-    width: 70%;
-}
