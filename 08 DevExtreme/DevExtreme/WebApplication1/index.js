@@ -39,7 +39,7 @@ $(async function () {
     const stylesheetContainer = $("#stylesheetContainer");
     stylesheetContainer.dxSelectBox({
         items: lstCssFile,
-        value: "dx.material.blue.light.css",
+        value: "dx.light.css",
         onValueChanged: function (e) {
             document.getElementById("stylesheet").setAttribute("href", "Content/" + e.value);
         }

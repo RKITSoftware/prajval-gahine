@@ -1,0 +1,24 @@
+﻿
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.redbg {
+    background-color: #ff0000
+}
+
+.font-white{
+    color: #fff;
+}
+
+#root {
+    /*margin-inline: auto;*/
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    gap: 16px;
+    padding: 8px;
+}
+

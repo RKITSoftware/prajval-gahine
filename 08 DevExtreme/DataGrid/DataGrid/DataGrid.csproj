@@ -124,6 +124,9 @@
     <Content Include="DG\editing\script.js" />
     <Content Include="DG\editing\style.css" />
     <Content Include="DG\emlpoyee-utility.js" />
+    <Content Include="DG\exporting\index.html" />
+    <Content Include="DG\exporting\script.js" />
+    <Content Include="DG\exporting\style.css" />
     <Content Include="DG\filtering\index.html" />
     <Content Include="DG\filtering\script.js" />
     <Content Include="DG\filtering\style.css" />
@@ -133,6 +136,10 @@
     <Content Include="DG\main\index.html" />
     <Content Include="DG\main\script.js" />
     <Content Include="DG\main\style.css" />
+    <Content Include="DG\masterdetail\data.js" />
+    <Content Include="DG\masterdetail\index.html" />
+    <Content Include="DG\masterdetail\script.js" />
+    <Content Include="DG\masterdetail\style.css" />
     <Content Include="DG\rowCustomization\index.html" />
     <Content Include="DG\rowCustomization\script.js" />
     <Content Include="DG\rowCustomization\style.css" />

@@ -8,10 +8,11 @@ $(function () {
 
     const container = $("<div>", { id: "container" });
 
-    array = $.extend(true, [], arrayStatic);
+    var array = $.extend(true, [], arrayStatic);
+    window.array = array;
 
     const arrayStore = new DevExpress.data.ArrayStore({
-        data: employees,
+        data: array,
     });
     window.arrayStore = arrayStore;
 
@@ -29,33 +30,33 @@ $(function () {
         cacheEnabled: false,
         columns: [
             {
-                caption: "ID",
-                dataField: "ID",
+                caption: "Id",
+                dataField: "id",
                 allowEditing: false,
                 visibleIndex: 0,
             },
             {
                 caption: "First Name",
-                dataField: "FirstName",
+                dataField: "firstName",
                 allowGrouping: true,
             },
             {
                 caption: "Last Name",
-                dataField: "LastName",
+                dataField: "lastName",
             },
             {
                 caption: "Position",
-                dataField: "Position",
+                dataField: "position",
                 allowEditing: true,
             },
             {
                 caption: "Birth Date",
-                dataField: "BirthDate",
+                dataField: "birthDate",
                 allowEditing: true,
             },
             {
                 caption: "Salary",
-                dataField: "Salary",
+                dataField: "salary",
                 allowEditing: true,
             },
         ],
@@ -76,9 +77,51 @@ $(function () {
                 ]
             }
         },
-        grouping: {
-            //autoExpandAll: true,
+        rowAlternationEnabled: true,
+        selection: {
+            enabled: true,
+            mode: "multiple",
         },
+        export: {
+            allowExportSelectedData: true,
+            enabled: true,
+        },
+        onExporting: function (e) {
+
+            var workbook = new ExcelJS.Workbook();
+            window.workbook = workbook;
+            var worksheet = workbook.addWorksheet('Main sheet');
+            window.worksheet = worksheet;
+
+            console.log(worksheet);
+
+            DevExpress.excelExporter.exportDataGrid({
+                worksheet: worksheet,
+                component: e.component,
+                customizeCell: function (options) {
+                    var excelCell = options;
+                    excelCell.font = { name: 'Arial', size: 12 };
+                    excelCell.alignment = { horizontal: 'left' };
+                }
+            }).then(function () {
+                workbook.xlsx.writeBuffer()
+                    .then(function (buffer) {
+                        console.log(buffer);
+                        let data = new Blob([buffer], { type: "application/octet-stream" });
+
+                        let url = window.URL.createObjectURL(data);
+                        let a = document.createElement('a');
+                        a.href = url;
+                        a.download = 'employees.xlsx';
+                        a.click();
+
+                        window.URL.revokeObjectURL(url);
+                    })
+            });
+
+            e.cancel = true;
+        }
+        
     }).dxDataGrid('instance');
 
     // -------------------------------------------------------------------------------------------------------
