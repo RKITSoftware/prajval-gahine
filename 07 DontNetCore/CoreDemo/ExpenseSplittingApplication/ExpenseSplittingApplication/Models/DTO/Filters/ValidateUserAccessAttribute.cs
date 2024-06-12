@@ -25,7 +25,7 @@ namespace ExpenseSplittingApplication.Models.DTO.Filters
                     break;
 
             }
-            if(userIDFromBody != userIDFromToken)
+            if (userIDFromBody != userIDFromToken)
             {
                 context.Result = new UnauthorizedObjectResult("Provided userid donot matched with authenticated userid.");
             }

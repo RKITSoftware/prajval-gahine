@@ -1,11 +1,11 @@
-﻿using ExpenseSplittingApplication.BL.Master.Interface;
+﻿using ExpenseSplittingApplication.BL.Common.Interface;
+using ExpenseSplittingApplication.BL.Common.Service;
+using ExpenseSplittingApplication.BL.Master.Interface;
 using ExpenseSplittingApplication.DL.Interface;
 using ExpenseSplittingApplication.Models;
 using ExpenseSplittingApplication.Models.DTO;
 using ExpenseSplittingApplication.Models.POCO;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Logging;
-using NLog;
 using ServiceStack.Data;
 using ServiceStack.OrmLite;
 using System;
@@ -20,17 +20,21 @@ namespace ExpenseSplittingApplication.BL.Master.Service
         private USR01 _user;
         private IDBUserContext _dbUserContext;
 
+        private ILoggerService _loggingService;
+
         public EnmOperation Operation { get; set; }
 
-        public BLUSR01Handler(IDbConnectionFactory dbFactory, IDBUserContext context, ILogger<BLUSR01Handler> logger)
+        public BLUSR01Handler(IDbConnectionFactory dbFactory, IDBUserContext context, UserLoggingService loggingService)
         {
             _dbFactory = dbFactory;
             _dbUserContext = context;
-            logger.LogInformation("Hello fro BL");
+            _loggingService = loggingService;
         }
 
         public Response Delete(int id)
         {
+            _loggingService.Information("User deletion initiated...");
+
             Response response = new Response();
             using (IDbConnection db = _dbFactory.OpenDbConnection())
             {
@@ -38,6 +42,8 @@ namespace ExpenseSplittingApplication.BL.Master.Service
             }
             response.Message = $"User with id: {id} deleted successfully.";
             response.HttpStatusCode = StatusCodes.Status200OK;
+
+            _loggingService.Information("User deletion completed...");
             return response;
         }
 
@@ -66,7 +72,7 @@ namespace ExpenseSplittingApplication.BL.Master.Service
 
         public void PreSave(DTOUSR01 objDto)
         {
-            if(Operation == EnmOperation.A)
+            if (Operation == EnmOperation.A)
             {
                 _user = new USR01()
                 {
@@ -110,7 +116,7 @@ namespace ExpenseSplittingApplication.BL.Master.Service
         {
             Response response = new Response();
 
-            if(Operation == EnmOperation.E)
+            if (Operation == EnmOperation.E)
             {
                 if (!UserIDExists(objDto.R01F01))
                 {
@@ -125,7 +131,7 @@ namespace ExpenseSplittingApplication.BL.Master.Service
         public Response Save()
         {
             Response response = new Response();
-            
+
             using (IDbConnection db = _dbFactory.OpenDbConnection())
             {
                 if (Operation == EnmOperation.A)
@@ -136,6 +142,8 @@ namespace ExpenseSplittingApplication.BL.Master.Service
                 }
                 else
                 {
+                    _loggingService.Information("User upadtion initiated...");
+
                     Action<IDbCommand> commandFilter = cmd =>
                     {
                         cmd.Parameters.RemoveAt("@R01F03");
@@ -144,6 +152,8 @@ namespace ExpenseSplittingApplication.BL.Master.Service
 
                     db.Update<USR01>(_user, commandFilter);
                     response.Message = $"User details has been successfully updated.";
+
+                    _loggingService.Information("User upadtion completed...");
                 }
             }
             response.HttpStatusCode = StatusCodes.Status200OK;
@@ -196,7 +206,7 @@ namespace ExpenseSplittingApplication.BL.Master.Service
             {
                 currentPassword = db.Scalar<USR01, string>(user => user.R01F03, user => user.R01F01 == userID);
             }
-            if(currentPassword != oldPassword)
+            if (currentPassword != oldPassword)
             {
                 response.IsError = true;
                 response.HttpStatusCode = StatusCodes.Status409Conflict;
@@ -207,13 +217,18 @@ namespace ExpenseSplittingApplication.BL.Master.Service
 
         public Response ChangePassword(int userID, string newPassword)
         {
+
+            _loggingService.Information("User password initiated...");
+
             Response response = new Response();
-            using(IDbConnection db = _dbFactory.OpenDbConnection())
+            using (IDbConnection db = _dbFactory.OpenDbConnection())
             {
-                db.Update<USR01>(new {R01F03 = newPassword}, where: user => user.R01F01 == userID);
+                db.Update<USR01>(new { R01F03 = newPassword }, where: user => user.R01F01 == userID);
             }
             response.HttpStatusCode = StatusCodes.Status200OK;
             response.Message = "Password was changed successfully.";
+
+            _loggingService.Information("User password completed...");
             return response;
         }
 

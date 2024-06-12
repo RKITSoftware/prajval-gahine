@@ -11,6 +11,10 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Serialization;
 using NLog;
+using NLog.Extensions.Logging;
+using System;
+using System.IO;
+using System.Reflection;
 using System.Text;
 
 namespace ExpenseSplittingApplication
@@ -23,12 +27,19 @@ namespace ExpenseSplittingApplication
         {
             _configuration = configuration;
 
-            // initialize NLog
-            // LogManager.LoadConfiguration("nlog.config");
             LogManager.Setup().LoadConfigurationFromFile("nlog.config");
         }
         public void ConfigureServices(IServiceCollection services)
         {
+
+            services.AddHttpContextAccessor();
+
+            services.AddLogging(builder =>
+            {
+                builder.ClearProviders();
+                builder.AddNLog();
+            });
+
 
             services.AddControllers(options =>
             {
@@ -47,23 +58,14 @@ namespace ExpenseSplittingApplication
                     options.JsonSerializerOptions.WriteIndented = true;
                 });
 
-            //services.AddLogging(options =>
-            //{
-            //    options.ClearProviders();
-            //});
-
             services.AddHttpContextAccessor();
             services.AddSwaggerGen(c =>
             {
-                /*
                 string xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 string xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 c.IncludeXmlComments(xmlPath);
-                */
 
                 c.EnableAnnotations();
-
-                //c.OperationFilter<PostMethodRequiredParameterFilter>();
 
                 // Configure JWT bearer authentication
                 var securityScheme = new OpenApiSecurityScheme
@@ -72,7 +74,7 @@ namespace ExpenseSplittingApplication
                     Description = "Enter your JWT token",
                     In = ParameterLocation.Header,
                     Type = SecuritySchemeType.Http,
-                    Scheme = "bearer", // must be lower case
+                    Scheme = "bearer",
                     BearerFormat = "JWT",
                     Reference = new OpenApiReference
                     {
@@ -85,30 +87,6 @@ namespace ExpenseSplittingApplication
                 {
                     { securityScheme, new string[] { } }
                 });
-
-                /*
-                var securityScheme = new OpenApiSecurityScheme
-                {
-                    Name = "Authorization",
-                    Type = SecuritySchemeType.Http,
-                    Scheme = "basic",
-                    In = ParameterLocation.Header,
-                    Description = "Basic Authentication"
-                };
-
-                c.AddSecurityDefinition("basic", securityScheme);
-
-                var securityRequirement = new OpenApiSecurityRequirement
-                {
-                    { securityScheme, new string[] { } }
-                };
-
-                c.AddSecurityRequirement(securityRequirement);
-
-                // Ensure that the [Authorize] attribute is detected
-                c.OperationFilter<SecurityRequirementsOperationFilter>();
-                */
-
             });
 
             services.AddSwaggerGenNewtonsoftSupport();
@@ -134,16 +112,6 @@ namespace ExpenseSplittingApplication
             });
 
             services.AddAuthorization();
-            /*
-            services.AddAuthorization(options =>
-            {
-                options.AddPolicy("Swagger", policy =>
-                {
-                    policy.AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme);
-                    policy.RequireAuthenticatedUser();
-                });
-            });
-            */
 
             string connectionString = _configuration.GetConnectionString("ConnectionString");
             services.AddApplicationServices(connectionString);

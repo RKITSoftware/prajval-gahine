@@ -5,6 +5,7 @@ using ExpenseSplittingApplication.Common.Helper;
 using ExpenseSplittingApplication.Common.Interface;
 using ExpenseSplittingApplication.DL.Context;
 using ExpenseSplittingApplication.DL.Interface;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using MySql.Data.MySqlClient;
 using ServiceStack.Data;
@@ -21,6 +22,7 @@ namespace ExpenseSplittingApplication.Extensions
             services.AddBLServices();
             services.AddDBContexts();
             services.AddSingleton<IUtility, Utility>();
+            services.AddUserLoggingService();
         }
 
         public static void AddApplicationConnections(this IServiceCollection services, string connectionString)
@@ -33,6 +35,16 @@ namespace ExpenseSplittingApplication.Extensions
             services.AddSingleton<IDbConnection>(provider =>
             {
                 return new MySqlConnection(connectionString);
+            });
+        }
+
+        public static void AddUserLoggingService(this IServiceCollection services)
+        {
+            services.AddTransient<UserLoggingService>((serviceProvider) =>
+            {
+                IHttpContextAccessor contextAccessor = serviceProvider.GetRequiredService<IHttpContextAccessor>();
+                string userId = contextAccessor.HttpContext.User.FindFirst("userId")?.Value ?? "DefaultUser";
+                return new UserLoggingService(userId);
             });
         }
 

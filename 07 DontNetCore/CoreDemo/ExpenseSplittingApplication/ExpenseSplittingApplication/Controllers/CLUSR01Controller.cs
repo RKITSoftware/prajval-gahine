@@ -30,7 +30,7 @@ namespace ExpenseSplittingApplication.Controllers
         [HttpPost("")]
         [ValidateModel]
         [AllowAnonymous]
-        public IActionResult PostUser([FromBody]DTOUSR01 objDTOUSR01)
+        public IActionResult PostUser([FromBody] DTOUSR01 objDTOUSR01)
         {
             _usr01Service.Operation = EnmOperation.A;
             Response response = _usr01Service.PreValidation(objDTOUSR01);
@@ -75,14 +75,14 @@ namespace ExpenseSplittingApplication.Controllers
             int userID = int.Parse(User.Claims.FirstOrDefault(c => c.Type == "userID")?.Value ?? "");
 
             Response response = _usr01Service.ValidatePassword(userID, oldPassword);
-            if(!response.IsError)
+            if (!response.IsError)
             {
                 response = _usr01Service.ChangePassword(userID, newPassword);
             }
             return Ok(response);
         }
 
-        
+
         [HttpDelete("")]
         public IActionResult DeleteUser()
         {

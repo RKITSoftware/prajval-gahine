@@ -24,7 +24,7 @@ namespace ExpenseSplittingApplication.Controllers
         public IActionResult Login([FromBody] Login login)
         {
             USR01 objUSR01 = _userHandler.GetUser(login.Username, login.Password);
-            if(objUSR01 == null)
+            if (objUSR01 == null)
             {
                 return Unauthorized();
             }

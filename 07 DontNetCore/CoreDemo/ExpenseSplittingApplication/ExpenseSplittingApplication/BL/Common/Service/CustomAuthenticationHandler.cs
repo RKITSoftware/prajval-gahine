@@ -37,7 +37,7 @@ namespace ExpenseSplittingApplication.BL.Common.Service
             string authHeader = Request.Headers["Authorization"].ToString();
             AuthenticationHeaderValue authHeaderValue = AuthenticationHeaderValue.Parse(authHeader);
 
-            if(authHeaderValue.Scheme != "Basic")
+            if (authHeaderValue.Scheme != "Basic")
             {
                 return Task.FromResult(AuthenticateResult.Fail("Invalid authentication schema."));
             }

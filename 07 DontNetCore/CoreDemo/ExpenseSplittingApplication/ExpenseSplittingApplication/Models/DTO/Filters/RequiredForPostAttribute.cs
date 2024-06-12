@@ -8,7 +8,7 @@ namespace ExpenseSplittingApplication.Models.DTO.Filters
     {
         protected override ValidationResult IsValid(object? value, ValidationContext validationContext)
         {
-            IHttpContextAccessor httpContextAccessor = (IHttpContextAccessor) validationContext.GetService(typeof(IHttpContextAccessor));
+            IHttpContextAccessor httpContextAccessor = (IHttpContextAccessor)validationContext.GetService(typeof(IHttpContextAccessor));
             if (httpContextAccessor != null && httpContextAccessor.HttpContext != null)
             {
                 string httpMethod = httpContextAccessor.HttpContext.Request.Method;

@@ -25,7 +25,7 @@ namespace ExpenseSplittingApplication.Models.POCO
         /// <summary>
         /// Amount paid
         /// </summary>
-        public double P01F04{ get; set; }
+        public double P01F04 { get; set; }
 
         /// <summary>
         /// Date of Expense

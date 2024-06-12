@@ -28,7 +28,7 @@ namespace ExpenseSplittingApplication.BL.Common.Service
                 }),
                 Expires = DateTime.UtcNow.AddHours(1),
                 Audience = "esa.com",
-                Issuer = "esa.com", 
+                Issuer = "esa.com",
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
 

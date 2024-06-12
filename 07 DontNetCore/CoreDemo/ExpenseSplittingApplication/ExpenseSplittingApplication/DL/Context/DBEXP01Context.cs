@@ -23,7 +23,7 @@ namespace ExpenseSplittingApplication.DL.Interface
         {
             string subquery = string.Join(" UNION ALL ", lstUserID.Select((id, index) =>
             {
-                if(index == 0)
+                if (index == 0)
                 {
                     return $"SELECT {id} as id";
                 }
@@ -38,7 +38,7 @@ namespace ExpenseSplittingApplication.DL.Interface
                                     WHERE
                                         ids.id NOT IN (SELECT R01F01 FROM USR01)", subquery);
 
-            return _connection.Query<int>(query).ToList();            
+            return _connection.Query<int>(query).ToList();
         }
 
 

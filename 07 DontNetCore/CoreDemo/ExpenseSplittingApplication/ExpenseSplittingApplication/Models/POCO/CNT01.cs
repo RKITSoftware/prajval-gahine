@@ -14,7 +14,7 @@ namespace ExpenseSplittingApplication.Models.POCO
         /// <summary>
         /// Expense ID
         /// </summary>
-        public int T01F02 { get ; set; }
+        public int T01F02 { get; set; }
 
         /// <summary>
         /// User ID (Payee)

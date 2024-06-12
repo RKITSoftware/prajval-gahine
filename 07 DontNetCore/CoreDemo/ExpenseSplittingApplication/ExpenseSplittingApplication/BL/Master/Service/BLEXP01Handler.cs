@@ -92,7 +92,7 @@ namespace ExpenseSplittingApplication.BL.Master.Service
             }
 
             // check if payer is present in contribution list??
-            if(!objDto.LstDTOCNT01.Any(contribution => contribution.T01F03 == objDto.ObjDTOEXP01.P01F02))
+            if (!objDto.LstDTOCNT01.Any(contribution => contribution.T01F03 == objDto.ObjDTOEXP01.P01F02))
             {
                 response.IsError = true;
                 response.HttpStatusCode = StatusCodes.Status409Conflict;
@@ -114,7 +114,7 @@ namespace ExpenseSplittingApplication.BL.Master.Service
             // check all payee userID exists??
             List<int> lstUserID = objDto.LstDTOCNT01.Select(cont => cont.T01F03).ToList();
             List<int> lstUserIDNotInDB = _context.GetUserIdsNotInDatabase(lstUserID);
-            if(lstUserIDNotInDB.Count > 0)
+            if (lstUserIDNotInDB.Count > 0)
             {
                 response.IsError = V;
                 response.HttpStatusCode = StatusCodes.Status404NotFound;
@@ -127,7 +127,7 @@ namespace ExpenseSplittingApplication.BL.Master.Service
             if (objDto.IsShareUnequal)
             {
                 double total = objDto.LstDTOCNT01.Aggregate(0.0, (acc, curr) => acc + curr.T01F04);
-                if(total != objDto.ObjDTOEXP01.P01F04)
+                if (total != objDto.ObjDTOEXP01.P01F04)
                 {
                     response.IsError = true;
                     response.HttpStatusCode = StatusCodes.Status409Conflict;
@@ -193,7 +193,7 @@ namespace ExpenseSplittingApplication.BL.Master.Service
         {
             Response response = new Response();
 
-            if(amount < 0)
+            if (amount < 0)
             {
                 response.IsError = true;
                 response.Message = $"Cannot setlle due, amount cannot be minus.";
@@ -202,7 +202,7 @@ namespace ExpenseSplittingApplication.BL.Master.Service
                 return response;
             }
 
-            if(userID == recievableUserID)
+            if (userID == recievableUserID)
             {
                 response.IsError = true;
                 response.Message = $"Authenticated user id and recievable userid are same.";
@@ -233,7 +233,7 @@ namespace ExpenseSplittingApplication.BL.Master.Service
             // check amount against db
             double amountDB = _context.GetDueAmount(userID, recievableUserID);
 
-            if(amountDB != amount)
+            if (amountDB != amount)
             {
                 response.IsError = true;
                 response.Message = $"Incorrect amount {amount}, please recheck due amount.";
@@ -242,7 +242,8 @@ namespace ExpenseSplittingApplication.BL.Master.Service
                 return response;
             }
 
-            using (IDbConnection db = _dbFactory.OpenDbConnection()){
+            using (IDbConnection db = _dbFactory.OpenDbConnection())
+            {
                 db.Update<CNT01>(updateOnly: new { t01f05 = 1 }, where: (cnt) => cnt.T01F05 == false && (cnt.T01F02 == userID && cnt.T01F03 == recievableUserID) || (cnt.T01F02 == recievableUserID && cnt.T01F03 == userID));
             }
 

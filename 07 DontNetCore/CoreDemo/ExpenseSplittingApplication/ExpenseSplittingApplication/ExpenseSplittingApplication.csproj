@@ -11,7 +11,9 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.31" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.31" />
-    <PackageReference Include="NLog" Version="5.3.1" />
+    <PackageReference Include="NLog" Version="5.3.2" />
+    <PackageReference Include="NLog.Extensions.Logging" Version="5.3.11" />
+    <PackageReference Include="NLog.Web" Version="5.3.11" />
     <PackageReference Include="ServiceStack.OrmLite" Version="8.2.2" />
     <PackageReference Include="ServiceStack.OrmLite.MySql" Version="8.2.2" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
