@@ -8,7 +8,7 @@ namespace DgServer.Models.Entity
 
         public int UserId { get; set; }
 
-        public List<int> LstProductId { get; set; }
+        public List<ProductQuantity>? LstProductQuantity { get; set; }
 
         public double Amount { get; set; }
 
@@ -16,6 +16,6 @@ namespace DgServer.Models.Entity
 
         public bool IsDelivered { get; set; } = false;
 
-        public DateTime OrderDate { get; set; }
+        public DateTime? OrderDate { get; set; }
     }
 }

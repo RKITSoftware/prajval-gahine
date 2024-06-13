@@ -16,9 +16,9 @@ namespace DgServer.Controllers
         }
 
         [HttpGet("")]
-        public IActionResult GetAll(int skip = 0, int take = 5)
+        public IActionResult GetAll(int skip = 0, int take = 10)
         {
-            return Ok(_dataStore.LstProduct.Skip(skip).Take(take));
+            return Ok(new { data = _dataStore.LstProduct.Skip(skip).Take(take), totalCount = _dataStore.LstProduct.Count } );
         }
 
         [HttpGet("{id}")]
@@ -30,11 +30,42 @@ namespace DgServer.Controllers
         [HttpPost("")]
         public IActionResult Post([FromBody] Product product)
         {
-            product.Id = _dataStore.nextUserId++;
+            product.Id = _dataStore.nextProductId++;
 
             _dataStore.LstProduct.Add(product);
 
             return Ok(product);
+        }
+
+        [HttpPut("{id}")]
+        public IActionResult Put(int id, [FromBody] Product product)
+        {
+            var existingProduct = _dataStore.LstProduct.FirstOrDefault(p => p.Id == id);
+            if (existingProduct == null)
+            {
+                return NotFound();
+            }
+
+            existingProduct.Name = product.Name;
+            existingProduct.Price = product.Price;
+            existingProduct.Category = product.Category;
+
+            return Ok(existingProduct);
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            var product = _dataStore.LstProduct.FirstOrDefault(p => p.Id == id);
+
+            if (product == null)
+            {
+                return NotFound(new { Message = $"Product with ID {id} not found." });
+            }
+
+            _dataStore.LstProduct.Remove(product);
+
+            return Ok(new { Message = $"Product with ID {id} deleted successfully." });
         }
     }
 }

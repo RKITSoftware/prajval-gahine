@@ -3,3 +3,70 @@
     padding: 0;
     box-sizing: border-box;
 }
+
+#main {
+    margin-inline: 120px;
+}
+
+/* Data Grid Container styling */
+/*.ctm-grid{
+    margin: 16px;
+}
+*/
+
+/* Data Grid Wrapper styling */
+.ctm-dg-wrapper {
+    margin-block: 16px;
+    width: 720px;
+    margin-inline: auto;
+    /*user-select: none;*/
+}
+
+/* Heading Styling */
+h2 {
+    text-align: center;
+    font-family: 'Arial', sans-serif;
+    color: #333;
+    background-color: rgba(173, 216, 230, 0.5); /* Matching the header background */
+    padding: 4px;
+    font-size: 18px;
+}
+
+/* Header Styling */
+.dx-datagrid-headers {
+    background-color: rgba(200, 172, 255, 0.5); /* Light blue with some transparency */
+    color: #333;
+    border: 1px solid #ddd;
+}
+
+.dx-datagrid {
+    font-family: 'Arial', sans-serif;
+    border: 1px solid #ddd;
+    overflow: hidden;
+}
+
+.dx-header-row .dx-datagrid-text-content {
+    text-align: center;
+    font-weight: bold;
+}
+
+/* Row Styling */
+.dx-row {
+    background-color: rgba(255, 255, 255, 0.8); /* White with some transparency */
+}
+
+.dx-row:nth-child(even) {
+    background-color: rgba(240, 248, 255, 0.8); /* Light blue with some transparency */
+}
+
+/* Row Hover Styling */
+/*.dx-row.dx-data-row.dx-column-lines:hover {
+    background-color: rgba(168, 215, 231, 0.8);
+    Slightly darker blue on hover
+}*/
+
+/* Cell Styling */
+.dx-cell {
+    border-bottom: 1px solid #ddd;
+    padding: 10px;
+}

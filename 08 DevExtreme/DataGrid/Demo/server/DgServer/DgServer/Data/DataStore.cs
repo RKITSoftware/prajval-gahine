@@ -6,16 +6,51 @@ namespace DgServer.Data
     public class DataStore
     {
         public List<User> LstUser { get; set; }
-        public int nextUserId = 9;
+        public int preUserCount = 30;
+        public int nextUserId;
 
         public List<Product> LstProduct { get; set; }
-        public int nextProductId = 16;
+        public int preProductCount = 50;
+        public int nextProductId;
 
         public List<Order> LstOrder { get; set; }
-        public int nextOrderId = 1;
+        public int preOrderCount = 0;
+        public int nextOrderId;
 
         public DataStore()
         {
+            nextUserId = preUserCount + 1;
+            nextProductId = preProductCount + 1;
+            nextOrderId = preOrderCount + 1;
+
+            LstUser = new List<User>();
+            Random rand = new Random();
+
+            string[] streets = { "Govind Nagar", "MG Road", "Station Road", "Park Street" };
+            string[] towns = { "Thane", "Andheri", "Bandra", "Borivali" };
+            string[] cities = { "Mumbai", "Pune", "Nagpur", "Nashik" };
+            string[] states = { "Maharashtra", "Gujarat", "Karnataka", "Tamil Nadu" };
+
+            for (int i = 1; i <= preUserCount; i++)
+            {
+                LstUser.Add(new User()
+                {
+                    Id = i,
+                    Email = $"u{i}@gmail.com",
+                    Name = $"u{i}",
+                    PermanentAddress = new Address()
+                    {
+                        PlotNo = rand.Next(1, 1000),
+                        Street = streets[rand.Next(streets.Length)],
+                        Town = towns[rand.Next(towns.Length)],
+                        City = cities[rand.Next(cities.Length)],
+                        State = states[rand.Next(states.Length)],
+                        Pincode = $"{rand.Next(100000, 999999)}"
+                    }
+                });
+            }
+
+            /*
             LstUser = new List<User>()
             {
                 new User()
@@ -139,7 +174,9 @@ namespace DgServer.Data
                     }
                 }
             };
+            */
 
+            /*
             LstProduct = new List<Product>()
             {
                 new Product()
@@ -248,8 +285,61 @@ namespace DgServer.Data
                     Category = "Household"
                 },
             };
+            */
 
-            LstOrder = new List<Order>();
+            LstProduct = new List<Product>();
+
+            string[] categories = { "Household", "Electronics", "Clothing", "Toys", "Groceries" };
+            string[] names = { "Refrigerator", "Washing Machine", "Smartphone", "T-shirt", "Doll", "Milk", "Laptop", "Blender", "Sofa", "Jeans" };
+
+            for (int i = 1; i <= preProductCount; i++)
+            {
+                LstProduct.Add(new Product()
+                {
+                    Id = i,
+                    Name = names[rand.Next(names.Length)],
+                    Price = rand.Next(100, 100000),
+                    Category = categories[rand.Next(categories.Length)]
+                });
+            }
+            // --------------------------------------------------------------------------------------------------------
+            this.LstOrder = new List<Order>();
+            Random random = new Random();
+
+            for (int i = 0; i < 500; i++)
+            {
+                Order order = new Order
+                {
+                    Id = i, // Random order ID
+                    UserId = LstUser[random.Next(1, LstUser.Count)].Id, // Random user ID
+                    LstProductQuantity = new List<ProductQuantity>(), // Empty list for now
+                    Amount = random.NextDouble() * 1000, // Random amount between 0 and 1000
+                    DeliveryAddress = new Address()
+                    {
+                        PlotNo = rand.Next(1, 1000),
+                        Street = streets[rand.Next(streets.Length)],
+                        Town = towns[rand.Next(towns.Length)],
+                        City = cities[rand.Next(cities.Length)],
+                        State = states[rand.Next(states.Length)],
+                        Pincode = $"{rand.Next(100000, 999999)}"
+                    },
+                    IsDelivered = random.Next(0, 2) == 1, // Random boolean value
+                    OrderDate = DateTime.Now.AddDays(-random.Next(1, 30)) // Random date in the last 30 days
+                };
+
+                // Random number of products with random quantities
+                int numProducts = random.Next(1, 5); // Random number of products between 1 and 5
+                for (int j = 0; j < numProducts; j++)
+                {
+                    order.LstProductQuantity.Add(new ProductQuantity
+                    {
+                        ProductId = LstProduct[random.Next(1, LstProduct.Count)].Id, // Random product ID
+                        Quantity = random.Next(1, 10) // Random quantity between 1 and 10
+                    });
+                }
+
+                LstOrder.Add(order);
+            }
         }
     }
 }

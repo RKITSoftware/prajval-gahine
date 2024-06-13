@@ -108,9 +108,6 @@
     <Content Include="Content\dx.material.teal.light.css" />
     <Content Include="Content\dx.softblue.compact.css" />
     <Content Include="Content\dx.softblue.css" />
-    <Content Include="DG\DataSources\orderDs.js" />
-    <Content Include="DG\DataSources\userDs.js" />
-    <Content Include="DG\DgWidgets\orderDg.js" />
     <Content Include="DG\index.html" />
     <Content Include="DG\style.css" />
     <Content Include="DG\script.js" />

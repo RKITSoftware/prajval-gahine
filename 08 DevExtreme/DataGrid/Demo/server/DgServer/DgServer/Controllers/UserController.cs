@@ -16,8 +16,12 @@ namespace DgServer.Controllers
         }
 
         [HttpGet("")]
-        public IActionResult GetAll(int skip = 0, int take = 5)
+        public IActionResult GetAll(int skip = 0, int take = 10, bool all = false)
         {
+            if (all == true)
+            {
+                return Ok(_dataStore.LstUser);
+            }
             return Ok(_dataStore.LstUser.Skip(skip).Take(take));
         }
 
@@ -35,6 +39,37 @@ namespace DgServer.Controllers
             _dataStore.LstUser.Add(user);
 
             return Ok(user);
+        }
+
+        [HttpPut("{id}")]
+        public IActionResult Put(int id, [FromBody] User user)
+        {
+            var existingUser = _dataStore.LstUser.FirstOrDefault(u => u.Id == id);
+            if (existingUser == null)
+            {
+                return NotFound();
+            }
+
+            existingUser.Name = user.Name;
+            existingUser.Email = user.Email;
+            existingUser.PermanentAddress = user.PermanentAddress;
+
+            return Ok(existingUser);
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            var user = _dataStore.LstUser.FirstOrDefault(u => u.Id == id);
+
+            if (user == null)
+            {
+                return NotFound(new { Message = $"User with ID {id} not found." });
+            }
+
+            _dataStore.LstUser.Remove(user);
+
+            return Ok(new { Message = $"User with ID {id} deleted successfully." });
         }
     }
 }
