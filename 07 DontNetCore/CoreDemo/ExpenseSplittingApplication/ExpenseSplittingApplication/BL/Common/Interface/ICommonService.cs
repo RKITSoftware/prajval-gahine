@@ -13,9 +13,5 @@ namespace ExpenseSplittingApplication.BL.Common.Interface
         Response Validation();
 
         Response Save();
-
-        Response DeleteValidation(int id);
-
-        Response Delete(int id);
     }
 }

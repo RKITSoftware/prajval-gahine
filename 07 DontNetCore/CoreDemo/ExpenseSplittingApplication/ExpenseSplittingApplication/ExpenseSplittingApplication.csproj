@@ -5,7 +5,8 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>disable</ImplicitUsings>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
-    <DocumentationFile>F:\prajval-gahine\prajval-gahine\07 DontNetCore\CoreDemo\ExpenseSplittingApplication\ExpenseSplittingApplication\bin\Debug\net6.0\ExpenseSplittingApplication.xml</DocumentationFile>
+    <DocumentationFile>D:\rkit\prajval-gahine\07 DontNetCore\CoreDemo\ExpenseSplittingApplication\ExpenseSplittingApplication\bin\Debug\net6.0\ExpenseSplittingApplication.xml</DocumentationFile>
+    <ProduceReferenceAssembly>False</ProduceReferenceAssembly>
   </PropertyGroup>
 
   <ItemGroup>

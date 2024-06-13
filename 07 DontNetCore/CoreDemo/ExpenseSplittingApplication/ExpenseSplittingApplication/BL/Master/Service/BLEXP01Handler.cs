@@ -1,4 +1,6 @@
-﻿using ExpenseSplittingApplication.BL.Domain;
+﻿using ExpenseSplittingApplication.BL.Common.Interface;
+using ExpenseSplittingApplication.BL.Common.Service;
+using ExpenseSplittingApplication.BL.Domain;
 using ExpenseSplittingApplication.BL.Master.Interface;
 using ExpenseSplittingApplication.Common.Interface;
 using ExpenseSplittingApplication.DL.Interface;
@@ -24,14 +26,16 @@ namespace ExpenseSplittingApplication.BL.Master.Service
         private IUtility _utility;
         private IDbConnectionFactory _dbFactory;
         private IDBExpenseContext _context;
+        private ILoggerService _loggerService;
         public EnmOperation Operation { get; set; }
         public List<CNT01> LstContribution { get => _lstContribution; set => _lstContribution = value; }
 
-        public BLEXP01Handler(IUtility utility, IDbConnectionFactory dbFactory, IDBExpenseContext context)
+        public BLEXP01Handler(IUtility utility, IDbConnectionFactory dbFactory, IDBExpenseContext context, UserLoggerService loggerService)
         {
             _utility = utility;
             _dbFactory = dbFactory;
             _context = context;
+            _loggerService = loggerService;
         }
 
         public Response Delete(int id)
@@ -189,7 +193,7 @@ namespace ExpenseSplittingApplication.BL.Master.Service
             return response;
         }
 
-        public Response SettleDues(int userID, int recievableUserID, double amount)
+        public Response SettleDues(int userID, int payableUserId, double amount)
         {
             Response response = new Response();
 
@@ -202,10 +206,10 @@ namespace ExpenseSplittingApplication.BL.Master.Service
                 return response;
             }
 
-            if (userID == recievableUserID)
+            if (userID == payableUserId)
             {
                 response.IsError = true;
-                response.Message = $"Authenticated user id and recievable userid are same.";
+                response.Message = $"Authenticated user id and payable userid are same.";
                 response.HttpStatusCode = StatusCodes.Status409Conflict;
 
                 return response;
@@ -221,17 +225,17 @@ namespace ExpenseSplittingApplication.BL.Master.Service
                 return response;
             }
 
-            if (!_utility.UserIDExists(recievableUserID))
+            if (!_utility.UserIDExists(payableUserId))
             {
                 response.IsError = true;
-                response.Message = $"recievable userid {recievableUserID} not found";
+                response.Message = $"payable userid {payableUserId} not found";
                 response.HttpStatusCode = StatusCodes.Status404NotFound;
 
                 return response;
             }
 
             // check amount against db
-            double amountDB = _context.GetDueAmount(userID, recievableUserID);
+            double amountDB = _context.GetDueAmount(userID, payableUserId);
 
             if (amountDB != amount)
             {
@@ -244,10 +248,10 @@ namespace ExpenseSplittingApplication.BL.Master.Service
 
             using (IDbConnection db = _dbFactory.OpenDbConnection())
             {
-                db.Update<CNT01>(updateOnly: new { t01f05 = 1 }, where: (cnt) => cnt.T01F05 == false && (cnt.T01F02 == userID && cnt.T01F03 == recievableUserID) || (cnt.T01F02 == recievableUserID && cnt.T01F03 == userID));
+                db.Update<CNT01>(updateOnly: new { t01f05 = 1 }, where: (cnt) => cnt.T01F05 == false && (cnt.T01F02 == userID && cnt.T01F03 == payableUserId) || (cnt.T01F02 == payableUserId && cnt.T01F03 == userID));
             }
 
-            response.Message = $"Due amount {amountDB} from user {recievableUserID} settled successfully";
+            response.Message = $"Due amount {amountDB} against user {payableUserId} settled successfully";
             response.HttpStatusCode = StatusCodes.Status200OK;
 
             return response;

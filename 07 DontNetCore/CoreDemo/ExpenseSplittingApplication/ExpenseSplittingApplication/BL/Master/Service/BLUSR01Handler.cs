@@ -24,50 +24,11 @@ namespace ExpenseSplittingApplication.BL.Master.Service
 
         public EnmOperation Operation { get; set; }
 
-        public BLUSR01Handler(IDbConnectionFactory dbFactory, IDBUserContext context, UserLoggingService loggingService)
+        public BLUSR01Handler(IDbConnectionFactory dbFactory, IDBUserContext context, UserLoggerService loggingService)
         {
             _dbFactory = dbFactory;
             _dbUserContext = context;
             _loggingService = loggingService;
-        }
-
-        public Response Delete(int id)
-        {
-            _loggingService.Information("User deletion initiated...");
-
-            Response response = new Response();
-            using (IDbConnection db = _dbFactory.OpenDbConnection())
-            {
-                db.DeleteById<USR01>(id);
-            }
-            response.Message = $"User with id: {id} deleted successfully.";
-            response.HttpStatusCode = StatusCodes.Status200OK;
-
-            _loggingService.Information("User deletion completed...");
-            return response;
-        }
-
-        public Response DeleteValidation(int id)
-        {
-            Response response = new Response();
-            if (!UserIDExists(id))
-            {
-                response.IsError = true;
-                response.HttpStatusCode = StatusCodes.Status404NotFound;
-                response.Message = $"User ID: {id} donot exists.";
-            }
-            return response;
-        }
-
-        public Response GetAll()
-        {
-            Response response = new Response();
-            DataTable dtUser = _dbUserContext.GetAll();
-
-            response.HttpStatusCode = StatusCodes.Status200OK;
-            response.Data = dtUser;
-
-            return response;
         }
 
         public void PreSave(DTOUSR01 objDto)
@@ -147,7 +108,9 @@ namespace ExpenseSplittingApplication.BL.Master.Service
                     Action<IDbCommand> commandFilter = cmd =>
                     {
                         cmd.Parameters.RemoveAt("@R01F03");
+                        cmd.Parameters.RemoveAt("@R01F04");
                         cmd.CommandText = cmd.CommandText.Replace(", `R01F03`=@R01F03", "");
+                        cmd.CommandText = cmd.CommandText.Replace(", `R01F04`=@R01F04", "");
                     };
 
                     db.Update<USR01>(_user, commandFilter);

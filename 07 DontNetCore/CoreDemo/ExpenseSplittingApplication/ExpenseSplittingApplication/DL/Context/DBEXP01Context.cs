@@ -1,5 +1,6 @@
 ﻿using ExpenseSplittingApplication.BL.Domain;
 using ExpenseSplittingApplication.Common.Interface;
+using NLog.Config;
 using ServiceStack;
 using ServiceStack.OrmLite.Dapper;
 using System;
@@ -58,8 +59,10 @@ namespace ExpenseSplittingApplication.DL.Interface
                             WHERE
                                 R01F01 = {0}", userID);
             settlementReport.Username = _connection.Query<string>(query).FirstOrDefault();
+
             settlementReport.Recievables = new Dictionary<int, double>();
             settlementReport.Payables = new Dictionary<int, double>();
+            settlementReport.FinalDues = new Dictionary<int, double>();
 
             // receivable query
             query = string.Format(@"
@@ -109,10 +112,26 @@ namespace ExpenseSplittingApplication.DL.Interface
                 }
             }
 
+            foreach(KeyValuePair<int, double> payable in settlementReport.Payables)
+            {
+                double toPayAmount = payable.Value;
+                double toRecieveAmount = settlementReport.Recievables.GetValueOrDefault(payable.Key);
+
+                settlementReport.FinalDues.Add(payable.Key, Math.Round(toRecieveAmount - toPayAmount, 2));
+            }
+
+            foreach(KeyValuePair<int, double> recievable in settlementReport.Recievables)
+            {
+                if (!settlementReport.FinalDues.ContainsKey(recievable.Key))
+                {
+                    settlementReport.FinalDues.Add(recievable.Key, recievable.Value);
+                }
+            }
+
             return settlementReport;
         }
 
-        public double GetDueAmount(int userID, int recievableUserID)
+        public double GetDueAmount(int userID, int payableUserId)
         {
             string dyQuery = @"
                         SELECT
@@ -125,12 +144,16 @@ namespace ExpenseSplittingApplication.DL.Interface
                             t01f05 = 0";
 
             string query = string.Empty;
-            query = string.Format(dyQuery, userID, recievableUserID);
 
-            double amountToRecieve = _connection.QuerySingle<double>(query);
-            double amountToPay = _connection.QuerySingle<double>(query);
+            // where user paid for payerUser which is not yet been settled
+            query = string.Format(dyQuery, userID, payableUserId);
+            double amountToRecieve = _connection.QuerySingleOrDefault<double>(query);
 
-            return amountToRecieve - amountToPay;
+            // where payerUser paid for user which is not yet been settled
+            query = string.Format(dyQuery, payableUserId, userID);
+            double amountToPay = _connection.QuerySingleOrDefault<double>(query);
+
+            return Math.Round(amountToPay - amountToRecieve, 2);
         }
     }
 }

@@ -40,11 +40,11 @@ namespace ExpenseSplittingApplication.Extensions
 
         public static void AddUserLoggingService(this IServiceCollection services)
         {
-            services.AddTransient<UserLoggingService>((serviceProvider) =>
+            services.AddTransient<UserLoggerService>((serviceProvider) =>
             {
                 IHttpContextAccessor contextAccessor = serviceProvider.GetRequiredService<IHttpContextAccessor>();
                 string userId = contextAccessor.HttpContext.User.FindFirst("userId")?.Value ?? "DefaultUser";
-                return new UserLoggingService(userId);
+                return new UserLoggerService(userId);
             });
         }
 

@@ -134,7 +134,6 @@ namespace ExpenseSplittingApplication
             app.UseAuthentication();
             app.UseAuthorization();
 
-
             app.MapControllers();
 
             ((IApplicationBuilder)app).ApplicationServices.GetRequiredService<IHostApplicationLifetime>()

@@ -11,5 +11,7 @@ namespace ExpenseSplittingApplication.BL.Domain
         public Dictionary<int, double> Recievables { get; set; }
 
         public Dictionary<int, double> Payables { get; set; }
+
+        public Dictionary<int, double> FinalDues { get; set; }
     }
 }

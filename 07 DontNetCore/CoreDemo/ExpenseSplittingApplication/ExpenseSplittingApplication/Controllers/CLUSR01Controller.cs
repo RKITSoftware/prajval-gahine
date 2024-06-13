@@ -19,14 +19,6 @@ namespace ExpenseSplittingApplication.Controllers
             _usr01Service = usr01Service;
         }
 
-        //[HttpGet("")]
-        [NonAction]
-        public IActionResult GetUser()
-        {
-            Response response = _usr01Service.GetAll();
-            return Ok(response);
-        }
-
         [HttpPost("")]
         [ValidateModel]
         [AllowAnonymous]
@@ -78,20 +70,6 @@ namespace ExpenseSplittingApplication.Controllers
             if (!response.IsError)
             {
                 response = _usr01Service.ChangePassword(userID, newPassword);
-            }
-            return Ok(response);
-        }
-
-
-        [HttpDelete("")]
-        public IActionResult DeleteUser()
-        {
-            int userID = int.Parse(User.Claims.FirstOrDefault(c => c.Type == "userID")?.Value ?? "");
-
-            Response response = _usr01Service.DeleteValidation(userID);
-            if (!response.IsError)
-            {
-                response = _usr01Service.Delete(userID);
             }
             return Ok(response);
         }

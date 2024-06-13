@@ -3,14 +3,14 @@ using NLog;
 
 namespace ExpenseSplittingApplication.BL.Common.Service
 {
-    public class UserLoggingService : ILoggerService
+    public class UserLoggerService : ILoggerService
     {
 
         private readonly Logger _logger;
 
         private readonly string _userId;
 
-        public UserLoggingService(string userId)
+        public UserLoggerService(string userId)
         {
             _logger = LogManager.GetCurrentClassLogger();
             _userId = userId;

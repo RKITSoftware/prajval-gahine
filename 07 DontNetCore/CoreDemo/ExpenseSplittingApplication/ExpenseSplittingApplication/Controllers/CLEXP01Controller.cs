@@ -40,11 +40,11 @@ namespace ExpenseSplittingApplication.Controllers
             return Ok(response);
         }
 
-        [HttpPost("settle-dues/{recievableUserID}")]
-        public IActionResult SettleDues(int recievableUserID, double amount)
+        [HttpPost("settle-dues/{payableUserId}")]
+        public IActionResult SettleDues(int payableUserId, double amount)
         {
             int userID = int.Parse(User.Claims.FirstOrDefault(c => c.Type == "userID")?.Value ?? "");
-            Response response = _exp01Service.SettleDues(userID, recievableUserID, amount);
+            Response response = _exp01Service.SettleDues(userID, payableUserId, amount);
             return Ok(response);
         }
     }
