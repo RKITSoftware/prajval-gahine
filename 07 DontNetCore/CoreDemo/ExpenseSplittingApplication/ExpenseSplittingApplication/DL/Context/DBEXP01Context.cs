@@ -10,16 +10,37 @@ using System.Linq;
 
 namespace ExpenseSplittingApplication.DL.Interface
 {
+    /// <summary>
+    /// Database context for handling expense-related operations.
+    /// </summary>
     public class DBEXP01Context : IDBExpenseContext
     {
+        /// <summary>
+        /// The database connection.
+        /// </summary>
         private IDbConnection _connection;
+
+        /// <summary>
+        /// Utility service for common operations.
+        /// </summary>
         private IUtility _utility;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DBEXP01Context"/> class.
+        /// </summary>
+        /// <param name="connection">The database connection.</param>
+        /// <param name="utility">The utility service.</param>
         public DBEXP01Context(IDbConnection connection, IUtility utility)
         {
             _connection = connection;
             _utility = utility;
         }
 
+        /// <summary>
+        /// Gets the list of user IDs that are not in the database.
+        /// </summary>
+        /// <param name="lstUserID">The list of user IDs to check.</param>
+        /// <returns>A list of user IDs that are not found in the database.</returns>
         public List<int> GetUserIdsNotInDatabase(List<int> lstUserID)
         {
             string subquery = string.Join(" UNION ALL ", lstUserID.Select((id, index) =>
@@ -42,7 +63,11 @@ namespace ExpenseSplittingApplication.DL.Interface
             return _connection.Query<int>(query).ToList();
         }
 
-
+        /// <summary>
+        /// Gets the settlement report for a specific user.
+        /// </summary>
+        /// <param name="userID">The user ID for which to get the settlement report.</param>
+        /// <returns>A <see cref="SettlementReport"/> object containing the user's settlement details.</returns>
         public SettlementReport GetSettlementReport(int userID)
         {
             // check iss bande ne kaha kaha pay kiye and get contributes who have not paid??
@@ -60,7 +85,7 @@ namespace ExpenseSplittingApplication.DL.Interface
                                 R01F01 = {0}", userID);
             settlementReport.Username = _connection.Query<string>(query).FirstOrDefault();
 
-            settlementReport.Recievables = new Dictionary<int, double>();
+            settlementReport.Receivables = new Dictionary<int, double>();
             settlementReport.Payables = new Dictionary<int, double>();
             settlementReport.FinalDues = new Dictionary<int, double>();
 
@@ -83,9 +108,9 @@ namespace ExpenseSplittingApplication.DL.Interface
                 int recivableUserID = Convert.ToInt32(row["T01F03"]);
                 double amount = Convert.ToDouble(row["T01F04"]);
 
-                if (!settlementReport.Recievables.TryAdd(recivableUserID, amount))
+                if (!settlementReport.Receivables.TryAdd(recivableUserID, amount))
                 {
-                    settlementReport.Recievables[recivableUserID] += amount;
+                    settlementReport.Receivables[recivableUserID] += amount;
                 }
             }
 
@@ -115,12 +140,12 @@ namespace ExpenseSplittingApplication.DL.Interface
             foreach(KeyValuePair<int, double> payable in settlementReport.Payables)
             {
                 double toPayAmount = payable.Value;
-                double toRecieveAmount = settlementReport.Recievables.GetValueOrDefault(payable.Key);
+                double toRecieveAmount = settlementReport.Receivables.GetValueOrDefault(payable.Key);
 
                 settlementReport.FinalDues.Add(payable.Key, Math.Round(toRecieveAmount - toPayAmount, 2));
             }
 
-            foreach(KeyValuePair<int, double> recievable in settlementReport.Recievables)
+            foreach(KeyValuePair<int, double> recievable in settlementReport.Receivables)
             {
                 if (!settlementReport.FinalDues.ContainsKey(recievable.Key))
                 {
@@ -131,15 +156,21 @@ namespace ExpenseSplittingApplication.DL.Interface
             return settlementReport;
         }
 
+        /// <summary>
+        /// Gets the due amount between two users.
+        /// </summary>
+        /// <param name="userID">The user ID who owes the amount.</param>
+        /// <param name="payableUserId">The user ID to whom the amount is payable.</param>
+        /// <returns>The due amount.</returns>
         public double GetDueAmount(int userID, int payableUserId)
         {
             string dyQuery = @"
                         SELECT
-                            SUM(t01f04)
+                            COALESCE(SUM(t01f04), 0)
                         FROM
-                            cnt01
+                            cnt01 JOIN exp01 ON t01f02 = p01f01
                         WHERE
-                            t01f02 = {0} AND
+                            p01f02 = {0} AND
                             t01f03 = {1} AND
                             t01f05 = 0";
 

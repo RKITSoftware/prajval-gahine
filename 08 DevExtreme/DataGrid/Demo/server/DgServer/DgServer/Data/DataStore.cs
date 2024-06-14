@@ -306,13 +306,13 @@ namespace DgServer.Data
             this.LstOrder = new List<Order>();
             Random random = new Random();
 
-            for (int i = 0; i < 500; i++)
+            for (int i = 1; i <= 100; i++)
             {
                 Order order = new Order
                 {
                     Id = i, // Random order ID
                     UserId = LstUser[random.Next(1, LstUser.Count)].Id, // Random user ID
-                    LstProductQuantity = new List<ProductQuantity>(), // Empty list for now
+                    LstProductIdQuantity = new List<ProductIdQuantity>(), // Empty list for now
                     Amount = random.NextDouble() * 1000, // Random amount between 0 and 1000
                     DeliveryAddress = new Address()
                     {
@@ -331,7 +331,7 @@ namespace DgServer.Data
                 int numProducts = random.Next(1, 5); // Random number of products between 1 and 5
                 for (int j = 0; j < numProducts; j++)
                 {
-                    order.LstProductQuantity.Add(new ProductQuantity
+                    order.LstProductIdQuantity.Add(new ProductIdQuantity
                     {
                         ProductId = LstProduct[random.Next(1, LstProduct.Count)].Id, // Random product ID
                         Quantity = random.Next(1, 10) // Random quantity between 1 and 10

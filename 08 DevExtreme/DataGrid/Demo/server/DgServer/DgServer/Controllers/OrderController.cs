@@ -32,7 +32,7 @@ namespace DgServer.Controllers
         {
             order.Id = _dataStore.nextOrderId++;
 
-            order.Amount = _dataStore.LstProduct.Where(p => order.LstProductQuantity.Select(p => p.ProductId).Contains(p.Id)).Sum(p => p.Price);
+            order.Amount = _dataStore.LstProduct.Where(p => order.LstProductIdQuantity.Select(p => p.ProductId).Contains(p.Id)).Sum(p => p.Price);
 
             if(order.DeliveryAddress == null)
             {
@@ -54,8 +54,8 @@ namespace DgServer.Controllers
             }
 
             existingOrder.UserId = order.UserId;
-            existingOrder.LstProductQuantity = order.LstProductQuantity;
-            existingOrder.Amount = order.Amount = _dataStore.LstProduct.Where(p => existingOrder.LstProductQuantity.Select(p => p.ProductId).Contains(p.Id)).Sum(p => p.Price);
+            existingOrder.LstProductIdQuantity = order.LstProductIdQuantity;
+            existingOrder.Amount = order.Amount = _dataStore.LstProduct.Where(p => existingOrder.LstProductIdQuantity.Select(p => p.ProductId).Contains(p.Id)).Sum(p => p.Price);
             existingOrder.DeliveryAddress = order.DeliveryAddress;
             existingOrder.OrderDate = order.OrderDate;
             existingOrder.IsDelivered = order.IsDelivered;

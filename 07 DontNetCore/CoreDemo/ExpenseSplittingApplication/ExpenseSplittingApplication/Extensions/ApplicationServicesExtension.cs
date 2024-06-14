@@ -14,8 +14,16 @@ using System.Data;
 
 namespace ExpenseSplittingApplication.Extensions
 {
+    /// <summary>
+    /// Extension methods for configuring application services.
+    /// </summary>
     public static class ApplicationServicesExtension
     {
+        /// <summary>
+        /// Adds application services to the service collection.
+        /// </summary>
+        /// <param name="services">The service collection.</param>
+        /// <param name="connectionString">The database connection string.</param>
         public static void AddApplicationServices(this IServiceCollection services, string connectionString)
         {
             services.AddApplicationConnections(connectionString);
@@ -25,6 +33,11 @@ namespace ExpenseSplittingApplication.Extensions
             services.AddUserLoggingService();
         }
 
+        /// <summary>
+        /// Adds database connection services to the service collection.
+        /// </summary>
+        /// <param name="services">The service collection.</param>
+        /// <param name="connectionString">The database connection string.</param>
         public static void AddApplicationConnections(this IServiceCollection services, string connectionString)
         {
             services.AddSingleton<IDbConnectionFactory>(provider =>
@@ -38,6 +51,10 @@ namespace ExpenseSplittingApplication.Extensions
             });
         }
 
+        /// <summary>
+        /// Adds user logging service to the service collection.
+        /// </summary>
+        /// <param name="services">The service collection.</param>
         public static void AddUserLoggingService(this IServiceCollection services)
         {
             services.AddTransient<UserLoggerService>((serviceProvider) =>
@@ -48,6 +65,10 @@ namespace ExpenseSplittingApplication.Extensions
             });
         }
 
+        /// <summary>
+        /// Adds business logic services to the service collection.
+        /// </summary>
+        /// <param name="services">The service collection.</param>
         public static void AddBLServices(this IServiceCollection services)
         {
             services.AddScoped<IUSR01Service, BLUSR01Handler>();
@@ -55,6 +76,10 @@ namespace ExpenseSplittingApplication.Extensions
             services.AddScoped<JwtTokenHandler>();
         }
 
+        /// <summary>
+        /// Adds database context services to the service collection.
+        /// </summary>
+        /// <param name="services">The service collection.</param>
         public static void AddDBContexts(this IServiceCollection services)
         {
             services.AddSingleton<IDBUserContext, DBUSR01Context>();

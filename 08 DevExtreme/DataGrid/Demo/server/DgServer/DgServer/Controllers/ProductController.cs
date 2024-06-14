@@ -1,4 +1,5 @@
 ﻿using DgServer.Data;
+using DgServer.Models.Domain;
 using DgServer.Models.Entity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -25,6 +26,16 @@ namespace DgServer.Controllers
         public IActionResult Get(int id)
         {
             return Ok(_dataStore.LstProduct.FirstOrDefault(product => product.Id == id));
+        }
+
+        [HttpGet("order/{orderId}")]
+        public IActionResult GetByOrderId(int orderId)
+        {
+            Order order = _dataStore.LstOrder.FirstOrDefault(order => order.Id == orderId);
+            return Ok(order.LstProductIdQuantity.Select(piq =>
+            {
+                return new ProductQuantity(_dataStore.LstProduct.FirstOrDefault(p => p.Id == piq.ProductId), piq.Quantity);
+            }));
         }
 
         [HttpPost("")]

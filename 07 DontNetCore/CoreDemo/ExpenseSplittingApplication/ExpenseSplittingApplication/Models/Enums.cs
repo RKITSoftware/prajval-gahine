@@ -1,5 +1,8 @@
 ﻿namespace ExpenseSplittingApplication.Models
 {
+    /// <summary>
+    /// Application request operation enum
+    /// </summary>
     public enum EnmOperation : byte
     {
         /// <summary>

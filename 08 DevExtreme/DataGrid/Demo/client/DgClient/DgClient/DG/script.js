@@ -1,4 +1,7 @@
 ﻿
+//let serverBaseUrl = 'http://localhost:5000/api';
+let serverBaseUrl = 'http://localhost:5114/api';
+
 $(async () => {
     const root = $("#root");
 
@@ -67,7 +70,10 @@ $(async () => {
             },
         ],
         onRowUpdating: function (e) {
-            deepMerge(e.newData, e.oldData);
+            //deepMerge(e.newData, e.oldData);
+            const newData = {};
+            $.extend(true, newData, e.oldData, e.newData);
+            e.newData = newData;
         },
         editing: {
             allowAdding: true,
@@ -119,7 +125,10 @@ $(async () => {
             },
         ],
         onRowUpdating: function (e) {
-            deepMerge(e.newData, e.oldData);
+            //deepMerge(e.newData, e.oldData);
+            const newData = {};
+            $.extend(true, newData, e.oldData, e.newData);
+            e.newData = newData;
         },
         editing: {
             allowAdding: true,
@@ -148,6 +157,36 @@ $(async () => {
         columnHidingEnabled: true,
         dataSource: createDs("order"),
         height: "450px",
+
+        masterDetail: {
+            enabled: true,
+            template(container, options) {
+                $("<div>")
+                    .dxDataGrid({
+                        dataSource: new DevExpress.data.DataSource({
+                            store: new DevExpress.data.CustomStore({
+                                load: function (loadOptions) {
+                                    const deferred = $.Deferred();
+
+                                    $.ajax({
+                                        url: `${serverBaseUrl}/product/order/${options.data.id}`,
+                                        success: function (result) {
+                                            deferred.resolve(result);
+                                        },
+                                        error: function () {
+                                            deferred.reject(`Error while loading products for order id: ${options.data.id}`);
+                                        }
+                                    });
+
+                                    return deferred.promise();
+                                }
+                            }),
+                        }),
+                    })
+                    .appendTo(container);
+            }
+        },
+
         columns: [
             {
                 dataField: "id",
@@ -161,17 +200,17 @@ $(async () => {
                 caption: "User",
                 fixed: true,
                 fixPosition: "left",
-                allowUpdating: false,
+                allowEditing: false,
                 lookup: {
                     dataSource: {
                         key: "id",
                         load: function (options) {
                             console.log(options);
-                            return $.getJSON("http://localhost:5114/api/user?all=true");
+                            return $.getJSON(`${serverBaseUrl}/user?all=true`);
                         },
                         byKey: function (options) {
                             console.log(options);
-                            return $.getJSON("http://localhost:5114/api/user?id=" + options);
+                            return $.getJSON(`${serverBaseUrl}/user?id=` + options);
                         }
                     },
                     valueExpr: "id",
@@ -180,6 +219,7 @@ $(async () => {
             },
             {
                 caption: "Delivery Address",
+                allowEditing: false,
                 isBand: true,
                 //hidingPriority: 0,
                 headerCellTemplate: function (header, info) {
@@ -227,7 +267,10 @@ $(async () => {
             }
         ],
         onRowUpdating: function (e) {
-            deepMerge(e.newData, e.oldData);
+            //deepMerge(e.newData, e.oldData);
+            const newData = {};
+            $.extend(true, newData, e.oldData, e.newData);
+            e.newData = newData;
         },
         editing: {
             allowAdding: true,
@@ -308,7 +351,7 @@ function createDs(resourceName) {
             let deferred = $.Deferred();
             // console.log(options);
             $.ajax({
-                url: "http://localhost:5114/api/" + resourceName,
+                url: `${serverBaseUrl}/` + resourceName,
                 method: "GET",
                 data: options.skip != undefined ? { skip: options.skip, take: options.take } : undefined,
                 success: function (result) {
@@ -325,7 +368,7 @@ function createDs(resourceName) {
         insert: function (itemData) {
             const deferred = $.Deferred();
             $.ajax({
-                url: "http://localhost:5114/api/" + resourceName,
+                url: `${serverBaseUrl}/` + resourceName,
                 method: "POST",
                 contentType: "application/json",
                 data: JSON.stringify(itemData),
@@ -343,7 +386,7 @@ function createDs(resourceName) {
 
 
             $.ajax({
-                url: "http://localhost:5114/api/" + resourceName + "/" + key,
+                url: `${serverBaseUrl}/` + resourceName + "/" + key,
                 method: "PUT",
                 contentType: "application/json",
                 data: JSON.stringify(values),
@@ -360,7 +403,7 @@ function createDs(resourceName) {
             const deferred = $.Deferred();
 
              $.ajax({
-                url: "http://localhost:5114/api/" + resourceName + "/" + key,
+                url: `${serverBaseUrl}/` + resourceName + "/" + key,
                 method: "DELETE",
                 success: function (result) {
                     deferred.resolve(result);

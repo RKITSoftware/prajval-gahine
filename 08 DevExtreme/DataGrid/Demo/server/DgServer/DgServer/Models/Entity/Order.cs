@@ -8,7 +8,7 @@ namespace DgServer.Models.Entity
 
         public int UserId { get; set; }
 
-        public List<ProductQuantity>? LstProductQuantity { get; set; }
+        public List<ProductIdQuantity>? LstProductIdQuantity { get; set; }
 
         public double Amount { get; set; }
 

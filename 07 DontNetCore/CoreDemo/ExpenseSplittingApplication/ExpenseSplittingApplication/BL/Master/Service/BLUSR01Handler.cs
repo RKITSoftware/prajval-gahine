@@ -13,17 +13,42 @@ using System.Data;
 
 namespace ExpenseSplittingApplication.BL.Master.Service
 {
+    /// <summary>
+    /// Handles user-related operations including creation, update, and password management.
+    /// </summary>
     public class BLUSR01Handler : IUSR01Service
     {
-        private IDbConnectionFactory _dbFactory;
+        /// <summary>
+        /// The database connection factory.
+        /// </summary>
+        private readonly IDbConnectionFactory _dbFactory;
 
+        /// <summary>
+        /// The user entity for internal operations.
+        /// </summary>
         private USR01 _user;
-        private IDBUserContext _dbUserContext;
 
-        private ILoggerService _loggingService;
+        /// <summary>
+        /// The user context for database operations.
+        /// </summary>
+        private readonly IDBUserContext _dbUserContext;
 
+        /// <summary>
+        /// The logging service for logging operations.
+        /// </summary>
+        private readonly ILoggerService _loggingService;
+
+        /// <summary>
+        /// Gets or sets the current operation to be performed.
+        /// </summary>
         public EnmOperation Operation { get; set; }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BLUSR01Handler"/> class.
+        /// </summary>
+        /// <param name="dbFactory">The database connection factory.</param>
+        /// <param name="context">The user context.</param>
+        /// <param name="loggingService">The logging service.</param>
         public BLUSR01Handler(IDbConnectionFactory dbFactory, IDBUserContext context, UserLoggerService loggingService)
         {
             _dbFactory = dbFactory;
@@ -31,6 +56,10 @@ namespace ExpenseSplittingApplication.BL.Master.Service
             _loggingService = loggingService;
         }
 
+        /// <summary>
+        /// Prepares the user entity for saving based on the provided DTO.
+        /// </summary>
+        /// <param name="objDto">The DTO containing user data.</param>
         public void PreSave(DTOUSR01 objDto)
         {
             if (Operation == EnmOperation.A)
@@ -53,6 +82,11 @@ namespace ExpenseSplittingApplication.BL.Master.Service
             }
         }
 
+        /// <summary>
+        /// Checks if a username already exists in the database.
+        /// </summary>
+        /// <param name="username">The username to check.</param>
+        /// <returns>True if the username exists, otherwise false.</returns>
         public bool UsernameExists(string username)
         {
             bool usernameExists;
@@ -63,6 +97,11 @@ namespace ExpenseSplittingApplication.BL.Master.Service
             return usernameExists;
         }
 
+        /// <summary>
+        /// Checks if a user ID already exists in the database.
+        /// </summary>
+        /// <param name="userID">The user ID to check.</param>
+        /// <returns>True if the user ID exists, otherwise false.</returns>
         public bool UserIDExists(int userID)
         {
             bool userIDExists;
@@ -73,6 +112,11 @@ namespace ExpenseSplittingApplication.BL.Master.Service
             return userIDExists;
         }
 
+        /// <summary>
+        /// Performs pre-validation checks before saving user data.
+        /// </summary>
+        /// <param name="objDto">The DTO containing user data.</param>
+        /// <returns>A response indicating the result of the pre-validation.</returns>
         public Response PreValidation(DTOUSR01 objDto)
         {
             Response response = new Response();
@@ -89,6 +133,10 @@ namespace ExpenseSplittingApplication.BL.Master.Service
             return response;
         }
 
+        /// <summary>
+        /// Saves the user data to the database.
+        /// </summary>
+        /// <returns>A response indicating the result of the save operation.</returns>
         public Response Save()
         {
             Response response = new Response();
@@ -99,11 +147,11 @@ namespace ExpenseSplittingApplication.BL.Master.Service
                 {
                     db.Insert<USR01>(_user);
 
-                    response.Message = $"Welcome, {_user.R01F02}! Your account has been  created.";
+                    response.Message = $"Welcome, {_user.R01F02}! Your account has been created.";
                 }
                 else
                 {
-                    _loggingService.Information("User upadtion initiated...");
+                    _loggingService.Information("User update initiated...");
 
                     Action<IDbCommand> commandFilter = cmd =>
                     {
@@ -114,9 +162,9 @@ namespace ExpenseSplittingApplication.BL.Master.Service
                     };
 
                     db.Update<USR01>(_user, commandFilter);
-                    response.Message = $"User details has been successfully updated.";
+                    response.Message = $"User details have been successfully updated.";
 
-                    _loggingService.Information("User upadtion completed...");
+                    _loggingService.Information("User update completed...");
                 }
             }
             response.HttpStatusCode = StatusCodes.Status200OK;
@@ -124,6 +172,10 @@ namespace ExpenseSplittingApplication.BL.Master.Service
             return response;
         }
 
+        /// <summary>
+        /// Performs validation checks before saving user data.
+        /// </summary>
+        /// <returns>A response indicating the result of the validation.</returns>
         public Response Validation()
         {
             Response response = new Response();
@@ -161,6 +213,13 @@ namespace ExpenseSplittingApplication.BL.Master.Service
 
             return response;
         }
+
+        /// <summary>
+        /// Validates the old password for the specified user before changing it.
+        /// </summary>
+        /// <param name="userID">The ID of the user whose password is being validated.</param>
+        /// <param name="oldPassword">The old password to validate.</param>
+        /// <returns>A response indicating the result of the password validation operation.</returns>
         public Response ValidatePassword(int userID, string oldPassword)
         {
             Response response = new Response();
@@ -173,15 +232,20 @@ namespace ExpenseSplittingApplication.BL.Master.Service
             {
                 response.IsError = true;
                 response.HttpStatusCode = StatusCodes.Status409Conflict;
-                response.Message = "Old password does not matched.";
+                response.Message = "Old password does not match.";
             }
             return response;
         }
 
+        /// <summary>
+        /// Changes the password for the specified user.
+        /// </summary>
+        /// <param name="userID">The ID of the user whose password is to be changed.</param>
+        /// <param name="newPassword">The new password.</param>
+        /// <returns>A response indicating the result of the password change operation.</returns>
         public Response ChangePassword(int userID, string newPassword)
         {
-
-            _loggingService.Information("User password initiated...");
+            _loggingService.Information("User password change initiated...");
 
             Response response = new Response();
             using (IDbConnection db = _dbFactory.OpenDbConnection())
@@ -191,10 +255,16 @@ namespace ExpenseSplittingApplication.BL.Master.Service
             response.HttpStatusCode = StatusCodes.Status200OK;
             response.Message = "Password was changed successfully.";
 
-            _loggingService.Information("User password completed...");
+            _loggingService.Information("User password change completed...");
             return response;
         }
 
+        /// <summary>
+        /// Retrieves the user based on the provided username and password.
+        /// </summary>
+        /// <param name="username">The username of the user to retrieve.</param>
+        /// <param name="password">The password of the user to retrieve.</param>
+        /// <returns>The retrieved user entity (USR01).</returns>
         public USR01 GetUser(string username, string password)
         {
             USR01 objUSR01;

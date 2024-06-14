@@ -17,19 +17,61 @@ using System.Linq;
 
 namespace ExpenseSplittingApplication.BL.Master.Service
 {
+    /// <summary>
+    /// Handles expense-related operations including creation, deletion, validation, and settlement.
+    /// </summary>
     public class BLEXP01Handler : IEXP01Service
     {
+
         private const bool V = true;
+
+        /// <summary>
+        /// Represents an instance of the EXP01 class, which handles expense-related data.
+        /// </summary>
         private EXP01 _objExpense;
+
+        /// <summary>
+        /// Stores a list of contributions (CNT01 instances) related to expenses.
+        /// </summary>
         private List<CNT01> _lstContribution;
 
+        /// <summary>
+        /// Provides utility methods and services.
+        /// </summary>
         private IUtility _utility;
+
+        /// <summary>
+        /// Factory for creating database connections.
+        /// </summary>
         private IDbConnectionFactory _dbFactory;
+
+        /// <summary>
+        /// Context interface for interacting with the expense-related database.
+        /// </summary>
         private IDBExpenseContext _context;
+
+        /// <summary>
+        /// Service for logging messages related to expense operations.
+        /// </summary>
         private ILoggerService _loggerService;
+
+        /// <summary>
+        /// Gets or sets the current operation to be performed.
+        /// </summary>
         public EnmOperation Operation { get; set; }
+
+        /// <summary>
+        /// Gets or sets the list of contributions.
+        /// </summary>
         public List<CNT01> LstContribution { get => _lstContribution; set => _lstContribution = value; }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BLEXP01Handler"/> class.
+        /// </summary>
+        /// <param name="utility">The utility service.</param>
+        /// <param name="dbFactory">The database connection factory.</param>
+        /// <param name="context">The expense context.</param>
+        /// <param name="loggerService">The logging service.</param>
         public BLEXP01Handler(IUtility utility, IDbConnectionFactory dbFactory, IDBExpenseContext context, UserLoggerService loggerService)
         {
             _utility = utility;
@@ -38,16 +80,10 @@ namespace ExpenseSplittingApplication.BL.Master.Service
             _loggerService = loggerService;
         }
 
-        public Response Delete(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Response DeleteValidation(int id)
-        {
-            throw new NotImplementedException();
-        }
-
+        /// <summary>
+        /// Prepares the expense entity for saving based on the provided DTO.
+        /// </summary>
+        /// <param name="objDto">The DTO containing expense data.</param>
         public void PreSave(DTOEXC objDto)
         {
             _objExpense = new EXP01() { P01F02 = objDto.ObjDTOEXP01.P01F02, P01F03 = objDto.ObjDTOEXP01.P01F03, P01F04 = objDto.ObjDTOEXP01.P01F04, P01F05 = objDto.ObjDTOEXP01.P01F05, P01F98 = DateTime.Now, };
@@ -67,6 +103,11 @@ namespace ExpenseSplittingApplication.BL.Master.Service
             })).ToList();
         }
 
+        /// <summary>
+        /// Checks if all contribution IDs in the list are unique.
+        /// </summary>
+        /// <param name="lstContribution">The list of contributions to check.</param>
+        /// <returns>True if all IDs are unique, otherwise false.</returns>
         public bool AreAllIdsUnique(List<DTOCNT01> lstContribution)
         {
             HashSet<int> seenIDs = new HashSet<int>();
@@ -80,6 +121,11 @@ namespace ExpenseSplittingApplication.BL.Master.Service
             return true;
         }
 
+        /// <summary>
+        /// Performs pre-validation checks before saving expense data.
+        /// </summary>
+        /// <param name="objDto">The DTO containing expense data.</param>
+        /// <returns>A response indicating the result of the pre-validation.</returns>
         public Response PreValidation(DTOEXC objDto)
         {
             Response response = new Response();
@@ -144,6 +190,10 @@ namespace ExpenseSplittingApplication.BL.Master.Service
             return response;
         }
 
+        /// <summary>
+        /// Saves the expense data to the database.
+        /// </summary>
+        /// <returns>A response indicating the result of the save operation.</returns>
         public Response Save()
         {
             Response response = new Response();
@@ -177,11 +227,20 @@ namespace ExpenseSplittingApplication.BL.Master.Service
             return response;
         }
 
+        /// <summary>
+        /// Performs validation checks before saving expense data.
+        /// </summary>
+        /// <returns>A response indicating the result of the validation.</returns>
         public Response Validation()
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Retrieves the settlement report for the specified user.
+        /// </summary>
+        /// <param name="userID">The ID of the user for whom the settlement report is generated.</param>
+        /// <returns>A response containing the settlement report.</returns>
         public Response GetSettlementReport(int userID)
         {
             Response response = new Response();
@@ -193,6 +252,13 @@ namespace ExpenseSplittingApplication.BL.Master.Service
             return response;
         }
 
+        /// <summary>
+        /// Settles dues between two users.
+        /// </summary>
+        /// <param name="userID">The ID of the user initiating the settlement.</param>
+        /// <param name="payableUserId">The ID of the user to whom dues are payable.</param>
+        /// <param name="amount">The amount to settle.</param>
+        /// <returns>A response indicating the result of the settlement operation.</returns>
         public Response SettleDues(int userID, int payableUserId, double amount)
         {
             Response response = new Response();

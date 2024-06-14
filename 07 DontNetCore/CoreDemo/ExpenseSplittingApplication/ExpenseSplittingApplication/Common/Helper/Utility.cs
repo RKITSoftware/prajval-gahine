@@ -7,15 +7,37 @@ using System.Data;
 
 namespace ExpenseSplittingApplication.Common.Helper
 {
+    /// <summary>
+    /// Application utility class
+    /// </summary>
     public class Utility : IUtility
     {
+        /// <summary>
+        /// Factory for creating database connections.
+        /// </summary>
         private IDbConnectionFactory _dbFactory;
+
+        /// <summary>
+        /// Represents a database connection.
+        /// </summary>
         private IDbConnection _connection;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Utility"/> class.
+        /// </summary>
+        /// <param name="dbFactory">Factory for creating database connections.</param>
+        /// <param name="connection">Represents a database connection.</param>
         public Utility(IDbConnectionFactory dbFactory, IDbConnection connection)
         {
             _dbFactory = dbFactory;
             _connection = connection;
         }
+
+        /// <summary>
+        /// Checks if a user ID exists in the database.
+        /// </summary>
+        /// <param name="userID">The user ID to check.</param>
+        /// <returns>True if the user ID exists, otherwise false.</returns>
         public bool UserIDExists(int userID)
         {
             bool userIDExists;
@@ -26,6 +48,11 @@ namespace ExpenseSplittingApplication.Common.Helper
             return userIDExists;
         }
 
+        /// <summary>
+        /// Checks if a username exists in the database.
+        /// </summary>
+        /// <param name="username">The username to check.</param>
+        /// <returns>True if the username exists, otherwise false.</returns>
         public bool UsernameExists(string username)
         {
             bool usernameExists;
@@ -36,6 +63,11 @@ namespace ExpenseSplittingApplication.Common.Helper
             return usernameExists;
         }
 
+        /// <summary>
+        /// Executes a SQL query and returns the result as a DataTable.
+        /// </summary>
+        /// <param name="query">The SQL query to execute.</param>
+        /// <returns>A DataTable containing the query results.</returns>
         public DataTable ExecuteQuery(string query)
         {
             IDbConnection connection = new MySqlConnection();

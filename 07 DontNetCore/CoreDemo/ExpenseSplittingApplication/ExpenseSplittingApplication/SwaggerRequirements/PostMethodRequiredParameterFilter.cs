@@ -5,8 +5,16 @@ using System.Linq;
 
 namespace ExpenseSplittingApplication.SwaggerRequirements
 {
+    /// <summary>
+    /// Operation filter for modifying OpenAPI schema based on HTTP method and controller context.
+    /// </summary>
     public class PostMethodRequiredParameterFilter : IOperationFilter
     {
+        /// <summary>
+        /// Applies modifications to the OpenAPI operation based on HTTP method and request body schema.
+        /// </summary>
+        /// <param name="operation">The OpenAPI operation being modified.</param>
+        /// <param name="context">The context of the operation filter.</param>
         public void Apply(OpenApiOperation operation, OperationFilterContext context)
         {
             if (operation.RequestBody != null && operation.RequestBody.Content.ContainsKey("application/json"))
@@ -15,18 +23,19 @@ namespace ExpenseSplittingApplication.SwaggerRequirements
 
                 if (jsonSchema != null)
                 {
-                    // Resolve schema reference
+                    // Resolve schema reference if present
                     if (jsonSchema.Reference != null)
                     {
                         var schemaReferenceId = jsonSchema.Reference.Id;
                         jsonSchema = context.SchemaRepository.Schemas[schemaReferenceId];
                     }
 
+                    // Modify schema properties based on HTTP method
                     if (jsonSchema.Properties.Count > 0)
                     {
                         if (context.ApiDescription.HttpMethod?.ToLower() == "put")
                         {
-                            // Ensure r01101 is not read-only for PUT requests
+                            // Ensure 'r01101' is not read-only for PUT requests
                             if (jsonSchema.Properties.ContainsKey("r01101"))
                             {
                                 jsonSchema.Properties["r01101"].ReadOnly = false;
@@ -34,7 +43,7 @@ namespace ExpenseSplittingApplication.SwaggerRequirements
                         }
                         else if (context.ApiDescription.HttpMethod?.ToLower() == "post")
                         {
-                            // Set r01101 as read-only for POST requests
+                            // Set 'r01101' as read-only for POST requests
                             if (jsonSchema.Properties.ContainsKey("r01101"))
                             {
                                 jsonSchema.Properties["r01101"].ReadOnly = true;
@@ -44,6 +53,12 @@ namespace ExpenseSplittingApplication.SwaggerRequirements
                 }
             }
         }
+
+        /// <summary>
+        /// Applies additional modifications to the OpenAPI operation based on HTTP method and controller context.
+        /// </summary>
+        /// <param name="operation">The OpenAPI operation being modified.</param>
+        /// <param name="context">The context of the operation filter.</param>
         public void Apply2(OpenApiOperation operation, OperationFilterContext context)
         {
             string? httpMethod = context.ApiDescription.HttpMethod;
@@ -55,40 +70,20 @@ namespace ExpenseSplittingApplication.SwaggerRequirements
             {
                 if (httpMethod?.ToLower() == "post")
                 {
-                    /*
-                    OpenApiRequestBody requestBody = operation.RequestBody;
-                    if(requestBody != null)
-                    {
-                        foreach (KeyValuePair<string, OpenApiMediaType> content in requestBody.Content)
-                        {
-                           OpenApiSchema schema =  content.Value.Schema;
-                            if (schema.Properties.ContainsKey("R01F01"))
-                            {
-                                schema.Properties.Remove("R01F01");
-                            }
-
-                            if (schema.Properties.ContainsKey("R01F03"))
-                            {
-                                schema.Properties["R01F03"].Required = new HashSet<string> { "R01F03 prajval" };
-                            }
-                        }
-                    }
-                    */
-
-                    // Iterate through all the content types in the request body
+                    // Iterate through all content types in the request body
                     foreach (var content in operation.RequestBody.Content)
                     {
                         var jsonSchema = content.Value.Schema;
 
                         if (jsonSchema != null)
                         {
-                            // Remove the r01101 parameter from the body schema
+                            // Remove the 'r01101' parameter from the body schema
                             if (jsonSchema.Properties.ContainsKey("r01101"))
                             {
                                 jsonSchema.Properties.Remove("r01101");
                             }
 
-                            // Mark R01103 as required
+                            // Mark 'R01103' as required
                             if (jsonSchema.Properties.ContainsKey("R01103"))
                             {
                                 if (jsonSchema.Required == null)
@@ -99,28 +94,15 @@ namespace ExpenseSplittingApplication.SwaggerRequirements
                             }
                         }
                     }
-
-                    /*
-                    // remove the userID parameter
-                    parameter = operation.Parameters.FirstOrDefault(p => p.Name == "R01F01");
-                    operation.Parameters.Remove(parameter);
-
-                    // mark password as required in case of post
-                    parameter = operation.Parameters.FirstOrDefault(p => p.Name == "R01F03");
-                    if (parameter != null)
-                    {
-                        parameter.Required = true;
-                    }
-                    */
                 }
 
                 if (httpMethod?.ToLower() == "put")
                 {
-                    // remove the password parameter
+                    // Remove the 'R01F03' parameter
                     parameter = operation.Parameters.FirstOrDefault(p => p.Name == "R01F03");
                     operation.Parameters.Remove(parameter);
 
-                    // mark userID as required
+                    // Mark 'R01F01' as required
                     parameter = operation.Parameters.FirstOrDefault(p => p.Name == "R01F01");
                     if (parameter != null)
                     {
@@ -131,4 +113,3 @@ namespace ExpenseSplittingApplication.SwaggerRequirements
         }
     }
 }
-//&& p.In == ParameterLocation.Query
