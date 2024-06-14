@@ -23,6 +23,7 @@ namespace ExpenseSplittingApplication.Models.DTO
         /// Description
         /// </summary>
         [JsonProperty("P01103")]
+        //[MaxLength(150)]
         public string P01F03 { get; set; }
 
         /// <summary>

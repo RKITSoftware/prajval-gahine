@@ -66,6 +66,7 @@ namespace ExpenseSplittingApplication.BL.Master.Service
             {
                 _user = new USR01()
                 {
+                    R01F01 = 0,
                     R01F02 = objDto.R01F02,
                     R01F03 = objDto.R01F03,
                     R01F98 = DateTime.Now,

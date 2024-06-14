@@ -1,6 +1,6 @@
 ﻿
-//let serverBaseUrl = 'http://localhost:5000/api';
-let serverBaseUrl = 'http://localhost:5114/api';
+let serverBaseUrl = 'http://localhost:5000/api';
+//let serverBaseUrl = 'http://localhost:5114/api';
 
 $(async () => {
     const root = $("#root");
@@ -157,12 +157,198 @@ $(async () => {
         columnHidingEnabled: true,
         dataSource: createDs("order"),
         height: "450px",
+        export: {
+            enabled: true,
+        },
+        
+        onExporting: async function (e) {
+            const workbook = new ExcelJS.Workbook();
+            const worksheet = workbook.addWorksheet('Orders');
 
+            const exportGrid = (component, worksheet) => {
+                return DevExpress.excelExporter.exportDataGrid({
+                    topLeftCell: { row: 2, column: 2},
+                    component: component,
+                    worksheet: worksheet,
+                    customizeCell: async function (options) {
+                        const { excelCell, gridCell } = options;
+
+                        if (gridCell.rowType == 'data' || gridCell.rowType == 'header') {
+                            excelCell.fill = {
+                                type: 'pattern',
+                                pattern: 'solid',
+                                bgColor: { argb: 'FFFFCC' },  // Light yellow color
+                                fgColor: { argb: "d2ebff" },
+                            };
+                            excelCell.style.border = {
+                                top: { style: 'thin' },
+                                left: { style: 'thin' },
+                                bottom: { style: 'thin' },
+                                right: { style: 'thin' }
+                            };
+                        }
+
+                        if (gridCell.rowType === 'data' && gridCell.column.dataField === 'userId') {
+                            const userId = gridCell.value;
+                            await $.ajax({
+                                url: `${serverBaseUrl}/user?id=${userId}`,
+                                async: false,
+                                success: function (result) {
+                                    excelCell.value = result.name;
+                                }
+                            });
+                        }
+                    }
+                });
+            };
+            const cellRange = await exportGrid(e.component, worksheet);
+            
+            const visibleRows = e.component._controllers.selection._dataController._items;
+
+            let currentRowIndex = cellRange.to.row + 1;
+
+            for (var row of visibleRows) {
+                //currentRowIndex++;
+                if (row.isExpanded) {
+                    const detailDataSource = new DevExpress.data.DataSource({
+                        store: new DevExpress.data.CustomStore({
+                            load: function (loadOptions) {
+                                const deferred = $.Deferred();
+
+                                $.ajax({
+                                    url: `${serverBaseUrl}/product/order/${row.data.id}`,
+                                    success: function (result) {
+                                        deferred.resolve(result);
+                                    },
+                                    error: function () {
+                                        deferred.reject(`Error while loading products for order id: ${row.data.id}`);
+                                    }
+                                });
+
+                                return deferred.promise();
+                            }
+                        })
+                    });
+
+                    //let detailData2 = await detailDataSource.load().promise();
+                    let detailData2 = $(`containerProduct${row.key}`).dx.getDataSoruce().items();
+
+                    //.then((detailData) => {
+                    //    // Insert detail headers
+                    //    worksheet.spliceRows(currentRowIndex, 0, [null, 'Product Id', 'Name', 'Price', 'Quantity', 'Amount', 'Category']);
+                    //    currentRowIndex++;
+
+                    //    // Insert detail data
+                    //    detailData.forEach((detailRow) => {
+                    //        worksheet.spliceRows(currentRowIndex, 0, [
+                    //            null,
+                    //            detailRow.id,
+                    //            detailRow.name,
+                    //            detailRow.price,
+                    //            detailRow.quantity,
+                    //            detailRow.price * detailRow.quantity,
+                    //            detailRow.category
+                    //        ]);
+                    //        currentRowIndex++;
+                    //    });
+                    //})
+                    currentRowIndex = -1;
+                    worksheet.eachRow(function (row2, rowNumber) {
+                        const orderId = row2.getCell('A').value; // Assuming orderId is in column A
+                        if (orderId === row.key) {
+                            currentRowIndex = rowNumber;
+                            return false; // Stop iteration
+                        }
+                    });
+
+                    if (currentRowIndex !== -1) {
+                        worksheet.spliceRows(currentRowIndex + 1, 0, [null, 'Product Id', 'Name', 'Price', 'Quantity', 'Amount', 'Category']);
+                        
+                        const prodHeading = worksheet.getRow(currentRowIndex + 1);
+
+                        let producRowStartIndex = currentRowIndex + 1;
+
+                        // Set the font of each cell in the row to bold
+                        prodHeading.eachCell({ includeEmpty: false }, function (cell) {
+                            cell.font = { bold: true };
+                            cell.fill = {
+                                type: 'pattern',
+                                pattern: 'solid',
+                                bgColor: { argb: 'FFFFCC' },  // Light yellow color
+                                fgColor: { argb: "88cafc" },
+                            };
+                            cell.style.border = {
+                                top: { style: 'thin' },
+                                left: { style: 'thin' },
+                                bottom: { style: 'thin' },
+                                right: { style: 'thin' }
+                            };
+                        });
+                        currentRowIndex++;
+
+                        // Insert detail data
+                        detailData2.forEach((detailRow) => {
+                            worksheet.spliceRows(currentRowIndex + 1, 0, [
+                                null,
+                                detailRow.id,
+                                detailRow.name,
+                                detailRow.price,
+                                detailRow.quantity,
+                                detailRow.price * detailRow.quantity,
+                                detailRow.category
+                            ]);
+                            currentRowIndex++;
+                        });
+
+                        let productRowEndIndex = currentRowIndex;
+
+
+                        for (let i = producRowStartIndex; i <= productRowEndIndex; i++) {
+                            const row = worksheet.getRow(i);
+                            row.eachCell({ includeEmpty: false }, function (cell) {
+                                cell.fill = {
+                                    type: 'pattern',
+                                    pattern: 'solid',
+                                    bgColor: { argb: 'FFFFCC' },  // Light yellow color
+                                    fgColor: { argb: "88cafc" },
+                                };
+                                cell.style.border = {
+                                    top: { style: 'thin' },
+                                    left: { style: 'thin' },
+                                    bottom: { style: 'thin' },
+                                    right: { style: 'thin' }
+                                };
+                            });
+                        }
+                    }
+
+                   
+                    //detailPromises.push(
+
+                    //);
+                }
+            }
+
+            //await visibleRows.forEach(async (row) => {
+                
+            //});
+            
+            const buffer = await workbook.xlsx.writeBuffer();
+            //.then((buffer) => {
+            //    saveAs(new Blob([buffer], { type: 'application/octet-stream' }), 'Orders.xlsx');
+            //});
+                saveAs(new Blob([buffer], { type: 'application/octet-stream' }), 'Orders.xlsx');
+
+            e.cancel = true;
+        },
         masterDetail: {
             enabled: true,
             template(container, options) {
                 $("<div>")
                     .dxDataGrid({
+                        elementAttr: {
+                            id: `containerProduct${options.key}`
+                        },
                         dataSource: new DevExpress.data.DataSource({
                             store: new DevExpress.data.CustomStore({
                                 load: function (loadOptions) {
@@ -182,6 +368,70 @@ $(async () => {
                                 }
                             }),
                         }),
+                        columns: [
+                            {
+                                dataField: "id",
+                                caption: "Product Id",
+                            },
+                            {
+                                dataField: "name",
+                                caption: "Name",
+                            },
+                            {
+                                dataField: "price",
+                                caption: "Price",
+                                format: 'currency',
+                            },
+                            {
+                                dataField: "quantity",
+                                caption: "Quantity",
+                            },
+                            {
+                                caption: "Amount",
+                                calculateCellValue: function (rowData) {
+                                    return rowData.price * rowData.quantity;
+                                },
+                                allowSorting: true,
+                                format: 'currency',
+                            },
+                            {
+                                dataField: "category",
+                                caption: "Category",
+                                groupIndex: 0,
+                            },
+
+                        ],
+                        summary: {
+                            groupItems: [
+                                {
+                                    column: 'id',
+                                    summaryType: 'count',
+                                    displayFormat: '{0} products',
+                                    showInGroupFooter: true,
+                                    alignByColumn: true,
+                                },
+                                {
+                                    column: "Amount",
+                                    summaryType: 'sum',
+                                    valueFormat: 'currency',
+                                    displayFormat: 'Total: {0}',
+                                    showInGroupFooter: true,
+                                    alignByColumn: true,
+                                }
+                            ],
+                            totalItems: [
+                                {
+                                    column: "quantity",
+                                    summaryType: "sum",
+                                    displayFormat: 'Items: {0}',
+                                },
+                                {
+                                    column: "Amount",
+                                    summaryType: "sum",
+                                    valueFormat: 'currency',
+                                },
+                            ]
+                        }
                     })
                     .appendTo(container);
             }
@@ -428,3 +678,39 @@ function attachWidgetsToWindow() {
     window.productDGW = $("#productDgContainer").dxDataGrid("instance");
     window.orderDGW = $("#orderDgContainer").dxDataGrid("instance");
 }
+
+
+
+                    /*
+                    
+// Create a new workbook and worksheet
+const workbook = new ExcelJS.Workbook();
+const worksheet = workbook.addWorksheet('Outline Example');
+
+// Set column headers
+worksheet.columns = [
+  { header: 'Category', key: 'category' },
+  { header: 'Value', key: 'value' }
+];
+
+// Add some data with outline levels
+worksheet.addRow({ category: 'Category 1', value: 100, outlineLevel: 1 }); // Outline level 1
+worksheet.addRow({ category: 'Subcategory 1.1', value: 50, outlineLevel: 2 }); // Outline level 2
+worksheet.addRow({ category: 'Subcategory 1.2', value: 50, outlineLevel: 2 }); // Outline level 2
+worksheet.addRow({ category: 'Category 2', value: 200, outlineLevel: 1 }); // Outline level 1
+worksheet.addRow({ category: 'Subcategory 2.1', value: 100, outlineLevel: 2 }); // Outline level 2
+worksheet.addRow({ category: 'Subcategory 2.2', value: 100, outlineLevel: 2 }); // Outline level 2
+
+// Apply outline settings to the worksheet
+worksheet.properties.outlineLevelCol = 1; // Show outline level on the column
+worksheet.properties.outlineLevelRow = 1; // Show outline level on the row
+
+// Set the view to show outlines
+worksheet.views = [
+  { state: 'outline', showOutlineSymbols: true }
+];
+
+// Save the workbook
+
+saveAs(workbook.xlsx.writeBuffer(), { type: 'application/octet-stream' }), 'Orders.xlsx');
+*/

@@ -314,7 +314,7 @@ namespace ExpenseSplittingApplication.BL.Master.Service
 
             using (IDbConnection db = _dbFactory.OpenDbConnection())
             {
-                db.Update<CNT01>(updateOnly: new { t01f05 = 1 }, where: (cnt) => cnt.T01F05 == false && (cnt.T01F02 == userID && cnt.T01F03 == payableUserId) || (cnt.T01F02 == payableUserId && cnt.T01F03 == userID));
+                db.Update<CNT01>(updateOnly: new { t01f05 = true }, where: (cnt) => cnt.T01F05 == false && (cnt.T01F02 == userID && cnt.T01F03 == payableUserId) || (cnt.T01F02 == payableUserId && cnt.T01F03 == userID));
             }
 
             response.Message = $"Due amount {amountDB} against user {payableUserId} settled successfully";

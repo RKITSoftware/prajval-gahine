@@ -103,8 +103,6 @@ namespace ExpenseSplittingApplication.DL.Interface
 
             foreach (DataRow row in dataTable.AsEnumerable())
             {
-                uint y = 10;
-                int x = (int)y;
                 int recivableUserID = Convert.ToInt32(row["T01F03"]);
                 double amount = Convert.ToDouble(row["T01F04"]);
 

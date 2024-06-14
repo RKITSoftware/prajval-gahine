@@ -30,7 +30,7 @@ namespace ExpenseSplittingApplication.Extensions
             services.AddBLServices();
             services.AddDBContexts();
             services.AddSingleton<IUtility, Utility>();
-            services.AddUserLoggingService();
+            services.AddLoggingServices();
         }
 
         /// <summary>
@@ -40,12 +40,12 @@ namespace ExpenseSplittingApplication.Extensions
         /// <param name="connectionString">The database connection string.</param>
         public static void AddApplicationConnections(this IServiceCollection services, string connectionString)
         {
-            services.AddSingleton<IDbConnectionFactory>(provider =>
+            services.AddTransient<IDbConnectionFactory>(provider =>
             {
                 return new OrmLiteConnectionFactory(connectionString, MySqlDialect.Provider);
             });
 
-            services.AddSingleton<IDbConnection>(provider =>
+            services.AddTransient<IDbConnection>(provider =>
             {
                 return new MySqlConnection(connectionString);
             });
@@ -55,7 +55,7 @@ namespace ExpenseSplittingApplication.Extensions
         /// Adds user logging service to the service collection.
         /// </summary>
         /// <param name="services">The service collection.</param>
-        public static void AddUserLoggingService(this IServiceCollection services)
+        public static void AddLoggingServices(this IServiceCollection services)
         {
             services.AddTransient<UserLoggerService>((serviceProvider) =>
             {
@@ -63,6 +63,8 @@ namespace ExpenseSplittingApplication.Extensions
                 string userId = contextAccessor.HttpContext.User.FindFirst("userId")?.Value ?? "DefaultUser";
                 return new UserLoggerService(userId);
             });
+
+            services.AddSingleton<ApplicationLoggerService>();
         }
 
         /// <summary>
@@ -71,9 +73,9 @@ namespace ExpenseSplittingApplication.Extensions
         /// <param name="services">The service collection.</param>
         public static void AddBLServices(this IServiceCollection services)
         {
-            services.AddScoped<IUSR01Service, BLUSR01Handler>();
-            services.AddScoped<IEXP01Service, BLEXP01Handler>();
-            services.AddScoped<JwtTokenHandler>();
+            services.AddTransient<IUSR01Service, BLUSR01Handler>();
+            services.AddTransient<IEXP01Service, BLEXP01Handler>();
+            services.AddTransient<JwtTokenHandler>();
         }
 
         /// <summary>
@@ -82,8 +84,8 @@ namespace ExpenseSplittingApplication.Extensions
         /// <param name="services">The service collection.</param>
         public static void AddDBContexts(this IServiceCollection services)
         {
-            services.AddSingleton<IDBUserContext, DBUSR01Context>();
-            services.AddSingleton<IDBExpenseContext, DBEXP01Context>();
+            services.AddTransient<IDBUserContext, DBUSR01Context>();
+            services.AddTransient<IDBExpenseContext, DBEXP01Context>();
         }
     }
 }

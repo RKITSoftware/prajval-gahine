@@ -340,6 +340,7 @@ namespace DgServer.Data
 
                 LstOrder.Add(order);
             }
+            LstOrder[0].Id  = 7121;
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using DgServer.Data;
 using DgServer.Models.Entity;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 
 namespace DgServer.Controllers
 {
@@ -16,9 +17,13 @@ namespace DgServer.Controllers
         }
 
         [HttpGet("")]
-        public IActionResult GetAll(int skip = 0, int take = 10)
+        public IActionResult GetAll(int? skip, int? take)
         {
-            return Ok(_dataStore.LstOrder.Skip(skip).Take(take));
+            if(skip == null)
+            {
+                return Ok(_dataStore.LstOrder);
+            }
+            return Ok(_dataStore.LstOrder.Skip((int)skip).Take((int)take));
         }
 
         [HttpGet("{id}")]

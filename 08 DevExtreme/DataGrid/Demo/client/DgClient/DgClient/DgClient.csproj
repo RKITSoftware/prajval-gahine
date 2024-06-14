@@ -108,6 +108,7 @@
     <Content Include="Content\dx.material.teal.light.css" />
     <Content Include="Content\dx.softblue.compact.css" />
     <Content Include="Content\dx.softblue.css" />
+    <Content Include="DG\debug-utility.js" />
     <Content Include="DG\index.html" />
     <Content Include="DG\style.css" />
     <Content Include="DG\script.js" />
@@ -172,6 +173,8 @@
     <Content Include="Scripts\vectormap-utils\dx.vectormaputils.debug.js" />
     <Content Include="Scripts\vectormap-utils\dx.vectormaputils.js" />
     <Content Include="Scripts\vectormap-utils\dx.vectormaputils.node.js" />
+    <Content Include="test\test.html" />
+    <Content Include="test\test.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>

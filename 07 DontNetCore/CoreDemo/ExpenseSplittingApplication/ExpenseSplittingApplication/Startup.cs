@@ -1,4 +1,5 @@
 ﻿using ExpenseSplittingApplication.Extensions;
+using ExpenseSplittingApplication.Middlewares;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -145,6 +146,8 @@ namespace ExpenseSplittingApplication
         {
             // Use developer exception page for development environment
             app.UseDeveloperExceptionPage();
+
+            app.UseMiddleware<ExceptionHandlingMiddleware>();
 
             // Serve Swagger UI and Swagger JSON
             app.UseSwagger();
