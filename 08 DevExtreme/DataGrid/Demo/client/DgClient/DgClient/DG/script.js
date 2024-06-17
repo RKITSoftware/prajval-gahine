@@ -382,7 +382,7 @@ $(async () => {
                                 caption: "Price",
                                 format: 'currency',
                             },
-                            {
+                            {   
                                 dataField: "quantity",
                                 caption: "Quantity",
                             },
@@ -681,7 +681,7 @@ function attachWidgetsToWindow() {
 
 
 
-                    /*
+/*
                     
 // Create a new workbook and worksheet
 const workbook = new ExcelJS.Workbook();

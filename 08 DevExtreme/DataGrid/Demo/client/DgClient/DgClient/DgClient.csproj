@@ -112,6 +112,10 @@
     <Content Include="DG\index.html" />
     <Content Include="DG\style.css" />
     <Content Include="DG\script.js" />
+    <Content Include="excel\exceljs.js" />
+    <Content Include="excel\fileSaver.js" />
+    <Content Include="excel\index.html" />
+    <Content Include="excel\script.js" />
     <Content Include="Scripts\cldr.js" />
     <Content Include="Scripts\cldr\event.js" />
     <Content Include="Scripts\cldr\supplemental.js" />
