@@ -1,6 +1,6 @@
 ﻿
-let serverBaseUrl = 'http://localhost:5000/api';
-//let serverBaseUrl = 'http://localhost:5114/api';
+//var serverBaseUrl = 'http://localhost:5000/api';
+let serverBaseUrl = 'http://localhost:5114/api';
 
 $(async () => {
     const root = $("#root");
@@ -105,6 +105,16 @@ $(async () => {
         columnAutoWidth: true,
         dataSource: createDs("product"),
         height: "450px",
+        //allowDragging: true,
+        rowDragging: {
+            group: "xyz",
+            //onRemove: function (e) {
+            //    e.component._draggedRow = e.component.getKeyByRowIndex(e.fromIndex);
+            //},
+            //onDragStart: function (e) {
+            //    e.component._draggedRow = e.component.getKeyByRowIndex(e.fromIndex);
+            //},
+        },
         columns: [
             {
                 dataField: "id",
@@ -157,17 +167,141 @@ $(async () => {
         columnHidingEnabled: true,
         dataSource: createDs("order"),
         height: "450px",
+        allowDragging: true,
+        rowDragging: {
+            group: "xyz",
+            allowDropInsideItem: true,
+            //allowReordering: true,
+            onAdd: function (e) {
+                var popup = $("#temp")
+                    .dxPopup({
+                        height: 'auto',
+                        width: '300px',
+                        visible: false,
+                        onShown: function (e) {
+                            $("#product-quantity").dxNumberBox("instance").focus();
+                        },
+                        contentTemplate: async function (container) {
+
+                            $("<div>")
+                                .dxList({
+                                    dataSource: [
+                                        {
+                                            key: "Product Name",
+                                            value: (await e.fromComponent.byKey(e.fromComponent.getKeyByRowIndex(e.fromIndex))).name,
+                                        },
+                                        {
+                                            key: "Order Id",
+                                            value: (await e.toComponent.byKey(e.toComponent.getKeyByRowIndex(e.toIndex))).id,
+                                        },
+                                        {
+                                            key: "User Id",
+                                            value: (await e.toComponent.byKey(e.toComponent.getKeyByRowIndex(e.toIndex))).userId,
+                                        }
+                                    ],
+                                    itemTemplate: function (data) {
+                                        return "<div><b>" + data.key + ":</b> " + data.value + "</div>";
+                                    },
+                                    height: 'auto'
+                                })
+                                .appendTo(container);
+
+                            $("<div>")
+                                .dxNumberBox({
+                                    elementAttr: {
+                                        id: "product-quantity",
+                                    },
+                                    placeholder: "Enter Quantity",
+                                    onFocusIn: function (e) {
+                                        // Select the entire text when the TextBox gains focus
+                                        e.component._input().select();
+                                    }
+                                })
+                                .appendTo(container);
+
+                            $("<div>")
+                                .dxButton({
+                                    id: "quantity-submit-button",
+                                    text: "Submit",
+                                    onClick: function () {
+                                        var quantity = $("#product-quantity").dxNumberBox("instance").option("value");
+
+                                        $.post(`${serverBaseUrl}/order/product?orderId=${e.toComponent.getKeyByRowIndex(e.toIndex)}&productId=${e.fromComponent.getKeyByRowIndex(e.fromIndex)}&quantity=${quantity}`)
+                                            .done(function (response) {
+                                                //e.toComponent.refresh();
+                                                var productContainer = $(`#containerProduct${e.toComponent.getKeyByRowIndex(e.toIndex)}`);
+                                                if (productContainer.length != 0) {
+                                                    productContainer.dxDataGrid("instance").refresh();
+                                                }
+                                            })
+                                            .always(function () {
+                                                popup.hide();
+                                            });
+                                    }
+                                })
+                                .appendTo(container);
+                        }
+                    })
+                    .dxPopup("instance");
+
+                popup.show();
+
+            },
+        },
         export: {
             enabled: true,
         },
-        
+        onToolbarPreparing: function (e1) {
+            e1.toolbarOptions.items.unshift(
+                {
+                    location: "after",
+                    widget: "dxTextBox",
+                    options: {
+                        placeholder: "Filter by State",
+                        onValueChanged: function (e2) {
+                            var filterValue = e2.value;
+                            e1.component.getDataSource().filter(["deliveryAddress.state", "contains", filterValue]);
+                            e1.component.getDataSource().load();
+                        }
+                    }
+                }
+            );
+        },
+        onEditorPreparing: function (e) {
+            if (e.dataField == "userId" && e.parentType === "filterRow") {
+                console.log("onEditorPreparing", e);
+                e.editorName = "dxTextBox";
+                e.editorOptions = {
+                    onChange: function (e2) {
+                        console.log(e2);
+                        console.log(e2.event.target.value);
+
+                        if (e2.event.target.value === '') {
+                            e.component.getDataSource().filter(null);
+                            e.component.getDataSource().reload();
+                            //e.component.refresh();
+                            return;
+                        }
+
+                        $.ajax({
+                            url: `${serverBaseUrl}/user/id?name=${e2.event.target.value}`,
+                            success: function (id) {
+                                //e.setValue(id);
+                                e.component.getDataSource().filter(["userId", "=", id]);
+                                e.component.refresh();
+                            }
+                        })
+                    }
+                };
+            }
+        },
         onExporting: async function (e) {
             const workbook = new ExcelJS.Workbook();
             const worksheet = workbook.addWorksheet('Orders');
 
             const exportGrid = (component, worksheet) => {
                 return DevExpress.excelExporter.exportDataGrid({
-                    topLeftCell: { row: 2, column: 2},
+                    //topLeftCell: { row: 2, column: 2},
                     component: component,
                     worksheet: worksheet,
                     customizeCell: async function (options) {
@@ -191,7 +325,7 @@ $(async () => {
                         if (gridCell.rowType === 'data' && gridCell.column.dataField === 'userId') {
                             const userId = gridCell.value;
                             await $.ajax({
-                                url: `${serverBaseUrl}/user?id=${userId}`,
+                                url: `${serverBaseUrl}/user/${userId}`,
                                 async: false,
                                 success: function (result) {
                                     excelCell.value = result.name;
@@ -230,28 +364,9 @@ $(async () => {
                         })
                     });
 
-                    //let detailData2 = await detailDataSource.load().promise();
-                    let detailData2 = $(`containerProduct${row.key}`).dx.getDataSoruce().items();
+                    let dataGrid2x = $(`#containerProduct${row.key}`).dxDataGrid("instance");
+                    let detailData2 = dataGrid2x.getDataSource().items();
 
-                    //.then((detailData) => {
-                    //    // Insert detail headers
-                    //    worksheet.spliceRows(currentRowIndex, 0, [null, 'Product Id', 'Name', 'Price', 'Quantity', 'Amount', 'Category']);
-                    //    currentRowIndex++;
-
-                    //    // Insert detail data
-                    //    detailData.forEach((detailRow) => {
-                    //        worksheet.spliceRows(currentRowIndex, 0, [
-                    //            null,
-                    //            detailRow.id,
-                    //            detailRow.name,
-                    //            detailRow.price,
-                    //            detailRow.quantity,
-                    //            detailRow.price * detailRow.quantity,
-                    //            detailRow.category
-                    //        ]);
-                    //        currentRowIndex++;
-                    //    });
-                    //})
                     currentRowIndex = -1;
                     worksheet.eachRow(function (row2, rowNumber) {
                         const orderId = row2.getCell('A').value; // Assuming orderId is in column A
@@ -286,22 +401,23 @@ $(async () => {
                         });
                         currentRowIndex++;
 
+                        dataGrid2x.getDataSource().load();
+                        detailData2 = dataGrid2x.getDataSource().items();
                         // Insert detail data
                         detailData2.forEach((detailRow) => {
                             worksheet.spliceRows(currentRowIndex + 1, 0, [
                                 null,
-                                detailRow.id,
-                                detailRow.name,
-                                detailRow.price,
-                                detailRow.quantity,
-                                detailRow.price * detailRow.quantity,
-                                detailRow.category
+                                detailRow.items[0].id,
+                                detailRow.items[0].name,
+                                detailRow.items[0].price,
+                                detailRow.items[0].quantity,
+                                detailRow.items[0].price * detailRow.items[0].quantity,
+                                detailRow.items[0].category
                             ]);
                             currentRowIndex++;
                         });
 
                         let productRowEndIndex = currentRowIndex;
-
 
                         for (let i = producRowStartIndex; i <= productRowEndIndex; i++) {
                             const row = worksheet.getRow(i);
@@ -321,23 +437,24 @@ $(async () => {
                             });
                         }
                     }
-
-                   
-                    //detailPromises.push(
-
-                    //);
                 }
             }
 
-            //await visibleRows.forEach(async (row) => {
-                
-            //});
+            worksheet.eachRow((row) => {
+                if (row.getCell('A').value) {
+                    row.outlineLevel = 0;
+                }
+                else {
+                    row.outlineLevel = 1;
+                }
+            });
+
+            worksheet.properties.otulineLevelRow = 1;
+            worksheet.properties.otulineLevelCol = 1;
             
             const buffer = await workbook.xlsx.writeBuffer();
-            //.then((buffer) => {
-            //    saveAs(new Blob([buffer], { type: 'application/octet-stream' }), 'Orders.xlsx');
-            //});
-                saveAs(new Blob([buffer], { type: 'application/octet-stream' }), 'Orders.xlsx');
+
+             saveAs(new Blob([buffer], { type: 'application/octet-stream' }), 'Orders.xlsx');
 
             e.cancel = true;
         },
@@ -443,7 +560,11 @@ $(async () => {
                 caption: "Id",
                 allowEditing: false,
                 fixed: true,
-                fixPosition: "left"
+                fixPosition: "left",
+                headerFilter: {
+                    groupInterval: 10,
+                    allowSearch: true,
+                }
             },
             {
                 dataField: "userId",
@@ -465,6 +586,26 @@ $(async () => {
                     },
                     valueExpr: "id",
                     displayExpr: "name"
+                },
+                headerFilter: {
+                    dataSource: {
+                        key: "id",
+                        load: function (options) {
+                            console.log(options);
+                            return $.getJSON(`${serverBaseUrl}/user?all=true`)              ;
+                        },
+                        postProcess: function (results) {
+                            return results.map(user => ({
+                                value: user.id,
+                                text: user.name,
+                                id: user.id,
+                            }));
+                        },
+                        byKey: function (options) {
+                            console.log(options);
+                            return $.getJSON(`${serverBaseUrl}/user?id=` + options);
+                        }
+                    },
                 }
             },
             {
@@ -543,17 +684,25 @@ $(async () => {
         },
         onContentReady: function (e) {
             contentReadyCallCount++;
+        },
+        headerFilter: {
+            visible: true,
+        },
+        filterRow: {
+            visible: true,
         }
     }
 
     const userDGW = createDGWrapper("USER DETAILS", userDgOptions, "userDgContainer");
     const productDGW = createDGWrapper("PRODUCT DETAILS", productDgOptions, "productDgContainer");
     const orderDGW = createDGWrapper("ORDER DETAILS", orderDgOptions, "orderDgContainer");
+    const temp = $("<div>", { id: "temp"});
 
     main.append([
         userDGW,
         productDGW,
         orderDGW,
+        temp
     ]);
 
     root.append([
@@ -565,21 +714,6 @@ $(async () => {
     attachWidgetsToWindow();
 });
 
-
-function deepMerge(target, source) {
-    for (let key in source) {
-        if (source.hasOwnProperty(key)) {
-            if (typeof source[key] === 'object' && source[key] !== null && !Array.isArray(source[key])) {
-                if (!target[key]) {
-                    target[key] = {};
-                }
-                deepMerge(target[key], source[key]);
-            } else if (!target.hasOwnProperty(key)) {
-                target[key] = source[key];
-            }
-        }
-    }
-}
 
 
 function createDGWrapper(heading, dgOptions, containerId) {
@@ -604,6 +738,23 @@ function createDs(resourceName) {
                 url: `${serverBaseUrl}/` + resourceName,
                 method: "GET",
                 data: options.skip != undefined ? { skip: options.skip, take: options.take } : undefined,
+                success: function (result) {
+                    //deferred.resolve([...result, ...result, ...result]);
+                    deferred.resolve(result);
+                },
+                error: function () {
+                    deferred.reject(`Data Loading for ${resourceName} Error`);
+                }
+            });
+
+            return deferred.promise();
+        },
+        byKey: function (key) {
+            let deferred = $.Deferred();
+            // console.log(options);
+            $.ajax({
+                url: `${serverBaseUrl}/` + resourceName + "/" + key,
+                method: "GET",
                 success: function (result) {
                     //deferred.resolve([...result, ...result, ...result]);
                     deferred.resolve(result);

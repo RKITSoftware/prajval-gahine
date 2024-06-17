@@ -31,6 +31,18 @@ namespace DgServer.Controllers
             return Ok(_dataStore.LstUser.FirstOrDefault(user => user.Id == id));
         }
 
+        [HttpGet("name")]
+        public IActionResult GetName(int id)
+        {
+            return Ok(_dataStore.LstUser.FirstOrDefault(user => user.Id == id)?.Name);
+        }
+
+        [HttpGet("id")]
+        public IActionResult GetIdByName(string name)
+        {
+            return Ok(_dataStore.LstUser.FirstOrDefault(user => user.Name == name)?.Id);
+        }
+
         [HttpPost("")]
         public IActionResult Post([FromBody] User user)
         {

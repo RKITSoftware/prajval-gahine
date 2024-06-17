@@ -2,7 +2,7 @@
 using ExpenseSplittingApplication.BL.Common.Service;
 using ExpenseSplittingApplication.BL.Domain;
 using ExpenseSplittingApplication.BL.Master.Interface;
-using ExpenseSplittingApplication.Common.Interface;
+using ExpenseSplittingApplication.Common.Helper;
 using ExpenseSplittingApplication.DL.Interface;
 using ExpenseSplittingApplication.Models;
 using ExpenseSplittingApplication.Models.DTO;
@@ -22,9 +22,6 @@ namespace ExpenseSplittingApplication.BL.Master.Service
     /// </summary>
     public class BLEXP01Handler : IEXP01Service
     {
-
-        private const bool V = true;
-
         /// <summary>
         /// Represents an instance of the EXP01 class, which handles expense-related data.
         /// </summary>
@@ -34,11 +31,6 @@ namespace ExpenseSplittingApplication.BL.Master.Service
         /// Stores a list of contributions (CNT01 instances) related to expenses.
         /// </summary>
         private List<CNT01> _lstContribution;
-
-        /// <summary>
-        /// Provides utility methods and services.
-        /// </summary>
-        private IUtility _utility;
 
         /// <summary>
         /// Factory for creating database connections.
@@ -72,10 +64,9 @@ namespace ExpenseSplittingApplication.BL.Master.Service
         /// <param name="dbFactory">The database connection factory.</param>
         /// <param name="context">The expense context.</param>
         /// <param name="loggerService">The logging service.</param>
-        public BLEXP01Handler(IUtility utility, IDbConnectionFactory dbFactory, IDBExpenseContext context, UserLoggerService loggerService)
+        public BLEXP01Handler(IDBExpenseContext context, UserLoggerService loggerService)
         {
-            _utility = utility;
-            _dbFactory = dbFactory;
+            _dbFactory = EsaOrmliteConnectionFactory.ConnectionFactory;
             _context = context;
             _loggerService = loggerService;
         }
@@ -86,7 +77,16 @@ namespace ExpenseSplittingApplication.BL.Master.Service
         /// <param name="objDto">The DTO containing expense data.</param>
         public void PreSave(DTOEXC objDto)
         {
-            _objExpense = new EXP01() { P01F02 = objDto.ObjDTOEXP01.P01F02, P01F03 = objDto.ObjDTOEXP01.P01F03, P01F04 = objDto.ObjDTOEXP01.P01F04, P01F05 = objDto.ObjDTOEXP01.P01F05, P01F98 = DateTime.Now, };
+            DateTime now = DateTime.Now;
+
+            _objExpense = new EXP01()
+            { 
+                P01F02 = objDto.ObjDTOEXP01.P01F02, 
+                P01F03 = objDto.ObjDTOEXP01.P01F03, 
+                P01F04 = objDto.ObjDTOEXP01.P01F04, 
+                P01F05 = objDto.ObjDTOEXP01.P01F05 ?? now, 
+                P01F98 = DateTime.Now,
+            };
 
             double payeeAmount = Int32.MinValue;
             if (!objDto.IsShareUnequal)
@@ -99,7 +99,7 @@ namespace ExpenseSplittingApplication.BL.Master.Service
                 T01F03 = dtoContribution.T01F03,
                 T01F04 = objDto.IsShareUnequal ? dtoContribution.T01F04 : payeeAmount,
                 T01F05 = objDto.ObjDTOEXP01.P01F02 == dtoContribution.T01F03 ? true : false,
-                T01F98 = DateTime.Now,
+                T01F98 = now,
             })).ToList();
         }
 
@@ -152,7 +152,7 @@ namespace ExpenseSplittingApplication.BL.Master.Service
             }
 
             // check payer userID exists??
-            if (!_utility.UserIDExists(objDto.ObjDTOEXP01.P01F02))
+            if (Utility.UserIDExists(objDto.ObjDTOEXP01.P01F02))
             {
                 response.IsError = true;
                 response.HttpStatusCode = StatusCodes.Status404NotFound;
@@ -166,7 +166,7 @@ namespace ExpenseSplittingApplication.BL.Master.Service
             List<int> lstUserIDNotInDB = _context.GetUserIdsNotInDatabase(lstUserID);
             if (lstUserIDNotInDB.Count > 0)
             {
-                response.IsError = V;
+                response.IsError = true;
                 response.HttpStatusCode = StatusCodes.Status404NotFound;
                 response.Message = "One of provided payee id not found.";
 
@@ -282,7 +282,7 @@ namespace ExpenseSplittingApplication.BL.Master.Service
             }
 
             // check ids against db
-            if (!_utility.UserIDExists(userID))
+            if (Utility.UserIDExists(userID))
             {
                 response.IsError = true;
                 response.Message = $"userid {userID} not found";
@@ -291,7 +291,7 @@ namespace ExpenseSplittingApplication.BL.Master.Service
                 return response;
             }
 
-            if (!_utility.UserIDExists(payableUserId))
+            if (Utility.UserIDExists(payableUserId))
             {
                 response.IsError = true;
                 response.Message = $"payable userid {payableUserId} not found";

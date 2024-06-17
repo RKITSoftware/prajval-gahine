@@ -1,6 +1,7 @@
 ﻿using ExpenseSplittingApplication.BL.Common.Interface;
 using ExpenseSplittingApplication.BL.Common.Service;
 using ExpenseSplittingApplication.BL.Master.Interface;
+using ExpenseSplittingApplication.Common.Helper;
 using ExpenseSplittingApplication.DL.Interface;
 using ExpenseSplittingApplication.Models;
 using ExpenseSplittingApplication.Models.DTO;
@@ -10,6 +11,7 @@ using ServiceStack.Data;
 using ServiceStack.OrmLite;
 using System;
 using System.Data;
+using System.Linq;
 
 namespace ExpenseSplittingApplication.BL.Master.Service
 {
@@ -49,9 +51,9 @@ namespace ExpenseSplittingApplication.BL.Master.Service
         /// <param name="dbFactory">The database connection factory.</param>
         /// <param name="context">The user context.</param>
         /// <param name="loggingService">The logging service.</param>
-        public BLUSR01Handler(IDbConnectionFactory dbFactory, IDBUserContext context, UserLoggerService loggingService)
+        public BLUSR01Handler(IDBUserContext context, UserLoggerService loggingService)
         {
-            _dbFactory = dbFactory;
+            _dbFactory = EsaOrmliteConnectionFactory.ConnectionFactory;
             _dbUserContext = context;
             _loggingService = loggingService;
         }
@@ -84,36 +86,6 @@ namespace ExpenseSplittingApplication.BL.Master.Service
         }
 
         /// <summary>
-        /// Checks if a username already exists in the database.
-        /// </summary>
-        /// <param name="username">The username to check.</param>
-        /// <returns>True if the username exists, otherwise false.</returns>
-        public bool UsernameExists(string username)
-        {
-            bool usernameExists;
-            using (IDbConnection db = _dbFactory.OpenDbConnection())
-            {
-                usernameExists = db.Exists<USR01>(user => user.R01F02 == username);
-            }
-            return usernameExists;
-        }
-
-        /// <summary>
-        /// Checks if a user ID already exists in the database.
-        /// </summary>
-        /// <param name="userID">The user ID to check.</param>
-        /// <returns>True if the user ID exists, otherwise false.</returns>
-        public bool UserIDExists(int userID)
-        {
-            bool userIDExists;
-            using (IDbConnection db = _dbFactory.OpenDbConnection())
-            {
-                userIDExists = db.Exists<USR01>(user => user.R01F01 == userID);
-            }
-            return userIDExists;
-        }
-
-        /// <summary>
         /// Performs pre-validation checks before saving user data.
         /// </summary>
         /// <param name="objDto">The DTO containing user data.</param>
@@ -124,7 +96,7 @@ namespace ExpenseSplittingApplication.BL.Master.Service
 
             if (Operation == EnmOperation.E)
             {
-                if (!UserIDExists(objDto.R01F01))
+                if (!Utility.UserIDExists(objDto.R01F01))
                 {
                     response.IsError = true;
                     response.HttpStatusCode = StatusCodes.Status404NotFound;
@@ -184,7 +156,7 @@ namespace ExpenseSplittingApplication.BL.Master.Service
             {
                 // add
                 // check if username already taken
-                if (UsernameExists(_user.R01F02))
+                if (Utility.UsernameExists(_user.R01F02))
                 {
                     response.IsError = true;
                     response.Message = $"Username: {_user.R01F02} already taken.";
@@ -266,14 +238,15 @@ namespace ExpenseSplittingApplication.BL.Master.Service
         /// <param name="username">The username of the user to retrieve.</param>
         /// <param name="password">The password of the user to retrieve.</param>
         /// <returns>The retrieved user entity (USR01).</returns>
-        public USR01 GetUser(string username, string password)
+        public int GetUserId(string username, string password)
         {
-            USR01 objUSR01;
+            int userId;
             using (IDbConnection db = _dbFactory.OpenDbConnection())
             {
-                objUSR01 = db.Single<USR01>(new { R01F02 = username, R01F03 = password });
+                //objUSR01 = db.Single<USR01>(new { R01F02 = username, R01F03 = password });
+                userId = db.Scalar<USR01, int>(user => user.R01F01, user => user.R01F02 == username && user.R01F03 == password);
             }
-            return objUSR01;
+            return userId;
         }
     }
 }

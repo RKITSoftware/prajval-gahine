@@ -1,4 +1,5 @@
 ﻿using ExpenseSplittingApplication.BL.Master.Interface;
+using ExpenseSplittingApplication.Common.Helper;
 using ExpenseSplittingApplication.Models.POCO;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Logging;
@@ -69,9 +70,9 @@ namespace ExpenseSplittingApplication.BL.Common.Service
             string password = credentials[1];
 
             // Validate user credentials using injected user service
-            USR01 objUSR01 = _userService.GetUser(username, password);
+            int userId= _userService.GetUserId(username, password);
 
-            if (objUSR01 == null)
+            if (userId < 1)
             {
                 return Task.FromResult(AuthenticateResult.Fail("Invalid username or password."));
             }
@@ -79,7 +80,7 @@ namespace ExpenseSplittingApplication.BL.Common.Service
             // Create claims for authenticated user
             Claim[] claims = new Claim[]
             {
-                new Claim(ClaimTypes.Name, objUSR01.R01F02)
+                new Claim(ClaimTypes.Name, userId.ToString())
             };
             ClaimsIdentity identity = new ClaimsIdentity(claims, Scheme.Name);
             ClaimsPrincipal principal = new ClaimsPrincipal(identity);

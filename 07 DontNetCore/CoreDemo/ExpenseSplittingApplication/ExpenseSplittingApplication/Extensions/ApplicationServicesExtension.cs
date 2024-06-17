@@ -2,7 +2,6 @@
 using ExpenseSplittingApplication.BL.Master.Interface;
 using ExpenseSplittingApplication.BL.Master.Service;
 using ExpenseSplittingApplication.Common.Helper;
-using ExpenseSplittingApplication.Common.Interface;
 using ExpenseSplittingApplication.DL.Context;
 using ExpenseSplittingApplication.DL.Interface;
 using Microsoft.AspNetCore.Http;
@@ -26,10 +25,10 @@ namespace ExpenseSplittingApplication.Extensions
         /// <param name="connectionString">The database connection string.</param>
         public static void AddApplicationServices(this IServiceCollection services, string connectionString)
         {
-            services.AddApplicationConnections(connectionString);
+            //services.AddApplicationConnections(connectionString);
             services.AddBLServices();
             services.AddDBContexts();
-            services.AddSingleton<IUtility, Utility>();
+            Utility.Initialize(connectionString);
             services.AddLoggingServices();
         }
 

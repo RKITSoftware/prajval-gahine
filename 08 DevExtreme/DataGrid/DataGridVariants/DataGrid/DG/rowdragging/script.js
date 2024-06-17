@@ -101,7 +101,7 @@ $(function () {
             mode: "cell",
         },
         rowDragging: {
-            group: "productOrder",
+
             keyExpr: "orderID",
             allowReordering: true,
             autoScroll: true,

@@ -1,5 +1,6 @@
-﻿using ExpenseSplittingApplication.Common.Interface;
+﻿using ExpenseSplittingApplication.Common.Helper;
 using ExpenseSplittingApplication.DL.Interface;
+using MySql.Data.MySqlClient;
 using System.Data;
 
 namespace ExpenseSplittingApplication.DL.Context
@@ -15,19 +16,28 @@ namespace ExpenseSplittingApplication.DL.Context
         private readonly IDbConnection _connection;
 
         /// <summary>
-        /// Utility service for common operations.
-        /// </summary>
-        private readonly IUtility _utility;
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="DBUSR01Context"/> class.
         /// </summary>
         /// <param name="connection">The database connection.</param>
         /// <param name="utility">The utility service.</param>
-        public DBUSR01Context(IDbConnection connection, IUtility utility)
+        public DBUSR01Context()
         {
-            _connection = connection;
-            _utility = utility;
+            _connection = new MySqlConnection(Utility.GetConnectionString("378esa"));
+        }
+
+        /// <summary>
+        /// Executes a SQL query and returns the result as a DataTable.
+        /// </summary>
+        /// <param name="query">The SQL query to execute.</param>
+        /// <returns>A DataTable containing the query results.</returns>
+        public DataTable ExecuteQuery(string query)
+        {
+            MySqlDataAdapter adapter = new MySqlDataAdapter(query, (MySqlConnection)_connection);
+
+            DataTable dataTable = new DataTable();
+            adapter.Fill(dataTable);
+
+            return dataTable;
         }
 
         /// <summary>
@@ -43,7 +53,7 @@ namespace ExpenseSplittingApplication.DL.Context
                 FROM
                     USR01";
 
-            return _utility.ExecuteQuery(query);
+            return ExecuteQuery(query);
         }
     }
 }

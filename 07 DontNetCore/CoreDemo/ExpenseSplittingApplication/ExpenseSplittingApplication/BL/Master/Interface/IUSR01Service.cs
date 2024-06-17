@@ -24,7 +24,7 @@ namespace ExpenseSplittingApplication.BL.Master.Interface
         /// <param name="username">The username of the user to retrieve.</param>
         /// <param name="password">The password of the user to retrieve.</param>
         /// <returns>The retrieved user entity (USR01).</returns>
-        USR01 GetUser(string username, string password);
+        int GetUserId(string username, string password);
 
         /// <summary>
         /// Validates the old password for the specified user before changing it.

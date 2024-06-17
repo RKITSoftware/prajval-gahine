@@ -10,13 +10,16 @@ namespace ExpenseSplittingApplication.Models.DTO
         /// Expense ID
         /// </summary>
         [JsonProperty("P01101")]
+        [Required(ErrorMessage = "Expense Id is required")]
+        [Range(0, int.MaxValue, ErrorMessage = "Expense Id cannot be less than 0")]
         public int P01F01 { get; set; }
 
         /// <summary>
         /// User ID (Payer)
         /// </summary>
         [JsonProperty("P01102")]
-        [Required(ErrorMessage = "User ID is required")]
+        [Required(ErrorMessage = "User Id is required")]
+        [Range(0, int.MaxValue, ErrorMessage = "User Id cannot be less than 0")]
         public int P01F02 { get; set; }
 
         /// <summary>
@@ -31,12 +34,13 @@ namespace ExpenseSplittingApplication.Models.DTO
         /// </summary>
         [JsonProperty("P01104")]
         [Required(ErrorMessage = "Amount paid is required.")]
+        [Range(0.0, double.MaxValue, ErrorMessage = "Amount cannot be less than 0")]
         public double P01F04 { get; set; }
 
         /// <summary>
         /// Date of Expense
         /// </summary>
         [JsonProperty("P01105")]
-        public DateTime P01F05 { get; set; }
+        public DateTime? P01F05 { get; set; }
     }
 }

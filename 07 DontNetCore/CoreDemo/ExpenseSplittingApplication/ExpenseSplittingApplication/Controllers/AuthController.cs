@@ -44,12 +44,12 @@ namespace ExpenseSplittingApplication.Controllers
         [AllowAnonymous]
         public IActionResult Login([FromBody] Login login)
         {
-            USR01 objUSR01 = _userHandler.GetUser(login.Username, login.Password);
-            if (objUSR01 == null)
+            int userId = _userHandler.GetUserId(login.Username, login.Password);
+            if (userId < 1)
             {
                 return Unauthorized();
             }
-            string token = _tokenHandler.GenerateToken(objUSR01.R01F01);
+            string token = _tokenHandler.GenerateToken(userId);
             return Ok(token);
         }
     }

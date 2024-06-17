@@ -10,8 +10,8 @@ namespace ExpenseSplittingApplication.Models.DTO
         /// User ID
         /// </summary>
         [JsonProperty("R01101")]
-        [NonZeroUnsingedForPut(ErrorMessage = "userid cannot be 0 for updation")]
-        [ZeroForPost(ErrorMessage = "Userid must be 0 for user creation")]
+        [Required(ErrorMessage = "User Id is required")]
+        [Range(0, int.MaxValue, ErrorMessage = "User Id cannot be less than 0")]
         public int R01F01 { get; set; }
 
         /// <summary>
@@ -26,8 +26,8 @@ namespace ExpenseSplittingApplication.Models.DTO
         /// Password
         /// </summary>
         [JsonProperty("R01103")]
-        [RequiredForPost(ErrorMessage = "Password is required")]
-        [MaxLength(44, ErrorMessage = "Username must be atmost of 44 length.")]
+        [Required(ErrorMessage = "Password is required")]
+        [MaxLength(44, ErrorMessage = "Password must be atmost of 44 length.")]
         public string R01F03 { get; set; }
     }
 }
