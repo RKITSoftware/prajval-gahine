@@ -63,6 +63,12 @@ export default function addSelectBox() {
         groupTemplate(data) {
             return $(`<div class='custom-icon'><span class='dx-icon-box icon'></span> ${data.key}</div>`);
         },
+        acceptCustomValue: true,
+        //dropDownOptions: {
+        //    contentTemplate: function (container) {
+        //        var searchValue = 
+        //    }
+        //},
         itemTemplate(data) {
             return `<div class='custom-item'><div class="custom-item-image"><img alt='Product name' src='${data.imgSrc}' /></div><div class='product-name'>${data.name}</div></div>`;
         },
@@ -72,7 +78,7 @@ export default function addSelectBox() {
                 result = $("<div>")
                     .dxTextBox({
                         placeholder: "Select Product",
-                        readOnly: true,
+                        readOnly: false,
                     });
             }
             else {
@@ -83,7 +89,7 @@ export default function addSelectBox() {
                     .find('.product-name')
                     .dxTextBox({
                         value: data && data.name,
-                        readOnly: true,
+                        readOnly: false,
                         inputAttr: { 'aria-label': 'Name' },
                     });
             }
@@ -153,7 +159,7 @@ export default function addSelectBox() {
             e.component.getDataSource().load();
         }
     }).dxSelectBox("instance");
-
+    window.dsSelectBoxWidget = dsSelectBoxWidget;
     // search and edit select box
     const sESelectBoxFieldWrapper = $(window.myTemplates["field"]);
     sESelectBoxFieldWrapper.find(".dx-field-label").text("Search & Edit");
@@ -244,6 +250,44 @@ export default function addSelectBox() {
         }
     })
 
+    var testArray = [
+        {
+            key: "Group 1",
+            items: [
+                { name: "guj" },
+                { name: "rgb" }
+            ]
+        },
+        {
+            key: "Group 2",
+            items: [
+                { name: "mh" },
+                { name: "gujarat" }
+            ]
+        }
+    ];
+
+    const testSelectBox = $("<div>")
+        .dxSelectBox({
+            acceptCustomValue: true,
+            searchEnabled: true,
+            valueExpr: "name",
+            displayExpr: "name",
+            dataSource: testArray,
+            displayExpr: "name",
+            valueExpr: "name",
+            grouped: true,
+            groupTemplate: function (data) {
+                return `<div>${data.key}</div>`;
+            },
+            searchEnabled: true,
+            searchExpr: ["name", "key"], // Enable searching on both item name and group key
+            itemTemplate: function (data) {
+                return `<div>${data.name}</div>`;
+            }
+        });
+
+    container.append(testSelectBox);
     container.append(itemsSelectBox);
     container.append(dsSelectBox);
     container.append(sESelectBoxFieldWrapper);

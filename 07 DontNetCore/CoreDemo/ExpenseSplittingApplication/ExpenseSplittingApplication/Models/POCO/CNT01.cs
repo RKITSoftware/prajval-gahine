@@ -34,7 +34,7 @@ namespace ExpenseSplittingApplication.Models.POCO
         /// <summary>
         /// User Expense Payee creation datetime
         /// </summary>
-        public DateTime T01F98 { get; set; }
+        public DateTime? T01F98 { get; set; }
 
         /// <summary>
         /// User Expense Payee last modified datetime

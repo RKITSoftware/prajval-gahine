@@ -39,7 +39,7 @@ namespace ExpenseSplittingApplication.Controllers
         [AllowAnonymous]
         public IActionResult PostUser([FromBody] DTOUSR01 objDTOUSR01)
         {
-            throw new System.Exception("Prajvakl");
+            //throw new System.Exception("Prajvakl");
             _usr01Service.Operation = EnmOperation.A;
             Response response = _usr01Service.PreValidation(objDTOUSR01);
 

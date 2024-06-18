@@ -15,13 +15,14 @@ namespace DgServer
                 options.AddPolicy("AllowClientOrigin", builder =>
                 {
                     builder
-                        .WithOrigins("http://localhost:58926")
+                        .WithOrigins("http://localhost:58926", "http://localhost:57122")
                         .AllowAnyHeader()
                         .AllowAnyMethod();
                 });
             });
 
-            builder.Services.AddControllers();
+            builder.Services.AddControllers().AddNewtonsoftJson();
+
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();

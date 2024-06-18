@@ -5,6 +5,8 @@ namespace DgServer.Data
 {
     public class DataStore
     {
+        public List<MenuItem> LstMenu { get; set; }
+
         public List<User> LstUser { get; set; }
         public int preUserCount = 30;
         public int nextUserId;
@@ -19,6 +21,41 @@ namespace DgServer.Data
 
         public DataStore()
         {
+            //"Products>Add New Product&Manage Products>(View All Products&Edit Product&Delete Product)&"
+            LstMenu = new List<MenuItem>();
+
+            MenuItem usersMenu = new MenuItem("1", "Users");
+            usersMenu.AddChild(new MenuItem("Add New User"));
+            MenuItem manageUsersMenu = usersMenu.AddChild(new MenuItem("Manage Users"));
+            manageUsersMenu.AddChild(new MenuItem("View All Users"));
+            manageUsersMenu.AddChild(new MenuItem("Edit User"));
+            manageUsersMenu.AddChild(new MenuItem("Delete User"));
+            MenuItem userRolesMenu = usersMenu.AddChild(new MenuItem("Manage Users"));
+            userRolesMenu.AddChild(new MenuItem("Manage Roles"));
+            userRolesMenu.AddChild(new MenuItem("Assign Roles"));
+
+            MenuItem productsMenu = new MenuItem("2", "Products");
+            productsMenu.AddChild(new MenuItem("Add New Product"));
+            MenuItem manageProductsMenu = productsMenu.AddChild(new MenuItem("Manage Products"));
+            manageProductsMenu.AddChild(new MenuItem("View All Products"));
+            manageProductsMenu.AddChild(new MenuItem("Edit Product"));
+            manageProductsMenu.AddChild(new MenuItem("Delete Product"));
+
+            MenuItem ordersMenu = new MenuItem("3", "Orders");
+            ordersMenu.AddChild(new MenuItem("Place New Order"));
+            MenuItem manageOrdersMenu = ordersMenu.AddChild(new MenuItem("Manage Orders"));
+            manageOrdersMenu.AddChild(new MenuItem("View All Orders"));
+            manageOrdersMenu.AddChild(new MenuItem("Edit Order"));
+            manageOrdersMenu.AddChild(new MenuItem("Cancel Order"));
+            MenuItem orderHistoryMenu = ordersMenu.AddChild(new MenuItem("Order History"));
+            orderHistoryMenu.AddChild(new MenuItem("View Past Orders"));
+            orderHistoryMenu.AddChild(new MenuItem("Reorder"));
+
+            LstMenu.Add(usersMenu);
+            LstMenu.Add(productsMenu);
+            LstMenu.Add(ordersMenu);
+
+
             nextUserId = preUserCount + 1;
             nextProductId = preProductCount + 1;
             nextOrderId = preOrderCount + 1;

@@ -35,7 +35,7 @@ namespace ExpenseSplittingApplication.Models.POCO
         /// <summary>
         /// Expense creation datetime
         /// </summary>
-        public DateTime P01F98 { get; set; }
+        public DateTime? P01F98 { get; set; }
 
         /// <summary>
         /// Expense last modified datetime

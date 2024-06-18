@@ -10,6 +10,7 @@ using ExpenseSplittingApplication.Models.POCO;
 using Microsoft.AspNetCore.Http;
 using ServiceStack.Data;
 using ServiceStack.OrmLite;
+using ServiceStack.OrmLite.MySql;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -152,7 +153,7 @@ namespace ExpenseSplittingApplication.BL.Master.Service
             }
 
             // check payer userID exists??
-            if (Utility.UserIDExists(objDto.ObjDTOEXP01.P01F02))
+            if (!Utility.UserIDExists(objDto.ObjDTOEXP01.P01F02))
             {
                 response.IsError = true;
                 response.HttpStatusCode = StatusCodes.Status404NotFound;
@@ -282,7 +283,7 @@ namespace ExpenseSplittingApplication.BL.Master.Service
             }
 
             // check ids against db
-            if (Utility.UserIDExists(userID))
+            if (!Utility.UserIDExists(userID))
             {
                 response.IsError = true;
                 response.Message = $"userid {userID} not found";
@@ -291,7 +292,7 @@ namespace ExpenseSplittingApplication.BL.Master.Service
                 return response;
             }
 
-            if (Utility.UserIDExists(payableUserId))
+            if (!Utility.UserIDExists(payableUserId))
             {
                 response.IsError = true;
                 response.Message = $"payable userid {payableUserId} not found";
@@ -314,7 +315,27 @@ namespace ExpenseSplittingApplication.BL.Master.Service
 
             using (IDbConnection db = _dbFactory.OpenDbConnection())
             {
-                db.Update<CNT01>(updateOnly: new { t01f05 = true }, where: (cnt) => cnt.T01F05 == false && (cnt.T01F02 == userID && cnt.T01F03 == payableUserId) || (cnt.T01F02 == payableUserId && cnt.T01F03 == userID));
+                /*
+                SqlExpression<CNT01> sqlExp = db.From<CNT01>()
+                    .Join<EXP01>((c, e) => c.T01F02 == e.P01F01)
+                    .Where<CNT01, EXP01>((c, e) => !c.T01F05 && ((c.T01F03 == userID && e.P01F02 == payableUserId) || (c.T01F03 == payableUserId && e.P01F02 == userID)));
+
+                db.UpdateOnly<CNT01>(() => new CNT01() { T01F05 = true }, sqlExp);
+                */
+
+                string query = string.Format(@"
+                        UPDATE cnt01
+                        INNER JOIN exp01 ON (cnt01.t01f02 = exp01.p01f01)
+                        SET t01f05 = 1 
+                        WHERE (
+                            cnt01.t01f05 = 0 
+                            AND (
+                                (cnt01.t01f03 = {0} AND exp01.p01f02 = {1})
+                                OR (cnt01.t01f03 = {1} AND exp01.p01f02 = {0})
+                            )
+                        )", userID, payableUserId);
+
+                db.ExecuteSql(query);
             }
 
             response.Message = $"Due amount {amountDB} against user {payableUserId} settled successfully";

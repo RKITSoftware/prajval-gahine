@@ -19,12 +19,12 @@ namespace ExpenseSplittingApplication.Models.POCO
         /// <summary>
         /// Password
         /// </summary>
-        public string R01F03 { get; set; }
+        public string? R01F03 { get; set; }
 
         /// <summary>
         /// User creation datetime
         /// </summary>
-        public DateTime R01F98 { get; set; }
+        public DateTime? R01F98 { get; set; }
 
         /// <summary>
         /// User last modified datetime

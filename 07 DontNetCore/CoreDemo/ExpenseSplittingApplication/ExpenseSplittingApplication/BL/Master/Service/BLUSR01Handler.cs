@@ -119,27 +119,27 @@ namespace ExpenseSplittingApplication.BL.Master.Service
                 if (Operation == EnmOperation.A)
                 {
                     db.Insert<USR01>(_user);
-
-                    response.Message = $"Welcome, {_user.R01F02}! Your account has been created.";
                 }
                 else
                 {
                     _loggingService.Information("User update initiated...");
 
-                    Action<IDbCommand> commandFilter = cmd =>
-                    {
-                        cmd.Parameters.RemoveAt("@R01F03");
-                        cmd.Parameters.RemoveAt("@R01F04");
-                        cmd.CommandText = cmd.CommandText.Replace(", `R01F03`=@R01F03", "");
-                        cmd.CommandText = cmd.CommandText.Replace(", `R01F04`=@R01F04", "");
-                    };
-
-                    db.Update<USR01>(_user, commandFilter);
-                    response.Message = $"User details have been successfully updated.";
+                    db.UpdateNonDefaults<USR01>(_user, user => user.R01F01 == _user.R01F01);
 
                     _loggingService.Information("User update completed...");
                 }
             }
+
+            if (Operation == EnmOperation.A)
+            {
+                response.Message = $"Welcome, {_user.R01F02}! Your account has been created.";
+            }
+            else
+            {
+
+                response.Message = $"User details have been successfully updated.";
+            }
+
             response.HttpStatusCode = StatusCodes.Status200OK;
 
             return response;
@@ -223,7 +223,7 @@ namespace ExpenseSplittingApplication.BL.Master.Service
             Response response = new Response();
             using (IDbConnection db = _dbFactory.OpenDbConnection())
             {
-                db.Update<USR01>(new { R01F03 = newPassword }, where: user => user.R01F01 == userID);
+                db.Update<USR01>(new { R01F03 = newPassword, R01F99 = DateTime.Now }, where: user => user.R01F01 == userID);
             }
             response.HttpStatusCode = StatusCodes.Status200OK;
             response.Message = "Password was changed successfully.";
