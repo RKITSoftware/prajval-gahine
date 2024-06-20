@@ -39,22 +39,39 @@ export default function addNumberBox() {
     var formatNumberWidget = formateNumberContainer.find(".dx-field-value").dxNumberBox({
         placeholder: "Enter Number",
         //value: 123456.78,
-        format: {
+        //value: "P123N456G789",
+        value: "123456789",
+        format2: {
             type: "currency",
             currency: "INR",  
             precision: 2,
-            locale: "en-IN", // English (India)
-            //formatter: function (value) {
-            //    // formatter run several time at startup
-            //    //console.log(value);
-            //    //return toHindiNumerals(value);
-            //    return value;
-            //}
+            //locale: "en-IN", // English (India)
+            formatter: function (value) {
+                 //formatter run several time at startup
+                console.log("formatter", value);
+                //return toHindiNumerals(value);
+                //return value;
+                return "7";
+            }
+        },
+        format: {
+            type: "custom",
+            formatter: function (value) {
+                console.log(value);
+                // Custom formatting logic
+                //return "USD " + value.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+                console.log("input", value);
+                console.log("output", value.toString().replace(/\d/g, "$&a"));
+                //return "USD 22A" + value.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,') + " P922NG";
+                return value.toString().replace(/\d/g, "$&a");
+                //return toHindiNumerals(value).toString();
+            }
         },
         //format: "#,##0.00",
         showClearButton: true,
         showSpinButtons: true
     }).dxNumberBox("instance");
+    window.formatNumberWidget = formatNumberWidget;
 
     const dropDownContainer = $("<div>").appendTo(formateNumberContainer);
 

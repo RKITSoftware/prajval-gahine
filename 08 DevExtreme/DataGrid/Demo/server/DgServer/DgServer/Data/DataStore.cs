@@ -1,5 +1,7 @@
 ﻿using DgServer.Models.Entity;
 using DgServer.Models.Domain;
+using DgServer.Models.Domain.File;
+using System.Text.Json;
 
 namespace DgServer.Data
 {
@@ -19,8 +21,63 @@ namespace DgServer.Data
         public int preOrderCount = 0;
         public int nextOrderId;
 
+        public FolderStruct Root { get; set; }
+
+        public string FileStructJson { get; set; }
+        public static dynamic CreateDirectoryNode(DirectoryInfo directoryInfo)
+        {
+            var node = new
+            {
+                id = directoryInfo.FullName,
+                type = "folder",
+                name = directoryInfo.Name,
+                children = directoryInfo.GetDirectories()
+                    .Select(CreateDirectoryNode)
+                    .Concat(directoryInfo.GetFiles()
+                        .Select(fileInfo => new
+                        {
+                            id = fileInfo.FullName,
+                            type = "file",
+                            name = fileInfo.Name
+                        }))
+            };
+
+            return node;
+        }
+        public static string GetRelativePath(string fullPath)
+        {
+            var rootPath = "F:\\prajval-gahine\\root"; // Set your root directory here
+
+            // Ensure fullPath starts with rootPath
+            if (!fullPath.StartsWith(rootPath))
+            {
+                throw new ArgumentException("Full path does not start with root path.");
+            }
+
+            if(fullPath == rootPath)
+            {
+                return "root";
+            }
+
+            // Get the relative path
+            return fullPath.Substring(rootPath.Length + 1);
+        }
+
+
         public DataStore()
         {
+            /*
+            Root = new FolderStruct("1", "root");
+
+            FolderStruct folder = (FolderStruct)Root.AddChild(new FolderStruct("document"));
+            folder.AddChild(new FileStruct("resume.pdf"));
+            folder.AddChild(new FileStruct("cover_letter.docx"));
+
+            folder = (FolderStruct)Root.AddChild(new FolderStruct("pictures"));
+            */
+
+
+
             //"Products>Add New Product&Manage Products>(View All Products&Edit Product&Delete Product)&"
             LstMenu = new List<MenuItem>();
 

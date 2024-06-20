@@ -22,7 +22,7 @@ $(function () {
 
                         if (menu.id === "1") {
                             menu.icon = "user";
-                            menu.isDisabled = true;
+                            //menu.isDisabled = true;
                         }
                         else if (menu.id === "2") {
                             menu.icon = "product";
@@ -49,7 +49,7 @@ $(function () {
             displayExpr: "name",
             hideSubmenuOnMouseLeave: false,
             hoverStateEnabled: false,
-            orientation: "horizontal",
+            orientation: "vertical",
             disabled: false,
             disabledExpr: "isDisabled",
             showFirstSubmenuMode: {
@@ -66,10 +66,21 @@ $(function () {
                 },
                 name: "onClick"
             },
+            onContentReady: function (e) {
+                if (e.component.option("orientation") === "horizontal") {
+                    e.component.option("width", "100%");
+                }
+                else {
+                    e.component.option("width", "120px");
+                }
+            },
             onItemClick: function (e) {
                 console.log(e);
                 if (e.itemData.id == "1") {
-
+                    $(e.itemElement).css({
+                        "background-color": "#fff",
+                    });
+                    // set menu item border
                     $(e.itemElement).addClass("my-menu-item-border");
 
                     let popup = $("#popupmy").dxPopup("instance");
@@ -82,12 +93,13 @@ $(function () {
                         return;
                     }
                     if (popup) {
-                        let popupOptions = popup.option();
-                        popup.dispose();
-                        popup = $("#popupmy").dxPopup(popupOptions).dxPopup("instance");
-
+                        let contentTemplate = popup.option("contentTemplate");
                         popup._menuItemElement = e.itemElement;
                         popup._menuItemData = e.itemData;
+                        popup.option("contentTemplate", (c) => contentTemplate(c, popup));
+                        //let popupOptions = popup.option();
+                        //popup.dispose();
+                        //popup = $("#popupmy").dxPopup(popupOptions).dxPopup("instance");
 
                         popup.show();
                     }
@@ -118,16 +130,21 @@ $(function () {
                 //e2.component.repaint();
                 //e2.component.bottomToolbar().dxToolbarBase("instance").option("visible", false)
             },
-            onHiding: function(e2) {
+            onHiding: function (e2) {
+                this.beginUpdate();
                 console.log("onHiding", arguments);
                 if (event && $(event.toElement).closest(this._menuItemElement).length) {
                     e2.cancel = true;
                 }
                 else {
                     $(e2.component._menuItemElement).removeClass("my-menu-item-border");
+                    $(this._menuItemElement).css({
+                        "background-color": ""
+                    });
                 }
             },
-            contentTemplate: function(container) {
+            contentTemplate: function (container, that) {
+                console.log(that);
                 console.log("container", container);
                 $("<div>").dxList({
                     activeStateEnabled: false,
@@ -136,10 +153,10 @@ $(function () {
                     },
                     showScrollbar: false,
                     useNativeScrolling: false,
-                    items: this._menuItemData.items,
+                    items: that._menuItemData.items,
                     displayExpr: "name",
                     itemTemplate: function (data, container) {
-                        if (data.items) {
+                        if (data) {
                             return (
                                 `<div class="my-menu-item">
                                     <div>${data.name}</div>
@@ -152,12 +169,10 @@ $(function () {
                 .appendTo(container);
             },
             onShown: function (e2) {
-                const content = e2.component.content();
-                const item = $(content).find(".dx-list-item");
             },
             onContentReady: function (e2) {
 
-                this.beginUpdate();
+                //this.beginUpdate();
 
                 const content = e2.component.content();
                 const items = $(content).find(".dx-item,.dx-list-item");
@@ -183,7 +198,6 @@ $(function () {
                     isPlaceAtTop = true;
                 }
                 else {
-
                     if (300 <= remainingDownVh) {
                         position = {
                             at: 'right top',

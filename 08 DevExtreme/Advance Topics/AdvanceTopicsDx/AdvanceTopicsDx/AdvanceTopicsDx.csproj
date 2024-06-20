@@ -173,6 +173,10 @@
     <Content Include="Scripts\vectormap-utils\dx.vectormaputils.debug.js" />
     <Content Include="Scripts\vectormap-utils\dx.vectormaputils.js" />
     <Content Include="Scripts\vectormap-utils\dx.vectormaputils.node.js" />
+    <Content Include="Tree View\data.js" />
+    <Content Include="Tree View\index.html" />
+    <Content Include="Tree View\script.js" />
+    <Content Include="Tree View\style.css" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>

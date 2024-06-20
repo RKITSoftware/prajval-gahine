@@ -4,6 +4,12 @@ import { renewBaseContainer } from "../Utility/Container.js";
 export default function DateBox() {
     const baseContainer = renewBaseContainer();
     const container = $("<div>", { id: "container" }).appendTo(baseContainer);
+    container.css({
+        width: "300px",
+        "margin-inline": "auto",
+        "border": "1px solid #000",
+        "padding": "16px",
+    });
 
     container.append("<div id='dateContainer'></div>");
     container.append("<div id='timeContainer'></div>");
@@ -18,34 +24,34 @@ export default function DateBox() {
         //dateSerializationFormat: "yyyy-dd-MM",
         applyValueMode: "instantly",    // useButtons,
         //activeStateEnabled: true,
-        //buttons: [
-        //    {
-        //        name: 'prevDate',
-        //        location: 'before',
-        //        options: {
-        //            icon: 'spinprev',
-        //            stylingMode: 'text',
-        //            onClick() {
-        //                const currentDate = dateBox.option('value');
-        //                dateBox.option('value', currentDate - millisecondsInDay);
-        //            },
-        //        },
-        //    },
-        //    {
-        //        name: 'nextDate',
-        //        location: 'after',
-        //        options: {
-        //            icon: 'spinnext',
-        //            stylingMode: 'text',
-        //            onClick() {
-        //                const currentDate = dateBox.option('value');
-        //                dateBox.option('value', currentDate + millisecondsInDay);
-        //            },
-        //            disabled: false
-        //        }
-        //    },
-        //    "dropDown"
-        //],
+        buttons: [
+            {
+                name: 'prevDate',
+                location: 'before',
+                options: {
+                    icon: 'spinprev',
+                    stylingMode: 'text',
+                    onClick() {
+                        const currentDate = dateBox.option('value');
+                        dateBox.option('value', currentDate - millisecondsInDay);
+                    },
+                },
+            },
+            {
+                name: 'nextDate',
+                location: 'after',
+                options: {
+                    icon: 'spinnext',
+                    stylingMode: 'text',
+                    onClick() {
+                        const currentDate = dateBox.option('value');
+                        dateBox.option('value', currentDate + millisecondsInDay);
+                    },
+                    disabled: false
+                }
+            },
+            "dropDown"
+        ],
         pickerType: "calendar", // native, rollers, list (only when type is time)
         cancelButtonText: "Drop",
         min: new Date(2024, 0, 13),

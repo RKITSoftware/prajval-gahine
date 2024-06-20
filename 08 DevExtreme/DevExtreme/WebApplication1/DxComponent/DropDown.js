@@ -218,9 +218,14 @@ export default function addDropDown() {
                 }
             });
         },
+        onInitialized: function (e) {
+            e.component.registerKeyHandler(113, function (ea) {
+                if (ea.shiftKey)
+                    e.component.open();
+            });
+        } ,
         onOpened: function (e) {
-
-
+            console.log("Opened");
         }
    }).dxDropDownBox("instance");
 }
