@@ -37,9 +37,17 @@ namespace DgServer.Controllers
             return Ok(json);
         }
 
-        [HttpGet("folderitems")]
-        public IActionResult GetFolderItems(string parentId)
+        [HttpPost("folderitems")]
+        public IActionResult GetFolderItems([FromForm]string parentId)
         {
+            bool IsDirectoryEmpty(string path)
+            {
+                IEnumerable<string> items = Directory.EnumerateFileSystemEntries(path);
+                using (IEnumerator<string> en = items.GetEnumerator())
+                {
+                    return !en.MoveNext();
+                }
+            }
 
             List<Item> items = new List<Item>();
 
@@ -53,9 +61,10 @@ namespace DgServer.Controllers
                 items.Add(new Item
                 {
                     Id = directoryInfo.FullName,
-                    ParentId = parentId,
-                    Text = directoryInfo.Name,
-                    HasItems = true
+                    ParentId = parentId == "F:\\prajval-gahine\\filedir" ? null : parentId,
+                    Name = directoryInfo.Name,
+                    HasItems = !IsDirectoryEmpty(directoryInfo.FullName),
+                    Type = "folder"
                 });
             }
 
@@ -66,8 +75,8 @@ namespace DgServer.Controllers
                 {
                     Id = fileInfo.FullName,
                     ParentId = parentId,
-                    Text = fileInfo.Name,
-                    HasItems = false
+                    Name = fileInfo.Name,
+                    Type = "file",
                 });
             }
 
@@ -80,6 +89,7 @@ namespace DgServer.Controllers
         public bool HasItems { get; set; }
         public string Id { get; set; }
         public string ParentId { get; set; }
-        public string Text { get; set; }
+        public string Name { get; set; }
+        public string Type { get; set; }
     }
 }
