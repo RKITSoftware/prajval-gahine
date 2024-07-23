@@ -10,7 +10,6 @@ using ExpenseSplittingApplication.Models.POCO;
 using Microsoft.AspNetCore.Http;
 using ServiceStack.Data;
 using ServiceStack.OrmLite;
-using ServiceStack.OrmLite.MySql;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -81,11 +80,11 @@ namespace ExpenseSplittingApplication.BL.Master.Service
             DateTime now = DateTime.Now;
 
             _objExpense = new EXP01()
-            { 
-                P01F02 = objDto.ObjDTOEXP01.P01F02, 
-                P01F03 = objDto.ObjDTOEXP01.P01F03, 
-                P01F04 = objDto.ObjDTOEXP01.P01F04, 
-                P01F05 = objDto.ObjDTOEXP01.P01F05 ?? now, 
+            {
+                P01F02 = objDto.ObjDTOEXP01.P01F02,
+                P01F03 = objDto.ObjDTOEXP01.P01F03,
+                P01F04 = objDto.ObjDTOEXP01.P01F04,
+                P01F05 = objDto.ObjDTOEXP01.P01F05 ?? now,
                 P01F98 = DateTime.Now,
             };
 

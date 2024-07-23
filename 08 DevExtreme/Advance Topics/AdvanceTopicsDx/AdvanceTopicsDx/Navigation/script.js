@@ -1,5 +1,5 @@
-﻿//var serverURL = "http://localhost:5114/api";
-var serverURL = "http://localhost:5000/api";
+﻿var serverURL = "http://localhost:5114/api";
+//var serverURL = "http://localhost:5000/api";
 
 $(function () {
     const root = $("#root");
@@ -33,14 +33,161 @@ $(function () {
                         }
                     });
 
+                    // illustrating users many sub menu
                     menus[0].items = [...menus[0].items, ...menus[0].items, ...menus[0].items, ...menus[0].items, ...menus[0].items, ...menus[0].items, ...menus[0].items, ...menus[0].items, ...menus[0].items, ...menus[0].items, ...menus[0].items, ...menus[0].items, ...menus[0].items, ...menus[0].items, ...menus[0].items, ...menus[0].items, ...menus[0].items, ...menus[0].items, ...menus[0].items, ...menus[0].items, ...menus[0].items, ...menus[0].items, ...menus[0].items, ...menus[0].items, ...menus[0].items, ...menus[0].items, ...menus[0].items, ...menus[0].items, ...menus[0].items, ...menus[0].items, ...menus[0].items, ...menus[0].items, ...menus[0].items, ...menus[0].items, ...menus[0].items, ...menus[0].items, ...menus[0].items, ...menus[0].items,]
+                    // illustrating many menus
                     deferred.resolve([...menus, ...menus, ...menus, ...menus, ...menus, ...menus, ...menus]);
+
+                    //deferred.resolve(menus);
                 }
             });
 
             return deferred.promise();
         }
     });
+
+    const localStore = new DevExpress.data.LocalStore({
+        data1: [{
+            productId: 1,
+            productName: "Hello",
+            price: 100.2,
+            category: "World"
+        }],
+        immediate: true,
+        key: "productId",
+        name: "productList"
+    });
+    const $toast = $('<div>').dxToast({ displayTime: 10000 });
+    const toast = $toast.dxToast('instance');
+
+    const $globalLoader = $("<div>").dxLoadPanel({
+        shadingColor: 'rgba(0,0,0,0.4)',
+        visible: false,
+        showIndicator: true,
+        showPane: true,
+        shading: true,
+    });
+    const globalLoader = $globalLoader.dxLoadPanel("instance");
+
+
+
+
+    let popup;
+    let productForm;
+    const $productFormPopup = $("<div>")
+        .dxPopup({
+            shading: false,
+            deferRendering: false,
+            onInitialized: function (e) {
+                popup = e.component;
+            },
+            contentTemplate: function (container, that) {
+                const $productForm = $("<div>")
+                    .dxForm({
+                        onInitialized: function (e) {
+                            productForm = e.component;
+                        },
+                        onContentReady: async function (e) {
+                            const productIdEditor = this.getEditor("productId");
+                                const formData = await localStore.load();
+                                let nextProductId;
+                                if (formData == undefined) {
+                                    nextProductId = 1;
+                                }
+                                else {
+                                    if (Array.isArray(formData) && formData.length > 0) {
+                                        nextProductId = Math.max(...formData.map(product => product.productId)) + 1;
+                                    }
+                                    else {
+                                        nextProductId = 1;
+                                    }
+                                }
+                            productIdEditor.option("value", nextProductId);
+                        },
+                        items: [
+                            {
+                                dataField: "productId",
+                                editorOptions: {
+                                    disabled: true,
+                                }
+                                //template: async function (data, itemElement) {
+                                //    const formData = await localStore.load();
+                                //    let nextProductId;
+                                //    if (formData == undefined) {
+                                //        nextProductId = 1;
+                                //    }
+                                //    else {
+                                //        if (Array.isArray(formData) && formData.length > 0) {
+                                //            nextProductId = Math.max(...formData.map(product => product.productId)) + 1;
+                                //        }
+                                //        else {
+                                //            nextProductId = 1;
+                                //        }
+                                //    }
+
+                                //    $('<div>')
+                                //        .dxTextBox({
+                                //            value: nextProductId,
+                                //            disabled: true,
+                                //        })
+                                //        .appendTo(itemElement);
+
+                                //    this.updateData("productId", nextProductId);
+                                //}
+                            },
+                            {
+                                dataField: "productName",
+                            },
+                            {
+                                dataField: "price",
+                                editorType: "dxNumberBox"   
+                            },
+                            {
+                                dataField: "category",
+                                editorType: "dxSelectBox",
+                                editorOptions: {
+                                    items: ["Household", "Electronics", "Clothing", "Toys", "Groceries"],
+                                    searchEnabled: true,
+                                    value: '',
+                                }
+                            },
+                            {
+                                editorType: 'dxButton',
+                                editorOptions: {
+                                    text: "Save",
+                                    onClick: function (e) {
+                                        console.log(e);
+                                        const productForm = $productForm.dxForm("instance");
+                                        const formData = productForm.option("formData");
+
+                                        globalLoader.option("message", "Saving Product");
+                                        globalLoader.show();
+
+                                        localStore.insert(formData)
+                                            .then(function () {
+                                                setTimeout(function () {
+                                                    globalLoader.hide();
+
+                                                    toast.option({ message: `Product ${formData.productName} added successfully`, type: 'success' });
+                                                    toast.show();
+                                                }, 1000);
+                                            });
+                                        popup.hide();
+                                    }
+                                }
+                            }
+                        ],
+                    });
+
+                container.append($productForm);
+            }
+        });
+    root.append($productFormPopup);
+
+
+
+
+
 
     const menuBarContainer = $("<div>", { id: "menuBar"})
         .dxMenu({
@@ -76,6 +223,14 @@ $(function () {
             },
             onItemClick: function (e) {
                 console.log(e);
+                if (e.itemData.items == null && e.itemData.id === "2_1") {
+
+                    popup.show();
+                    productForm.resetValues();
+                    productForm.repaint();
+                    return;
+                }
+
                 if (e.itemData.id == "1") {
                     $(e.itemElement).css({
                         "background-color": "#fff",
@@ -151,7 +306,7 @@ $(function () {
                     elementAttr: {
                         id: "popupMyList"
                     },
-                    showScrollbar: false,
+                    //showScrollbar: false,
                     useNativeScrolling: false,
                     items: that._menuItemData.items,
                     displayExpr: "name",
@@ -259,6 +414,8 @@ $(function () {
     main.append([
         menuBarContainer,
         $popup,
+        $toast,
+        $globalLoader
     ]);
 
     root.append([

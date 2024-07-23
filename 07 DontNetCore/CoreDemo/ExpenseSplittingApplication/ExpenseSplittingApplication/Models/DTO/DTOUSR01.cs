@@ -1,5 +1,4 @@
-﻿using ExpenseSplittingApplication.Models.DTO.Filters;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations;
 
 namespace ExpenseSplittingApplication.Models.DTO

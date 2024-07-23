@@ -11,7 +11,6 @@ using ServiceStack.Data;
 using ServiceStack.OrmLite;
 using System;
 using System.Data;
-using System.Linq;
 
 namespace ExpenseSplittingApplication.BL.Master.Service
 {

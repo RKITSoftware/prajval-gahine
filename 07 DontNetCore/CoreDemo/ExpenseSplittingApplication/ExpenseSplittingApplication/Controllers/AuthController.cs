@@ -1,7 +1,6 @@
 ﻿using ExpenseSplittingApplication.BL.Common.Service;
 using ExpenseSplittingApplication.BL.Master.Interface;
 using ExpenseSplittingApplication.Models.DTO;
-using ExpenseSplittingApplication.Models.POCO;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

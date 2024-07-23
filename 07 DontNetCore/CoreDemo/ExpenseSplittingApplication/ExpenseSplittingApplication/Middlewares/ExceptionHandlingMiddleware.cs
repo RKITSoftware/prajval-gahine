@@ -1,11 +1,10 @@
 ﻿using ExpenseSplittingApplication.BL.Common.Interface;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Logging;
-using System.Threading.Tasks;
-using System;
-using Newtonsoft.Json;
-using System.Net;
 using ExpenseSplittingApplication.BL.Common.Service;
+using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
+using System;
+using System.Net;
+using System.Threading.Tasks;
 
 namespace ExpenseSplittingApplication.Middlewares
 {

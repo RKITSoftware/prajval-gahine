@@ -1,7 +1,6 @@
 ﻿using ExpenseSplittingApplication.BL.Common.Interface;
 using ExpenseSplittingApplication.Models;
 using ExpenseSplittingApplication.Models.DTO;
-using ExpenseSplittingApplication.Models.POCO;
 
 namespace ExpenseSplittingApplication.BL.Master.Interface
 {

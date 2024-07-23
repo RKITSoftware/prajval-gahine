@@ -1,7 +1,5 @@
 ﻿
 using ExpenseSplittingApplication.Models.POCO;
-using MySql.Data.MySqlClient;
-using ServiceStack.Data;
 using ServiceStack.OrmLite;
 using System;
 using System.Data;
@@ -52,7 +50,7 @@ namespace ExpenseSplittingApplication.Common.Helper
 
         public static string GetConnectionString(string dbName = "378esa")
         {
-            if(_connectioString == null)
+            if (_connectioString == null)
             {
                 throw new InvalidOperationException("Connection string has not been initialized");
             }

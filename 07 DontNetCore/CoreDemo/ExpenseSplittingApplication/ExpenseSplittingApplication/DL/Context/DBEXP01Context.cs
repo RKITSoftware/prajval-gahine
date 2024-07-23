@@ -1,7 +1,6 @@
 ﻿using ExpenseSplittingApplication.BL.Domain;
 using ExpenseSplittingApplication.Common.Helper;
 using MySql.Data.MySqlClient;
-using NLog.Config;
 using ServiceStack;
 using ServiceStack.OrmLite.Dapper;
 using System;
@@ -145,7 +144,7 @@ namespace ExpenseSplittingApplication.DL.Interface
                 }
             }
 
-            foreach(KeyValuePair<int, double> payable in settlementReport.Payables)
+            foreach (KeyValuePair<int, double> payable in settlementReport.Payables)
             {
                 double toPayAmount = payable.Value;
                 double toRecieveAmount = settlementReport.Receivables.GetValueOrDefault(payable.Key);
@@ -153,7 +152,7 @@ namespace ExpenseSplittingApplication.DL.Interface
                 settlementReport.FinalDues.Add(payable.Key, Math.Round(toRecieveAmount - toPayAmount, 2));
             }
 
-            foreach(KeyValuePair<int, double> recievable in settlementReport.Receivables)
+            foreach (KeyValuePair<int, double> recievable in settlementReport.Receivables)
             {
                 if (!settlementReport.FinalDues.ContainsKey(recievable.Key))
                 {

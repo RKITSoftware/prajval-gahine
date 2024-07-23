@@ -1,6 +1,4 @@
 ﻿using ExpenseSplittingApplication.BL.Master.Interface;
-using ExpenseSplittingApplication.Common.Helper;
-using ExpenseSplittingApplication.Models.POCO;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -70,7 +68,7 @@ namespace ExpenseSplittingApplication.BL.Common.Service
             string password = credentials[1];
 
             // Validate user credentials using injected user service
-            int userId= _userService.GetUserId(username, password);
+            int userId = _userService.GetUserId(username, password);
 
             if (userId < 1)
             {

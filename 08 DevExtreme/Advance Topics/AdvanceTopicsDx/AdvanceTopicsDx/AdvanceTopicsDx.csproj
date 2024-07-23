@@ -108,6 +108,10 @@
     <Content Include="Content\dx.material.teal.light.css" />
     <Content Include="Content\dx.softblue.compact.css" />
     <Content Include="Content\dx.softblue.css" />
+    <Content Include="Demo\data.js" />
+    <Content Include="Demo\index.html" />
+    <Content Include="Demo\script.js" />
+    <Content Include="Demo\style.css" />
     <Content Include="Navigation\data.js" />
     <Content Include="Navigation\index.html" />
     <Content Include="Navigation\script.js" />

@@ -526,3 +526,17 @@
    at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
    at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
    at ExpenseSplittingApplication.Middlewares.ExceptionHandlingMiddleware.Invoke(HttpContext context)
+2024-06-25 14:48:26.9017 ERROR Swashbuckle.AspNetCore.SwaggerGen.SwaggerGeneratorException: Conflicting method/path combination "GET thread" for actions - ExpenseSplittingApplication.Controllers.TestController.Index2 (ExpenseSplittingApplication),ExpenseSplittingApplication.Controllers.TestController.Index2 (ExpenseSplittingApplication),ExpenseSplittingApplication.Controllers.TestController.Index2 (ExpenseSplittingApplication). Actions require a unique method/path combination for Swagger/OpenAPI 3.0. Use ConflictingActionsResolver as a workaround
+   at Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator.GenerateOperations(IEnumerable`1 apiDescriptions, SchemaRepository schemaRepository)
+   at Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator.GeneratePaths(IEnumerable`1 apiDescriptions, SchemaRepository schemaRepository)
+   at Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator.GetSwaggerDocumentWithoutFilters(String documentName, String host, String basePath)
+   at Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator.GetSwaggerAsync(String documentName, String host, String basePath)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at ExpenseSplittingApplication.Middlewares.ExceptionHandlingMiddleware.Invoke(HttpContext context)
+2024-06-25 15:13:18.5163 ERROR Swashbuckle.AspNetCore.SwaggerGen.SwaggerGeneratorException: Conflicting method/path combination "GET thread" for actions - ExpenseSplittingApplication.Controllers.TestController.Index2 (ExpenseSplittingApplication),ExpenseSplittingApplication.Controllers.TestController.Index3 (ExpenseSplittingApplication). Actions require a unique method/path combination for Swagger/OpenAPI 3.0. Use ConflictingActionsResolver as a workaround
+   at Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator.GenerateOperations(IEnumerable`1 apiDescriptions, SchemaRepository schemaRepository)
+   at Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator.GeneratePaths(IEnumerable`1 apiDescriptions, SchemaRepository schemaRepository)
+   at Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator.GetSwaggerDocumentWithoutFilters(String documentName, String host, String basePath)
+   at Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator.GetSwaggerAsync(String documentName, String host, String basePath)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at ExpenseSplittingApplication.Middlewares.ExceptionHandlingMiddleware.Invoke(HttpContext context) in F:\prajval-gahine\prajval-gahine\07 DontNetCore\CoreDemo\ExpenseSplittingApplication\ExpenseSplittingApplication\Middlewares\ExceptionHandlingMiddleware.cs:line 27

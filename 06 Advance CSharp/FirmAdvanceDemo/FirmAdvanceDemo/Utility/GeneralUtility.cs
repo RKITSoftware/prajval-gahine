@@ -96,6 +96,7 @@ namespace FirmAdvanceDemo.Utility
         /// <returns>A response indicating the result of the authentication.</returns>
         public static Response AuthenticateJWT(string jwt)
         {
+            HttpContext.Current
             Response response = new Response();
 
             string[] headerEn_payloadEn_digest = jwt.Split('.');

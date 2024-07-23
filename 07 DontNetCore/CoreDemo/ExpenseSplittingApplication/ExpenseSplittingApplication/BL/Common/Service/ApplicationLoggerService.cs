@@ -6,8 +6,8 @@ namespace ExpenseSplittingApplication.BL.Common.Service
     public class ApplicationLoggerService : ILoggerService
     {
         /// <summary>
-     /// NLog logger instance for logging messages.
-     /// </summary>
+        /// NLog logger instance for logging messages.
+        /// </summary>
         private readonly Logger _logger;
 
         /// <summary>
